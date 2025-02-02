@@ -3418,11 +3418,6 @@
 /turf/open/transparent/openspace,
 /area/rogue/outdoors/mountains)
 "cqR" = (
-/obj/machinery/light/rogue/wallfire/candle/blue/l,
-/obj/structure/table/wood{
-	icon_state = "largetable";
-	dir = 10
-	},
 /obj/item/key/shop{
 	pixel_x = 11;
 	pixel_y = -3
@@ -3430,6 +3425,9 @@
 /obj/item/reagent_containers/glass/cup/silver{
 	pixel_x = -1;
 	pixel_y = 7
+	},
+/obj/structure/table/wood{
+	icon_state = "largetable"
 	},
 /turf/open/floor/rogue/hexstone,
 /area/rogue/indoors/town/shop)
@@ -4770,6 +4768,10 @@
 	},
 /turf/open/water,
 /area/rogue/outdoors/river)
+"dsa" = (
+/obj/machinery/light/rogue/wallfire/candle/blue/l,
+/turf/closed/wall/mineral/rogue/stone/window,
+/area/rogue/indoors/town/shop)
 "dsg" = (
 /obj/structure/fluff/railing/border{
 	dir = 4;
@@ -13945,12 +13947,6 @@
 	},
 /obj/machinery/light/roguestreet{
 	dir = 1
-	},
-/obj/structure/fluff/sellsign{
-	name = "Merchant";
-	desc = "Hire today.";
-	pixel_x = -11;
-	pixel_y = 4
 	},
 /turf/open/floor/rogue/blocks,
 /area/rogue/outdoors/town)
@@ -32536,6 +32532,13 @@
 	},
 /turf/open/floor/rogue/tile/bfloorz,
 /area/rogue/indoors/town/manor)
+"xHJ" = (
+/obj/structure/table/wood{
+	icon_state = "largetable";
+	dir = 10
+	},
+/turf/open/floor/rogue/hexstone,
+/area/rogue/indoors/town/shop)
 "xHY" = (
 /turf/closed/wall/mineral/rogue/stonebrick,
 /area/rogue/outdoors/town)
@@ -97195,12 +97198,12 @@ fGK
 uSV
 uSV
 iSk
-iSk
-uSV
-uSV
-uSV
-iSk
 gOe
+uSV
+uSV
+uSV
+iSk
+iSk
 iSk
 iSk
 iSk
@@ -97396,7 +97399,7 @@ buD
 fGK
 ehF
 ehF
-iSk
+nWe
 nWe
 lPe
 bLl
@@ -97599,7 +97602,7 @@ fGK
 ehF
 gZy
 nWe
-nWe
+xHJ
 lef
 lxU
 lxU
@@ -97800,7 +97803,7 @@ ryt
 fGK
 ehF
 ehF
-hiF
+dsa
 cqR
 cKz
 cKz
