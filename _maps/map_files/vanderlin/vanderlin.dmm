@@ -17492,6 +17492,10 @@
 	},
 /turf/closed/wall/mineral/rogue/stonebrick,
 /area/rogue/indoors/town/manor)
+"mFX" = (
+/obj/machinery/light/rogue/wallfire/candle/blue/l,
+/turf/closed/wall/mineral/rogue/stone/window,
+/area/rogue/indoors/town/shop)
 "mGc" = (
 /obj/structure/bed/rogue/shit,
 /turf/open/floor/rogue/herringbone,
@@ -24536,10 +24540,6 @@
 	icon_state = "glyph2"
 	},
 /area/rogue/indoors/town/vault)
-"rXB" = (
-/obj/machinery/light/rogue/wallfire/candle/blue/l,
-/turf/closed/wall/mineral/rogue/stone/window,
-/area/rogue/indoors/town/shop)
 "rXT" = (
 /turf/open/floor/rogue/rooftop{
 	dir = 4
@@ -32178,6 +32178,12 @@
 	icon_state = "vertw"
 	},
 /area/rogue/indoors/town/tavern)
+"xvy" = (
+/obj/machinery/light/rogue/lanternpost/fixed{
+	pixel_x = -2
+	},
+/turf/open/floor/rogue/cobble,
+/area/rogue/outdoors/town)
 "xvT" = (
 /turf/open/floor/rogue/concrete,
 /area/rogue/under/cavelava)
@@ -93133,13 +93139,13 @@ elp
 elp
 gpj
 elp
-elp
-lsl
-lsl
-lsl
-lsl
 jPc
+lsl
+lsl
+lsl
+lsl
 elp
+xvy
 lsl
 elp
 elp
@@ -97797,7 +97803,7 @@ ryt
 fGK
 ehF
 ehF
-rXB
+mFX
 cqR
 cKz
 cKz
