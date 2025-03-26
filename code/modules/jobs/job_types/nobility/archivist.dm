@@ -32,6 +32,7 @@
 
 /datum/outfit/job/archivist/pre_equip(mob/living/carbon/human/H)
 	..()
+	H.mana_pool.set_intrinsic_recharge(MANA_ALL_LEYLINES)
 	if(H.dna.species.id == "Dwarf")
 		shirt = /obj/item/clothing/shirt/undershirt/puritan
 		armor = /obj/item/clothing/armor/leather/jacket/apothecary
@@ -63,7 +64,6 @@
 		H.grant_language(/datum/language/hellspeak)
 		H.grant_language(/datum/language/oldpsydonic)
 		H.grant_language(/datum/language/orcish)
-		H.mana_pool.set_intrinsic_recharge(MANA_ALL_LEYLINES)
 		
 		H.mind?.adjust_skillrank(/datum/skill/misc/reading, 6, TRUE)
 		H.mind?.adjust_skillrank(/datum/skill/misc/riding, 2, TRUE)
