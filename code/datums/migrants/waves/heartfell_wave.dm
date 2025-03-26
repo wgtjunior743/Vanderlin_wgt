@@ -208,6 +208,7 @@
 	allowed_patrons = list(/datum/patron/divine/noc)
 /datum/outfit/job/heartfelt/magos/pre_equip(mob/living/carbon/human/H)
 	..()
+	H.mana_pool.set_intrinsic_recharge(MANA_ALL_LEYLINES)
 	neck = /obj/item/clothing/neck/talkstone
 	cloak = /obj/item/clothing/cloak/black_cloak
 	armor = /obj/item/clothing/shirt/robe/black
@@ -215,6 +216,7 @@
 	shoes = /obj/item/clothing/shoes/shortboots
 	belt = /obj/item/storage/belt/leather/plaquesilver
 	beltl = /obj/item/flashlight/flare/torch/lantern
+	beltr = /obj/item/book/granter/spellbook/expert
 	id = /obj/item/clothing/ring/gold
 	r_hand = /obj/item/weapon/polearm/woodstaff
 	backl = /obj/item/storage/backpack/satchel
