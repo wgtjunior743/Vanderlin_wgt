@@ -436,11 +436,12 @@
 			Like a wounded bird, I endure the rain with grace. With my sword I take fate into my own hands and strangle it.")
 			)
 		if("Mage")
+			H.mana_pool.set_intrinsic_recharge(MANA_ALL_LEYLINES)
 			r_hand = /obj/item/weapon/polearm/woodstaff
 			head = /obj/item/clothing/head/roguehood/mage
 			armor = /obj/item/clothing/shirt/robe/mage
 			beltl = /obj/item/reagent_containers/glass/bottle/manapot
-			beltr = /obj/item/weapon/knife/dagger
+			beltr = /obj/item/book/granter/spellbook/apprentice
 			H.mind?.adjust_skillrank(/datum/skill/combat/polearms, 2, TRUE)
 			H.mind?.adjust_skillrank(/datum/skill/misc/medicine, 1, TRUE)
 			H.mind?.adjust_skillrank(/datum/skill/craft/alchemy, 2, TRUE)
