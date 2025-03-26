@@ -47,6 +47,7 @@
 	shoes = /obj/item/clothing/shoes/boots
 	belt = /obj/item/storage/belt/leather/plaquesilver
 	beltl = /obj/item/storage/keyring/archivist
+	beltr = /obj/item/book/granter/spellbook/apprentice
 	backl = /obj/item/storage/backpack/satchel
 	neck = /obj/item/clothing/neck/psycross/noc
 	backpack_contents = list(/obj/item/literary/apprentice = 1)
@@ -62,6 +63,8 @@
 		H.grant_language(/datum/language/hellspeak)
 		H.grant_language(/datum/language/oldpsydonic)
 		H.grant_language(/datum/language/orcish)
+		H.mana_pool.set_intrinsic_recharge(MANA_ALL_LEYLINES)
+		
 		H.mind?.adjust_skillrank(/datum/skill/misc/reading, 6, TRUE)
 		H.mind?.adjust_skillrank(/datum/skill/misc/riding, 2, TRUE)
 		H.mind?.adjust_skillrank(/datum/skill/craft/alchemy, 3, TRUE)
