@@ -165,6 +165,7 @@
 	r_hand = /obj/item/weapon/mace/warhammer/steel
 	backpack_contents = list(/obj/item/storage/belt/pouch/coins/mid = 1)
 	if(H.mind)
+		H.cmode_music = 'sound/music/cmode/garrison/CombatGarrison.ogg'
 		H.mind?.adjust_skillrank(/datum/skill/craft/crafting, 2, TRUE)
 		H.mind?.adjust_skillrank(/datum/skill/misc/reading, 1, TRUE)
 		H.mind?.adjust_skillrank(/datum/skill/misc/climbing, 2, TRUE)
@@ -312,6 +313,7 @@
 	backpack_contents = list(/obj/item/storage/belt/pouch/coins/mid = 1, /obj/item/weapon/knife/dagger/steel = 2, /obj/item/lockpickring/mundane = 1)
 
 	if(H.mind)
+		H.cmode_music = 'sound/music/cmode/adventurer/CombatRogue.ogg'
 		H.mind?.adjust_skillrank(/datum/skill/combat/crossbows, 4, TRUE)
 		H.mind.adjust_skillrank(/datum/skill/combat/knives, 4, TRUE)
 		H.mind?.adjust_skillrank(/datum/skill/combat/wrestling, 3, TRUE)
