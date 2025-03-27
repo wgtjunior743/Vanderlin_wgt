@@ -389,7 +389,7 @@
 
 /obj/item/key/mage
 	name = "magicians's key"
-	desc = "This is the Court Magician's key. It watches you..."
+	desc = "This is the mage's guild key. It watches you..."
 	icon_state = "eyekey"
 	lockid = "mage"
 
