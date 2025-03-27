@@ -403,7 +403,7 @@
 	belt = /obj/item/storage/belt/leather
 	beltr = /obj/item/storage/magebag/apprentice
 	beltl = /obj/item/flashlight/flare/torch/lantern
-	backpack_contents = list(/obj/item/storage/belt/pouch/coins/mid = 1, /obj/item/storage/keyring/elder = 1, /obj/item/book/granter/spellbook/apprentice = 1)
+	backpack_contents = list(/obj/item/storage/belt/pouch/coins/mid = 1, /obj/item/storage/keyring/battlemage = 1, /obj/item/book/granter/spellbook/apprentice = 1)
 
 
 	if(H.mind)
