@@ -290,10 +290,10 @@
 	keys = list(/obj/item/key/warehouse, /obj/item/key/shop)
 
 /obj/item/storage/keyring/master_of_crafts_and_labor
-	keys = list(/obj/item/key/apartments/penthouse2,/obj/item/key/blacksmith,/obj/item/key/tailor,/obj/item/key/tavern,/obj/item/key/niteman, /obj/item/key/butcher, /obj/item/key/soilson,/obj/item/key/artificer,/obj/item/key/clinic)
+	keys = list(/obj/item/key/apartments/penthouse2, /obj/item/key/elder, /obj/item/key/blacksmith,/obj/item/key/tailor,/obj/item/key/tavern,/obj/item/key/niteman, /obj/item/key/butcher, /obj/item/key/soilson,/obj/item/key/artificer,/obj/item/key/clinic)
 
 /obj/item/storage/keyring/former_city_watchmen
-	keys = list(/obj/item/key/elder,/obj/item/key/dungeon, /obj/item/key/garrison,/obj/item/key/apartments/penthouse2)
+	keys = list(/obj/item/key/elder, /obj/item/key/apartments/penthouse2, /obj/item/key/dungeon, /obj/item/key/garrison,/obj/item/key/apartments/penthouse2)
 	
 /obj/item/storage/keyring/battlemage
 	keys = list(/obj/item/key/elder , /obj/item/key/apartments/penthouse2, /obj/item/key/mage)
