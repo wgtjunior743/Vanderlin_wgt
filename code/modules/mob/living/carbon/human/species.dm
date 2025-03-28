@@ -237,15 +237,10 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 				/datum/language/celestial = "Celestial",
 				/datum/language/zybantine = "Zybean"
 			)
-			to_chat(H_AC, span_warning("Special Accent True or False [special_accent]"))
-			to_chat(H_AC, span_warning("Before if Language Check: [language_check]"))
 			
 			if (language in language_map)
 				language_check = language_map[language]
 			if(nativelang != language_check || special_accent)
-				to_chat(H_AC, span_warning("Language Native: [nativelang]"))
-				to_chat(H_AC, span_warning("Language Being Spoken: [language]"))
-				to_chat(H_AC, span_warning("Language Check: [language_check]"))
 				if(species_accent)
 					for(var/key in species_accent)
 						var/value = species_accent[key]
