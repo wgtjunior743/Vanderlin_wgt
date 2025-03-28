@@ -251,10 +251,6 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 						message = replacetextEx(message, " [capitalize(key)]", " [capitalize(value)]")
 						message = replacetextEx(message, " [key]", " [value]")
 
-			to_chat(H_AC, span_warning("Language Native: [nativelang]"))
-			to_chat(H_AC, span_warning("Language Being Spoken: [language]"))
-			to_chat(H_AC, span_warning("Language Check: [language_check]"))
-
 	speech_args[SPEECH_MESSAGE] = trim(message)
 
 /datum/species/proc/is_bodypart_feature_slot_allowed(mob/living/carbon/human/human, feature_slot)
