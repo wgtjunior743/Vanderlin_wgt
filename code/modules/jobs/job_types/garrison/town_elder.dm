@@ -14,7 +14,7 @@
 	spawn_positions = 1
 	min_pq = 10 // Requires knowledge and good rp for the classes.
 	bypass_lastclass = TRUE
-
+	spells = list(/obj/effect/proc_holder/spell/self/convertrole/town_militia)
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_ages = list(AGE_MIDDLEAGED, AGE_OLD, AGE_IMMORTAL)
 	allowed_races = list(
@@ -80,11 +80,6 @@
 	beltl = /obj/item/flashlight/flare/torch/lantern
 	r_hand = /obj/item/weapon/polearm/woodstaff/quarterstaff
 	if(H.mind)
-		H.cmode_music = 'sound/music/cmode/towner/CombatMayor.ogg'
-		var/datum/job/veteran_job = SSjob.GetJobType(/datum/job/veteran)
-		veteran_job?.add_spells(H)
-
-		//this to add the militia spell only to the mayor
 
 		H.mind?.adjust_skillrank(/datum/skill/craft/crafting, 2, TRUE)
 		H.mind?.adjust_skillrank(/datum/skill/misc/reading, 4, TRUE)
@@ -165,6 +160,7 @@
 	r_hand = /obj/item/weapon/mace/warhammer/steel
 	backpack_contents = list(/obj/item/storage/belt/pouch/coins/mid = 1)
 	if(H.mind)
+
 		H.cmode_music = 'sound/music/cmode/garrison/CombatGarrison.ogg'
 		H.mind?.adjust_skillrank(/datum/skill/craft/crafting, 2, TRUE)
 		H.mind?.adjust_skillrank(/datum/skill/misc/reading, 1, TRUE)
@@ -203,7 +199,7 @@
 /datum/advclass/town_elder/master_of_crafts_and_labor
 	name = "Master of Crafts and Labor"
 
-	tutorial = "You were one of the hardest-working individuals in the city there isn’t a single job you haven’t done. From farming and butchery to alchemy, blacksmithing, cooking, and even medicine, your vast knowledge has made you a guiding light for the people. Recognizing your expertise, the crown has appointed you as the Master of Crafts and Labor, overseeing and aiding all who contribute to the city's survival. Lead them well."
+	tutorial = "You were one of the hardest-working individuals in the city, there isn’t a single job you haven’t done. From farming and butchery to alchemy, blacksmithing, cooking, and even medicine, your vast knowledge has made you a guiding light for the people. Recognizing your wisdom and experience, the townsfolk turned to you for guidance. Now, as the Master of Crafts and Labor, you oversee and aid all who contribute to the city's survival. Lead them well."
 	outfit = /datum/outfit/job/town_elder/master_of_crafts_and_labor
 
 	//A Job meant to guide and help new players in multiple areas heavy RNG so it can range from Average to Master.
@@ -287,18 +283,18 @@
 		ADD_TRAIT(H, TRAIT_MALUMFIRE, TRAIT_GENERIC)
 
 
-/datum/advclass/town_elder/royal_operative
-	name = "Royal Operative"
+/datum/advclass/town_elder/twilight_veil
+	name = "Twilight Veil"
 
-	tutorial = "You were once a master thief, one of the finest in the Thieves' Guild. Vaults, merchants, nobles, none were beyond your reach, and for years, none could catch you. But the crown sees more than most. When they finally uncovered your trail, you were given a choice: serve or swing. Now, your skills are no longer your own. You walk a finer line, stealing not for yourself, but for the realm. Can hands so skilled in deception and theft ever truly rest?"
-	outfit = /datum/outfit/job/town_elder/royal_operative
+	tutorial = "You were once a master thief, one of the finest in the Thieves' Guild. Vaults, merchants, nobles, none were beyond your reach, and for years, none could catch you. But times have changed. The city struggles, corruption festers, and people suffer under those who hoard wealth and power. You still walk in the shadows, but now your targets are chosen carefully, not for personal gain, but to keep the balance. Some call you a criminal, others a hero. Either way, your hands are never idle. Can a thief who steals for others ever truly be free?"
+	outfit = /datum/outfit/job/town_elder/twilight_veil
 
-	//Royal Operative, basically a sucessful rogue that got caught and now is forced to work for the crown, more focused on sneak and steal with a good knife ability.
-
+	//Master Thief that left the thieves guild and uses their power to help and guide the town.
+	
 	category_tags = list(CTAG_TOWN_ELDER)
 
 
-/datum/outfit/job/town_elder/royal_operative/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/town_elder/twilight_veil/pre_equip(mob/living/carbon/human/H)
 
 	pants = /obj/item/clothing/pants/trou/leather
 	armor = /obj/item/clothing/armor/leather/splint
@@ -382,18 +378,18 @@
 	H.equip_to_slot(thiefcloak, SLOT_CLOAK, TRUE)
 
 
-/datum/advclass/town_elder/battlemage
-	name = "Mage's Guild Battlemage "
+/datum/advclass/town_elder/spellblade
+	name = "Spellblade"
 
-	tutorial = "You always dreamed of studying magic, but your family couldn’t afford the Academy. Instead, you took up the sword, spending years as a mercenary. But fate had other plans. Seeing your potential, the crown offered you a place in the Mage's Guild, on the condition that you serve the realm. Now, you stand as both scholar and soldier, wielding magic not for glory, but for the kingdom."
-	outfit = /datum/outfit/job/town_elder/battlemage
+	tutorial = "Steel paid your way, but steel alone was never enough. You spent years as a mercenary, selling your sword to survive, yet always yearning for something more, the power of the arcane. Now, with enough coin and hard-earned wisdom, you've finally begun your studies in magic. But old habits die hard, and the town has no shortage of trouble. Whether solving disputes, defending the streets, or uncovering hidden dangers, you put your newfound magic to use where it's needed most.
+	outfit = /datum/outfit/job/town_elder/spellblade
 
-	//Mercenary turned into a mage, works in the Mages Guild for the crown.
+	//Mercenary turned into a mage, works for the people using magick and sword.
 
 	category_tags = list(CTAG_TOWN_ELDER)
 
 
-/datum/outfit/job/town_elder/battlemage/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/town_elder/spellblade/pre_equip(mob/living/carbon/human/H)
 	pants = /obj/item/clothing/pants/trou/leather
 	armor = /obj/item/clothing/shirt/robe/newmage/sorcerer
 	shirt = /obj/item/clothing/armor/chainmail/hauberk
@@ -405,7 +401,7 @@
 	belt = /obj/item/storage/belt/leather
 	beltr = /obj/item/storage/magebag/apprentice
 	beltl = /obj/item/flashlight/flare/torch/lantern
-	backpack_contents = list(/obj/item/storage/belt/pouch/coins/mid = 1, /obj/item/storage/keyring/battlemage = 1, /obj/item/book/granter/spellbook/apprentice = 1)
+	backpack_contents = list(/obj/item/storage/belt/pouch/coins/mid = 1, /obj/item/storage/keyring/elder = 1, /obj/item/book/granter/spellbook/apprentice = 1)
 
 
 	if(H.mind)
@@ -438,20 +434,20 @@
 
 
 
-/datum/advclass/town_elder/crowns_acolyte
-	name = "Crown's Acolyte"
+/datum/advclass/town_elder/hearth_acolyte
+	name = "Hearth Acolyte"
 
-	tutorial = "As an Acolyte, you dedicated your life to others, never yourself. When you saved a noble, they repaid you with a home and gold, but you saw it as the will of the Ten. Stepping away from the Church, you caught the crown’s eye. Now, you serve not the Church, but the realm, living for the first time on your own terms."
+	tutorial = "As an Acolyte, you dedicated your life to faith and service, expecting nothing in return. When you saved a noble, they repaid you with a home and gold, but you saw it as the will of the Ten. Stepping away from the Church, you found a new purpose—not in a grand temple, but among the people. Whether offering healing, wisdom, or guidance, your faith remains strong. Only now, your congregation is the town itself."
 	outfit = /datum/outfit/job/town_elder/crowns_acolyte
 
-	//An acolyte that retired and got recruited by Crown, could be an interesting spark with the Priest.
+	//An acolyte that left the church and now serve and help the town people.
 
 	category_tags = list(CTAG_TOWN_ELDER)
 
-/datum/outfit/job/town_elder/crowns_acolyte
+/datum/outfit/job/town_elder/hearth_acolyte
 	allowed_patrons = ALL_TEMPLE_PATRONS
 
-/datum/outfit/job/town_elder/crowns_acolyte/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/town_elder/hearth_acolyte/pre_equip(mob/living/carbon/human/H)
 
 	head = /obj/item/clothing/head/roguehood/random
 	armor = /obj/item/clothing/shirt/robe
