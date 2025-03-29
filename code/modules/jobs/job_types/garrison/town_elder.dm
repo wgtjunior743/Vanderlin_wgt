@@ -441,7 +441,7 @@
 /datum/advclass/town_elder/crowns_acolyte
 	name = "Crown's Acolyte"
 
-	tutorial = "As an Acolyte, you dedicated your life to others, never yourself. When you saved a noble, they repaid you with a home and gold, but you saw it as the will of the Ten. Stepping away from the Church, you caught the crown’s eye. Now, you serve not the faith, but the realm, living for the first time on your own terms."
+	tutorial = "As an Acolyte, you dedicated your life to others, never yourself. When you saved a noble, they repaid you with a home and gold, but you saw it as the will of the Ten. Stepping away from the Church, you caught the crown’s eye. Now, you serve not the Church, but the realm, living for the first time on your own terms."
 	outfit = /datum/outfit/job/town_elder/crowns_acolyte
 
 	//An acolyte that retired and got recruited by Crown, could be an interesting spark with the Priest.
