@@ -438,7 +438,7 @@
 	name = "Hearth Acolyte"
 
 	tutorial = "As an Acolyte, you dedicated your life to faith and service, expecting nothing in return. When you saved a noble, they repaid you with a home and gold, but you saw it as the will of the Ten. Stepping away from the Church, you found a new purpose—not in a grand temple, but among the people. Whether offering healing, wisdom, or guidance, your faith remains strong. Only now, your congregation is the town itself."
-	outfit = /datum/outfit/job/town_elder/crowns_acolyte
+	outfit = /datum/outfit/job/town_elder/hearth_acolyte
 
 	//An acolyte that left the church and now serve and help the town people.
 
