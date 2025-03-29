@@ -376,12 +376,12 @@
 	var/obj/item/clothing/cloak/raincloak/thiefcloak = new()
 	thiefcloak.color = thiefcloak_colors[thiefcloak_color_selection]
 	H.equip_to_slot(thiefcloak, SLOT_CLOAK, TRUE)
-
+F
 
 /datum/advclass/town_elder/spellblade
 	name = "Spellblade"
 
-	tutorial = "Steel paid your way, but steel alone was never enough. You spent years as a mercenary, selling your sword to survive, yet always yearning for something more, the power of the arcane. Now, with enough coin and hard-earned wisdom, you've finally begun your studies in magic. But old habits die hard, and the town has no shortage of trouble. Whether solving disputes, defending the streets, or uncovering hidden dangers, you put your newfound magic to use where it's needed most.
+	tutorial = "Steel paid your way, but steel alone was never enough. You spent years as a mercenary, selling your sword to survive, yet always yearning for something more, the power of the arcane. Now, with enough coin and hard-earned wisdom, you've finally begun your studies in magic. But old habits die hard, and the town has no shortage of trouble. Whether solving disputes, defending the streets, or uncovering hidden dangers, you put your newfound magic to use where it's needed most."
 	outfit = /datum/outfit/job/town_elder/spellblade
 
 	//Mercenary turned into a mage, works for the people using magick and sword.
