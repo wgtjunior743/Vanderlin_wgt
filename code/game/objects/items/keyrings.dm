@@ -295,5 +295,3 @@
 /obj/item/storage/keyring/former_city_watchmen
 	keys = list(/obj/item/key/elder, /obj/item/key/apartments/penthouse2, /obj/item/key/dungeon, /obj/item/key/garrison,/obj/item/key/apartments/penthouse2)
 	
-/obj/item/storage/keyring/battlemage
-	keys = list(/obj/item/key/elder , /obj/item/key/apartments/penthouse2, /obj/item/key/mage)
