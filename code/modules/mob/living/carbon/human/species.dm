@@ -222,9 +222,8 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 				species_accent = human.return_accent_list()
 				special_accent = TRUE
 
-		var/mob/living/carbon/human/H_AC
+
 		if(ismob(source))
-			H_AC = source
 			var/nativelang = get_native_language()
 			var/language_check
 			
