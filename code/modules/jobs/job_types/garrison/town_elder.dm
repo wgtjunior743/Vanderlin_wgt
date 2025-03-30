@@ -48,9 +48,42 @@
 		S.name = "Retired guard's half cloak ([index])"
 
 
+/*
+
+/mob/living/carbon/human/proc/townannouncement()
+	set name = "Announcement"
+	set category = "Town Elder"
+	if(stat)
+		return
+	var/inputty = input("Make an announcement", "VANDERLIN") as text|null
+	if(inputty)
+		if(!istype(get_area(src), /area/rogue/indoors/town/town_elder/place))
+			to_chat(src, "<span class='warning'>I need to do this from the ####.</span>")
+			return FALSE
+		priority_announce("[inputty]", title = "The [get_role_title()] Speaks", sound = 'sound/misc/bell.ogg')
+		src.log_talk("[TIMETOTEXT4LOGS] [inputty]", LOG_SAY, tag="Town Elder announcement")
+		
+*/
 
 
+/obj/effect/proc_holder/spell/self/convertrole/town_militia
+	name = "Recruit Militia"
+	new_role = "Town Militiaman"
+	overlay_state = "recruit_guard"
+	recruitment_faction = "Garrison"
+	recruitment_message = "Join the Town Militia, %RECRUIT!"
+	accept_message = "I swear fealty to protect the town!"
+	refuse_message = "I refuse."
 
+/datum/job/militia //just used to change the title
+	title = "Town Militiaman"
+	f_title = "Town Militiawoman"
+	flag = GUARDSMAN
+	department_flag = GARRISON
+	faction = FACTION_STATION
+	total_positions = 0
+	spawn_positions = 0
+	display_order = JDO_CITYWATCHMEN
 
 /datum/advclass/town_elder/mayor
 	name = "Mayor"
@@ -63,8 +96,11 @@
 // Mayor start with slightly changes, they were turned noble and got more money, also highly skilled in merchant skills.
 
 
-/datum/outfit/job/town_elder/mayor/pre_equip(mob/living/carbon/human/H)
 
+/datum/outfit/job/town_elder/mayor/pre_equip(mob/living/carbon/human/H)
+	
+	
+	//H.verbs |= /mob/living/carbon/human/proc/townannouncement
 	pants = /obj/item/clothing/pants/trou/leather
 	head = /obj/item/clothing/head/tophat
 	armor = /obj/item/clothing/armor/leather/vest/winterjacket
@@ -112,24 +148,7 @@
 
 
 
-/obj/effect/proc_holder/spell/self/convertrole/town_militia
-	name = "Recruit Militia"
-	new_role = "Town Militiaman"
-	overlay_state = "recruit_guard"
-	recruitment_faction = "Garrison"
-	recruitment_message = "Join the Town Militia, %RECRUIT!"
-	accept_message = "I swear fealty to protect the town!"
-	refuse_message = "I refuse."
 
-/datum/job/militia //just used to change the title
-	title = "Town Militiaman"
-	f_title = "Town Militiawoman"
-	flag = GUARDSMAN
-	department_flag = GARRISON
-	faction = FACTION_STATION
-	total_positions = 0
-	spawn_positions = 0
-	display_order = JDO_CITYWATCHMEN
 
 /datum/advclass/town_elder/retired_city_watchmen
 	name = "Retired City Watchmen"
@@ -144,6 +163,7 @@
 
 /datum/outfit/job/town_elder/retired_city_watchmen/pre_equip(mob/living/carbon/human/H)
 
+	//H.verbs |= /mob/living/carbon/human/proc/townannouncement
 	pants = /obj/item/clothing/pants/trou/leather/guard
 	head = /obj/item/clothing/head/helmet/townwatch/alt
 	armor = /obj/item/clothing/armor/chainmail/hauberk
@@ -209,6 +229,7 @@
 
 /datum/outfit/job/town_elder/master_of_crafts_and_labor/pre_equip(mob/living/carbon/human/H)
 
+	//H.verbs |= /mob/living/carbon/human/proc/townannouncement
 	head = /obj/item/clothing/head/hatblu
 	armor = /obj/item/clothing/armor/leather/vest/random
 	pants = /obj/item/clothing/pants/trou
@@ -290,12 +311,13 @@
 	outfit = /datum/outfit/job/town_elder/twilight_veil
 
 	//Master Thief that left the thieves guild and uses their power to help and guide the town.
-	
+
 	category_tags = list(CTAG_TOWN_ELDER)
 
 
 /datum/outfit/job/town_elder/twilight_veil/pre_equip(mob/living/carbon/human/H)
 
+	//H.verbs |= /mob/living/carbon/human/proc/townannouncement
 	pants = /obj/item/clothing/pants/trou/leather
 	armor = /obj/item/clothing/armor/leather/splint
 	shirt = /obj/item/clothing/shirt/undershirt/black
@@ -376,7 +398,7 @@
 	var/obj/item/clothing/cloak/raincloak/thiefcloak = new()
 	thiefcloak.color = thiefcloak_colors[thiefcloak_color_selection]
 	H.equip_to_slot(thiefcloak, SLOT_CLOAK, TRUE)
-F
+
 
 /datum/advclass/town_elder/spellblade
 	name = "Spellblade"
@@ -390,6 +412,7 @@ F
 
 
 /datum/outfit/job/town_elder/spellblade/pre_equip(mob/living/carbon/human/H)
+	//H.verbs |= /mob/living/carbon/human/proc/townannouncement
 	pants = /obj/item/clothing/pants/trou/leather
 	armor = /obj/item/clothing/shirt/robe/newmage/sorcerer
 	shirt = /obj/item/clothing/armor/chainmail/hauberk
@@ -448,7 +471,7 @@ F
 	allowed_patrons = ALL_TEMPLE_PATRONS
 
 /datum/outfit/job/town_elder/hearth_acolyte/pre_equip(mob/living/carbon/human/H)
-
+	//H.verbs |= /mob/living/carbon/human/proc/townannouncement
 	head = /obj/item/clothing/head/roguehood/random
 	armor = /obj/item/clothing/shirt/robe
 	shoes = /obj/item/clothing/shoes/sandals
