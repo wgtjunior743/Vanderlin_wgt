@@ -60,7 +60,7 @@
 		if(!istype(get_area(src), /area/rogue/indoors/town/town_elder/place))
 			to_chat(src, "<span class='warning'>I need to do this from the ####.</span>")
 			return FALSE
-		priority_announce("[inputty]", title = "The [get_role_title()] Speaks", sound = 'sound/misc/bell.ogg')
+		priority_announce("[inputty]", title = "[src.real_name], The Town Elder Speaks", sound = 'sound/misc/bell.ogg')
 		src.log_talk("[TIMETOTEXT4LOGS] [inputty]", LOG_SAY, tag="Town Elder announcement")
 		
 */
@@ -368,7 +368,7 @@
 		ADD_TRAIT(H, TRAIT_LIGHT_STEP, TRAIT_GENERIC)
 
 
-/datum/outfit/job/town_elder/royal_operative/post_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
+/datum/outfit/job/town_elder/twilight_veil/post_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
 	..()
 	// Give them their cloak- as well as the ability to choose what color they want.
 	var/list/thiefcloak_colors = list(\
