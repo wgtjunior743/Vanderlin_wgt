@@ -100,7 +100,7 @@
 	shirt = /obj/item/clothing/shirt/undershirt/fancy
 	shoes = /obj/item/clothing/shoes/boots
 	gloves = /obj/item/clothing/gloves/leather/black
-	id = /obj/item/clothing/ring/gold/toper
+	ring  = /obj/item/clothing/ring/gold/toper
 	backl = /obj/item/storage/backpack/satchel
 	cloak = /obj/item/clothing/cloak/raincloak/furcloak/black
 	neck = /obj/item/storage/belt/pouch/coins/veryrich
