@@ -212,7 +212,7 @@
 /datum/advclass/town_elder/master_of_crafts_and_labor
 	name = "Master of Crafts and Labor"
 
-	tutorial = "You were one of the hardest-working individuals in the city, there isn’t a single job you haven’t done. From farming and butchery to alchemy, blacksmithing, cooking, and even medicine, your vast knowledge has made you a guiding light for the people. Recognizing your wisdom and experience, the townsfolk turned to you for guidance. Now, as the Master of Crafts and Labor, you oversee and aid all who contribute to the city's survival. Lead them well."
+	tutorial = "You were one of the hardest-working individuals in the city, there isn’t a single job you haven’t done. From farming and butchery to alchemy, blacksmithing and even medicine, your vast knowledge has made you a guiding light for the people. Recognizing your wisdom and experience, the townsfolk turned to you for guidance. Now, as the Master of Crafts and Labor, you oversee and aid all who contribute to the city's survival. Lead them well."
 	outfit = /datum/outfit/job/town_elder/master_of_crafts_and_labor
 
 	//A Job meant to guide and help new players in multiple areas heavy RNG so it can range from Average to Master.
