@@ -11,6 +11,7 @@
 	for(var/obj/item/bedsheet/sheet in loc)
 		custom_dream_nouns += sheet.dream_messages
 
+	/*
 	if(has_trait(TRAIT_DREAM_WATCHER))
 		dream_fragments += pick(
 			"you feel the gaze of Noc before all else",
@@ -18,7 +19,7 @@
 			"you step into a dream that feels... familiar",
 			"Noc whispers, not in words, but in meaning"
 		)
-
+	/*
 	dream_fragments += "you see"
 
 	//Subject
