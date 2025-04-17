@@ -484,7 +484,7 @@
 	name = "Reliquarist"
 	
 	tutorial = "You were never meant to know the truth. But deep in your years of wandering , you were found by those who keep the oldest secret: that Psydon, the god who made the world, is not gone, only broken. And a piece of Him, still heavy with memory, now rests under your care. You accepted this burden not for glory, but for devotion. As the town’s Elder, your wisdom runs deeper than most know, and when truth is twisted, you feel it. Not through sight, but through the shiver of flesh not quite your own."
-	outfit = /datum/outfit/job/town_elder/test
+	outfit = /datum/outfit/job/town_elder/reliquarist
 	
 	//Psydon Believer, holds a piece of the Nail of Psydon, i am thinking of it working similar to the graggar dagger, it speaks but barely
 
