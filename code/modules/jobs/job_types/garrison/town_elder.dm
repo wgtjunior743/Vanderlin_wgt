@@ -19,7 +19,6 @@
 	allowed_ages = list(AGE_MIDDLEAGED, AGE_OLD, AGE_IMMORTAL)
 	allowed_races = RACES_PLAYER_NONDISCRIMINATED
 
-
 	advclass_cat_rolls = list(CTAG_TOWN_ELDER = 20)
 	give_bank_account = 50
 	can_have_apprentices = FALSE
@@ -43,6 +42,7 @@
 
 
 
+
 /mob/living/carbon/human/proc/townannouncement()
 	set name = "Announcement"
 	set category = "Town Elder"
@@ -55,7 +55,7 @@
 			return FALSE
 		priority_announce("[inputty]", title = "[src.real_name], The Town Elder Speaks", sound = 'sound/misc/bell.ogg')
 		src.log_talk("[TIMETOTEXT4LOGS] [inputty]", LOG_SAY, tag="Town Elder announcement")
-		
+
 
 
 
@@ -81,7 +81,7 @@
 /datum/advclass/town_elder/mayor
 	name = "Mayor"
 
-	tutorial = "You have spent decades immersed in politics, mediating between the people and the crown. Your skills range from high-level diplomacy to extensive knowledge of trade and commerce. In recognition of your expertise, the crown has granted you nobility and the esteemed title of Mayor. Use it wisely, after all, aren’t you serving the people?"
+	tutorial = "Before politics, you were a bard, your voice stirred hearts, your tales traveled farther than your feet ever could. You carved your name in history not with steel, but with stories that moved kings and commoners alike. In time, your charisma became counsel, your songs gave way to speeches. Decades later, your skill in diplomacy and trade earned you nobility, and with it, the title of Mayor. Now, you lead not from a stage, but from the heart of the people you once sang for."
 	outfit = /datum/outfit/job/town_elder/mayor
 
 	category_tags = list(CTAG_TOWN_ELDER)
@@ -91,8 +91,8 @@
 
 
 /datum/outfit/job/town_elder/mayor/pre_equip(mob/living/carbon/human/H)
-	
-	
+
+
 	H.verbs |= /mob/living/carbon/human/proc/townannouncement
 	pants = /obj/item/clothing/pants/trou/leather
 	head = /obj/item/clothing/head/tophat
@@ -100,7 +100,7 @@
 	shirt = /obj/item/clothing/shirt/undershirt/fancy
 	shoes = /obj/item/clothing/shoes/boots
 	gloves = /obj/item/clothing/gloves/leather/black
-	ring  = /obj/item/clothing/ring/gold/toper
+	ring = /obj/item/clothing/ring/gold/toper
 	backl = /obj/item/storage/backpack/satchel
 	cloak = /obj/item/clothing/cloak/raincloak/furcloak/black
 	neck = /obj/item/storage/belt/pouch/coins/veryrich
@@ -119,6 +119,9 @@
 		H.mind?.adjust_skillrank(/datum/skill/misc/riding, 3, TRUE)
 		H.mind?.adjust_skillrank(/datum/skill/labor/mathematics, 4, TRUE)
 		H.mind?.adjust_skillrank(/datum/skill/combat/polearms, 2, TRUE)
+		H.mind?.adjust_skillrank(/datum/skill/misc/music, 5, TRUE)
+		
+		H.mind?.AddSpell(new /obj/effect/proc_holder/spell/invoked/mockery)
 
 		H.change_stat(STATKEY_STR, -1)
 		H.change_stat(STATKEY_PER, 2)
@@ -131,88 +134,49 @@
 			H.mind?.adjust_skillrank(/datum/skill/misc/riding, 1, TRUE)
 			H.mind?.adjust_skillrank(/datum/skill/craft/crafting, 1, TRUE)
 			H.mind?.adjust_skillrank(/datum/skill/combat/polearms, 1, TRUE)
+			H.mind?.adjust_skillrank(/datum/skill/misc/music, 1, TRUE)
 			H.change_stat(STATKEY_STR, -1)
 			H.change_stat(STATKEY_PER, 1)
 			H.change_stat(STATKEY_INT, 1)
 
 	ADD_TRAIT(H, TRAIT_NOBLE, TRAIT_GENERIC)
 	ADD_TRAIT(H, TRAIT_SEEPRICES, type)
+	ADD_TRAIT(H, TRAIT_BARDIC_TRAINING, TRAIT_GENERIC)
 
 
 
-
-
-
-/datum/advclass/town_elder/retired_city_watchmen
-	name = "Retired City Watchmen"
-
-	tutorial = "You were once a Watchman who endured the Goblin War and countless bandit attacks, shedding blood and tears to defend the town. But after taking an arrow to the knee, the crown granted you the right to retire. Now, you spend your days training new watchmen and lending a hand to the guard in times of need."
-	outfit = /datum/outfit/job/town_elder/retired_city_watchmen
-
-	// Retired City watchmen, better in terms of skills but retired due to an arrow to their knee, heavy speed debuff.
-
-	category_tags = list(CTAG_TOWN_ELDER)
-
-
-/datum/outfit/job/town_elder/retired_city_watchmen/pre_equip(mob/living/carbon/human/H)
-
-	H.verbs |= /mob/living/carbon/human/proc/townannouncement
-	pants = /obj/item/clothing/pants/trou/leather/guard
-	head = /obj/item/clothing/head/helmet/townwatch/alt
-	armor = /obj/item/clothing/armor/chainmail/hauberk
-	shirt = /obj/item/clothing/armor/gambeson
-	shoes = /obj/item/clothing/shoes/boots
-	cloak = /obj/item/clothing/cloak/half/guard
-	gloves = /obj/item/clothing/gloves/leather
-	neck = /obj/item/clothing/neck/gorget
-	backr = /obj/item/weapon/shield/heater
-	backl = /obj/item/storage/backpack/satchel
-	belt = /obj/item/storage/belt/leather
-	beltr = /obj/item/storage/keyring/former_city_watchmen
-	beltl = /obj/item/flashlight/flare/torch/lantern
-	r_hand = /obj/item/weapon/mace/warhammer/steel
-	backpack_contents = list(/obj/item/storage/belt/pouch/coins/mid = 1)
-	if(H.mind)
-
-		H.cmode_music = 'sound/music/cmode/garrison/CombatGarrison.ogg'
-		H.mind?.adjust_skillrank(/datum/skill/craft/crafting, 2, TRUE)
-		H.mind?.adjust_skillrank(/datum/skill/misc/reading, 1, TRUE)
-		H.mind?.adjust_skillrank(/datum/skill/misc/climbing, 2, TRUE)
-		H.mind.adjust_skillrank(/datum/skill/misc/swimming, 2, TRUE)
-		H.mind?.adjust_skillrank(/datum/skill/combat/unarmed, 3, TRUE)
-		H.mind?.adjust_skillrank(/datum/skill/combat/wrestling, 3, TRUE)
-		H.mind?.adjust_skillrank(/datum/skill/misc/athletics, 3, TRUE)
-		H.mind?.adjust_skillrank(/datum/skill/labor/mathematics, 1, TRUE)
-		H.mind.adjust_skillrank(/datum/skill/misc/medicine, 2, TRUE)
-		H.mind.adjust_skillrank(/datum/skill/combat/shields, 4, TRUE)
-		H.mind?.adjust_skillrank(/datum/skill/combat/axesmaces, 4, TRUE)
-		H.mind?.adjust_skillrank(/datum/skill/combat/swords, 2, TRUE)
-
-		H.change_stat(STATKEY_STR, 3)
-		H.change_stat(STATKEY_END, 2)
-		H.change_stat(STATKEY_CON, 2)
-		H.change_stat(STATKEY_SPD, -2) // Arrow to the knee, low mobility
-
-		if(H.age == AGE_OLD)
-			H.mind?.adjust_skillrank(/datum/skill/combat/axesmaces, 1, TRUE)
-			H.mind?.adjust_skillrank(/datum/skill/combat/swords, 1, TRUE)
-			H.mind?.adjust_skillrank(/datum/skill/combat/shields, 1, TRUE)
-			H.mind.adjust_skillrank(/datum/skill/misc/medicine, 1, TRUE)
-			H.change_stat(STATKEY_SPD, -1) // They got older and it is even worse now.
-			H.change_stat(STATKEY_STR, 1)
-			H.change_stat(STATKEY_INT, 2)
-
-		H.verbs |= /mob/proc/haltyell
-
-	ADD_TRAIT(H, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
-	ADD_TRAIT(H, TRAIT_STEELHEARTED, TRAIT_GENERIC) // Went through alot in the Goblin War and Bandit Attacks
+/datum/job/town_elder/mayor/after_spawn(mob/living/carbon/spawned, client/player_client)
+	. = ..()
+	var/mob/living/carbon/H = spawned
+	H.advsetup = 1
+	H.invisibility = INVISIBILITY_MAXIMUM
+	H.become_blind("bard_select")
+	var/instruments = list(
+		"Harp" = /obj/item/instrument/harp,
+		"Lute" = /obj/item/instrument/lute,
+		"Accordion" = /obj/item/instrument/accord,
+		"Guitar" = /obj/item/instrument/guitar,
+		"Flute" = /obj/item/instrument/flute,
+		"Drum" = /obj/item/instrument/drum,
+		"Hurdy-Gurdy" = /obj/item/instrument/hurdygurdy,
+		"Viola" = /obj/item/instrument/viola)
+	var/instrument_choice = input(player_client, "Choose your instrument.", "XYLIX") as anything in instruments
+	var/spawn_instrument = instruments[instrument_choice]
+	if(!spawn_instrument)
+		spawn_instrument = /obj/item/instrument/lute
+	H.equip_to_slot_or_del(new spawn_instrument(H),SLOT_BACK_R, TRUE)
+	H.advsetup = 0
+	H.invisibility = initial(H.invisibility)
+	H.cure_blind("bard_select")
+	var/atom/movable/screen/advsetup/GET_IT_OUT = locate() in H.hud_used?.static_inventory 
+	qdel(GET_IT_OUT)
 
 
 
 /datum/advclass/town_elder/master_of_crafts_and_labor
 	name = "Master of Crafts and Labor"
 
-	tutorial = "You were one of the hardest-working individuals in the city, there isn’t a single job you haven’t done. From farming and butchery to alchemy, blacksmithing and even medicine, your vast knowledge has made you a guiding light for the people. Recognizing your wisdom and experience, the townsfolk turned to you for guidance. Now, as the Master of Crafts and Labor, you oversee and aid all who contribute to the city's survival. Lead them well."
+	tutorial = "You were one of the hardest-working individuals in the city, there isn’t a single job you haven’t done. From farming and butchery to alchemy, blacksmithing, cooking, and even medicine, your vast knowledge has made you a guiding light for the people. Recognizing your wisdom and experience, the townsfolk turned to you for guidance. Now, as the Master of Crafts and Labor, you oversee and aid all who contribute to the city's survival. Lead them well."
 	outfit = /datum/outfit/job/town_elder/master_of_crafts_and_labor
 
 	//A Job meant to guide and help new players in multiple areas heavy RNG so it can range from Average to Master.
@@ -295,159 +259,6 @@
 		ADD_TRAIT(H, TRAIT_NOSTINK, TRAIT_GENERIC)
 		ADD_TRAIT(H, TRAIT_SEEDKNOW, TRAIT_GENERIC)
 		ADD_TRAIT(H, TRAIT_MALUMFIRE, TRAIT_GENERIC)
-
-
-/datum/advclass/town_elder/twilight_veil
-	name = "Twilight Veil"
-
-	tutorial = "You were once a master thief, one of the finest in the Thieves' Guild. Vaults, merchants, nobles, none were beyond your reach, and for years, none could catch you. But times have changed. The city struggles, corruption festers, and people suffer under those who hoard wealth and power. You still walk in the shadows, but now your targets are chosen carefully, not for personal gain, but to keep the balance. Some call you a criminal, others a hero. Either way, your hands are never idle. Can a thief who steals for others ever truly be free?"
-	outfit = /datum/outfit/job/town_elder/twilight_veil
-
-	//Master Thief that left the thieves guild and uses their power to help and guide the town.
-
-	category_tags = list(CTAG_TOWN_ELDER)
-
-
-/datum/outfit/job/town_elder/twilight_veil/pre_equip(mob/living/carbon/human/H)
-
-	H.verbs |= /mob/living/carbon/human/proc/townannouncement
-	pants = /obj/item/clothing/pants/trou/leather
-	armor = /obj/item/clothing/armor/leather/splint
-	shirt = /obj/item/clothing/shirt/undershirt/black
-	shoes = /obj/item/clothing/shoes/boots
-	gloves = /obj/item/clothing/gloves/leather
-	neck = /obj/item/clothing/neck/gorget
-	backl = /obj/item/storage/backpack/satchel
-	belt = /obj/item/storage/belt/leather
-	beltr = /obj/item/storage/keyring/elder
-	beltl = /obj/item/flashlight/flare/torch/lantern
-	backpack_contents = list(/obj/item/storage/belt/pouch/coins/mid = 1, /obj/item/weapon/knife/dagger/steel = 2, /obj/item/lockpickring/mundane = 1)
-
-	if(H.mind)
-		H.cmode_music = 'sound/music/cmode/adventurer/CombatRogue.ogg'
-		H.mind?.adjust_skillrank(/datum/skill/combat/crossbows, 4, TRUE)
-		H.mind.adjust_skillrank(/datum/skill/combat/knives, 4, TRUE)
-		H.mind?.adjust_skillrank(/datum/skill/combat/wrestling, 3, TRUE)
-		H.mind?.adjust_skillrank(/datum/skill/combat/unarmed, 3, TRUE)
-		H.mind?.adjust_skillrank(/datum/skill/misc/athletics, 4, TRUE)
-		H.mind?.adjust_skillrank(/datum/skill/misc/swimming, 3, TRUE)
-		H.mind?.adjust_skillrank(/datum/skill/misc/climbing, 4, TRUE)
-		H.mind?.adjust_skillrank(/datum/skill/misc/reading, 1, TRUE)
-		H.mind?.adjust_skillrank(/datum/skill/misc/medicine, 3, TRUE)
-		H.mind?.adjust_skillrank(/datum/skill/misc/sneaking, 5, TRUE)
-		H.mind?.adjust_skillrank(/datum/skill/misc/stealing, 5, TRUE)
-		H.mind?.adjust_skillrank(/datum/skill/misc/lockpicking,4, TRUE)
-		H.mind?.adjust_skillrank(/datum/skill/craft/traps, 3, TRUE)
-
-		H.change_stat(STATKEY_STR, -1)
-		H.change_stat(STATKEY_PER, 1)
-		H.change_stat(STATKEY_END, 1)
-		H.change_stat(STATKEY_SPD, 3)
-		H.grant_language(/datum/language/thievescant)
-
-		if(H.age == AGE_OLD)
-
-			H.mind.adjust_skillrank(/datum/skill/combat/knives, 1, TRUE)
-			H.mind?.adjust_skillrank(/datum/skill/craft/traps, 1, TRUE)
-			H.mind?.adjust_skillrank(/datum/skill/misc/sneaking, 1, TRUE)
-			H.mind?.adjust_skillrank(/datum/skill/misc/stealing, 1, TRUE)
-			H.mind?.adjust_skillrank(/datum/skill/misc/lockpicking,1, TRUE)
-			H.mind?.adjust_skillrank(/datum/skill/misc/climbing, 1, TRUE)
-
-			H.change_stat(STATKEY_PER, 1)
-			H.change_stat(STATKEY_END, 1)
-
-		ADD_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_GENERIC)
-		ADD_TRAIT(H, TRAIT_LIGHT_STEP, TRAIT_GENERIC)
-
-
-/datum/outfit/job/town_elder/twilight_veil/post_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
-	..()
-	// Give them their cloak- as well as the ability to choose what color they want.
-	var/list/thiefcloak_colors = list(\
-		// Red Colors
-		"Fyritius Dye"	="#b47011",\
-		"Winestain Red"	="#6b3737",\
-		"Maroon"		="#672c0d",\
-		"Blood Red"		="#770d0d",\
-		// Green Colors
-		"Forest Green"	="#3f8b24",\
-		"Bog Green"		="#58793f",\
-		"Spring Green"	="#435436",\
-		// Blue Colors
-		"Royal Teal"	="#249589",\
-		"Mana Blue"		="#1b3c7a",\
-		"Berry"			="#38455b",\
-		"Lavender"		="#865c9c",\
-		"Majenta"		="#822b52",\
-		// Brown Colors
-		"Bark Brown"	="#685542",\
-		"Russet"		="#685542",\
-		"Chestnut"		="#5f3d21",\
-		"Old Leather"	="#473a30",\
-		"Ashen Black"	="#2f352f",\
-		)
-	var/thiefcloak_color_selection = input(usr,"What color was I again?","The Cloak","Ashen Black") in thiefcloak_colors
-	var/obj/item/clothing/cloak/raincloak/thiefcloak = new()
-	thiefcloak.color = thiefcloak_colors[thiefcloak_color_selection]
-	H.equip_to_slot(thiefcloak, SLOT_CLOAK, TRUE)
-
-
-/datum/advclass/town_elder/spellblade
-	name = "Spellblade"
-
-	tutorial = "Steel paid your way, but steel alone was never enough. You spent years as a mercenary, selling your sword to survive, yet always yearning for something more, the power of the arcane. Now, with enough coin and hard-earned wisdom, you've finally begun your studies in magic. But old habits die hard, and the town has no shortage of trouble. Whether solving disputes, defending the streets, or uncovering hidden dangers, you put your newfound magic to use where it's needed most."
-	outfit = /datum/outfit/job/town_elder/spellblade
-
-	//Mercenary turned into a mage, works for the people using magick and sword.
-
-	category_tags = list(CTAG_TOWN_ELDER)
-
-
-/datum/outfit/job/town_elder/spellblade/pre_equip(mob/living/carbon/human/H)
-	H.verbs |= /mob/living/carbon/human/proc/townannouncement
-	pants = /obj/item/clothing/pants/trou/leather
-	armor = /obj/item/clothing/shirt/robe/newmage/sorcerer
-	shirt = /obj/item/clothing/armor/chainmail/hauberk
-	shoes = /obj/item/clothing/shoes/boots
-	gloves = /obj/item/clothing/gloves/leather
-	neck = /obj/item/clothing/neck/gorget
-	backl = /obj/item/storage/backpack/satchel
-	backr = /obj/item/weapon/sword/long
-	belt = /obj/item/storage/belt/leather
-	beltr = /obj/item/storage/magebag/apprentice
-	beltl = /obj/item/flashlight/flare/torch/lantern
-	backpack_contents = list(/obj/item/storage/belt/pouch/coins/mid = 1, /obj/item/storage/keyring/elder = 1, /obj/item/book/granter/spellbook/apprentice = 1)
-
-
-	if(H.mind)
-		H.mana_pool.set_intrinsic_recharge(MANA_ALL_LEYLINES)
-		H.mind?.adjust_skillrank(/datum/skill/misc/reading, 1, TRUE)
-		H.mind?.adjust_skillrank(/datum/skill/magic/arcane, 2, TRUE)
-		H.mind?.adjust_skillrank(/datum/skill/craft/cooking, 1, TRUE)
-		H.mind?.adjust_skillrank(/datum/skill/misc/medicine, 1, TRUE)
-		H.mind?.adjust_skillrank(/datum/skill/combat/unarmed, 3, TRUE)
-		H.mind?.adjust_skillrank(/datum/skill/combat/wrestling, 3, TRUE)
-		H.mind?.adjust_skillrank(/datum/skill/misc/athletics, 4, TRUE)
-		H.mind?.adjust_skillrank(/datum/skill/combat/swords, 3, TRUE)
-
-		H.change_stat(STATKEY_STR, 1)
-		H.change_stat(STATKEY_INT, 2)
-		H.change_stat(STATKEY_END, 1)
-		H.change_stat(STATKEY_SPD, 1)
-
-		if(H.age == AGE_OLD)
-			H.mind?.adjust_skillrank(/datum/skill/magic/arcane, 1, TRUE)
-			H.mind?.adjust_skillrank(/datum/skill/combat/swords, 1, TRUE)
-			H.change_stat(STATKEY_INT, 1)
-
-		H.mind.adjust_spellpoints(5)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/targeted/touch/prestidigitation)
-
-
-
-	ADD_TRAIT(H, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
-
 
 
 /datum/advclass/town_elder/hearth_acolyte
@@ -539,3 +350,161 @@
 	var/datum/devotion/cleric_holder/C = new /datum/devotion/cleric_holder(H, H.patron)
 	H.verbs += list(/mob/living/carbon/human/proc/devotionreport, /mob/living/carbon/human/proc/clericpray)
 	C.grant_spells(H)
+
+
+
+/datum/advclass/town_elder/lorekeeper 
+	name = "Lorekeeper"
+
+	tutorial = "Your tales once lit up taverns, your ballads echoed through cities, and your curiosity led you across kingdoms. But the stage grows quiet, and your thirst for stories has shifted. Now, you collect history instead of applause, recording the town’s past, preserving its legends, and guiding the present with the wisdom of ages. In a world where memory is power, you are its guardian."
+	outfit = /datum/outfit/job/town_elder/lorekeeper
+
+	category_tags = list(CTAG_TOWN_ELDER)
+
+/datum/outfit/job/town_elder/lorekeeper/pre_equip(mob/living/carbon/human/H)
+	H.verbs |= /mob/living/carbon/human/proc/townannouncement
+	head = /obj/item/clothing/head/roguehood/random
+	armor = /obj/item/clothing/shirt/robe
+	shoes = /obj/item/clothing/shoes/sandals
+	belt = /obj/item/storage/belt/leather/rope
+	beltr = /obj/item/storage/keyring/elder
+	beltl = /obj/item/flashlight/flare/torch/lantern
+	backl = /obj/item/storage/backpack/satchel
+	backpack_contents = list(/obj/item/storage/belt/pouch/coins/mid = 1, /obj/item/needle = 1 )
+	
+	H.mind?.adjust_skillrank(/datum/skill/combat/unarmed, 3, TRUE)
+	H.mind?.adjust_skillrank(/datum/skill/combat/wrestling, 3, TRUE)
+	H.mind?.adjust_skillrank(/datum/skill/combat/swords, 2, TRUE)
+	H.mind?.adjust_skillrank(/datum/skill/craft/crafting, 2, TRUE)
+	H.mind?.adjust_skillrank(/datum/skill/misc/swimming, 3, TRUE)
+	H.mind?.adjust_skillrank(/datum/skill/misc/climbing, 3, TRUE)
+	H.mind?.adjust_skillrank(/datum/skill/misc/riding, 4, TRUE)
+	H.mind?.adjust_skillrank(/datum/skill/misc/sewing, 1, TRUE)
+	H.mind?.adjust_skillrank(/datum/skill/misc/reading, 4, TRUE)
+	H.mind?.adjust_skillrank(/datum/skill/craft/cooking, 1, TRUE)
+	H.mind?.adjust_skillrank(/datum/skill/misc/music, 3, TRUE)
+	H.mind?.adjust_skillrank(/datum/skill/misc/athletics, 4, TRUE)
+	
+	
+	H.change_stat(STATKEY_INT, 2)
+	H.change_stat(STATKEY_SPD, 2)
+	H.change_stat(STATKEY_STR, 1)
+	
+	if(H.age == AGE_OLD)
+		H.mind?.adjust_skillrank(/datum/skill/misc/music, 2, TRUE)
+		H.mind?.adjust_skillrank(/datum/skill/craft/crafting, 1, TRUE)
+		H.mind?.adjust_skillrank(/datum/skill/misc/reading, 1, TRUE)
+		H.change_stat(STATKEY_END, 1)
+		H.change_stat(STATKEY_INT, 1)
+	
+	ADD_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_GENERIC)
+	ADD_TRAIT(H, TRAIT_BARDIC_TRAINING, TRAIT_GENERIC)
+	
+	
+
+/datum/job/town_elder/lorekeeper/after_spawn(mob/living/carbon/spawned, client/player_client)
+	. = ..()
+	var/mob/living/carbon/H = spawned
+	H.advsetup = 1
+	H.invisibility = INVISIBILITY_MAXIMUM
+	H.become_blind("bard_select")
+	var/instruments = list(
+		"Harp" = /obj/item/instrument/harp,
+		"Lute" = /obj/item/instrument/lute,
+		"Accordion" = /obj/item/instrument/accord,
+		"Guitar" = /obj/item/instrument/guitar,
+		"Flute" = /obj/item/instrument/flute,
+		"Drum" = /obj/item/instrument/drum,
+		"Hurdy-Gurdy" = /obj/item/instrument/hurdygurdy,
+		"Viola" = /obj/item/instrument/viola)
+	var/instrument_choice = input(player_client, "Choose your instrument.", "XYLIX") as anything in instruments
+	var/spawn_instrument = instruments[instrument_choice]
+	if(!spawn_instrument)
+		spawn_instrument = /obj/item/instrument/lute
+	H.equip_to_slot_or_del(new spawn_instrument(H),SLOT_BACK_R, TRUE)
+	H.advsetup = 0
+	H.invisibility = initial(H.invisibility)
+	H.cure_blind("bard_select")
+	var/atom/movable/screen/advsetup/GET_IT_OUT = locate() in H.hud_used?.static_inventory 
+	qdel(GET_IT_OUT)
+
+
+
+/datum/advclass/town_elder/dreamwatcher 
+	name = "Dreamwatcher"
+
+	tutorial = "Your dreams have always been vivid, filled with colors, voices, and shadows that seemed to watch. As a child, you feared them. As an adult, you began to listen. The Church speaks of Noc as the keeper of magic, but to you, he is something deeper: a silent guide whose truths are written not in scripture, but in sleep. Now, as Elder of this town, you offer more than leadership. You help others find clarity in the quiet spaces of their hearts, through signs, symbols, and truths too easily ignored. Some call it intuition. Others call it wisdom. You know it simply as listening."
+	outfit = /datum/outfit/job/town_elder/dreamwatcher
+	
+	//Not a Magician nor an Acolyte, but something more, blessed by Noc since they were born, being capable of Visions and Feelings through dreams, they can feel the highest god influence or random chance to get a hint about any of the antags.
+	category_tags = list(CTAG_TOWN_ELDER)
+
+
+/datum/outfit/job/town_elder/dreamwatcher/pre_equip(mob/living/carbon/human/H)
+	H.verbs |= /mob/living/carbon/human/proc/townannouncement
+	head = /obj/item/clothing/head/roguehood/random
+	armor = /obj/item/clothing/shirt/robe
+	shoes = /obj/item/clothing/shoes/sandals
+	belt = /obj/item/storage/belt/leather/rope
+	beltr = /obj/item/storage/keyring/elder
+	beltl = /obj/item/flashlight/flare/torch/lantern
+	backl = /obj/item/storage/backpack/satchel
+	neck = /obj/item/clothing/neck/psycross/noc
+	backpack_contents = list(/obj/item/storage/belt/pouch/coins/mid = 1, /obj/item/needle = 1 )
+	
+	if(H.patron != /datum/patron/divine/noc)
+		H.set_patron(/datum/patron/divine/noc)
+	
+	H.apply_status_effect(/datum/status_effect/buff/nocblessed)
+	// 3 INT and 2 PER buff, stats will be lowered because of that
+	
+	H.mind?.adjust_skillrank(/datum/skill/misc/reading, 3, TRUE)
+	H.mind?.adjust_skillrank(/datum/skill/craft/crafting, 3, TRUE)
+	H.mind?.adjust_skillrank(/datum/skill/craft/cooking, 1, TRUE)
+	H.mind?.adjust_skillrank(/datum/skill/misc/sewing, 3, TRUE)
+	H.mind?.adjust_skillrank(/datum/skill/misc/medicine, 3, TRUE)
+	
+	H.change_stat(STATKEY_INT, 2)
+	H.change_stat(STATKEY_END, 2)
+	H.change_stat(STATKEY_SPD, 1)
+	H.change_stat(STATKEY_PER, 1)
+	if(H.age == AGE_OLD)
+		H.mind?.adjust_skillrank(/datum/skill/misc/reading, 3, TRUE)
+		H.mind?.adjust_skillrank(/datum/skill/craft/crafting, 1, TRUE)
+		H.change_stat(STATKEY_INT, 1)
+		H.change_stat(STATKEY_END, 1)
+		
+	ADD_TRAIT(user, TRAIT_DREAM_WATCHER, TRAIT_GENERIC)
+	ADD_TRAIT(user, TRAIT_EMPATH, TRAIT_GENERIC)
+	
+
+
+
+/datum/advclass/town_elder/reliquarist 
+	name = "Reliquarist"
+	
+	tutorial = "You were never meant to know the truth. But deep in your years of wandering , you were found by those who keep the oldest secret: that Psydon, the god who made the world, is not gone, only broken. And a piece of Him, still heavy with memory, now rests under your care. You accepted this burden not for glory, but for devotion. As the town’s Elder, your wisdom runs deeper than most know, and when truth is twisted, you feel it. Not through sight, but through the shiver of flesh not quite your own."
+	outfit = /datum/outfit/job/town_elder/test
+	
+	//Psydon Believer, holds a piece of the Nail of Psydon, i am thinking of it working similar to the graggar dagger, it speaks but barely
+
+	category_tags = list(CTAG_TOWN_ELDER)
+
+/datum/outfit/job/town_elder/reliquarist/pre_equip(mob/living/carbon/human/H)
+	H.verbs |= /mob/living/carbon/human/proc/townannouncement
+	head = /obj/item/clothing/head/roguehood/random
+	armor = /obj/item/clothing/shirt/robe
+	shoes = /obj/item/clothing/shoes/sandals
+	belt = /obj/item/storage/belt/leather/rope
+	beltr = /obj/item/storage/keyring/elder
+	beltl = /obj/item/flashlight/flare/torch/lantern
+	backl = /obj/item/storage/backpack/satchel
+	backpack_contents = list(/obj/item/storage/belt/pouch/coins/mid = 1, /obj/item/needle = 1 )
+	
+	H.mind?.adjust_skillrank(/datum/skill/misc/reading, 1, TRUE)
+	H.mind?.adjust_skillrank(/datum/skill/craft/crafting, 3, TRUE)
+	H.mind?.adjust_skillrank(/datum/skill/craft/cooking, 1, TRUE)
+	H.mind?.adjust_skillrank(/datum/skill/misc/sewing, 1, TRUE)
+	H.mind?.adjust_skillrank(/datum/skill/misc/medicine, 1, TRUE)
+	H.mind?.adjust_skillrank(/datum/skill/combat/polearms, 2, TRUE)
+	
