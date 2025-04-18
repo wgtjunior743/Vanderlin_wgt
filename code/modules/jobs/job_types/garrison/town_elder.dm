@@ -344,18 +344,24 @@
 
 /datum/outfit/job/town_elder/lorekeeper/pre_equip(mob/living/carbon/human/H)
 	H.verbs |= /mob/living/carbon/human/proc/townannouncement
-	head = /obj/item/clothing/head/roguehood/random
-	armor = /obj/item/clothing/shirt/robe
-	shoes = /obj/item/clothing/shoes/sandals
-	belt = /obj/item/storage/belt/leather/rope
-	beltr = /obj/item/storage/keyring/elder
-	beltl = /obj/item/flashlight/flare/torch/lantern
+	head = /obj/item/clothing/head/bardhat
+	shoes = /obj/item/clothing/shoes/boots
+	pants = /obj/item/clothing/pants/trou/leather
+	shirt = /obj/item/clothing/shirt/tunic/noblecoat
+	gloves = /obj/item/clothing/gloves/leather
+	wrists = /obj/item/clothing/wrists/bracers/leather
+	belt = /obj/item/storage/belt/leather
+	armor = /obj/item/clothing/armor/leather/jacket/silk_coat
+	cloak = /obj/item/clothing/cloak/half
 	backl = /obj/item/storage/backpack/satchel
-	backpack_contents = list(/obj/item/storage/belt/pouch/coins/mid = 1, /obj/item/needle = 1 )
+	beltr = /obj/item/weapon/sword/arming
+	beltl = /obj/item/flashlight/flare/torch/lantern
+	backpack_contents = list(/obj/item/storage/belt/pouch/coins/mid = 1, /obj/item/storage/keyring/elder = 1, /obj/item/paper/scroll = 5, /obj/item/natural/feather = 1)
+	
 	
 	H.mind?.adjust_skillrank(/datum/skill/combat/unarmed, 3, TRUE)
 	H.mind?.adjust_skillrank(/datum/skill/combat/wrestling, 3, TRUE)
-	H.mind?.adjust_skillrank(/datum/skill/combat/swords, 2, TRUE)
+	H.mind?.adjust_skillrank(/datum/skill/combat/swords, 3, TRUE)
 	H.mind?.adjust_skillrank(/datum/skill/craft/crafting, 2, TRUE)
 	H.mind?.adjust_skillrank(/datum/skill/misc/swimming, 3, TRUE)
 	H.mind?.adjust_skillrank(/datum/skill/misc/climbing, 3, TRUE)
