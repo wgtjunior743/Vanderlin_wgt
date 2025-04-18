@@ -241,7 +241,7 @@ SUBSYSTEM_DEF(gamemode)
 			),
 		
 			"Ravox"= list(
-				"..a sword rests beside a scale... neither tips...",
+				"...a sword rests beside a scale... neither tips...",
 				"...steel sings in your dreams... a verdict is written in blood and flame, but justice waits before it lands...",
 				"...you duel a mirror image of yourself... the victor is neither, yet the fight continues... law and war share the same breath..."
 			),
