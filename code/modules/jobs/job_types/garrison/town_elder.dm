@@ -25,24 +25,6 @@
 
 
 
-/datum/job/town_elder/after_spawn(mob/living/spawned, client/player_client)
-	. = ..()
-	var/mob/living/carbon/human/H = spawned
-	H.advsetup = 1
-	H.invisibility = INVISIBILITY_MAXIMUM
-	H.become_blind("advsetup")
-	if(istype(H.cloak, /obj/item/clothing/cloak/half/guard))
-		var/obj/item/clothing/S = H.cloak
-		var/index = findtext(H.real_name, " ")
-		if(index)
-			index = copytext(H.real_name, 1,index)
-		if(!index)
-			index = H.real_name
-		S.name = "Retired guard's half cloak ([index])"
-
-
-
-
 /mob/living/carbon/human/proc/townannouncement()
 	set name = "Announcement"
 	set category = "Town Elder"
@@ -145,9 +127,8 @@
 
 
 
-/datum/job/town_elder/mayor/after_spawn(mob/living/carbon/spawned, client/player_client)
+/datum/outfit/job/town_elder/mayor/post_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
 	. = ..()
-	var/mob/living/carbon/H = spawned
 	H.advsetup = 1
 	H.invisibility = INVISIBILITY_MAXIMUM
 	H.become_blind("bard_select")
@@ -160,7 +141,7 @@
 		"Drum" = /obj/item/instrument/drum,
 		"Hurdy-Gurdy" = /obj/item/instrument/hurdygurdy,
 		"Viola" = /obj/item/instrument/viola)
-	var/instrument_choice = input(player_client, "Choose your instrument.", "XYLIX") as anything in instruments
+	var/instrument_choice = input(usr, "Choose your instrument.", "XYLIX") as anything in instruments
 	var/spawn_instrument = instruments[instrument_choice]
 	if(!spawn_instrument)
 		spawn_instrument = /obj/item/instrument/lute
@@ -402,9 +383,8 @@
 	
 	
 
-/datum/job/town_elder/lorekeeper/after_spawn(mob/living/carbon/spawned, client/player_client)
+/datum/outfit/job/town_elder/lorekeeper/post_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
 	. = ..()
-	var/mob/living/carbon/H = spawned
 	H.advsetup = 1
 	H.invisibility = INVISIBILITY_MAXIMUM
 	H.become_blind("bard_select")
@@ -417,7 +397,7 @@
 		"Drum" = /obj/item/instrument/drum,
 		"Hurdy-Gurdy" = /obj/item/instrument/hurdygurdy,
 		"Viola" = /obj/item/instrument/viola)
-	var/instrument_choice = input(player_client, "Choose your instrument.", "XYLIX") as anything in instruments
+	var/instrument_choice = input(usr, "Choose your instrument.", "XYLIX") as anything in instruments
 	var/spawn_instrument = instruments[instrument_choice]
 	if(!spawn_instrument)
 		spawn_instrument = /obj/item/instrument/lute
@@ -436,21 +416,22 @@
 	tutorial = "Your dreams have always been vivid, filled with colors, voices, and shadows that seemed to watch. As a child, you feared them. As an adult, you began to listen. The Church speaks of Noc as the keeper of magic, but to you, he is something deeper: a silent guide whose truths are written not in scripture, but in sleep. Now, as Elder of this town, you offer more than leadership. You help others find clarity in the quiet spaces of their hearts, through signs, symbols, and truths too easily ignored. Some call it intuition. Others call it wisdom. You know it simply as listening."
 	outfit = /datum/outfit/job/town_elder/dreamwatcher
 	
-	//Not a Magician nor an Acolyte, but something more, blessed by Noc since they were born, being capable of Visions and Feelings through dreams, they can feel the highest god influence or random chance to get a hint about any of the antags.
+	//Not a Magician nor an Acolyte, but something more, blessed by Noc since they were born, being capable of Visions and Feelings through dreams, they can feel the highest god influence or and get a hint about any of the active antags.
 	category_tags = list(CTAG_TOWN_ELDER)
 
 
 /datum/outfit/job/town_elder/dreamwatcher/pre_equip(mob/living/carbon/human/H)
 	H.verbs |= /mob/living/carbon/human/proc/townannouncement
-	head = /obj/item/clothing/head/roguehood/random
-	armor = /obj/item/clothing/shirt/robe
+	head = /obj/item/clothing/head/softcap
+	armor = /obj/item/clothing/shirt/robe/black
 	shoes = /obj/item/clothing/shoes/sandals
 	belt = /obj/item/storage/belt/leather/rope
 	beltr = /obj/item/storage/keyring/elder
 	beltl = /obj/item/flashlight/flare/torch/lantern
 	backl = /obj/item/storage/backpack/satchel
+	wrists = /obj/item/clothing/wrists/nocwrappings
 	neck = /obj/item/clothing/neck/psycross/noc
-	backpack_contents = list(/obj/item/storage/belt/pouch/coins/mid = 1, /obj/item/needle = 1 )
+	backpack_contents = list(/obj/item/storage/belt/pouch/coins/poor = 1, /obj/item/needle = 1 )
 	
 	if(H.patron != /datum/patron/divine/noc)
 		H.set_patron(/datum/patron/divine/noc)
@@ -461,11 +442,10 @@
 	H.mind?.adjust_skillrank(/datum/skill/misc/reading, 3, TRUE)
 	H.mind?.adjust_skillrank(/datum/skill/craft/crafting, 3, TRUE)
 	H.mind?.adjust_skillrank(/datum/skill/craft/cooking, 1, TRUE)
-	H.mind?.adjust_skillrank(/datum/skill/misc/sewing, 3, TRUE)
-	H.mind?.adjust_skillrank(/datum/skill/misc/medicine, 3, TRUE)
+	H.mind?.adjust_skillrank(/datum/skill/misc/sewing, 2, TRUE)
+	H.mind?.adjust_skillrank(/datum/skill/misc/medicine, 2, TRUE)
 	
 	H.change_stat(STATKEY_INT, 2)
-	H.change_stat(STATKEY_END, 2)
 	H.change_stat(STATKEY_SPD, 1)
 	H.change_stat(STATKEY_PER, 1)
 	if(H.age == AGE_OLD)
