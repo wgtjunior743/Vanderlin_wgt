@@ -463,34 +463,3 @@
 	ADD_TRAIT(H, TRAIT_DREAM_WATCHER, TRAIT_GENERIC)
 	ADD_TRAIT(H, TRAIT_EMPATH, TRAIT_GENERIC)
 	
-
-
-
-/datum/advclass/town_elder/reliquarist 
-	name = "Reliquarist"
-	
-	tutorial = "You were never meant to know the truth. But deep in your years of wandering , you were found by those who keep the oldest secret: that Psydon, the god who made the world, is not gone, only broken. And a piece of Him, still heavy with memory, now rests under your care. You accepted this burden not for glory, but for devotion. As the town’s Elder, your wisdom runs deeper than most know, and when truth is twisted, you feel it. Not through sight, but through the shiver of flesh not quite your own."
-	outfit = /datum/outfit/job/town_elder/reliquarist
-	
-	//Psydon Believer, holds a piece of the Nail of Psydon, i am thinking of it working similar to the graggar dagger, it speaks but barely
-
-	category_tags = list(CTAG_TOWN_ELDER)
-
-/datum/outfit/job/town_elder/reliquarist/pre_equip(mob/living/carbon/human/H)
-	H.verbs |= /mob/living/carbon/human/proc/townannouncement
-	head = /obj/item/clothing/head/roguehood/random
-	armor = /obj/item/clothing/shirt/robe
-	shoes = /obj/item/clothing/shoes/sandals
-	belt = /obj/item/storage/belt/leather/rope
-	beltr = /obj/item/storage/keyring/elder
-	beltl = /obj/item/flashlight/flare/torch/lantern
-	backl = /obj/item/storage/backpack/satchel
-	backpack_contents = list(/obj/item/storage/belt/pouch/coins/mid = 1, /obj/item/needle = 1 )
-	
-	H.mind?.adjust_skillrank(/datum/skill/misc/reading, 1, TRUE)
-	H.mind?.adjust_skillrank(/datum/skill/craft/crafting, 3, TRUE)
-	H.mind?.adjust_skillrank(/datum/skill/craft/cooking, 1, TRUE)
-	H.mind?.adjust_skillrank(/datum/skill/misc/sewing, 1, TRUE)
-	H.mind?.adjust_skillrank(/datum/skill/misc/medicine, 1, TRUE)
-	H.mind?.adjust_skillrank(/datum/skill/combat/polearms, 2, TRUE)
-	
