@@ -251,6 +251,7 @@
 		ADD_TRAIT(H, TRAIT_NOSTINK, TRAIT_GENERIC)
 		ADD_TRAIT(H, TRAIT_SEEDKNOW, TRAIT_GENERIC)
 		ADD_TRAIT(H, TRAIT_MALUMFIRE, TRAIT_GENERIC)
+		ADD_TRAIT(H, TRAIT_OLDPARTY, TRAIT_GENERIC)
 
 
 /datum/advclass/town_elder/hearth_acolyte
@@ -338,6 +339,8 @@
 		if(!H.has_language(/datum/language/celestial))
 			H.grant_language(/datum/language/celestial)
 			to_chat(H, "<span class='info'>I can speak Celestial with ,c before my speech.</span>")
+	
+	ADD_TRAIT(H, TRAIT_OLDPARTY, TRAIT_GENERIC)
 
 	var/datum/devotion/cleric_holder/C = new /datum/devotion/cleric_holder(H, H.patron)
 	H.verbs += list(/mob/living/carbon/human/proc/devotionreport, /mob/living/carbon/human/proc/clericpray)
@@ -397,6 +400,7 @@
 	
 	ADD_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_GENERIC)
 	ADD_TRAIT(H, TRAIT_BARDIC_TRAINING, TRAIT_GENERIC)
+	ADD_TRAIT(H, TRAIT_OLDPARTY, TRAIT_GENERIC)
 	
 	
 
@@ -473,4 +477,5 @@
 		
 	ADD_TRAIT(H, TRAIT_DREAM_WATCHER, TRAIT_GENERIC)
 	ADD_TRAIT(H, TRAIT_EMPATH, TRAIT_GENERIC)
+	ADD_TRAIT(H, TRAIT_OLDPARTY, TRAIT_GENERIC)
 	
