@@ -4,7 +4,7 @@
 	Now, you are either a ruthless economist or a disgraced steward from distant lands. Where you came from no longer matters.\
 	What matters now is you make sure the fools around you keep buying what you sell. Everything has a price, and you shall be the beating heart of this economy."
 	flag = MERCHANT
-	department_flag = SERFS
+	department_flag = COMPANY
 	job_flags = (JOB_ANNOUNCE_ARRIVAL | JOB_SHOW_IN_CREDITS | JOB_EQUIP_RANK | JOB_NEW_PLAYER_JOINABLE )
 	display_order = JDO_MERCHANT
 	faction = FACTION_STATION
@@ -38,7 +38,7 @@
 	belt = /obj/item/storage/belt/leather/plaquesilver
 	beltl = /obj/item/storage/keyring/merchant
 	armor = /obj/item/clothing/shirt/robe/merchant
-	head = /obj/item/clothing/head/chaperon
+	head = /obj/item/clothing/head/chaperon/greyscale/silk/random
 	ring = /obj/item/clothing/ring/gold/guild_mercator
 
 	if(H.gender == MALE)
