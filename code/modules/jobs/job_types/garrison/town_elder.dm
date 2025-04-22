@@ -30,6 +30,14 @@
 	set category = "Town Elder"
 	if(stat)
 		return
+
+	var/static/last_announcement_time = 0
+
+	if(world.time < last_announcement_time + 1200)
+		var/time_left = round((last_announcement_time + 1200 - world.time) / 10)
+		to_chat(src, "<span class='warning'>You must wait [time_left] more seconds before making another announcement.</span>")
+		return
+
 	var/inputty = input("Make an announcement", "VANDERLIN") as text|null
 	if(inputty)
 		if(!istype(get_area(src), /area/rogue/indoors/town/tavern))
