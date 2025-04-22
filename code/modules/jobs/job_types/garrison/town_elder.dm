@@ -219,6 +219,7 @@
 		H.mind?.adjust_skillrank(/datum/skill/craft/blacksmithing, pick(2,3,4), TRUE)
 		H.mind?.adjust_skillrank(/datum/skill/craft/armorsmithing, pick(2,3,4) ,TRUE)
 		H.mind?.adjust_skillrank(/datum/skill/craft/weaponsmithing, pick(2,3,4) ,TRUE)
+		H.mind?.adjust_skillrank(/datum/skill/craft/cooking, pick(2,3,4), TRUE)
 
 		H.change_stat(STATKEY_STR, 1)
 		H.change_stat(STATKEY_END, 2)
@@ -243,6 +244,7 @@
 			H.mind?.adjust_skillrank(/datum/skill/craft/blacksmithing, pick(0,0,1), TRUE)
 			H.mind?.adjust_skillrank(/datum/skill/craft/armorsmithing, pick(0,0,1), TRUE)
 			H.mind?.adjust_skillrank(/datum/skill/craft/weaponsmithing, pick(0,0,1), TRUE)
+			H.mind?.adjust_skillrank(/datum/skill/craft/cooking, pick(0,0,1), TRUE)
 
 			H.change_stat(STATKEY_END, 1)
 			H.change_stat(STATKEY_INT, 1)
