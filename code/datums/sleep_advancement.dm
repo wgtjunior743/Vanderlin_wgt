@@ -420,14 +420,14 @@
 				shuffle(truths)
 				picked += truths[1]
 				picked += truths[2]
-			else
+			else 
 				picked += truths
 		if("two_lies")
 			if(lies.len >= 2)
 				shuffle(lies)
 				picked += lies[1]
 				picked += lies[2]
-			else
+			else 
 				picked += lies
 		if("truth_lie")
 			picked += pick(truths)
@@ -441,7 +441,6 @@
 	var/emotion = pick("dread", "anticipation", "sorrow", "awe", "rage", "longing", "confusion", "ecstasy", "emptiness", "yearning")
 	var/scene = ""
 
-
 //Random emotion to give more randomness
 	switch(emotion)
 		if("dread")           scene += "...the air is thick... shadows coil at the edges of your vision"
@@ -454,8 +453,6 @@
 		if("ecstasy")         scene += "...a chorus sings behind your eyes... joy too bright to bear"
 		if("emptiness")       scene += "...you float above yourself... hollow... watching"
 		if("yearning")        scene += "...you reach for something in the dark... it slips through your fingers"
-
-
 
 	for(var/antag_type in antags)
 		scene += generate_symbol_for_antag(antag_type)
@@ -480,62 +477,56 @@
 		"...the dream fades... but something remains behind..."
 	)
 
-
 	scene += pick(suffixes)
 	return scene
 
 
 // Pick the messages for the antags
 
-/datum/sleep_adv/proc/generate_symbol_for_antag(name)
-	switch(name)
-		if("Vampire Lord") return pick("...a pale figure watches from afar... its gaze weighs heavy on your soul", "...red velvet, torn and trailing... a presence unseen but always near","...a name you cannot remember sits on your tongue... it tastes of blood and dust")
-		if("Vampire") return pick("...a hand reaches from the dark... obedient, yet trembling","...you kneel, not knowing why... the voice behind you compels it","...a collar of roses and rust... worn by the willing")
-		if("Vampire Spawn")return pick("...fangs bloom from cracked lips... hunger shudders through the air","...you see your reflection... it smiles with borrowed teeth","...a laugh beneath floorboards... young, broken, blood-wet")
-		if("Lich")return pick("...a cold wind whispers names no longer spoken","...the tower bleeds light... skeletal hands trace forbidden runes","...bones rattle in a jar... they whisper of eternity")
-		if("Verewolf")return pick("...fur and fury rise... the moon stains the sky","...howling splits the silence... your hands ache with claws","...you wake with dirt under your nails... and a taste of fur")
-		if("Lesser Verewolf")return pick("...bones snap in rhythm... hunger guides their paws","...they follow the alpha’s scent... and dream of killing him","...a low growl rumbles under moonlight... fur and fury rise")
-		if("Zizoid Cultist")return pick("...a circle chants beneath shifting stars... their eyes are wrong","...ink flows upward... the words burn in reverse","...your thoughts are not your own... they hum in unison")
-		if("Zizoid Lackey")return pick("...a silent servant tends to a spiral... it never ends","...you hand someone a book... you’ve never seen it before","...something stands just behind your shoulder... always just behind")
-		if("Peasant Rebel")return pick("...muddy boots march across broken fields... fire follows","...the crowd roars without faces... you hold the torch","...a scythe buried in stone... your hand fits its grip perfectly")
-		if("Peasant Head Rebel")return pick("...a crowned figure of burlap and ash... they speak with your voice","...a throne made of pitchforks... it wobbles with every heartbeat","...children chant in the ruins... the rhythm carries a blade")
-		if("Aspirant")return pick("...you climb a tower of mirrors... none reflect the same face","...a blade sings your name... but you’ve never heard it before","...the stars rearrange themselves... spelling failure")
-		if("Bandit")return pick("...coin clinks like bone... your pockets are never full","...a dagger flickers in the candlelight... too fast to see","...a mask laughs... the voice behind it is yours")
-		if("Assassin")return pick("...a shadow parts from your own... and doesn’t return","...footsteps on the ceiling... you hold your breath","...ink-black gloves close around your throat... gently")
-		if("Dreamer")return pick("...a door opens inside a room that shouldn’t exist... behind it, a thousand mirrors... none show your face","...you hear the world breathe... a hiss, a code, a loop... someone is watching from behind the glass","...you see structures made of meat and bone... they form words you can almost understand... then collapse")
-		//it was giving me errors if i didn't set up like this
+/datum/sleep_adv/proc/generate_symbol_for_antag(datum/antagonist/antag)
+
+	var/list/antag_dreams = SSgamemode.antag_dreams
+		
+	if(antag_dreams[antag])
+		return pick(antag_dreams[antag])
+	else
+		return pick(antag_dreams["Unknown"])
 
 //Get antags
 /datum/sleep_adv/proc/get_current_real_antags()
 	var/list/truths = list()
 	for(var/datum/antagonist/A in GLOB.antagonists)
 		if(A.owner && A.owner.current.client) // Confirm the antag is active and controlled
-			truths += initial(A.name)
+			truths += A
 	return truths
 	
-
 //All antags for the fake list
 /datum/sleep_adv/proc/get_possible_fake_antags_excluding(list/truths)
 	var/list/all_possible = list(
-		"Vampire Lord",
-		"Vampire Spawn",
-		"Vampire",
-		"Lich",
-		"Verewolf",
-		"Lesser Verewolf",
-		"Zizoid Cultist",
-		"Zizoid Lackey",
-		"Peasant Rebel",
-		"Peasant Head Rebel",
-		"Aspirant",
-		"Bandit",
-		"Assassin",
-		"Dreamer"
+		/datum/antagonist/vampire/lord,
+		/datum/antagonist/vampire,
+		/datum/antagonist/vampire/lesser,
+		/datum/antagonist/lich,
+		/datum/antagonist/werewolf,
+		/datum/antagonist/werewolf/lesser,
+		/datum/antagonist/zizocultist,
+		/datum/antagonist/zizocultist/leader,
+		/datum/antagonist/prebel,
+		/datum/antagonist/prebel/head,
+		/datum/antagonist/aspirant,
+		/datum/antagonist/bandit,
+		/datum/antagonist/assassin,
+		/datum/antagonist/maniac
 	)
 
-	//Remove the true antags from this list
-	for(var/T in truths)
-		all_possible -= T
+	// Remove the true antag types from the possible lies
+	for(var/datum/antagonist/T in truths)
+		all_possible -= T.type
 
-	return all_possible
+	// Instantiate new antag datums for the lies
+	var/list/lies = list()
+	for(var/antag_type in all_possible)
+		lies += new antag_type()
+
+	return lies
 
