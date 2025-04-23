@@ -306,7 +306,7 @@ SUBSYSTEM_DEF(gamemode)
 			"Unknown" = list("You feel a presence watching your sleep... old, vast, and unknowable. You do not yet know their name.")
 		)
 
-antag_dreams = list(
+		antag_dreams = list(
 			/datum/antagonist/vampire/lord = list(
 					"...a pale figure watches from afar... its gaze weighs heavy on your soul",
 					"...red velvet, torn and trailing... a presence unseen but always near",
@@ -383,7 +383,6 @@ antag_dreams = list(
 					"...the air grows heavy with forgotten whispers"
 				)
 		)
-
 	load_config_vars()
 	load_event_config_vars()
 
