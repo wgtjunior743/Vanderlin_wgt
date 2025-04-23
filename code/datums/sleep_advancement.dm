@@ -459,22 +459,22 @@
 
 //random suffix
 	var/list/suffixes = list(
-		"...then, silence...",
-		"...you awake with the taste of ash...",
-		"...a bell tolls, but no one hears it...",
-		"...you are not sure if you were watching... or being watched...",
-		"...the feeling lingers, heavy as dusk...",
-		"...your hands won’t stop trembling...",
-		"...you wake with your mouth full of names...",
-		"...the light behind your eyes is gone...",
-		"...you try to remember, but something remembers you instead...",
-		"...you are not alone in your skin...",
-		"...you wake gripping nothing... yet your hands ache...",
-		"...your pillow is damp with tears you didn’t cry...",
-		"...the shadows no longer flee the dawn...",
-		"...you remember less than you did before...",
-		"...someone else's name rests on your lips...",
-		"...the dream fades... but something remains behind..."
+		"... then, silence...",
+		"... you awake with the taste of ash...",
+		"... a bell tolls, but no one hears it...",
+		"... you are not sure if you were watching... or being watched...",
+		"... the feeling lingers, heavy as dusk...",
+		"... your hands won’t stop trembling...",
+		"... you wake with your mouth full of names...",
+		"... the light behind your eyes is gone...",
+		"... you try to remember, but something remembers you instead...",
+		"... you are not alone in your skin...",
+		"... you wake gripping nothing... yet your hands ache...",
+		"... your pillow is damp with tears you didn’t cry...",
+		"... the shadows no longer flee the dawn...",
+		"... you remember less than you did before...",
+		"... someone else's name rests on your lips...",
+		"... the dream fades... but something remains behind..."
 	)
 
 	scene += pick(suffixes)
