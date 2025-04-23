@@ -156,7 +156,11 @@
 
 	var/datum/patron/A = H.patron
 	if(istype(A, /datum/patron/divine/necra))
-		var/list/spelllist = list(/obj/effect/proc_holder/spell/targeted/churn, A.t3)
+		var/list/spelllist = list(
+			/obj/effect/proc_holder/spell/targeted/churn = A.t3,
+			/obj/effect/proc_holder/spell/invoked/lesser_heal = A.t0
+		)
+		//You need abrogation to get lesser_heal
 		for(var/spell_type in spelllist)
 			if(!spell_type || H.mind.has_spell(spell_type))
 				continue
