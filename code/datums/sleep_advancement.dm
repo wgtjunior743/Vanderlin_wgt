@@ -1,3 +1,6 @@
+
+
+
 /datum/sleep_adv
 	var/sleep_adv_cycle = 0
 	var/sleep_adv_points = 0
@@ -8,6 +11,10 @@
 	var/list/sleep_exp = list()
 	var/datum/mind/mind = null
 
+	//dream watcher stuff
+	
+	var/list/available_modes = list("one_truth", "one_lie", "two_truths", "two_lies", "truth_lie")
+	var/list/remaining_modes = list()
 /datum/sleep_adv/New(datum/mind/passed_mind)
 	. = ..()
 	mind = passed_mind
