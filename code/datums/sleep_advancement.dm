@@ -488,7 +488,7 @@
 	var/list/antag_dreams = SSgamemode.antag_dreams
 		
 	if(antag_dreams[antag.type])
-	    return pick(antag_dreams[antag.type])
+		return pick(antag_dreams[antag.type])
 	else
 		return pick(antag_dreams["Unknown"])
 
