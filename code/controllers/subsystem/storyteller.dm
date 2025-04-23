@@ -306,6 +306,86 @@ SUBSYSTEM_DEF(gamemode)
 			"Unknown" = list("You feel a presence watching your sleep... old, vast, and unknowable. You do not yet know their name.")
 		)
 
+		//List of possible dreams for the dream watcher
+		antag_dreams = list(
+			/datum/antagonist/vampire/lord = list(
+					"...a pale figure watches from afar... its gaze weighs heavy on your soul",
+					"...red velvet, torn and trailing... a presence unseen but always near",
+					"...a name you cannot remember sits on your tongue... it tastes of blood and dust"
+				),
+			/datum/antagonist/vampire = list(
+					"...a hand reaches from the dark... obedient, yet trembling",
+					"...you kneel, not knowing why... the voice behind you compels it",
+					"...a collar of roses and rust... worn by the willing"
+				),
+			/datum/antagonist/vampire/lesser = list (
+					"...fangs bloom from cracked lips... hunger shudders through the air",
+					"...you see your reflection... it smiles with borrowed teeth",
+					"...a laugh beneath floorboards... young, broken, blood-wet"
+				),
+			/datum/antagonist/lich = list (
+					"...a cold wind whispers names no longer spoken",
+					"...the tower bleeds light... skeletal hands trace forbidden runes",
+					"...bones rattle in a jar... they whisper of eternity"
+				),
+			/datum/antagonist/werewolf = list(
+					"...fur and fury rise... the moon stains the sky",
+					"...howling splits the silence... your hands ache with claws",
+					"...you wake with dirt under your nails... and a taste of fur"
+				),
+			/datum/antagonist/werewolf/lesser = list(
+					"...bones snap in rhythm... hunger guides their paws",
+					"...they follow the alpha's scent... and dream of killing him",
+					"...a low growl rumbles under moonlight... fur and fury rise"
+				),
+			/datum/antagonist/zizocultist = list(
+					"...a circle chants beneath shifting stars... their eyes are wrong",
+					"...ink flows upward... the words burn in reverse",
+					"...your thoughts are not your own... they hum in unison"
+				),
+			/datum/antagonist/zizocultist/leader = list(
+					"...a silent servant tends to a spiral... it never ends",
+					"...you hand someone a book... you've never seen it before",
+					"...something stands just behind your shoulder... always just behind"
+				),
+			/datum/antagonist/prebel = list(
+					"...muddy boots march across broken fields... fire follows",
+					"...the crowd roars without faces... you hold the torch",
+					"...a scythe buried in stone... your hand fits its grip perfectly"
+				),
+			/datum/antagonist/prebel/head = list(
+					"...a crowned figure of burlap and ash... they speak with your voice",
+					"...a throne made of pitchforks... it wobbles with every heartbeat",
+					"...children chant in the ruins... the rhythm carries a blade"
+				),
+			/datum/antagonist/aspirant = list(
+					"...you climb a tower of mirrors... none reflect the same face",
+					"...a blade sings your name... but you've never heard it before",
+					"...the stars rearrange themselves... spelling failure"
+				),
+			/datum/antagonist/bandit = list(
+					"...coin clinks like bone... your pockets are never full",
+					"...a dagger flickers in the candlelight... too fast to see",
+					"...a mask laughs... the voice behind it is yours"
+				),
+			/datum/antagonist/assassin = list(
+					"...a shadow parts from your own... and doesn't return",
+					"...footsteps on the ceiling... you hold your breath",
+					"...ink-black gloves close around your throat... gently"
+				),
+			/datum/antagonist/maniac = list(
+					"...a door opens inside a room that shouldn't exist... behind it, a thousand mirrors... none show your face",
+					"...you hear the world breathe... a hiss, a code, a loop... someone is watching from behind the glass",
+					"...you see structures made of meat and bone... they form words you can almost understand... then collapse"
+				),
+			"Unknown" = list(
+					"...something lingers in the darkness",
+					"...you feel an unseen presence watching",
+					"...the air grows heavy with forgotten whispers"
+				)
+		)
+
+
 		
 	load_config_vars()
 	load_event_config_vars()
