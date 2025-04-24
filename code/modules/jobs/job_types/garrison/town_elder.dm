@@ -51,6 +51,7 @@ datum/job/town_elder/after_spawn(mob/living/spawned, client/player_client)
 	. = ..()
 	var/mob/living/carbon/human/H = spawned
 	ADD_TRAIT(H, TRAIT_OLDPARTY, TRAIT_GENERIC)
+	H.verbs |= /mob/living/carbon/human/proc/townannouncement
 
 /obj/effect/proc_holder/spell/self/convertrole/town_militia
 	name = "Recruit Militia"
@@ -85,8 +86,6 @@ datum/job/town_elder/after_spawn(mob/living/spawned, client/player_client)
 
 /datum/outfit/job/town_elder/mayor/pre_equip(mob/living/carbon/human/H)
 
-
-	H.verbs |= /mob/living/carbon/human/proc/townannouncement
 	pants = /obj/item/clothing/pants/trou/leather
 	head = /obj/item/clothing/head/tophat
 	armor = /obj/item/clothing/armor/leather/vest/winterjacket
@@ -179,7 +178,6 @@ datum/job/town_elder/after_spawn(mob/living/spawned, client/player_client)
 
 /datum/outfit/job/town_elder/master_of_crafts_and_labor/pre_equip(mob/living/carbon/human/H)
 
-	H.verbs |= /mob/living/carbon/human/proc/townannouncement
 	head = /obj/item/clothing/head/hatblu
 	armor = /obj/item/clothing/armor/leather/vest/random
 	pants = /obj/item/clothing/pants/trou
@@ -226,7 +224,6 @@ datum/job/town_elder/after_spawn(mob/living/spawned, client/player_client)
 		H.change_stat(STATKEY_END, 2)
 		H.change_stat(STATKEY_INT, 2)
 
-
 		if(H.age == AGE_OLD)
 			H.mind?.adjust_skillrank(/datum/skill/labor/mining, pick(0,0,1), TRUE)
 			H.mind?.adjust_skillrank(/datum/skill/labor/lumberjacking,pick(0,0,1), TRUE)
@@ -250,7 +247,6 @@ datum/job/town_elder/after_spawn(mob/living/spawned, client/player_client)
 			H.change_stat(STATKEY_END, 1)
 			H.change_stat(STATKEY_INT, 1)
 
-
 		ADD_TRAIT(H, TRAIT_NOSTINK, TRAIT_GENERIC)
 		ADD_TRAIT(H, TRAIT_SEEDKNOW, TRAIT_GENERIC)
 		ADD_TRAIT(H, TRAIT_MALUMFIRE, TRAIT_GENERIC)
@@ -270,7 +266,7 @@ datum/job/town_elder/after_spawn(mob/living/spawned, client/player_client)
 	allowed_patrons = ALL_TEMPLE_PATRONS
 
 /datum/outfit/job/town_elder/hearth_acolyte/pre_equip(mob/living/carbon/human/H)
-	H.verbs |= /mob/living/carbon/human/proc/townannouncement
+
 	head = /obj/item/clothing/head/roguehood/random
 	armor = /obj/item/clothing/shirt/robe
 	shoes = /obj/item/clothing/shoes/sandals
@@ -279,8 +275,6 @@ datum/job/town_elder/after_spawn(mob/living/spawned, client/player_client)
 	beltl = /obj/item/flashlight/flare/torch/lantern
 	backl = /obj/item/storage/backpack/satchel
 	backpack_contents = list(/obj/item/storage/belt/pouch/coins/mid = 1, /obj/item/needle = 1 )
-
-
 
 	switch(H.patron?.type)
 		if(/datum/patron/divine/astrata)
@@ -358,7 +352,7 @@ datum/job/town_elder/after_spawn(mob/living/spawned, client/player_client)
 	category_tags = list(CTAG_TOWN_ELDER)
 
 /datum/outfit/job/town_elder/lorekeeper/pre_equip(mob/living/carbon/human/H)
-	H.verbs |= /mob/living/carbon/human/proc/townannouncement
+
 	head = /obj/item/clothing/head/bardhat
 	shoes = /obj/item/clothing/shoes/boots
 	pants = /obj/item/clothing/pants/trou/leather
@@ -372,7 +366,6 @@ datum/job/town_elder/after_spawn(mob/living/spawned, client/player_client)
 	beltr = /obj/item/weapon/sword/arming
 	beltl = /obj/item/flashlight/flare/torch/lantern
 	backpack_contents = list(/obj/item/storage/belt/pouch/coins/mid = 1, /obj/item/storage/keyring/elder = 1, /obj/item/paper/scroll = 5, /obj/item/natural/feather = 1)
-	
 	
 	H.mind?.adjust_skillrank(/datum/skill/combat/unarmed, 3, TRUE)
 	H.mind?.adjust_skillrank(/datum/skill/combat/wrestling, 3, TRUE)
@@ -443,7 +436,7 @@ datum/job/town_elder/after_spawn(mob/living/spawned, client/player_client)
 
 
 /datum/outfit/job/town_elder/dreamwatcher/pre_equip(mob/living/carbon/human/H)
-	H.verbs |= /mob/living/carbon/human/proc/townannouncement
+
 	head = /obj/item/clothing/head/softcap
 	armor = /obj/item/clothing/shirt/robe/black
 	shoes = /obj/item/clothing/shoes/sandals
@@ -460,7 +453,7 @@ datum/job/town_elder/after_spawn(mob/living/spawned, client/player_client)
 	
 	H.apply_status_effect(/datum/status_effect/buff/nocblessed)
 	// 3 INT and 2 PER buff, stats will be lowered because of that
-	
+
 	H.mind?.adjust_skillrank(/datum/skill/misc/reading, 3, TRUE)
 	H.mind?.adjust_skillrank(/datum/skill/craft/crafting, 3, TRUE)
 	H.mind?.adjust_skillrank(/datum/skill/craft/cooking, 1, TRUE)
