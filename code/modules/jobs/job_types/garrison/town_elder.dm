@@ -392,8 +392,6 @@ datum/job/town_elder/after_spawn(mob/living/spawned, client/player_client)
 	H.change_stat(STATKEY_SPD, 2)
 	H.change_stat(STATKEY_STR, 1)
 	
-	H.mind?.AddSpell(new /obj/effect/proc_holder/spell/invoked/mockery)
-
 	if(H.age == AGE_OLD)
 		H.mind?.adjust_skillrank(/datum/skill/misc/music, 2, TRUE)
 		H.mind?.adjust_skillrank(/datum/skill/craft/crafting, 1, TRUE)
