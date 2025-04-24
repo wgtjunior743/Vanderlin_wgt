@@ -205,7 +205,8 @@ SUBSYSTEM_DEF(gamemode)
 			qdel(event)
 			continue // event isn't good for this map no point in trying to add it to the list
 		control += event //add it to the list of all events (controls)
-		//List of Possible dreams for the Dreamwatcher
+
+		///List of Possible influence dreams for the Dreamwatcher
 		god_dreams = list(
 		
 			//Divine Pantheon
@@ -306,7 +307,7 @@ SUBSYSTEM_DEF(gamemode)
 			"Unknown" = list("You feel a presence watching your sleep... old, vast, and unknowable. You do not yet know their name.")
 		)
 
-		//List of possible dreams for the dream watcher
+		///List of possible antag dreams for the dream watcher
 		antag_dreams = list(
 			/datum/antagonist/vampire/lord = list(
 					"... a pale figure watches from afar... its gaze weighs heavy on your soul",
@@ -1268,7 +1269,7 @@ SUBSYSTEM_DEF(gamemode)
 
 	set_storyteller(highest.type)
 
-//To get the most influential God
+///To get the most influential God
 /datum/controller/subsystem/gamemode/proc/get_most_influential(roundstart = FALSE)
 	var/list/storytellers_with_influence = list()
 	var/datum/storyteller/highest
