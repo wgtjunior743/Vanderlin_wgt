@@ -391,20 +391,19 @@
 		return FALSE
 	return TRUE
 
-// Dream watcher procs
+/// Dream watcher procs
 
 
-//Pick the possible dreams, a mix of lies and truths
-
+///Pick the possible dreams, a mix of lies and truths
 /datum/sleep_adv/proc/generate_symbolic_dream()
 	var/list/truths = get_current_real_antags()
 	var/list/lies = get_possible_fake_antags_excluding(truths)
 
-	// Reset remaining modes if empty
+	/// Reset remaining modes if empty
 	if(!remaining_modes.len)
 		remaining_modes = available_modes.Copy()
 
-	// Pick a mode and remove it from remaining choices
+	/// Pick a mode and remove it from remaining choices
 	var/mode = pick(remaining_modes)
 	remaining_modes -= mode
 
@@ -435,13 +434,12 @@
 
 	return assemble_symbolic_dream(picked)
 
-//Pick symbols
-
+///Pick symbols
 /datum/sleep_adv/proc/assemble_symbolic_dream(list/antags)
 	var/emotion = pick("dread", "anticipation", "sorrow", "awe", "rage", "longing", "confusion", "ecstasy", "emptiness", "yearning")
 	var/scene = ""
 
-//Random emotion to give more randomness
+///Random emotion to give more randomness
 	switch(emotion)
 		if("dread")           scene += "...the air is thick... shadows coil at the edges of your vision"
 		if("anticipation")    scene += "...footsteps echo ahead... something waits, unseen"
@@ -457,7 +455,7 @@
 	for(var/antag_type in antags)
 		scene += generate_symbol_for_antag(antag_type)
 
-//random suffix
+///random suffix
 	var/list/suffixes = list(
 		"... then, silence...",
 		"... you awake with the taste of ash...",
@@ -481,8 +479,7 @@
 	return scene
 
 
-// Pick the messages for the antags
-
+/// Pick the messages for the antags
 /datum/sleep_adv/proc/generate_symbol_for_antag(datum/antagonist/antag)
 
 	var/list/antag_dreams = SSgamemode.antag_dreams
@@ -492,7 +489,7 @@
 	else
 		return pick(antag_dreams["Unknown"])
 
-//Get antags
+///Get antags
 /datum/sleep_adv/proc/get_current_real_antags()
 	var/list/truths = list()
 	for(var/datum/antagonist/A in GLOB.antagonists)
@@ -500,7 +497,7 @@
 			truths += A
 	return truths
 	
-//All antags for the fake list
+///All antags for the fake list
 /datum/sleep_adv/proc/get_possible_fake_antags_excluding(list/truths)
 	var/list/all_possible = list(
 		/datum/antagonist/vampire/lord,
@@ -519,11 +516,11 @@
 		/datum/antagonist/maniac
 	)
 
-	// Remove the true antag types from the possible lies
+	/// Remove the true antag types from the possible lies
 	for(var/datum/antagonist/T in truths)
 		all_possible -= T.type
 
-	// Instantiate new antag datums for the lies
+	/// Instantiate new antag datums for the lies
 	var/list/lies = list()
 	for(var/antag_type in all_possible)
 		lies += new antag_type()
