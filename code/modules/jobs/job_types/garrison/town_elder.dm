@@ -73,6 +73,31 @@
 	spawn_positions = 0
 	display_order = JDO_CITYWATCHMEN
 
+/datum/outfit/job/town_elder/post_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
+	. = ..()
+	H.advsetup = 1
+	H.invisibility = INVISIBILITY_MAXIMUM
+	H.become_blind("bard_select")
+	var/instruments = list(
+		"Harp" = /obj/item/instrument/harp,
+		"Lute" = /obj/item/instrument/lute,
+		"Accordion" = /obj/item/instrument/accord,
+		"Guitar" = /obj/item/instrument/guitar,
+		"Flute" = /obj/item/instrument/flute,
+		"Drum" = /obj/item/instrument/drum,
+		"Hurdy-Gurdy" = /obj/item/instrument/hurdygurdy,
+		"Viola" = /obj/item/instrument/viola)
+	var/instrument_choice = input(usr, "Choose your instrument.", "XYLIX") as anything in instruments
+	var/spawn_instrument = instruments[instrument_choice]
+	if(!spawn_instrument)
+		spawn_instrument = /obj/item/instrument/lute
+	H.equip_to_slot_or_del(new spawn_instrument(H),SLOT_BACK_R, TRUE)
+	H.advsetup = 0
+	H.invisibility = initial(H.invisibility)
+	H.cure_blind("bard_select")
+	var/atom/movable/screen/advsetup/GET_IT_OUT = locate() in H.hud_used?.static_inventory
+	qdel(GET_IT_OUT)
+
 /datum/advclass/town_elder/mayor
 	name = "Mayor"
 
@@ -136,33 +161,6 @@
 	ADD_TRAIT(H, TRAIT_SEEPRICES, TRAIT_GENERIC)
 	ADD_TRAIT(H, TRAIT_BARDIC_TRAINING, TRAIT_GENERIC)
 
-
-
-
-/datum/outfit/job/town_elder/mayor/post_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
-	. = ..()
-	H.advsetup = 1
-	H.invisibility = INVISIBILITY_MAXIMUM
-	H.become_blind("bard_select")
-	var/instruments = list(
-		"Harp" = /obj/item/instrument/harp,
-		"Lute" = /obj/item/instrument/lute,
-		"Accordion" = /obj/item/instrument/accord,
-		"Guitar" = /obj/item/instrument/guitar,
-		"Flute" = /obj/item/instrument/flute,
-		"Drum" = /obj/item/instrument/drum,
-		"Hurdy-Gurdy" = /obj/item/instrument/hurdygurdy,
-		"Viola" = /obj/item/instrument/viola)
-	var/instrument_choice = input(usr, "Choose your instrument.", "XYLIX") as anything in instruments
-	var/spawn_instrument = instruments[instrument_choice]
-	if(!spawn_instrument)
-		spawn_instrument = /obj/item/instrument/lute
-	H.equip_to_slot_or_del(new spawn_instrument(H),SLOT_BACK_R, TRUE)
-	H.advsetup = 0
-	H.invisibility = initial(H.invisibility)
-	H.cure_blind("bard_select")
-	var/atom/movable/screen/advsetup/GET_IT_OUT = locate() in H.hud_used?.static_inventory
-	qdel(GET_IT_OUT)
 
 
 
@@ -437,32 +435,6 @@
 	ADD_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_GENERIC)
 	ADD_TRAIT(H, TRAIT_BARDIC_TRAINING, TRAIT_GENERIC)
 	H.mind?.AddSpell(new /obj/effect/proc_holder/spell/invoked/mockery)
-
-/datum/outfit/job/town_elder/lorekeeper/post_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
-	. = ..()
-	H.advsetup = 1
-	H.invisibility = INVISIBILITY_MAXIMUM
-	H.become_blind("bard_select")
-	var/instruments = list(
-		"Harp" = /obj/item/instrument/harp,
-		"Lute" = /obj/item/instrument/lute,
-		"Accordion" = /obj/item/instrument/accord,
-		"Guitar" = /obj/item/instrument/guitar,
-		"Flute" = /obj/item/instrument/flute,
-		"Drum" = /obj/item/instrument/drum,
-		"Hurdy-Gurdy" = /obj/item/instrument/hurdygurdy,
-		"Viola" = /obj/item/instrument/viola)
-	var/instrument_choice = input(usr, "Choose your instrument.", "XYLIX") as anything in instruments
-	var/spawn_instrument = instruments[instrument_choice]
-	if(!spawn_instrument)
-		spawn_instrument = /obj/item/instrument/lute
-	H.equip_to_slot_or_del(new spawn_instrument(H),SLOT_BACK_R, TRUE)
-	H.advsetup = 0
-	H.invisibility = initial(H.invisibility)
-	H.cure_blind("bard_select")
-	var/atom/movable/screen/advsetup/GET_IT_OUT = locate() in H.hud_used?.static_inventory
-	qdel(GET_IT_OUT)
-
 
 
 /datum/advclass/town_elder/dreamwatcher
