@@ -138,7 +138,7 @@
 	H.adjust_skillrank(/datum/skill/combat/polearms, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/music, 5, TRUE)
 
-	H.mind?.AddSpell(new /obj/effect/proc_holder/spell/invoked/mockery)
+	H.AddSpell(new /obj/effect/proc_holder/spell/invoked/mockery)
 
 	H.change_stat(STATKEY_STR, -1)
 	H.change_stat(STATKEY_PER, 2)
@@ -326,13 +326,13 @@
 		if(/datum/patron/divine/dendor)
 			neck = /obj/item/clothing/neck/psycross/silver/dendor
 			H.cmode_music = 'sound/music/cmode/garrison/CombatForestGarrison.ogg'
-			H.mind?.adjust_skillrank(/datum/skill/labor/farming, 2, TRUE)
-			H.mind?.adjust_skillrank(/datum/skill/labor/taming, 1, TRUE)
+			H.adjust_skillrank(/datum/skill/labor/farming, 2, TRUE)
+			H.adjust_skillrank(/datum/skill/labor/taming, 1, TRUE)
 			ADD_TRAIT(H, TRAIT_SEEDKNOW, TRAIT_GENERIC)
 		if(/datum/patron/divine/abyssor)
 			neck = /obj/item/clothing/neck/psycross/silver/abyssor
 			H.cmode_music = 'sound/music/cmode/adventurer/CombatMonk.ogg'
-			H.mind?.adjust_skillrank(/datum/skill/labor/fishing, 2, TRUE)
+			H.adjust_skillrank(/datum/skill/labor/fishing, 2, TRUE)
 		if(/datum/patron/divine/ravox)
 			neck = /obj/item/clothing/neck/psycross/silver/ravox
 			H.cmode_music = 'sound/music/cmode/adventurer/CombatOutlander2.ogg'
@@ -345,9 +345,9 @@
 			neck = /obj/item/clothing/neck/psycross/silver/malum
 			H.cmode_music = 'sound/music/cmode/adventurer/CombatMonk.ogg'
 			backpack_contents += /obj/item/weapon/hammer/iron
-			H.mind?.adjust_skillrank(/datum/skill/craft/blacksmithing, 1, TRUE)
-			H.mind?.adjust_skillrank(/datum/skill/craft/armorsmithing, 1, TRUE)
-			H.mind?.adjust_skillrank(/datum/skill/craft/weaponsmithing, 1, TRUE)
+			H.adjust_skillrank(/datum/skill/craft/blacksmithing, 1, TRUE)
+			H.adjust_skillrank(/datum/skill/craft/armorsmithing, 1, TRUE)
+			H.adjust_skillrank(/datum/skill/craft/weaponsmithing, 1, TRUE)
 			ADD_TRAIT(H, TRAIT_MALUMFIRE, TRAIT_GENERIC)
 		else // Failsafe
 			neck = /obj/item/clothing/neck/psycross/silver
@@ -368,7 +368,7 @@
 		H.change_stat(STATKEY_END, 2)
 
 		if(H.age == AGE_OLD)
-			H.mind?.adjust_skillrank(/datum/skill/magic/holy, 2, TRUE)
+			H.adjust_skillrank(/datum/skill/magic/holy, 2, TRUE)
 			H.change_stat(STATKEY_END, 1)
 
 		if(!H.has_language(/datum/language/celestial))
@@ -432,7 +432,7 @@
 
 	ADD_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_GENERIC)
 	ADD_TRAIT(H, TRAIT_BARDIC_TRAINING, TRAIT_GENERIC)
-	H.mind?.AddSpell(new /obj/effect/proc_holder/spell/invoked/mockery)
+	H.AddSpell(new /obj/effect/proc_holder/spell/invoked/mockery)
 
 
 /datum/advclass/town_elder/dreamwatcher
