@@ -52,6 +52,18 @@
 	var/mob/living/carbon/human/H = spawned
 	ADD_TRAIT(H, TRAIT_OLDPARTY, TRAIT_GENERIC)
 	H.verbs |= /mob/living/carbon/human/proc/townannouncement
+	spawned.select_equippable(player_client,
+		list("Harp" = /obj/item/instrument/harp,
+		"Lute" = /obj/item/instrument/lute,
+		"Accordion" = /obj/item/instrument/accord,
+		"Guitar" = /obj/item/instrument/guitar,
+		"Flute" = /obj/item/instrument/flute,
+		"Drum" = /obj/item/instrument/drum,
+		"Hurdy-Gurdy" = /obj/item/instrument/hurdygurdy,
+		"Viola" = /obj/item/instrument/viola),
+		message = "Choose your instrument.",
+		title = "XYLIX"
+		)
 
 
 /obj/effect/proc_holder/spell/self/convertrole/town_militia
@@ -73,20 +85,6 @@
 	spawn_positions = 0
 	display_order = JDO_CITYWATCHMEN
 
-/datum/outfit/job/town_elder/post_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
-	. = ..()
-	spawned.select_equippable(player_client,
-		list("Harp" = /obj/item/instrument/harp,
-		"Lute" = /obj/item/instrument/lute,
-		"Accordion" = /obj/item/instrument/accord,
-		"Guitar" = /obj/item/instrument/guitar,
-		"Flute" = /obj/item/instrument/flute,
-		"Drum" = /obj/item/instrument/drum,
-		"Hurdy-Gurdy" = /obj/item/instrument/hurdygurdy,
-		"Viola" = /obj/item/instrument/viola),
-		message = "Choose your instrument.",
-		title = "XYLIX"
-		)
 
 /datum/advclass/town_elder/mayor
 	name = "Mayor"
