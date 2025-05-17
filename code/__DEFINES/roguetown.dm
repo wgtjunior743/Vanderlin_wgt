@@ -28,9 +28,9 @@
 
 //Race Sizes for some armors
 
-#define RACES_AVERAGE_HEIGHT				list("Humen", "Hollow-Kin", "Half-Elf", "Half-Drow", "Dark Elf", "Elf", "Tiefling", "Half-Orc", "Aasimar")
+#define RACES_AVERAGE_HEIGHT			list("Humen", "Hollow-Kin", "Half-Elf", "Half-Drow", "Dark Elf", "Elf", "Tiefling", "Half-Orc", "Aasimar")
 #define RACES_SMALL_HEIGHT				list("Kobold", "Dwarf")
-#define RACES_STRANGE				list("Harpy", "Rakshari")
+#define RACES_STRANGE					list("Harpy", "Rakshari")
 
 
 
