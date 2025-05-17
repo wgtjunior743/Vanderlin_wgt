@@ -26,6 +26,13 @@
 /// Guard Races - No Orcs
 #define RACES_PLAYER_GUARD				list("Humen", "Rakshari", "Half-Elf", "Half-Drow", "Elf", "Dwarf", "Tiefling", "Aasimar", "Harpy")
 
+//Race Sizes for some armors
+
+#define RACES_AVERAGE_HEIGHT	list("Humen", "Hollow-Kin", "Half-Elf", "Half-Drow", "Dark Elf", "Elf", "Tiefling", "Half-Orc", "Aasimar")
+#define RACES_SMALL_HEIGHT list("Kobold", "Dwarf")
+#define RACES_STRANGE	list("Harpy", "Rakshari")
+
+
 
 #define ALL_TEMPLE_PATRONS 		list(/datum/patron/divine/astrata, /datum/patron/divine/noc, /datum/patron/divine/dendor, /datum/patron/divine/abyssor, /datum/patron/divine/necra, /datum/patron/divine/ravox, /datum/patron/divine/xylix, /datum/patron/divine/pestra, /datum/patron/divine/malum, /datum/patron/divine/eora)
 #define ALL_CLERIC_PATRONS 		list(/datum/patron/divine/astrata, /datum/patron/divine/noc, /datum/patron/divine/dendor, /datum/patron/divine/abyssor, /datum/patron/divine/necra, /datum/patron/divine/ravox, /datum/patron/divine/xylix, /datum/patron/divine/pestra, /datum/patron/divine/malum, /datum/patron/divine/eora)
