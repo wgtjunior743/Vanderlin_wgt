@@ -3,8 +3,7 @@
 	tutorial = "Your vigil over the elven cities has long since ended. Though dutiful, the inevitable happened and now you hope these lands have use for your talents."
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = list(
-		"Elf",
-		"Dark Elf"
+		"Elf"
 	)
 	maximum_possible_slots = 1
 	pickprob = 15
@@ -33,28 +32,15 @@
 		H.underwear = "Femleotard"
 		H.underwear_color = CLOTHING_SOOT_BLACK
 		H.update_body()
-	if(H.dna.species.name == "Dark Elf")
-		pants = /obj/item/clothing/pants/tights/black
-		backr = /obj/item/weapon/sword/long/greatsword/elfgsword
-		beltl = /obj/item/storage/belt/pouch/coins/mid
-		shoes = /obj/item/clothing/shoes/boots/rare/elfplate
-		gloves = /obj/item/clothing/gloves/rare/elfplate
-		belt = /obj/item/storage/belt/leather
-		shirt = /obj/item/clothing/shirt/undershirt/black
-		armor = /obj/item/clothing/armor/rare/elfplate
-		backl = /obj/item/storage/backpack/satchel
-		head = /obj/item/clothing/head/rare/elfplate
-		neck = /obj/item/clothing/neck/chaincoif
-	if(H.dna.species.name == "Elf")
-		pants = /obj/item/clothing/pants/tights/black
-		backr = /obj/item/weapon/sword/long/greatsword/elfgsword
-		beltl = /obj/item/storage/belt/pouch/coins/mid
-		shoes = /obj/item/clothing/shoes/boots/rare/elfplate/welfplate
-		gloves = /obj/item/clothing/gloves/rare/elfplate/welfplate
-		belt = /obj/item/storage/belt/leather
-		shirt = /obj/item/clothing/shirt/undershirt/black
-		armor = /obj/item/clothing/armor/rare/elfplate/welfplate
-		backl = /obj/item/storage/backpack/satchel
-		head = /obj/item/clothing/head/rare/elfplate/welfplate
-		neck = /obj/item/clothing/neck/chaincoif
+	pants = /obj/item/clothing/pants/tights/black
+	backr = /obj/item/weapon/sword/long/greatsword/elfgsword
+	beltl = /obj/item/storage/belt/pouch/coins/mid
+	shoes = /obj/item/clothing/shoes/boots/rare/elfplate/welfplate
+	gloves = /obj/item/clothing/gloves/rare/elfplate/welfplate
+	belt = /obj/item/storage/belt/leather
+	shirt = /obj/item/clothing/shirt/undershirt/black
+	armor = /obj/item/clothing/armor/rare/elfplate/welfplate
+	backl = /obj/item/storage/backpack/satchel
+	head = /obj/item/clothing/head/rare/elfplate/welfplate
+	neck = /obj/item/clothing/neck/chaincoif
 	ADD_TRAIT(H, TRAIT_HEAVYARMOR, TRAIT_GENERIC)
