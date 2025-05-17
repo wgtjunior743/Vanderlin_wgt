@@ -12,7 +12,7 @@
 
 	var/datum/antagonist/vampire/vamp_datum = target.mind.has_antag_datum(/datum/antagonist/vampire)
 	var/datum/antagonist/werewolf/wolf_datum = target.mind.has_antag_datum(/datum/antagonist/werewolf)
-	if(!vamp_datum || !wolf_datum)
+	if(!vamp_datum && !wolf_datum)
 		return UNAFFECTED
 
 	if(istype(vamp_datum, /datum/antagonist/vampire/lord))
