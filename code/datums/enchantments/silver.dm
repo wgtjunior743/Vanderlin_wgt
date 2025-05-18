@@ -32,6 +32,7 @@
 
 	var/affected = affected_by_bane(target)
 	var/datum/antagonist/vampire/vamp_datum = target.mind?.has_antag_datum(/datum/antagonist/vampire)
+	var/datum/antagonist/werewolf/wolf_datum = target.mind?.has_antag_datum(/datum/antagonist/werewolf)
 	if(affected)
 		to_chat(target, span_userdanger("I am struck by my BANE!"))
 		target.Stun(20)
@@ -39,6 +40,8 @@
 		target.Paralyze(10)
 		target.adjustFireLoss(25)
 		target.fire_act(1,10)
+		if(wolf_datum)
+			target.apply_status_effect(/datum/status_effect/debuff/silver_curse)
 		if(vamp_datum && affected != AFFECTED_VLORD)
 			target.apply_status_effect(/datum/status_effect/debuff/silver_curse)
 			if(vamp_datum.disguised)
