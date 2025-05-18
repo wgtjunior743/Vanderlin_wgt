@@ -134,6 +134,9 @@
 	//need a mind
 	if(!recruit.mind)
 		return FALSE
+	//already recruited
+	if(HAS_TRAIT(recruit, TRAIT_RECRUITED))
+		return FALSE
 	//only migrants and peasants
 	if(!(recruit.job in GLOB.peasant_positions) && \
 		!(recruit.job in GLOB.allmig_positions))
