@@ -181,11 +181,10 @@
 	shirt = /obj/item/clothing/shirt/undershirt/random
 	shoes = /obj/item/clothing/shoes/boots/leather
 	belt = /obj/item/storage/belt/leather
-	beltr = /obj/item/weapon/hammer/steel
+	beltr = /obj/item/weapon/pick/paxe
 	beltl = /obj/item/flashlight/flare/torch/lantern
-	backr = /obj/item/weapon/pick/paxe
 	backl = /obj/item/storage/backpack/backpack
-	backpack_contents = list(/obj/item/storage/belt/pouch/coins/mid = 1, /obj/item/weapon/knife/hunting = 1, /obj/item/storage/keyring/master_of_crafts_and_labor = 1)
+	backpack_contents = list(/obj/item/storage/belt/pouch/coins/mid = 1, /obj/item/weapon/knife/hunting = 1, /obj/item/storage/keyring/master_of_crafts_and_labor = 1, /obj/item/weapon/hammer/steel = 1)
 
 	if(H.mind)
 
