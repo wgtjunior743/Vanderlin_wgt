@@ -156,6 +156,7 @@
 		return FALSE
 	if(accept_message)
 		recruit.say(accept_message, forced = "[name]")
+		ADD_TRAIT(recruit, TRAIT_RECRUITED, TRAIT_GENERIC)
 	if(new_role)
 		recruit.job = new_role
 		recruit.advjob = new_role
