@@ -113,6 +113,8 @@
 					sleep(5 SECONDS)
 					if(!QDELETED(L))
 						L.Sleeping(1 MINUTES)
+			continue
+		///Reward the user with the caster if they managed to roll higher than the blood magic
 		else
 			if(found_psycross == TRUE)
 				to_chat(L, "<font color='white'>The silver psycross shines and protect me from unholy magic, i sense the caster was [user]!</font>")
