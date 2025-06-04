@@ -41,6 +41,7 @@ GLOBAL_LIST_EMPTY(vampire_objects)
 
 	var/vitae = 1000
 	var/vmax = 3000
+	var/list/ability_cooldowns = list()
 
 	COOLDOWN_DECLARE(last_transform)
 	var/disguised = FALSE //! spawn
