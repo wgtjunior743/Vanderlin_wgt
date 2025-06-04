@@ -776,6 +776,10 @@
  */
 /mob/living/carbon/human/wash(clean_types)
 	. = ..()
+	
+	log_admin("WASH CARBON HUMAN WASH PROC CALLED")
+	message_admins("WASH CARBON HUMAN WASH PROC CALLED")
+
 
 	// Wash equipped stuff that cannot be covered
 	if(wear_armor?.wash(clean_types))
@@ -787,17 +791,20 @@
 		. = TRUE
 
 	// Check and wash stuff that can be covered
-	var/obscured = check_obscured_slots()
+	var/list/obscured = check_obscured_slots()
 
 	if(!is_mouth_covered())
 		. = TRUE
 
-	if(!(obscured & ITEM_SLOT_ICLOTHING) && wear_shirt?.wash(clean_types))
+	if(!(SLOT_SHIRT in obscured) && wear_shirt?.wash(clean_types))
 		update_inv_shirt()
 		. = TRUE
 
+
 	// Wash hands if exposed
-	if(!gloves && (clean_types & CLEAN_TYPE_BLOOD) && bloody_hands > 0 && !(obscured & ITEM_SLOT_GLOVES))
+	if(!gloves && (clean_types & CLEAN_TYPE_BLOOD) && bloody_hands > 0 && !(SLOT_GLOVES in obscured))
+		log_admin("WASH HANDS CALLED")
+		message_admins("WASH HANDS CALLED")
 		bloody_hands = 0
 		update_inv_gloves()
 		. = TRUE
