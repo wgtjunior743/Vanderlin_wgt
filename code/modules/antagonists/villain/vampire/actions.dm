@@ -49,14 +49,6 @@
 	/// Faces of will die
 	var/will_dice = 6
 	
-///proc used for non spells vampire action
-/proc/check_vampire_cooldown(datum/antagonist/vampire/VD, ability_name, cooldown_time)
-	if(VD.ability_cooldowns[ability_name] > world.time)
-		var/time_left = VD.ability_cooldowns[ability_name] - world.time
-		to_chat(VD.owner.current, "<span class='warning'>[capitalize(ability_name)] is on cooldown! Wait [DisplayTimeText(time_left)].</span>")
-		return FALSE
-	VD.ability_cooldowns[ability_name] = world.time + cooldown_time
-	return TRUE
 
 /obj/effect/proc_holder/spell/targeted/transfix/cast(list/targets, mob/user = usr)
 	var/msg = input("Soothe them. Dominate them. Speak and they will succumb.", "Transfix") as text|null
@@ -212,7 +204,7 @@
 	if(has_status_effect(/datum/status_effect/buff/bloodstrength))
 		to_chat(src, span_warning("Already active."))
 		return
-	if(!check_vampire_cooldown(VD, ability_name, cooldown_time))
+	if(!VD.check_vampire_cooldown(src, ability_name, cooldown_time))
 		return
 	if(VD.disguised)
 		to_chat(src, span_warning("My curse is hidden."))
@@ -257,7 +249,7 @@
 	if(has_status_effect(/datum/status_effect/buff/celerity))
 		to_chat(src, "<span class='warning'>Already active.</span>")
 		return
-	if(!check_vampire_cooldown(VD, ability_name, cooldown_time))
+	if(!VD.check_vampire_cooldown(src, ability_name, cooldown_time))
 		return
 	if(VD.disguised)
 		to_chat(src, "<span class='warning'>My curse is hidden.</span>")
@@ -304,7 +296,7 @@
 	if(has_status_effect(/datum/status_effect/buff/fortitude))
 		to_chat(src, "<span class='warning'>Already active.</span>")
 		return
-	if(!check_vampire_cooldown(VD, ability_name, cooldown_time))
+	if(!VD.check_vampire_cooldown(src, ability_name, cooldown_time))
 		return
 	if(VD.disguised)
 		to_chat(src, "<span class='warning'>My curse is hidden.</span>")
@@ -380,7 +372,7 @@
 	var/datum/antagonist/vampire/VD = mind.has_antag_datum(/datum/antagonist/vampire)
 	if(!VD)
 		return
-	if(!check_vampire_cooldown(VD, ability_name, cooldown_time))
+	if(!VD.check_vampire_cooldown(src, ability_name, cooldown_time))
 		return
 	if(VD.disguised)
 		to_chat(src, "<span class='warning'>My curse is hidden.</span>")
