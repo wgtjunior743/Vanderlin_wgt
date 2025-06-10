@@ -164,7 +164,7 @@
 		if(mind && mind.special_role)
 			if(mind && mind.special_role == "Bandit" && HAS_TRAIT(user, TRAIT_KNOWBANDITS))
 				. += span_userdanger("BANDIT!")
-			if(mind && mind.special_role == "Vampire Lord")
+			if(mind && mind.special_role == "<span class='redtext'>Vampire Lord</span>")
 				. += span_userdanger("A MONSTER!")
 
 		var/list/known_frumentarii = user.mind?.cached_frumentarii
