@@ -26,12 +26,12 @@ export function changelogToJson(changelog, login) {
 		"author" : `author: "${safeYml(author)}"`,
 		"delete-after" : true,
 		"changes" : []
-	}
+	};
 
 	for (const change of changelog.changes) {
 		const change_json = {
 			[`${change.type.changelogKey}`] : `${safeYml(change.description)}`
-		}
+		};
 		changelog_json.changes.push(change_json);
 	}
 
@@ -45,7 +45,7 @@ export async function processAutoChangelog({ github, context }) {
 		return;
 	}
 
-	const json = changelog_json(
+	const json = changelogToJson(
 		changelog,
 		context.payload.pull_request.user.login
 	);
