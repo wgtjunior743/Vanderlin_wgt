@@ -31,7 +31,7 @@ jobs:
 
       - name: "Compile"
         run: |
-          python tools/ss13_genchangelog.py html/changelogs
+          python tools/ss13_genchangelog.py ../html/changelogs
 
       - name: Commit
         run: |
