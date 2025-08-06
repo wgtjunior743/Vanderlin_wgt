@@ -15,10 +15,10 @@
 
 	click_to_activate = FALSE
 	charge_required = FALSE
-	cooldown_time = 35 SECONDS
-	spell_cost = 60
+	cooldown_time = 60 SECONDS
+	spell_cost = 100
 
-	aoe_radius = 4
+	aoe_radius = 6
 
 /datum/action/cooldown/spell/aoe/churn_undead/is_valid_target(atom/cast_on)
 	return isliving(cast_on)
@@ -36,10 +36,18 @@
 			owner.throw_at(get_ranged_target_turf(owner, get_dir(owner, victim), 7), 7, 1, victim, spin = FALSE)
 			return
 	if((victim.mob_biotypes & MOB_UNDEAD))
-		var/prob2explode = 10 * owner.get_skill_level(associated_skill)
+		var/prob2explode = 20 * owner.get_skill_level(associated_skill)
 		if(prob(prob2explode))
 			victim.visible_message(span_warning("[victim] HAS BEEN CHURNED BY NECRA'S GRIP!"), span_userdanger("I'VE BEEN CHURNED BY NECRA'S GRIP!"))
 			explosion(get_turf(victim), light_impact_range = 1, flash_range = 1, smoke = FALSE)
-			victim.Stun(50)
+			victim.throw_at(get_ranged_target_turf(victim, get_dir(owner, victim), 4), 4, 1, victim, spin = FALSE)
+			//Same as a lesser miracle direct
+			victim.adjustFireLoss(30)
+			victim.adjust_divine_fire_stacks(1)
+			victim.IgniteMob()
+			victim.Stun(100)
+			victim.Paralyze(10)
+		if(istype(victim, /mob/living/simple_animal/hostile/retaliate/poltergeist))
+			victim.gib()
 		else
 			victim.visible_message(span_warning("[victim] resists being churned!"), span_greentext("I resist being churned!"))
