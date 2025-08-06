@@ -45,7 +45,7 @@
 			victim.adjustFireLoss(30)
 			victim.adjust_divine_fire_stacks(1)
 			victim.IgniteMob()
-			victim.Stun(100)
+			victim.Stun(50)
 			victim.Paralyze(10)
 		if(istype(victim, /mob/living/simple_animal/hostile/retaliate/poltergeist))
 			victim.gib()
