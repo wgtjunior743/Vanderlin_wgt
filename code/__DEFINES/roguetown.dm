@@ -1,37 +1,5 @@
-//used in various places
-#define ALL_RACES_LIST					list("human", "demihuman", "harpy","rakshari", "dwarf", "elf", "tiefling", "aasimar", "halforc", "orc", "zizombie", "kobold")
-
-/// All playable races from character selection menu.
-#define RACES_PLAYER_ALL				list("Humen", "Hollow-Kin", "Harpy", "Rakshari", "Half-Elf", "Half-Drow", "Dark Elf", "Elf", "Dwarf", "Tiefling", "Half-Orc", "Aasimar", "Kobold")
-
-/// Races not considered discriminated against in Vanderlin. Used for nobility, etc.
-#define RACES_PLAYER_NONDISCRIMINATED	list("Humen", "Half-Elf", "Elf", "Dwarf", "Aasimar")
-/// Races who are nonheretical to the church. Excluded races typically have an inhumen god associated, like Zizo. Used for church/faith roles.
-#define RACES_PLAYER_NONHERETICAL		list("Humen", "Half-Elf", "Elf", "Dwarf", "Aasimar", "Harpy")
-/// Races who are non-exotic to Vanderlin. These are races from foreign lands with no local pull or uncommon races. Used in miscellaneous cases, when they would not be that role.
-#define RACES_PLAYER_NONEXOTIC			list("Humen", "Hollow-Kin", "Harpy", "Half-Elf", "Half-Drow", "Dark Elf", "Elf", "Dwarf", "Tiefling", "Half-Orc", "Aasimar")
-///Races that lack lux
-#define RACES_PLAYER_LUXLESS			list("Kobold", "Hollow-Kin", "Rakshari")
-
-/// Races who are affiliated with Grenzelhoft or Psydon specifically.
-#define RACES_PLAYER_GRENZ				list("Humen", "Dwarf", "Aasimar")
-/// Elves and Half-Elves
-#define RACES_PLAYER_ELF				list("Half-Elf", "Elf")
-/// Elves, Half-Elves, Half-Drow, Dark Elves
-#define RACES_PLAYER_ELF_D				list("Half-Drow", "Half-Elf", "Dark Elf", "Elf")
-
-/// Patreon only races.
-#define RACES_PLAYER_PATREON			list("Kobold", "Hollow-Kin")
-
-/// Guard Races - No Orcs and Dark Elf
-#define RACES_PLAYER_GUARD				list("Humen", "Rakshari", "Half-Elf", "Half-Drow", "Elf", "Dwarf", "Tiefling", "Aasimar", "Harpy")
-
-/// Foreigner Nobility Races - No Tiefling(you know why) and hollow-kin
-
-#define RACES_PLAYER_FOREIGNNOBLE		list("Humen", "Harpy", "Rakshari", "Half-Elf", "Half-Drow", "Dark Elf", "Elf", "Dwarf", "Half-Orc", "Aasimar", "Kobold")
-
 #define ALL_TEMPLE_PATRONS 		list(/datum/patron/divine/astrata, /datum/patron/divine/noc, /datum/patron/divine/dendor, /datum/patron/divine/abyssor, /datum/patron/divine/necra, /datum/patron/divine/ravox, /datum/patron/divine/xylix, /datum/patron/divine/pestra, /datum/patron/divine/malum, /datum/patron/divine/eora)
-#define ALL_CLERIC_PATRONS 		list(/datum/patron/divine/astrata, /datum/patron/divine/noc, /datum/patron/divine/dendor, /datum/patron/divine/abyssor, /datum/patron/divine/necra, /datum/patron/divine/ravox, /datum/patron/divine/xylix, /datum/patron/divine/pestra, /datum/patron/divine/malum, /datum/patron/divine/eora)
+#define ALL_CLERIC_PATRONS 		list(/datum/patron/divine/astrata, /datum/patron/divine/noc, /datum/patron/divine/dendor, /datum/patron/divine/abyssor, /datum/patron/divine/necra, /datum/patron/divine/ravox, /datum/patron/divine/xylix, /datum/patron/divine/pestra, /datum/patron/divine/malum, /datum/patron/divine/eora, /datum/patron/inhumen/graggar, /datum/patron/inhumen/zizo, /datum/patron/inhumen/matthios, /datum/patron/inhumen/baotha)
 #define ALL_TEMPLAR_PATRONS 	list(/datum/patron/divine/astrata, /datum/patron/divine/noc, /datum/patron/divine/eora, /datum/patron/divine/necra, /datum/patron/divine/ravox, /datum/patron/divine/pestra, /datum/patron/divine/dendor, /datum/patron/divine/abyssor, /datum/patron/divine/malum, /datum/patron/divine/xylix)
 
 GLOBAL_LIST_INIT(curse_names, list())
@@ -172,6 +140,7 @@ GLOBAL_LIST_EMPTY(job_respawn_delays)
 #define CTAG_FORGARRISON	"CAT_FORGARRISON"
 #define CTAG_ADEPT			"CAT_ADEPT" // Used for Adept class selection
 #define CTAG_SQUIRE 		"CAT_SQUIRE" // Squire Love, Classes, as above.
+#define CTAG_MAGIE			"CAT_MAGIE" //for Mage Associate
 #define CTAG_HEIR			"CAT_HEIR"
 #define CTAG_HAND			"CAT_HAND"			// Hand class - Handles Hand class selector
 #define CTAG_CONSORT 		"CAT_CONSORT" 		// Consort classes
@@ -270,6 +239,7 @@ GLOBAL_LIST_EMPTY(job_respawn_delays)
 #define VALUE_IRON_ARMOR_UNUSUAL	VALUE_IRON_ITEM+BONUS_VALUE_TINY
 #define VALUE_STEEL_ARMOR			VALUE_STEEL_ITEM
 #define VALUE_STEEL_ARMOR_FINE		VALUE_STEEL_ITEM+BONUS_VALUE_TINY
+#define VALUE_SILVER_ARMOR			VALUE_SILVER_ITEM
 #define VALUE_BRIGANDINE			VALUE_STEEL_ITEM*2+M_CLOTH+BONUS_VALUE_TINY
 #define VALUE_FULL_PLATE			VALUE_STEEL_ITEM*3
 #define VALUE_SNOWFLAKE_STEEL		VALUE_STEEL_ARMOR+BONUS_VALUE_MODEST
@@ -358,6 +328,7 @@ Thing can move up or down an armor class by significant changes to coverage & cr
 // Heavy AC
 #define ARMOR_PLATE_BAD		list("blunt" = 75, "slash" = 75, "stab" = 75, "piercing" = 55, "fire" = 0, "acid" = 0)
 #define ARMOR_PLATE			list("blunt" = 85, "slash" = 85, "stab" = 85, "piercing" = 70, "fire" = 0, "acid" = 0)
+#define ARMOR_PLATE_SILVER	list("blunt" = 85, "slash" = 85, "stab" = 85, "piercing" = 80, "fire" = 0, "acid" = 0)
 #define ARMOR_PLATE_GOOD	list("blunt" = 90, "slash" = 90, "stab" = 90, "piercing" = 85, "fire" = 0, "acid" = 0)
 
 

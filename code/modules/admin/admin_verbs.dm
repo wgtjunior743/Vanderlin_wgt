@@ -9,6 +9,8 @@ GLOBAL_PROTECT(admin_verbs_default)
 	/client/proc/spawn_pollution,
 	/client/proc/adjust_personal_see_leylines,
 	/client/proc/spawn_liquid,
+	/client/proc/spawn_faction_trader,
+	/client/proc/crop_nutrient_debug,
 	/client/proc/remove_liquid,
 	/client/proc/adjust_pq,
 	/client/proc/stop_restart,
@@ -68,6 +70,7 @@ GLOBAL_PROTECT(admin_verbs_admin)
 	/datum/admins/proc/togglelooc,
 	/datum/admins/proc/fix_death_area,
 	/datum/admins/proc/toggle_debug_pathfinding,
+	/datum/admins/proc/give_all_triumphs,
 	/datum/admins/proc/toggleenter,		/*toggles whether people can join the current game*/
 	/datum/admins/proc/toggleguests,	/*toggles whether guests can join the current game*/
 	/datum/admins/proc/announce,		/*priority announce something to all clients.*/
@@ -180,6 +183,10 @@ GLOBAL_PROTECT(admin_verbs_debug)
 	/client/proc/test_movable_UI,
 	/client/proc/test_snap_UI,
 	/client/proc/check_bomb_impacts,
+	/client/proc/recipe_tree_debug_menu,
+	/client/proc/family_tree_debug_menu,
+	/client/proc/debug_loot_tables,
+	/client/proc/debug_influences,
 	/client/proc/get_dynex_power,		//*debug verbs for dynex explosions.
 	/client/proc/get_dynex_range,		//*debug verbs for dynex explosions.
 	/client/proc/set_dynex_scale,
@@ -199,8 +206,12 @@ GLOBAL_PROTECT(admin_verbs_debug)
 	/client/proc/returntolobby,
 	/client/proc/tracy_next_round,
 	/client/proc/start_tracy,
-	/client/proc/set_tod_override
-	)
+	/client/proc/set_tod_override,
+	/client/proc/check_timer_sources,
+	/client/proc/debug_spell_requirements,
+	/client/proc/cmd_regenerate_asset_cache,
+	/client/proc/cmd_clear_smart_asset_cache,
+)
 GLOBAL_LIST_INIT(admin_verbs_possess, list(/proc/possess, GLOBAL_PROC_REF(release)))
 GLOBAL_PROTECT(admin_verbs_possess)
 GLOBAL_LIST_INIT(admin_verbs_permissions, list(/client/proc/edit_admin_permissions))
@@ -551,7 +562,7 @@ GLOBAL_PROTECT(admin_verbs_hideable)
 	SSblackbox.record_feedback("tally", "admin_verb", 1, "Stealth Mode") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
 
 /client/proc/drop_bomb()
-	set category = "Special Verbs"
+	set category = "Special"
 	set name = "Drop Bomb"
 	set desc = ""
 
@@ -593,7 +604,7 @@ GLOBAL_PROTECT(admin_verbs_hideable)
 	SSblackbox.record_feedback("tally", "admin_verb", 1, "Drop Bomb") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
 
 /client/proc/drop_dynex_bomb()
-	set category = "Special Verbs"
+	set category = "Special"
 	set name = "Drop DynEx Bomb"
 	set desc = ""
 
@@ -639,45 +650,74 @@ GLOBAL_PROTECT(admin_verbs_hideable)
 	log_admin("[key_name(usr)] has modified Dynamic Explosion Scale: [ex_scale]")
 	message_admins("[key_name_admin(usr)] has  modified Dynamic Explosion Scale: [ex_scale]")
 
-/client/proc/give_spell(mob/T in GLOB.mob_list)
-	set category = "Fun"
+/client/proc/give_spell(mob/spell_recipient in GLOB.mob_list)
+	set category = "Admin.Fun"
 	set name = "Give Spell"
-	set desc = ""
+	set desc = "Gives a spell to a mob."
+
+	var/which = browser_alert(usr, "Chose by name or by type path?", "Chose option", list("Name", "Typepath"))
+	if(!which)
+		return
+	if(QDELETED(spell_recipient))
+		to_chat(usr, span_warning("The intended spell recipient no longer exists."))
+		return
 
 	var/list/spell_list = list()
-	var/type_length = length("/obj/effect/proc_holder/spell") + 2
-	for(var/A in GLOB.spells)
-		spell_list[copytext("[A]", type_length)] = A
-	var/obj/effect/proc_holder/spell/S = input("Choose the spell to give to that guy", "ABRAKADABRA") as null|anything in sortList(spell_list)
-	if(!S)
+	for(var/datum/action/cooldown/spell/to_add as anything in subtypesof(/datum/action/cooldown/spell))
+		var/spell_name = initial(to_add.name)
+		if(spell_name == "Spell") // abstract or un-named spells should be skipped.
+			continue
+
+		if(which == "Name")
+			spell_list[spell_name] = to_add
+		else
+			spell_list += to_add
+
+	var/chosen_spell = browser_input_list(usr, "Choose the spell to give to [spell_recipient]", "ABRAKADABRA", sortList(spell_list))
+	if(isnull(chosen_spell))
+		return
+	var/datum/action/cooldown/spell/spell_path = which == "Typepath" ? chosen_spell : spell_list[chosen_spell]
+	if(!ispath(spell_path))
 		return
 
 	SSblackbox.record_feedback("tally", "admin_verb", 1, "Give Spell") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
-	log_admin("[key_name(usr)] gave [key_name(T)] the spell [S].")
-	message_admins("<span class='adminnotice'>[key_name_admin(usr)] gave [key_name_admin(T)] the spell [S].</span>")
+	log_admin("[key_name(usr)] gave [key_name(spell_recipient)] the spell [chosen_spell].")
+	message_admins("[key_name_admin(usr)] gave [key_name_admin(spell_recipient)] the spell [chosen_spell].")
 
-	S = spell_list[S]
-	if(T.mind)
-		T.mind.AddSpell(new S)
-	else
-		T.AddSpell(new S)
-		message_admins("<span class='danger'>Spells given to mindless mobs will not be transferred in mindswap or cloning!</span>")
+	var/datum/action/cooldown/spell/new_spell = new spell_path(spell_recipient.mind || spell_recipient)
 
-/client/proc/remove_spell(mob/T in GLOB.mob_list)
-	set category = "Fun"
+	new_spell.Grant(spell_recipient)
+
+	if(!spell_recipient.mind)
+		to_chat(usr, span_userdanger("Spells given to mindless mobs will belong to the mob and not their mind, \
+			and as such will not be transferred if their mind changes body (Such as from Mindswap)."))
+
+/client/proc/remove_spell(mob/removal_target in GLOB.mob_list)
+	set category = "Admin.Fun"
 	set name = "Remove Spell"
-	set desc = ""
+	set desc = "Remove a spell from the selected mob."
 
-	if(T && T.mind)
-		var/obj/effect/proc_holder/spell/S = input("Choose the spell to remove", "NO ABRAKADABRA") as null|anything in sortList(T.mind.spell_list)
-		if(S)
-			T.mind.RemoveSpell(S)
-			log_admin("[key_name(usr)] removed the spell [S] from [key_name(T)].")
-			message_admins("<span class='adminnotice'>[key_name_admin(usr)] removed the spell [S] from [key_name_admin(T)].</span>")
-			SSblackbox.record_feedback("tally", "admin_verb", 1, "Remove Spell") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
+	var/list/target_spell_list = list()
+	for(var/datum/action/cooldown/spell/spell in removal_target.actions)
+		target_spell_list[spell.name] = spell
+
+	if(!length(target_spell_list))
+		return
+
+	var/chosen_spell = browser_input_list(usr, "Choose the spell to remove from [removal_target]", "ABRAKADABRA", sortList(target_spell_list))
+	if(isnull(chosen_spell))
+		return
+	var/datum/action/cooldown/spell/to_remove = target_spell_list[chosen_spell]
+	if(!istype(to_remove))
+		return
+
+	qdel(to_remove)
+	log_admin("[key_name(usr)] removed the spell [chosen_spell] from [key_name(removal_target)].")
+	message_admins("[key_name_admin(usr)] removed the spell [chosen_spell] from [key_name_admin(removal_target)].")
+	SSblackbox.record_feedback("tally", "admin_verb", 1, "Remove Spell") //If you are copy-pasting this, ensure the 2nd parameter is unique
 
 /client/proc/object_say(obj/O in world)
-	set category = "Special Verbs"
+	set category = "Special"
 	set name = "OSay"
 	set desc = ""
 	var/message = input(usr, "What do you want the message to be?", "Make Sound") as text | null
@@ -689,7 +729,7 @@ GLOBAL_PROTECT(admin_verbs_hideable)
 	SSblackbox.record_feedback("tally", "admin_verb", 1, "Object Say") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
 /client/proc/togglebuildmodeself()
 	set name = "Toggle Build Mode Self"
-	set category = "Special Verbs"
+	set category = "Special"
 	if (!(holder.rank.rights & R_BUILD))
 		return
 	if(src.mob)
@@ -720,10 +760,10 @@ GLOBAL_PROTECT(admin_verbs_hideable)
 		prefs.chat_toggles &= ~CHAT_GHOSTEARS   // Explicitly remove ghost hearing
 		prefs.chat_toggles &= ~CHAT_GHOSTWHISPER // Explicitly remove ghost whispers
 		prefs.save_preferences()
-		to_chat(src, "<span class='info'>I will hear like a mortal.</span>")
+		to_chat(src, span_info("I will hear like a mortal."))
 
 	// Messaging
-	to_chat(src, "<span class='interface'>I am now a normal player.</span>")
+	to_chat(src, span_interface("I am now a normal player."))
 	log_admin("[src] deadmined themself.")
 	message_admins("[src] deadmined themself.")
 	SSblackbox.record_feedback("tally", "admin_verb", 1, "Deadmin")
@@ -786,12 +826,13 @@ GLOBAL_PROTECT(admin_verbs_hideable)
 	set name = "Delete Player Made Book"
 	if(!holder)
 		return
-	var/book = input(src, "What is the book file you want to delete?") in SSlibrarian.books
+	var/book = input(src, "What is the book file you want to delete?") as null|anything in SSlibrarian.books
+	if(!book)
+		return
 	if(SSlibrarian.del_player_book(book))
 		to_chat(src, "<span class='notice'>Book has been successfully deleted</span>")
 	else
 		to_chat(src, "<span class='notice'> Either the book file doesn't exist or you have failed to type it in properly (remember characters have been url encoded for the file name)</span>")
-
 
 /client/proc/manage_paintings()
 	set category = "Admin"
@@ -799,21 +840,37 @@ GLOBAL_PROTECT(admin_verbs_hideable)
 	if(!holder)
 		return
 
-	var/list/paintings = list()
+	var/dat = "<table><tr><th>Preview</th><th>Title</th><th>Author</th><th>Delete</th></tr>"
 
-	paintings |= SSpaintings.paintings
-	var/dat = "<h3>Paintings:</h3><br>"
-	dat += "<table><tr><th>Picture</th><th>Title</th><th>Author</th><th>Delete</th></tr>"
-	for(var/paint_name in paintings)
-		var/list/painting = paintings[paint_name]
-		var/icon/painting_icon = icon("data/player_generated_paintings/paintings/[painting["painting_title"]].png")
-		src << browse_rsc(painting_icon, "[paint_name].png")
-		dat += "<tr><td><img height=128 src='[painting["painting_title"]].png'/></td><td>[painting["painting_title"]]</td><td>[painting["author_ckey"]]</td><td><a href='byond://?src=[REF(src)];delete_painting=1;id=[painting["painting_title"]]'>Delete</a></td></tr>"
-	if (!length(paintings))
-		dat += "<tr><td colspan='4'>No results found.</td></tr>"
+	if(SSpaintings?.paintings && length(SSpaintings.paintings))
+		for(var/encoded_title in SSpaintings.paintings)
+			var/list/painting = SSpaintings.paintings[encoded_title]
+			if(!painting || !islist(painting))
+				continue
+
+			var/raw_title = painting["painting_title"]
+			var/author = painting["author_ckey"]
+			var/disk_filename = SSpaintings.get_painting_filename(raw_title)
+
+			if(fexists(disk_filename))
+				var/icon/painting_icon = icon(disk_filename)
+				if(painting_icon)
+					var/res_name = "painting_[md5(raw_title)].png"
+					src << browse_rsc(painting_icon, res_name)
+					dat += "<tr>"
+					dat += "<td><img src='[res_name]' height=64 width=64></td>"
+					dat += "<td>[raw_title]</td>"
+					dat += "<td>[author]</td>"
+					dat += "<td><a href='?src=[REF(src)];delete_painting=1;id=[url_encode(raw_title)]'>Delete</a></td>"
+					dat += "</tr>"
+	else
+		dat += "<tr><td colspan='4'>No paintings found</td></tr>"
 
 	dat += "</table>"
-	src << browse(dat, "window=painting_deletion")
+
+	var/datum/browser/popup = new(usr, "painting_management", "Painting Management", 600, 600)
+	popup.set_content(dat)
+	popup.open()
 
 //Family Tree Subsystem
 /client/proc/ShowAllFamilies()
@@ -881,3 +938,39 @@ GLOBAL_PROTECT(admin_verbs_hideable)
 #else
 	to_chat(src, span_danger("byond-tracy is not supported on OpenDream, sorry!"))
 #endif
+
+/// Debug verb for seeing at a glance what all spells have as set requirements
+/client/proc/debug_spell_requirements()
+	set name = "Show Spell Requirements"
+	set category = "Debug"
+
+	var/header = "<tr><th>Name</th> <th>Requirements</th>"
+	var/all_requirements = list()
+	for(var/datum/action/cooldown/spell/spell as anything in typesof(/datum/action/cooldown/spell))
+		if(initial(spell.name) == "Spell")
+			continue
+
+		var/list/real_reqs = list()
+		var/reqs = initial(spell.spell_requirements)
+		if(reqs & SPELL_CASTABLE_WHILE_PHASED)
+			real_reqs += "Castable phased"
+		if(reqs & SPELL_REQUIRES_HUMAN)
+			real_reqs += "Must be human"
+		if(reqs & SPELL_REQUIRES_MIND)
+			real_reqs += "Must have a mind"
+		if(reqs & SPELL_REQUIRES_NO_ANTIMAGIC)
+			real_reqs += "Must have no antimagic"
+		if(reqs & SPELL_REQUIRES_STATION)
+			real_reqs += "Must be off central command z-level"
+		if(reqs & SPELL_REQUIRES_WIZARD_GARB)
+			real_reqs += "Must have wizard clothes"
+		if(reqs & SPELL_REQUIRES_NO_MOVE)
+			real_reqs += "Must stand still while casting"
+
+		all_requirements += "<tr><td>[initial(spell.name)]</td> <td>[english_list(real_reqs, "No requirements")]</td></tr>"
+
+	var/page_style = "<style>table, th, td {border: 1px solid black;border-collapse: collapse;}</style>"
+	var/page_contents = "[page_style]<table style=\"width:100%\">[header][jointext(all_requirements, "")]</table>"
+	var/datum/browser/popup = new(mob, "spellreqs", "Spell Requirements", 600, 400)
+	popup.set_content(page_contents)
+	popup.open()

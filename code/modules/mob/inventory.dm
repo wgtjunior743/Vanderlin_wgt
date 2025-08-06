@@ -159,9 +159,8 @@
 //		dropItemToGround(get_item_for_held_index(hand_index), force = TRUE)
 	I.forceMove(src)
 	held_items[hand_index] = I
-	I.layer = ABOVE_HUD_LAYER
 	I.plane = ABOVE_HUD_PLANE
-	I.equipped(src, SLOT_HANDS)
+	I.equipped(src, ITEM_SLOT_HANDS)
 	if(QDELETED(I)) // this is here because some ABSTRACT items like slappers and circle hands could be moved from hand to hand then delete, which meant you'd have a null in your hand until you cleared it (say, by dropping it)
 		held_items[hand_index] = null
 		return FALSE
@@ -173,9 +172,8 @@
 	I.pixel_x = initial(I.pixel_x)
 	I.pixel_y = initial(I.pixel_y)
 	if(hud_used)
-		hud_used.throw_icon?.update_icon()
-		hud_used.give_intent?.update_icon()
-	givingto = null
+		hud_used.throw_icon?.update_appearance()
+		hud_used.give_intent?.update_appearance()
 	if((istype(I, /obj/item/weapon) || istype(I, /obj/item/gun) || I.force >= 15) && !forced && client)
 		// is this the right hand?
 		var/right_hand = FALSE
@@ -196,9 +194,8 @@
 	return FALSE					//nonliving mobs don't have hands
 
 /mob/living/put_in_hand_check(obj/item/I)
-	if(I.twohands_required && get_inactive_held_item())
-		return FALSE
-	if(istype(I) && ((mobility_flags & MOBILITY_PICKUP) || (I.item_flags & ABSTRACT)))
+	if(istype(I) && (((mobility_flags & MOBILITY_PICKUP) || (I.item_flags & ABSTRACT)) \
+		&& !(SEND_SIGNAL(src, COMSIG_LIVING_TRY_PUT_IN_HAND, I) & COMPONENT_LIVING_CANT_PUT_IN_HAND)))
 		return TRUE
 	return FALSE
 
@@ -310,6 +307,8 @@
 	if(atkswinging)
 		stop_attack(FALSE)
 	if(I)
+		if(IS_WEAKREF_OF(I, offered_item))
+			offered_item = null
 		if(client)
 			client.screen -= I
 		I.layer = initial(I.layer)
@@ -322,9 +321,8 @@
 				I.forceMove(newloc)
 		I.dropped(src, silent)
 	if(hud_used)
-		hud_used.throw_icon?.update_icon()
-		hud_used.give_intent?.update_icon()
-	givingto = null
+		hud_used.throw_icon?.update_appearance()
+		hud_used.give_intent?.update_appearance()
 	update_a_intents()
 	SEND_SIGNAL(I, COMSIG_ITEM_POST_UNEQUIP, force, newloc, no_move, invdrop, silent)
 	SEND_SIGNAL(src, COMSIG_MOB_UNEQUIPPED_ITEM, I, force, newloc, no_move, invdrop, silent)
@@ -390,7 +388,7 @@
 
 
 /mob/living/carbon/proc/check_obscured_slots(transparent_protection)
-	var/list/obscured = list()
+	var/obscured = NONE
 	var/hidden_slots = NONE
 
 	for(var/obj/item/I in get_equipped_items())
@@ -399,25 +397,25 @@
 			hidden_slots |= I.transparent_protection
 
 	if(hidden_slots & HIDENECK)
-		obscured |= SLOT_NECK
+		obscured |= ITEM_SLOT_NECK
 	if(hidden_slots & HIDEMASK)
-		obscured |= SLOT_WEAR_MASK
+		obscured |= ITEM_SLOT_MASK
 	if(hidden_slots & HIDEGLOVES)
-		obscured |= SLOT_GLOVES
+		obscured |= ITEM_SLOT_GLOVES
 	if(hidden_slots & HIDEJUMPSUIT)
-		obscured |= SLOT_PANTS
+		obscured |= ITEM_SLOT_PANTS
 	if(hidden_slots & HIDESHOES)
-		obscured |= SLOT_SHOES
+		obscured |= ITEM_SLOT_SHOES
 	if(hidden_slots & HIDEBELT)
-		obscured |= SLOT_BELT_R
-		obscured |= SLOT_BELT_L
-		obscured |= SLOT_BELT
+		obscured |= ITEM_SLOT_BELT_R
+		obscured |= ITEM_SLOT_BELT_L
+		obscured |= ITEM_SLOT_BELT
 
 	return obscured
 
 /obj/item/proc/equip_to_best_slot(mob/M)
 	if(src != M.get_active_held_item())
-		to_chat(M, "<span class='warning'>I are not holding anything to equip!</span>")
+		to_chat(M, span_warning("I are not holding anything to equip!"))
 		return FALSE
 
 	if(M.equip_to_appropriate_slot(src))
@@ -430,7 +428,7 @@
 	if(M.active_storage && M.active_storage.parent && SEND_SIGNAL(M.active_storage.parent, COMSIG_TRY_STORAGE_INSERT, src,M))
 		return TRUE
 
-	var/list/obj/item/possible = list(M.get_inactive_held_item(), M.get_item_by_slot(SLOT_BELT))
+	var/list/obj/item/possible = list(M.get_inactive_held_item(), M.get_item_by_slot(ITEM_SLOT_BELT))
 	for(var/i in possible)
 		if(!i)
 			continue
@@ -438,7 +436,7 @@
 		if(SEND_SIGNAL(I, COMSIG_TRY_STORAGE_INSERT, src, M))
 			return TRUE
 
-	to_chat(M, "<span class='warning'>I couldn't equip that.</span>")
+	to_chat(M, span_warning("I couldn't equip that."))
 	return FALSE
 
 
@@ -455,7 +453,7 @@
 		I.equip_to_best_slot(src)
 
 /mob/proc/getBeltSlot()
-	return SLOT_BELT
+	return ITEM_SLOT_BELT
 
 //Inventory.dm is -kind of- an ok place for this I guess
 

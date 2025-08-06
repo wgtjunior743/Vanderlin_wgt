@@ -5,7 +5,7 @@
 	barefootstep = FOOTSTEP_HARD_BAREFOOT
 	clawfootstep = FOOTSTEP_WOOD_CLAW
 	heavyfootstep = FOOTSTEP_GENERIC_HEAVY
-	landsound = 'sound/foley/jumpland/woodland.wav'
+	landsound = 'sound/foley/jumpland/woodland.ogg'
 	neighborlay = "dirtedge"
 	damage_deflection = 8
 	max_integrity = 600
@@ -51,7 +51,7 @@
 	footstep = FOOTSTEP_GRASS
 	barefootstep = FOOTSTEP_SOFT_BAREFOOT
 	heavyfootstep = FOOTSTEP_GENERIC_HEAVY
-	landsound = 'sound/foley/jumpland/grassland.wav'
+	landsound = 'sound/foley/jumpland/grassland.ogg'
 	slowdown = 0
 	damage_deflection = 6
 	max_integrity = 300
@@ -75,7 +75,7 @@
 	barefootstep = FOOTSTEP_HARD_BAREFOOT
 	clawfootstep = FOOTSTEP_WOOD_CLAW
 	heavyfootstep = FOOTSTEP_GENERIC_HEAVY
-	landsound = 'sound/foley/jumpland/woodland.wav'
+	landsound = 'sound/foley/jumpland/woodland.ogg'
 	smoothing_flags = SMOOTH_BITMASK
 	smoothing_groups = SMOOTH_GROUP_OPEN_FLOOR + SMOOTH_GROUP_FLOOR_WOOD
 	damage_deflection = 8
@@ -97,7 +97,7 @@
 	barefootstep = FOOTSTEP_HARD_BAREFOOT
 	clawfootstep = FOOTSTEP_WOOD_CLAW
 	heavyfootstep = FOOTSTEP_GENERIC_HEAVY
-	landsound = 'sound/foley/jumpland/woodland.wav'
+	landsound = 'sound/foley/jumpland/woodland.ogg'
 	smoothing_flags = SMOOTH_BITMASK
 	smoothing_groups = SMOOTH_GROUP_OPEN_FLOOR + SMOOTH_GROUP_FLOOR_WOOD
 	damage_deflection = 8
@@ -138,15 +138,15 @@
 	footstep = FOOTSTEP_GRASS
 	barefootstep = FOOTSTEP_SOFT_BAREFOOT
 	heavyfootstep = FOOTSTEP_GENERIC_HEAVY
-	landsound = 'sound/foley/jumpland/grassland.wav'
+	landsound = 'sound/foley/jumpland/grassland.ogg'
 	slowdown = 0
 	smoothing_flags = SMOOTH_EDGE
 	smoothing_groups = SMOOTH_GROUP_OPEN_FLOOR + SMOOTH_GROUP_FLOOR_GRASS
 	smoothing_list = SMOOTH_GROUP_FLOOR_DIRT_ROAD
 	neighborlay = "grassedge"
 	max_integrity = 1200
-	spread_chance = 3
-	burn_power = 60
+	spread_chance = 2.5
+	burn_power = 15
 
 /turf/open/floor/grass/Initialize()
 	. = ..()
@@ -196,7 +196,7 @@
 	footstep = FOOTSTEP_GRASS
 	barefootstep = FOOTSTEP_SOFT_BAREFOOT
 	heavyfootstep = FOOTSTEP_GENERIC_HEAVY
-	landsound = 'sound/foley/jumpland/grassland.wav'
+	landsound = 'sound/foley/jumpland/grassland.ogg'
 	slowdown = 0
 	smoothing_flags = SMOOTH_EDGE
 	smoothing_groups = SMOOTH_GROUP_OPEN_FLOOR + SMOOTH_GROUP_FLOOR_SNOW
@@ -228,24 +228,24 @@
 	footstep = FOOTSTEP_GRASS
 	barefootstep = FOOTSTEP_SOFT_BAREFOOT
 	heavyfootstep = FOOTSTEP_GENERIC_HEAVY
-	landsound = 'sound/foley/jumpland/dirtland.wav'
+	landsound = 'sound/foley/jumpland/dirtland.ogg'
 	slowdown = 2
 	smoothing_flags = SMOOTH_EDGE
 	smoothing_groups = SMOOTH_GROUP_OPEN_FLOOR + SMOOTH_GROUP_FLOOR_DIRT
 	smoothing_list = SMOOTH_GROUP_FLOOR_DIRT_ROAD + SMOOTH_GROUP_FLOOR_GRASS + SMOOTH_GROUP_FLOOR_STONE
 	neighborlay = "dirtedge"
-	spread_chance = 1.6
+	spread_chance = 1.1
 
 	var/muddy = FALSE
 	var/bloodiness = 20
-	var/obj/structure/closet/dirthole/holie
 	var/dirt_amt = 3
 
-/turf/open/floor/dirt/attack_right(mob/user)
+/turf/open/floor/dirt/attack_hand_secondary(mob/user, params)
+	. = ..()
+	if(. == SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN)
+		return
 	if(isliving(user))
 		var/mob/living/L = user
-		if(L.stat != CONSCIOUS)
-			return
 		var/obj/item/I = new /obj/item/natural/dirtclod(src)
 		if(L.put_in_active_hand(I))
 			L.visible_message("<span class='warning'>[L] picks up some dirt.</span>")
@@ -254,13 +254,7 @@
 				src.ChangeTurf(/turf/open/floor/dirt/road, flags = CHANGETURF_INHERIT_AIR)
 		else
 			qdel(I)
-	.=..()
-
-/turf/open/floor/dirt/Destroy()
-	if(holie)
-		QDEL_NULL(holie)
-	return ..()
-
+	return SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
 
 /turf/open/floor/dirt/Crossed(atom/movable/O)
 	..()
@@ -277,7 +271,6 @@
 				add_blood = bloodiness
 			S.bloody_shoes[BLOOD_STATE_MUD] = min(MAX_SHOE_BLOODINESS,S.bloody_shoes[BLOOD_STATE_MUD]+add_blood)
 			S.blood_state = BLOOD_STATE_MUD
-			update_icon()
 			H.update_inv_shoes()
 		if(water_level)
 			START_PROCESSING(SSwaterlevel, src)
@@ -347,7 +340,7 @@
 	slowdown = 0
 	path_weight = 10
 
-/turf/open/floor/dirt/road/attack_right(mob/user)
+/turf/open/floor/dirt/road/attack_hand_secondary(mob/user, params)
 	return
 
 /turf/open/floor/dirt/turf_destruction(damage_flag)
@@ -361,7 +354,7 @@
 	footstep = FOOTSTEP_SAND
 	barefootstep = FOOTSTEP_SOFT_BAREFOOT
 	heavyfootstep = FOOTSTEP_GENERIC_HEAVY
-	landsound = 'sound/foley/jumpland/dirtland.wav'
+	landsound = 'sound/foley/jumpland/dirtland.ogg'
 	slowdown = 0
 
 /turf/open/floor/underworld/road/Initialize()
@@ -375,7 +368,7 @@
 	footstep = FOOTSTEP_SAND
 	barefootstep = FOOTSTEP_SOFT_BAREFOOT
 	heavyfootstep = FOOTSTEP_GENERIC_HEAVY
-	landsound = 'sound/foley/jumpland/dirtland.wav'
+	landsound = 'sound/foley/jumpland/dirtland.ogg'
 	slowdown = 0
 
 /turf/open/floor/underworld/arena/Initialize()
@@ -389,7 +382,7 @@
 	footstep = FOOTSTEP_SAND
 	barefootstep = FOOTSTEP_SOFT_BAREFOOT
 	heavyfootstep = FOOTSTEP_GENERIC_HEAVY
-	landsound = 'sound/foley/jumpland/dirtland.wav'
+	landsound = 'sound/foley/jumpland/dirtland.ogg'
 	slowdown = 50
 
 /turf/open/floor/underworld/space/sparkle_quiet
@@ -410,7 +403,7 @@
 	barefootstep = FOOTSTEP_SOFT_BAREFOOT
 	clawfootstep = FOOTSTEP_SAND
 	heavyfootstep = FOOTSTEP_GENERIC_HEAVY
-	landsound = 'sound/foley/jumpland/dirtland.wav'
+	landsound = 'sound/foley/jumpland/dirtland.ogg'
 	smoothing_flags = SMOOTH_EDGE
 	smoothing_groups = SMOOTH_GROUP_OPEN_FLOOR + SMOOTH_GROUP_FLOOR_DIRT
 	smoothing_list = SMOOTH_GROUP_FLOOR_DIRT_ROAD + SMOOTH_GROUP_FLOOR_GRASS + SMOOTH_GROUP_FLOOR_STONE
@@ -420,6 +413,16 @@
 	dir = pick(GLOB.cardinals)
 	. = ..()
 
+/turf/open/floor/hay
+	name = "hay"
+	desc = "A light covering of hay strewn across the ground."
+	icon_state = "hay"
+	footstep = FOOTSTEP_GRASS
+	barefootstep = FOOTSTEP_SOFT_BAREFOOT
+	heavyfootstep = FOOTSTEP_GENERIC_HEAVY
+	landsound = 'sound/foley/jumpland/grassland.ogg'
+	slowdown = 0
+
 /*	..................   Stone Block Floors   ................... */
 /turf/open/floor/blocks
 	icon_state = "blocks"
@@ -427,7 +430,7 @@
 	barefootstep = FOOTSTEP_HARD_BAREFOOT
 	clawfootstep = FOOTSTEP_HARD_CLAW
 	heavyfootstep = FOOTSTEP_GENERIC_HEAVY
-	landsound = 'sound/foley/jumpland/stoneland.wav'
+	landsound = 'sound/foley/jumpland/stoneland.ogg'
 	damage_deflection = 10
 	max_integrity = 2800
 
@@ -472,7 +475,7 @@
 	barefootstep = FOOTSTEP_HARD_BAREFOOT
 	clawfootstep = FOOTSTEP_HARD_CLAW
 	heavyfootstep = FOOTSTEP_GENERIC_HEAVY
-	landsound = 'sound/foley/jumpland/stoneland.wav'
+	landsound = 'sound/foley/jumpland/stoneland.ogg'
 	icon = 'icons/turf/greenstone.dmi'
 	damage_deflection = 10
 	max_integrity = 800
@@ -510,7 +513,7 @@
 	barefootstep = FOOTSTEP_HARD_BAREFOOT
 	clawfootstep = FOOTSTEP_HARD_CLAW
 	heavyfootstep = FOOTSTEP_GENERIC_HEAVY
-	landsound = 'sound/foley/jumpland/stoneland.wav'
+	landsound = 'sound/foley/jumpland/stoneland.ogg'
 	damage_deflection = 10
 	max_integrity = 800
 	break_sound = 'sound/combat/hits/onstone/stonedeath.ogg'
@@ -532,7 +535,7 @@
 	barefootstep = FOOTSTEP_HARD_BAREFOOT
 	clawfootstep = FOOTSTEP_HARD_CLAW
 	heavyfootstep = FOOTSTEP_GENERIC_HEAVY
-	landsound = 'sound/foley/jumpland/stoneland.wav'
+	landsound = 'sound/foley/jumpland/stoneland.ogg'
 
 	damage_deflection = 10
 	max_integrity = 800
@@ -554,7 +557,7 @@
 	barefootstep = FOOTSTEP_HARD_BAREFOOT
 	clawfootstep = FOOTSTEP_HARD_CLAW
 	heavyfootstep = FOOTSTEP_GENERIC_HEAVY
-	landsound = 'sound/foley/jumpland/stoneland.wav'
+	landsound = 'sound/foley/jumpland/stoneland.ogg'
 	damage_deflection = 10
 	max_integrity = 800
 	break_sound = 'sound/combat/hits/onstone/stonedeath.ogg'
@@ -577,7 +580,7 @@
 	barefootstep = FOOTSTEP_HARD_BAREFOOT
 	clawfootstep = FOOTSTEP_HARD_CLAW
 	heavyfootstep = FOOTSTEP_GENERIC_HEAVY
-	landsound = 'sound/foley/jumpland/stoneland.wav'
+	landsound = 'sound/foley/jumpland/stoneland.ogg'
 	damage_deflection = 10
 	max_integrity = 800
 	break_sound = 'sound/combat/hits/onstone/stonedeath.ogg'
@@ -597,7 +600,7 @@
 	barefootstep = FOOTSTEP_HARD_BAREFOOT
 	clawfootstep = FOOTSTEP_HARD_CLAW
 	heavyfootstep = FOOTSTEP_GENERIC_HEAVY
-	landsound = 'sound/foley/jumpland/stoneland.wav'
+	landsound = 'sound/foley/jumpland/stoneland.ogg'
 	damage_deflection = 10
 	max_integrity = 800
 	break_sound = 'sound/combat/hits/onstone/stonedeath.ogg'
@@ -621,7 +624,7 @@
 	barefootstep = FOOTSTEP_HARD_BAREFOOT
 	clawfootstep = FOOTSTEP_HARD_CLAW
 	heavyfootstep = FOOTSTEP_GENERIC_HEAVY
-	landsound = 'sound/foley/jumpland/stoneland.wav'
+	landsound = 'sound/foley/jumpland/stoneland.ogg'
 	smoothing_flags = SMOOTH_EDGE
 	smoothing_groups = SMOOTH_GROUP_OPEN_FLOOR + SMOOTH_GROUP_FLOOR_STONE
 	smoothing_list = SMOOTH_GROUP_FLOOR_DIRT_ROAD + SMOOTH_GROUP_FLOOR_GRASS
@@ -643,7 +646,7 @@
 	barefootstep = FOOTSTEP_HARD_BAREFOOT
 	clawfootstep = FOOTSTEP_HARD_CLAW
 	heavyfootstep = FOOTSTEP_GENERIC_HEAVY
-	landsound = 'sound/foley/jumpland/stoneland.wav'
+	landsound = 'sound/foley/jumpland/stoneland.ogg'
 	smoothing_flags = SMOOTH_EDGE
 	smoothing_groups = SMOOTH_GROUP_OPEN_FLOOR + SMOOTH_GROUP_FLOOR_STONE
 	smoothing_list = SMOOTH_GROUP_FLOOR_DIRT_ROAD + SMOOTH_GROUP_FLOOR_GRASS
@@ -689,7 +692,7 @@
 	barefootstep = FOOTSTEP_HARD_BAREFOOT
 	clawfootstep = FOOTSTEP_HARD_CLAW
 	heavyfootstep = FOOTSTEP_GENERIC_HEAVY
-	landsound = 'sound/foley/jumpland/stoneland.wav'
+	landsound = 'sound/foley/jumpland/stoneland.ogg'
 	smoothing_flags = SMOOTH_EDGE
 	smoothing_groups = SMOOTH_GROUP_OPEN_FLOOR + SMOOTH_GROUP_FLOOR_STONE
 	smoothing_list = SMOOTH_GROUP_FLOOR_DIRT_ROAD + SMOOTH_GROUP_FLOOR_GRASS
@@ -737,7 +740,7 @@
 /*	..................   Miscellany   ................... */
 /turf/open/floor/tile
 	icon_state = "chess"
-	landsound = 'sound/foley/jumpland/tileland.wav'
+	landsound = 'sound/foley/jumpland/tileland.ogg'
 	footstep = FOOTSTEP_FLOOR
 	barefootstep = FOOTSTEP_HARD_BAREFOOT
 	clawfootstep = FOOTSTEP_HARD_CLAW
@@ -762,6 +765,21 @@
 /turf/open/floor/tile/masonic/spiral
 	icon_state = "masonicspiral"
 
+/turf/open/floor/tile/brick
+	icon_state = "bricktile"
+
+/turf/open/floor/tile/brownbrick
+	icon_state = "brown"
+
+/turf/open/floor/tile/diamond
+	icon_state = "dia_tile"
+
+/turf/open/floor/tile/diamond/blue
+	icon_state = "dia_tile1"
+
+/turf/open/floor/tile/diamond/purple
+	icon_state = "dia_tile2"
+
 /turf/open/floor/tile/bath
 	icon_state = "bathtile"
 
@@ -779,7 +797,7 @@
 
 /turf/open/floor/concrete
 	icon_state = "concretefloor1"
-	landsound = 'sound/foley/jumpland/stoneland.wav'
+	landsound = 'sound/foley/jumpland/stoneland.ogg'
 	footstep = FOOTSTEP_STONE
 	barefootstep = FOOTSTEP_HARD_BAREFOOT
 	clawfootstep = FOOTSTEP_HARD_CLAW
@@ -801,7 +819,7 @@
 
 /turf/open/floor/metal
 	icon_state = "plating1"
-	landsound = 'sound/foley/jumpland/metalland.wav'
+	landsound = 'sound/foley/jumpland/metalland.ogg'
 	footstep = FOOTSTEP_PLATING
 	barefootstep = FOOTSTEP_HARD_BAREFOOT
 	clawfootstep = FOOTSTEP_HARD_CLAW
@@ -834,29 +852,17 @@
 
 /turf/open/floor/carpet/lord/Initialize()
 	. = ..()
-	if(GLOB.lordprimary)
-		lordcolor(GLOB.lordprimary,GLOB.lordsecondary)
+	if(GLOB.lordprimary && GLOB.lordsecondary)
+		lordcolor()
 	else
-		GLOB.lordcolor += src
-
-/turf/open/floor/carpet/lord/Destroy()
-	GLOB.lordcolor -= src
-	return ..()
-
-/turf/open/floor/carpet/lord/lordcolor(primary,secondary)
-	if(!primary || !secondary)
-		return
-	var/mutable_appearance/M = mutable_appearance(icon, "[icon_state]_primary", -(layer+0.1))
-	M.color = primary
-	add_overlay(M)
-	GLOB.lordcolor -= src
+		RegisterSignal(SSdcs, COMSIG_LORD_COLORS_SET, TYPE_PROC_REF(/turf/open/floor/carpet/lord, lordcolor))
 
 /turf/open/floor/carpet/lord/center
 	icon_state = "carpet_c"
 
 /turf/open/floor/carpet/lord/center/Initialize()
+	. = ..()
 	dir = pick(GLOB.cardinals)
-	..()
 
 /turf/open/floor/carpet/lord/left
 	icon_state = "carpet_l"
@@ -874,7 +880,7 @@
 	barefootstep = FOOTSTEP_HARD_BAREFOOT
 	clawfootstep = FOOTSTEP_HARD_CLAW
 	heavyfootstep = FOOTSTEP_GENERIC_HEAVY
-	landsound = 'sound/foley/jumpland/grassland.wav'
+	landsound = 'sound/foley/jumpland/grassland.ogg'
 
 /turf/open/floor/plank
 	icon_state = "plank"
@@ -882,7 +888,7 @@
 	barefootstep = FOOTSTEP_HARD_BAREFOOT
 	clawfootstep = FOOTSTEP_WOOD_CLAW
 	heavyfootstep = FOOTSTEP_GENERIC_HEAVY
-	landsound = 'sound/foley/jumpland/woodland.wav'
+	landsound = 'sound/foley/jumpland/woodland.ogg'
 	damage_deflection = 8
 	max_integrity = 1000
 
@@ -903,7 +909,7 @@
 	barefootstep = FOOTSTEP_HARD_BAREFOOT
 	clawfootstep = FOOTSTEP_HARD_CLAW
 	heavyfootstep = FOOTSTEP_GENERIC_HEAVY
-	landsound = 'sound/foley/jumpland/grassland.wav'
+	landsound = 'sound/foley/jumpland/grassland.ogg'
 
 /*	..................  Platforms   ................... */
 /turf/open/floor/ruinedwood/platform
@@ -929,3 +935,14 @@
 	max_integrity = 800
 	break_sound = 'sound/combat/hits/onstone/stonedeath.ogg'
 	attacked_sound = list('sound/combat/hits/onstone/wallhit.ogg', 'sound/combat/hits/onstone/wallhit2.ogg', 'sound/combat/hits/onstone/wallhit3.ogg')
+
+
+/turf/open/transparent/glass
+	name = "Glass floor"
+	icon = 'icons/turf/floors.dmi'
+	icon_state = "woodglass"
+
+	footstep = FOOTSTEP_PLATING
+	barefootstep = FOOTSTEP_HARD_BAREFOOT
+	clawfootstep = FOOTSTEP_HARD_CLAW
+	heavyfootstep = FOOTSTEP_GENERIC_HEAVY

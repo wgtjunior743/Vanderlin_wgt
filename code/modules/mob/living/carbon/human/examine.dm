@@ -29,12 +29,14 @@
 		user.add_stress(/datum/stressevent/saw_old_party)
 
 /mob/living/carbon/human/examine(mob/user)
-//this is very slightly better than it was because you can use it more places. still can't do \his[src] though.
-	var/t_He = p_they(TRUE)
-	var/t_his = p_their()
-//	var/t_him = p_them()
-	var/t_has = p_have()
-	var/t_is = p_are()
+	var/ignore_pronouns = FALSE
+	if(user != src && !user.mind?.do_i_know(null, real_name))
+		ignore_pronouns = TRUE
+	//this is very slightly better than it was because you can use it more places. still can't do \his[src] though.
+	var/t_He = p_they(TRUE, ignore_pronouns = ignore_pronouns)
+	var/t_his = p_their(ignore_pronouns = ignore_pronouns)
+	var/t_has = p_have(ignore_pronouns = ignore_pronouns)
+	var/t_is = p_are(ignore_pronouns = ignore_pronouns)
 	var/obscure_name
 	var/race_name = dna?.species.name
 	var/self_inspect = FALSE
@@ -83,8 +85,8 @@
 		if(race_name) // race name
 			appendage_to_name += " [race_name]"
 
-		///If a foreign has been recruited by the church,keep etc their title will show up with their new role.
-		if(used_title && (!HAS_TRAIT(src, TRAIT_FOREIGNER) || HAS_TRAIT(src, TRAIT_RECRUITED)))  // job name, don't show job of foreigners.
+
+		if(used_title && (!HAS_TRAIT(src, TRAIT_FOREIGNER) || HAS_TRAIT(src, TRAIT_RECRUITED)) && !HAS_TRAIT(src, TRAIT_FACELESS)) // job name, don't show job of foreigners.
 			appendage_to_name += ", [used_title]"
 
 		if(appendage_to_name) // if we got any of those paramaters add it to their name
@@ -123,8 +125,6 @@
 			var/is_male = FALSE
 			if(gender == MALE)
 				is_male = TRUE
-			if(RomanticPartner(stranger))
-				. += span_love(span_bold("[t_He] is my [is_male ? "husband" : "wife"]."))
 			if(family_datum == stranger.family_datum && family_datum)
 				var/family_text = ReturnRelation(user)
 				if(family_text)
@@ -154,18 +154,23 @@
 		if(real_name in GLOB.heretical_players)
 			. += span_userdanger("HERETIC! SHAME!")
 
-		if(real_name in GLOB.outlawed_players)
-			. += span_userdanger("OUTLAW!")
-
 		if(iszizocultist(user) || iszizolackey(user))
 			if(virginity)
 				. += span_userdanger("VIRGIN!")
 
-		if(mind && mind.special_role)
-			if(mind && mind.special_role == "Bandit" && HAS_TRAIT(user, TRAIT_KNOWBANDITS))
+		var/is_bandit = FALSE
+		if(mind?.special_role == "Bandit")
+			is_bandit = TRUE
+			if((real_name in GLOB.outlawed_players) && HAS_TRAIT(user, TRAIT_KNOWBANDITS))
 				. += span_userdanger("BANDIT!")
+
 			if(mind && mind.special_role == "Vampire Lord")
-				. += span_userdanger("A MONSTER!")
+				var/datum/component/vampire_disguise/disguise_comp = GetComponent(/datum/component/vampire_disguise)
+				if(!disguise_comp.disguised)
+					. += span_userdanger("A MONSTER!")
+          
+		if(!is_bandit && (real_name in GLOB.outlawed_players))
+			. += span_userdanger("OUTLAW!")
 
 		var/list/known_frumentarii = user.mind?.cached_frumentarii
 		if(name in known_frumentarii)
@@ -187,6 +192,9 @@
 	if(HAS_TRAIT(src, TRAIT_LEPROSY))
 		. += span_necrosis("A LEPER...")
 
+	if(HAS_TRAIT(src, TRAIT_FACELESS))
+		. += span_userdanger("FACELESS?! AN ASSASSIN!")
+
 	if(user != src)
 		var/datum/mind/user_mind = user.mind
 		if(user_mind && mind)
@@ -203,14 +211,14 @@
 			if(item)
 				. += span_notice("You get the feeling [m2] most valuable possession is \a [item.name].")
 
-	var/list/obscured = check_obscured_slots()
+	var/obscured = check_obscured_slots()
 	var/skipface = (wear_mask && (wear_mask.flags_inv & HIDEFACE)) || (head && (head.flags_inv & HIDEFACE))
 
-	if(wear_shirt && !(SLOT_SHIRT in obscured))
+	if(wear_shirt && !(obscured & ITEM_SLOT_SHIRT))
 		. += "[m3] [wear_shirt.get_examine_string(user)]."
 
 	//uniform
-	if(wear_pants && !(SLOT_PANTS in obscured))
+	if(wear_pants && !(obscured & ITEM_SLOT_PANTS))
 		//accessory
 		var/accessory_msg
 		if(istype(wear_pants, /obj/item/clothing/pants))
@@ -221,19 +229,19 @@
 		. += "[m3] [wear_pants.get_examine_string(user)][accessory_msg]."
 
 	//head
-	if(head && !(SLOT_HEAD in obscured))
+	if(head && !(obscured & ITEM_SLOT_HEAD))
 		. += "[m3] [head.get_examine_string(user)] on [m2] head."
 	//suit/armorF
-	if(wear_armor && !(SLOT_ARMOR in obscured))
+	if(wear_armor && !(obscured & ITEM_SLOT_ARMOR))
 		. += "[m3] [wear_armor.get_examine_string(user)]."
 
-	if(cloak && !(SLOT_CLOAK in obscured))
+	if(cloak && !(obscured & ITEM_SLOT_CLOAK))
 		. += "[m3] [cloak.get_examine_string(user)] on [m2] shoulders."
 
-	if(backr && !(SLOT_BACK_R in obscured))
+	if(backr && !(obscured & ITEM_SLOT_BACK_R))
 		. += "[m3] [backr.get_examine_string(user)] on [m2] back."
 
-	if(backl && !(SLOT_BACK_L in obscured))
+	if(backl && !(obscured & ITEM_SLOT_BACK_L))
 		. += "[m3] [backl.get_examine_string(user)] on [m2] back."
 
 	//Hands
@@ -242,52 +250,52 @@
 			. += "[m1] holding [I.get_examine_string(user)] in [m2] [get_held_index_name(get_held_index_of_item(I))]."
 
 	//gloves
-	if(gloves && !(SLOT_GLOVES in obscured))
+	if(gloves && !(obscured & ITEM_SLOT_GLOVES))
 		. += "[m3] [gloves.get_examine_string(user)] on [m2] hands."
 	else if(GET_ATOM_BLOOD_DNA_LENGTH(src))
 		if(num_hands)
 			. += span_warning("[t_He] [t_has] [num_hands > 1 ? "" : "a"] blood-stained hand[num_hands > 1 ? "s" : ""]!")
 
 	//belt
-	if(belt && !(SLOT_BELT in obscured))
+	if(belt && !(obscured & ITEM_SLOT_BELT))
 		. += "[m3] [belt.get_examine_string(user)] about [m2] waist."
 
-	if(beltr && !(SLOT_BELT_R in obscured))
+	if(beltr && !(obscured & ITEM_SLOT_BELT_R))
 		. += "[m3] [beltr.get_examine_string(user)] on [m2] belt."
 
-	if(beltl && !(SLOT_BELT_L in obscured))
+	if(beltl && !(obscured & ITEM_SLOT_BELT_L))
 		. += "[m3] [beltl.get_examine_string(user)] on [m2] belt."
 
 	//shoes
-	if(shoes && !(SLOT_SHOES in obscured))
+	if(shoes && !(obscured & ITEM_SLOT_SHOES))
 		. += "[m3] [shoes.get_examine_string(user)] on [m2] feet."
 
 	//mask
-	if(wear_mask && !(SLOT_WEAR_MASK in obscured))
+	if(wear_mask && !(obscured & ITEM_SLOT_MASK))
 		. += "[m3] [wear_mask.get_examine_string(user)] on [m2] face."
 
-	if(mouth && !(SLOT_MOUTH in obscured))
+	if(mouth && !(obscured & ITEM_SLOT_MOUTH))
 		. += "[m3] [mouth.get_examine_string(user)] in [m2] mouth."
 
-	if(wear_neck && !(SLOT_NECK in obscured))
+	if(wear_neck && !(obscured & ITEM_SLOT_NECK))
 		. += "[m3] [wear_neck.get_examine_string(user)] around [m2] neck."
 
 	if(get_eye_color() == BLOODCULT_EYE)
 		. += "<span class='warning'><B>[capitalize(m2)] eyes are glowing an unnatural red!</B></span>"
 
 	//ID
-	if(wear_ring && !(SLOT_RING in obscured))
+	if(wear_ring && !(obscured & ITEM_SLOT_RING))
 		. += "[m3] [wear_ring.get_examine_string(user)]."
 
-	if(wear_wrists && !(SLOT_WRISTS in obscured))
+	if(wear_wrists && !(obscured & ITEM_SLOT_WRISTS))
 		. += "[m3] [wear_wrists.get_examine_string(user)]."
 
 	//handcuffed?
 	if(handcuffed)
-		. += "<A href='byond://?src=[REF(src)];item=[SLOT_HANDCUFFED]'><span class='warning'>[m1] tied up with \a [handcuffed]!</span></A>"
+		. += "<A href='byond://?src=[REF(src)];item=[ITEM_SLOT_HANDCUFFED]'><span class='warning'>[m1] tied up with \a [handcuffed]!</span></A>"
 
 	if(legcuffed)
-		. += "<A href='byond://?src=[REF(src)];item=[SLOT_LEGCUFFED]'><span class='warning'>[m3] \a [legcuffed] around [m2] legs!</span></A>"
+		. += "<A href='byond://?src=[REF(src)];item=[ITEM_SLOT_LEGCUFFED]'><span class='warning'>[m3] \a [legcuffed] around [m2] legs!</span></A>"
 
 	//Gets encapsulated with a warning span
 	var/list/msg = list()
@@ -570,11 +578,13 @@
 			. += "<a href='byond://?src=[REF(src)];inspect_limb=[checked_zone]'>Inspect [parse_zone(checked_zone)]</a>"
 			if(body_position == LYING_DOWN && user != src && (user.zone_selected == BODY_ZONE_CHEST))
 				. += "<a href='byond://?src=[REF(src)];check_hb=1'>Listen to Heartbeat</a>"
+
+	if(!HAS_TRAIT(src, TRAIT_FACELESS))
 		. += "<a href='byond://?src=[REF(src)];view_descriptors=1'>Look at Features</a>"
 
 	// Characters with the hunted flaw will freak out if they can't see someone's face.
 	if(!appears_dead)
-		if(skipface && user.has_flaw(/datum/charflaw/hunted))
+		if(skipface && user.has_flaw(/datum/charflaw/hunted) && user != src)
 			user.add_stress(/datum/stressevent/hunted)
 
 	if(!obscure_name && (flavortext || (headshot_link && src.client?.patreon?.has_access(ACCESS_ASSISTANT_RANK)))) // only show flavor text if there is a flavor text and we show headshot
@@ -596,6 +606,13 @@
 
 	if(HAS_TRAIT(user, TRAIT_SEEPRICES) && sellprice)
 		. += "Is worth around [sellprice] mammons."
+
+	if(ishuman(user))
+		var/mob/living/carbon/human/human_user = user
+		var/hierarchy_text = get_clan_hierarchy_examine(human_user)
+		if(hierarchy_text)
+			. += hierarchy_text
+
 	SEND_SIGNAL(src, COMSIG_PARENT_EXAMINE, user, .)
 
 /mob/living/proc/status_effect_examines(pronoun_replacement) //You can include this in any mob's examine() to show the examine texts of status effects!

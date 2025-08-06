@@ -10,13 +10,12 @@
 	department_flag = GARRISON
 	job_flags = (JOB_ANNOUNCE_ARRIVAL | JOB_SHOW_IN_CREDITS | JOB_EQUIP_RANK | JOB_NEW_PLAYER_JOINABLE)
 	display_order = JDO_MENATARMS
-	faction = FACTION_STATION
+	faction = FACTION_TOWN
 	total_positions = 4
 	spawn_positions = 4
 	min_pq = 6
 	bypass_lastclass = TRUE
 
-	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_PLAYER_NONDISCRIMINATED
 
 	outfit = /datum/outfit/job/watchman
@@ -66,6 +65,7 @@
 	beltr = /obj/item/weapon/sword/arming
 	backr = /obj/item/weapon/polearm/spear/billhook
 	backl = /obj/item/storage/backpack/satchel
+	scabbards = list(/obj/item/weapon/scabbard/sword)
 	backpack_contents = list(/obj/item/weapon/knife/dagger/steel/special)
 	H.adjust_skillrank(/datum/skill/combat/polearms, 4, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/swords, 3, TRUE)

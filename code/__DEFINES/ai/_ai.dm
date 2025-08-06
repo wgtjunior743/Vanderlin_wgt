@@ -7,7 +7,7 @@
 ///Carbon checks
 #define SHOULD_RESIST(source) (source.on_fire || source.buckled || HAS_TRAIT(source, TRAIT_RESTRAINED) || (source.pulledby && (source.pulledby != source) && source.pulledby.grab_state > GRAB_PASSIVE))
 #define SHOULD_STAND(source) (source.resting)
-#define IS_DEAD_OR_INCAP(source) (source.incapacitated(ignore_grab = TRUE) || source.stat)
+#define IS_DEAD_OR_INCAP(source) (source.incapacitated(IGNORE_GRAB) || source.stat)
 
 
 // How far should we, by default, be looking for interesting things to de-idle?
@@ -46,6 +46,12 @@
 
 /// Signal sent when a blackboard key is set to a new value
 #define COMSIG_AI_BLACKBOARD_KEY_SET(blackboard_key) "ai_blackboard_key_set_[blackboard_key]"
+#define COMSIG_AI_BLACKBOARD_KEY_CLEARED(blackboard_key) "ai_blackboard_key_clear_[blackboard_key]"
+
+///sent from ai controllers when they pick behaviors: (list/datum/ai_behavior/old_behaviors, list/datum/ai_behavior/new_behaviors)
+#define COMSIG_AI_CONTROLLER_PICKED_BEHAVIORS "ai_controller_picked_behaviors"
+///sent from ai controllers when a behavior is inserted into the queue: (list/new_arguments)
+#define AI_CONTROLLER_BEHAVIOR_QUEUED(type) "ai_controller_behavior_queued_[type]"
 
 ///Targetting keys for something to run away from, if you need to store this separately from current target
 #define BB_BASIC_MOB_FLEE_TARGET "BB_basic_flee_target"
@@ -98,6 +104,7 @@ F
 
 #define BB_NEST_LIST "BB_nestlist"
 #define BB_NEST_IGNORE_LIST "BB_nest_ignore"
+#define BB_NEST_MATERIAL_LIST "BB_nest_material_list"
 
 ///the bee hive we live inside
 #define BB_CURRENT_HOME "BB_current_home"
@@ -231,3 +238,50 @@ F
 #define BB_TEMP_FOOD_TARGET "temp_food_target"
 #define BB_FLESH_FRENZY_COOLDOWN "frenzy_cooldown"
 #define BB_FLESH_CONSUMED_BODIES "flesh_consumed_bodies"
+
+#define BB_GNOME_WAYPOINT_A "bb_gnome_waypoint_a"
+#define BB_GNOME_WAYPOINT_B "bb_gnome_waypoint_b"
+#define BB_GNOME_TARGET_ITEM "bb_gnome_target_item"
+#define BB_GNOME_HOME_TURF "bb_gnome_home_turf"
+#define BB_GNOME_TRANSPORT_MODE "bb_gnome_transport_mode"
+#define BB_DROP_ITEM_TARGET "bb_drop_item_target"
+#define BB_GNOME_FETCH_TARGET "bb_gnome_fetch_target"
+#define BB_GNOME_FETCH_DELIVERY "bb_gnome_fetch_delivery"
+#define BB_CURRENT_PET_FRIEND "bb_current_pet_friend"
+#define BB_GNOME_FOUND_ITEM "bb_gnome_found_item"
+#define BB_GNOME_TRANSPORT_SOURCE "bb_gnome_source"
+#define BB_GNOME_TRANSPORT_DEST "bb_gnome_dest"
+#define BB_GNOME_SPLITTER_MODE "gnome_splitter_mode"
+#define BB_GNOME_TARGET_SPLITTER "gnome_target_splitter"
+#define BB_GNOME_CROP_MODE "bb_gnome_crop_mode"
+#define BB_GNOME_WATER_SOURCE "gnome_water_source"
+#define BB_GNOME_SEED_SOURCE "gnome_seed_source"
+#define BB_GNOME_SEARCH_RANGE "gnome_search_range"
+
+#define BB_GNOME_ALCHEMY_MODE "alch_mode"
+#define BB_GNOME_TARGET_CAULDRON "target_cauldron"
+#define BB_GNOME_TARGET_WELL "well_target"
+#define BB_GNOME_CURRENT_RECIPE "current_potion"
+#define BB_GNOME_ALCHEMY_STATE "alch_state"
+#define BB_GNOME_ESSENCE_STORAGE "essence_storage"
+#define BB_GNOME_BOTTLE_STORAGE "bottle_storage"
+
+#define ALCHEMY_STATE_IDLE "idle"
+#define ALCHEMY_STATE_NEED_WATER "need_water"
+#define ALCHEMY_STATE_FETCH_WATER "fetch_water"
+#define ALCHEMY_STATE_ADD_WATER "add_water"
+#define ALCHEMY_STATE_NEED_ESSENCES "need_essences"
+#define ALCHEMY_STATE_FETCH_ESSENCES "fetch_essences"
+#define ALCHEMY_STATE_ADD_ESSENCES "add_essences"
+#define ALCHEMY_STATE_WAITING_BREW "waiting_brew"
+#define ALCHEMY_STATE_NEED_BOTTLES "need_bottles"
+#define ALCHEMY_STATE_FETCH_BOTTLES "fetch_bottles"
+#define ALCHEMY_STATE_BOTTLE_PRODUCT "bottle_product"
+#define ALCHEMY_STATE_RETURN_BOTTLE "return_bottle"
+#define ALCHEMY_STATE_RETURN_WATER_CONTAINER "return_container"
+#define ALCHEMY_STATE_RETURN_ESSENCE_VIAL "return_vial"
+
+// Keys used by one and only one behavior
+// Used to hold state without making bigass lists
+/// For /datum/ai_behavior/find_potential_targets, what if any field are we using currently
+#define BB_FIND_TARGETS_FIELD(type) "bb_find_targets_field_[type]"

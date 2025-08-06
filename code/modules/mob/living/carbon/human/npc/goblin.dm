@@ -16,7 +16,7 @@
 	possible_rmb_intents = list(/datum/rmb_intent/feint, /datum/rmb_intent/swift, /datum/rmb_intent/riposte, /datum/rmb_intent/weak)
 	flee_in_pain = TRUE
 	stand_attempts = 6
-	vitae_pool = 250 // Small, frail creechers with not so much vitality to gain from.
+	bloodpool = 250 // Small, frail creechers with not so much vitality to gain from.
 
 /mob/living/carbon/human/species/goblin/npc
 	ai_controller = /datum/ai_controller/human_npc
@@ -121,19 +121,21 @@
 
 /datum/species/goblin
 	name = "goblin"
-	id = "goblin"
+	id = SPEC_ID_GOBLIN
 	species_traits = list(NO_UNDERWEAR)
 	inherent_traits = list(TRAIT_RESISTCOLD,TRAIT_RESISTHIGHPRESSURE,TRAIT_RESISTLOWPRESSURE,TRAIT_RADIMMUNE, TRAIT_EASYDISMEMBER, TRAIT_CRITICAL_WEAKNESS, TRAIT_NASTY_EATER, TRAIT_LEECHIMMUNE, TRAIT_INHUMENCAMP)
-	no_equip = list(SLOT_SHIRT, SLOT_WEAR_MASK, SLOT_GLOVES, SLOT_SHOES, SLOT_PANTS)
-	nojumpsuit = 1
-	sexes = 1
-	offset_features = list(OFFSET_HANDS = list(0,-4), OFFSET_HANDS_F = list(0,-4))
+
+	no_equip = list(ITEM_SLOT_SHIRT, ITEM_SLOT_MASK, ITEM_SLOT_GLOVES, ITEM_SLOT_SHOES, ITEM_SLOT_PANTS)
+	offset_features_m = list(OFFSET_HANDS = list(0,-4))
+	offset_features_f = list(OFFSET_HANDS = list(0,-4))
+
+	dam_icon_f = null
+	dam_icon_m = null
 	damage_overlay_type = ""
-	changesource_flags = MIRROR_BADMIN | WABBAJACK | MIRROR_MAGIC | MIRROR_PRIDE | RACE_SWAP | SLIME_EXTRACT
+	changesource_flags = WABBAJACK
 	var/raceicon = "goblin"
 
 /datum/species/goblin/regenerate_icons(mob/living/carbon/human/H)
-//	H.cut_overlays()
 	H.icon_state = ""
 	if(H.notransform)
 		return 1
@@ -197,7 +199,7 @@
 	apply_overlay(ARMOR_LAYER)
 
 
-/mob/living/carbon/human/species/goblin/update_inv_head()
+/mob/living/carbon/human/species/goblin/update_inv_head(hide_nonstandard = FALSE)
 	update_wearable()
 /mob/living/carbon/human/species/goblin/update_inv_armor()
 	update_wearable()
@@ -255,7 +257,7 @@
 	last_process = world.time
 	amount += amt2add
 	if(has_world_trait(/datum/world_trait/pestra_mercy))
-		amount -= 5 * time_elapsed
+		amount -= (is_ascendant(PESTRA) ? 2.5 : 5) * time_elapsed
 
 	var/mob/living/carbon/C = parent
 	if(!C)
@@ -397,6 +399,11 @@
 	soundloop.start()
 	spawn_gob()
 
+/obj/structure/gob_portal/Destroy()
+	if(soundloop)
+		QDEL_NULL(soundloop)
+	return ..()
+
 /obj/structure/gob_portal/attack_ghost(mob/dead/observer/user)
 	if(QDELETED(user))
 		return
@@ -428,7 +435,7 @@
 	else
 		new /mob/living/carbon/human/species/goblin/npc(get_turf(src))
 	gobs++
-	update_icon()
+	update_appearance()
 	if(living_player_count() < 10)
 		maxgobs = 1
 	if(gobs < maxgobs)
@@ -440,7 +447,7 @@
 	if(spawning)
 		return
 	spawning = TRUE
-	update_icon()
+	update_appearance()
 	addtimer(CALLBACK(src, PROC_REF(creategob)), 2 SECONDS)
 
 /obj/structure/gob_portal/Destroy()

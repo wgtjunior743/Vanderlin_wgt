@@ -45,8 +45,8 @@
 	var/mutantrace_variation = NO_MUTANTRACE_VARIATION //Are there special sprites for specific situations? Don't use this unless you need to.
 	var/freshly_laundered = FALSE
 
-/obj/item/clothing/pants/worn_overlays(isinhands = FALSE)
-	. = list()
+/obj/item/clothing/pants/worn_overlays(mutable_appearance/standing, isinhands = FALSE, icon_file, dummy_block = FALSE)
+	. = ..()
 	if(!isinhands)
 		if(accessory_overlay)
 			. += accessory_overlay
@@ -70,11 +70,11 @@
 		if(!alt_covers_chest)
 			body_parts_covered |= CHEST
 
-	if(slot == SLOT_PANTS && freshly_laundered)
+	if((slot & ITEM_SLOT_PANTS) && freshly_laundered)
 		freshly_laundered = FALSE
 		SEND_SIGNAL(user, COMSIG_ADD_MOOD_EVENT, "fresh_laundry", /datum/mood_event/fresh_laundry)
 
-	if(attached_accessory && slot != SLOT_HANDS && ishuman(user))
+	if(attached_accessory && !(slot & ITEM_SLOT_HANDS) && ishuman(user))
 		var/mob/living/carbon/human/H = user
 		attached_accessory.on_uniform_equip(src, user)
 		if(attached_accessory.above_suit)

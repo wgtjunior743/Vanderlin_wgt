@@ -36,9 +36,6 @@
 		armor_protection = CLAMP(armor_protection - armor_penetration, min(armor_protection, 0), 100)
 	return round(damage_amount * (100 - armor_protection)*0.01, DAMAGE_PRECISION)
 
-/obj
-	var/attacked_sound = 'sound/blank.ogg'
-
 ///the sound played when the obj is damaged.
 /obj/proc/play_attack_sound(damage_amount, damage_type = BRUTE, damage_flag = 0)
 	switch(damage_type)
@@ -85,7 +82,7 @@
 		var/stacks = ((fdist - fodist) * 2)
 		fire_act(stacks)
 
-/obj/bullet_act(obj/projectile/P)
+/obj/bullet_act(obj/projectile/P, def_zone, piercing_hit = FALSE)
 	. = ..()
 	playsound(src.loc, P.hitsound, 50, TRUE)
 	visible_message("<span class='danger'>[src] is hit by \a [P]!</span>", null, null, COMBAT_MESSAGE_RANGE)

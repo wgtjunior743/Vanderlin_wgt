@@ -148,20 +148,19 @@
 
 /datum/species/zizombie
 	name = "zizombie"
-	id = "zizombie"
-	species_traits = list(NO_UNDERWEAR)
+	id = SPEC_ID_ZIZOMBIE
+	species_traits = list()
 	inherent_traits = list(TRAIT_RESISTCOLD,TRAIT_RESISTHIGHPRESSURE,TRAIT_RESISTLOWPRESSURE,TRAIT_RADIMMUNE)
 	nojumpsuit = 1
 	sexes = 1
 	damage_overlay_type = "human"
-	changesource_flags = MIRROR_BADMIN | WABBAJACK | MIRROR_MAGIC | MIRROR_PRIDE | RACE_SWAP | SLIME_EXTRACT
+	changesource_flags = WABBAJACK
 	var/raceicon = "zizombie"
 
 /datum/species/zizombie/update_damage_overlays(mob/living/carbon/human/H)
 	return
 
 /datum/species/zizombie/regenerate_icons(mob/living/carbon/human/H)
-//	H.cut_overlays()
 	H.icon_state = ""
 	if(H.notransform)
 		return 1
@@ -183,7 +182,7 @@
 	last_process = world.time
 	amount += amt2add
 	if(has_world_trait(/datum/world_trait/pestra_mercy))
-		amount -= 5 * time_elapsed
+		amount -= (is_ascendant(PESTRA) ? 2.5 : 5) * time_elapsed
 
 	var/mob/living/carbon/C = parent
 	if(!C)
