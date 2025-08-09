@@ -405,6 +405,31 @@ SUBSYSTEM_DEF(familytree)
 			if(!house.housename)
 				house.housename = house.SurnameFormatting(person)
 
+
+/// Helper proc to check gender choice based on pronouns
+/proc/pronouns_match(mob/living/carbon/human/H, mob/living/carbon/human/other)
+	// Neutral pronouns can only match ANY_GENDER
+	if(H.pronouns == THEY_THEM || H.pronouns == IT_ITS)
+		if(H.gender_choice_pref == ANY_GENDER)
+			return TRUE
+		else
+			return FALSE
+
+	if(H.gender_choice_pref == SAME_GENDER)
+		if(H.pronouns == other.pronouns)
+			return TRUE
+		else
+			return FALSE
+
+	if(H.gender_choice_pref == DIFFERENT_GENDER)
+		if(H.pronouns != other.pronouns)
+			return TRUE
+		else
+			return FALSE
+
+	// ANY_GENDER always passes
+	return TRUE
+
 /datum/controller/subsystem/familytree/proc/AssignToFamily(mob/living/carbon/human/H)
 	if(!H)
 		return
@@ -425,10 +450,18 @@ SUBSYSTEM_DEF(familytree)
 					eligible_houses.Insert(1, house) // High priority
 					has_single_adult = TRUE
 					break
-				else if(!H.setspouse && (!member.person.setspouse || member.person.setspouse == H.real_name))
-					eligible_houses += house
-					has_single_adult = TRUE
-					break
+				else if(!H.setspouse)
+
+					if(!member.person.setspouse || member.person.setspouse == H.real_name)
+						// Pronouns matching according to Gender Preference
+						var/ok_gender_H = pronouns_match(H, member.person)
+						var/ok_gender_M = pronouns_match(member.person, H)
+
+						if(ok_gender_H && ok_gender_M)
+							eligible_houses += house
+							has_single_adult = TRUE
+							break
+
 
 		if(!has_single_adult && !house.housename)
 			eligible_houses += house // Empty house for founding
@@ -442,8 +475,14 @@ SUBSYSTEM_DEF(familytree)
 				var/compatible = FALSE
 				if(H.setspouse && member.person.real_name == H.setspouse)
 					compatible = TRUE
-				else if(!H.setspouse && (!member.person.setspouse || member.person.setspouse == H.real_name))
-					compatible = TRUE
+				else if(!H.setspouse)
+					if(!member.person.setspouse || member.person.setspouse == H.real_name)
+						// Pronouns matching according to Gender Preference
+						var/ok_gender_H = pronouns_match(H, member.person)
+						var/ok_gender_M = pronouns_match(member.person, H)
+
+						if(ok_gender_H && ok_gender_M)
+							compatible = TRUE
 
 				if(compatible)
 					var/datum/family_member/new_member = house.CreateFamilyMember(H)
@@ -472,10 +511,14 @@ SUBSYSTEM_DEF(familytree)
 	for(var/mob/living/carbon/human/potential_spouse in viable_spouses)
 		if(!potential_spouse || potential_spouse == H || potential_spouse.spouse_mob)
 			continue
-
+		// Check if they are mutually setspouse
+		var/mutual_setspouse = (H.setspouse == potential_spouse.real_name) && (potential_spouse.setspouse == H.real_name)
+		if(!mutual_setspouse)
+			if(!pronouns_match(H, potential_spouse) || !pronouns_match(potential_spouse, H))
+				continue // skip if gender preferences incompatible
 		// Check setspouse compatibility
 		var/priority = 0
-		if(H.setspouse == potential_spouse.real_name && potential_spouse.setspouse == H.real_name)
+		if(mutual_setspouse)
 			priority = 3 // Perfect match
 		else if(H.setspouse == potential_spouse.real_name && !potential_spouse.setspouse)
 			priority = 2 // Good match
