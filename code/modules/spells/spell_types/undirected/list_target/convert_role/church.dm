@@ -14,21 +14,25 @@
 	C.grant_spells_templar(cast_on)
 	cast_on.verbs += list(/mob/living/carbon/human/proc/devotionreport, /mob/living/carbon/human/proc/clericpray)
 
-/datum/action/cooldown/spell/undirected/list_target/convert_role/templar/can_convert(mob/living/carbon/human/cast_on)
+
+/datum/action/cooldown/spell/undirected/list_target/convert_role/templar/cast(mob/living/carbon/human/cast_on)
+	// Patron-specific checks happen here, AFTER priest picks the target
 	var/mob/living/living_owner = owner
-	if(QDELETED(cast_on) || !cast_on.mind)
-		return FALSE
+
 	if(cast_on.patron && (cast_on.patron.type in ALL_PROFANE_PATRONS))
-		to_chat(owner, span_danger("The Ten glare upon you in fury. CHILD, [cast_on.real_name] serves the Inhumen, do not disgrace Our name."))
-		//Do not use this to check who is inhumen or not
+		to_chat(owner, span_danger("The Ten glare upon you in fury. CHILD, [cast_on.real_name] serves the Inhumen — do not disgrace Our name."))
 		living_owner.adjustFireLoss(50)
 		living_owner.adjust_divine_fire_stacks(1)
 		living_owner.IgniteMob()
-		return FALSE
+		return // Stop the recruitment entirely
+
 	if(cast_on.patron && (cast_on.patron.type == /datum/patron/psydon))
-		to_chat(owner, span_info("The Ten glare upon you in sadness. CHILD, [cast_on.real_name] serves Psydon, he is dead, nobody can answer these prayers."))
-		return FALSE
-	return TRUE
+		to_chat(owner, span_info("The Ten glare upon you in sadness. CHILD, [cast_on.real_name] serves Psydon — he is dead, nobody can answer these prayers."))
+		return // Stop recruitment
+
+	return ..()
+
+
 
 /datum/action/cooldown/spell/undirected/list_target/convert_role/acolyte
 	name = "Recruit Acolyte"
@@ -40,21 +44,24 @@
 	accept_message = "FOR THE TEN!"
 	refuse_message = "I refuse."
 
-/datum/action/cooldown/spell/undirected/list_target/convert_role/acolyte/can_convert(mob/living/carbon/human/cast_on)
+
+/datum/action/cooldown/spell/undirected/list_target/convert_role/acolyte/cast(mob/living/carbon/human/cast_on)
+	// Patron-specific checks happen here, AFTER priest picks the target
 	var/mob/living/living_owner = owner
-	if(QDELETED(cast_on) || !cast_on.mind)
-		return FALSE
+
 	if(cast_on.patron && (cast_on.patron.type in ALL_PROFANE_PATRONS))
-		to_chat(owner, span_danger("The Ten glare upon you in fury. CHILD, [cast_on.real_name] serves the Inhumen, do not disgrace Our name."))
-		//Do not use this to check who is inhumen or not
+		to_chat(owner, span_danger("The Ten glare upon you in fury. CHILD, [cast_on.real_name] serves the Inhumen — do not disgrace Our name."))
 		living_owner.adjustFireLoss(50)
 		living_owner.adjust_divine_fire_stacks(1)
 		living_owner.IgniteMob()
-		return FALSE
+		return // Stop the recruitment entirely
+
 	if(cast_on.patron && (cast_on.patron.type == /datum/patron/psydon))
-		to_chat(owner, span_info("The Ten glare upon you in sadness. CHILD, [cast_on.real_name] serves Psydon, he is dead, nobody can answer these prayers."))
-		return FALSE
-	return TRUE
+		to_chat(owner, span_info("The Ten glare upon you in sadness. CHILD, [cast_on.real_name] serves Psydon — he is dead, nobody can answer these prayers."))
+		return // Stop recruitment
+
+	return ..()
+
 
 /datum/action/cooldown/spell/undirected/list_target/convert_role/acolyte/on_conversion(mob/living/carbon/human/cast_on)
 	. = ..()
@@ -72,6 +79,25 @@
 	accept_message = "FOR THE TEN!"
 	refuse_message = "I refuse."
 
+
+/datum/action/cooldown/spell/undirected/list_target/convert_role/churchling/cast(mob/living/carbon/human/cast_on)
+	// Patron-specific checks happen here, AFTER priest picks the target
+	var/mob/living/living_owner = owner
+
+	if(cast_on.patron && (cast_on.patron.type in ALL_PROFANE_PATRONS))
+		to_chat(owner, span_danger("The Ten glare upon you in fury. CHILD, [cast_on.real_name] serves the Inhumen — do not disgrace Our name."))
+		living_owner.adjustFireLoss(50)
+		living_owner.adjust_divine_fire_stacks(1)
+		living_owner.IgniteMob()
+		return // Stop the recruitment entirely
+
+	if(cast_on.patron && (cast_on.patron.type == /datum/patron/psydon))
+		to_chat(owner, span_info("The Ten glare upon you in sadness. CHILD, [cast_on.real_name] serves Psydon — he is dead, nobody can answer these prayers."))
+		return // Stop recruitment
+
+	return ..()
+
+
 /datum/action/cooldown/spell/undirected/list_target/convert_role/churchling/on_conversion(mob/living/carbon/human/cast_on)
 	. = ..()
 	var/datum/devotion/cleric_holder/C = new /datum/devotion/cleric_holder(cast_on, cast_on.patron)
@@ -84,16 +110,6 @@
 		return FALSE
 	//need a mind
 	if(!cast_on.mind)
-		return FALSE
-	if(cast_on.patron && (cast_on.patron.type in ALL_PROFANE_PATRONS))
-		to_chat(owner, span_danger("The Ten glare upon you in fury. CHILD, [cast_on.real_name] serves the Inhumen, do not disgrace Our name."))
-		//Do not use this to check who is inhumen or not
-		living_owner.adjustFireLoss(50)
-		living_owner.adjust_divine_fire_stacks(1)
-		living_owner.IgniteMob()
-		return FALSE
-	if(cast_on.patron && (cast_on.patron.type == /datum/patron/psydon))
-		to_chat(owner, span_info("The Ten glare upon you in sadness. CHILD, [cast_on.real_name] serves Psydon, he is dead, nobody can answer these prayers."))
 		return FALSE
 	//only orphans who aren't apprentices
 	if(istype(cast_on.mind.assigned_role, /datum/job/orphan) && cast_on.is_apprentice())
