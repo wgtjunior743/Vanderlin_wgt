@@ -1,5 +1,5 @@
 /datum/advclass/pilgrim/rare/zybantine
-	name = "Zybantine Emir"
+	name = "Zaladin Emir"
 	tutorial = "An Emir hailing from Deshret, here on business for the Mercator's Guild."
 	allowed_races = RACES_PLAYER_ZYBANTINE
 	outfit = /datum/outfit/job/adventurer/zalad
