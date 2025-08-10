@@ -409,7 +409,7 @@ SUBSYSTEM_DEF(familytree)
 /// Helper proc to check gender choice based on pronouns
 /proc/pronouns_match(mob/living/carbon/human/H, mob/living/carbon/human/other)
 	// Neutral pronouns can only match ANY_GENDER
-	if(H.pronouns == THEY_THEM || H.pronouns == IT_ITS)
+	if((H.pronouns == THEY_THEM || H.pronouns == IT_ITS) || (other.pronouns == THEY_THEM || other.pronouns == IT_ITS))
 		if(H.gender_choice_pref == ANY_GENDER)
 			return TRUE
 		else
