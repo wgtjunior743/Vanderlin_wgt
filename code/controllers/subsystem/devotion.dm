@@ -163,6 +163,42 @@ GLOBAL_LIST_EMPTY(heretical_players)
 	max_progression = 250
 	update_devotion(50, 50)
 
+//Inhumen Cleric Spell Spawner
+/datum/devotion/cleric_holder/proc/grant_spells_inhumen_cleric(mob/living/carbon/human/H)
+	if(!H || !H.mind)
+		return
+
+	var/list/spells = list(
+			/datum/action/cooldown/spell/inhumen_healing,
+		)
+
+	for(var/datum/action/cooldown/spell/spell as anything in spells)
+		H.add_spell(spell, source = src)
+
+	level = CLERIC_T1
+	max_devotion = 250
+	max_progression = 250
+	update_devotion(50, 50)
+
+
+//Inhumen Paladin Spell Spawner
+/datum/devotion/cleric_holder/proc/grant_spells_inhumen_paladin(mob/living/carbon/human/H)
+	if(!H || !H.mind)
+		return
+
+	var/list/spells = list(
+		/datum/action/cooldown/spell/inhumen_healing,
+		)
+	for(var/datum/action/cooldown/spell/spell as anything in spells)
+		if(!spell)
+			continue
+		H.add_spell(spell, source = src)
+
+	level = CLERIC_T0
+	max_devotion = 230
+	max_progression = 230
+
+
 //Templar Spell Spawner
 /datum/devotion/cleric_holder/proc/grant_spells_templar(mob/living/carbon/human/H)
 	if(!H || !H.mind)
