@@ -105,7 +105,6 @@
 	cast_on.verbs += list(/mob/living/carbon/human/proc/devotionreport, /mob/living/carbon/human/proc/clericpray)
 
 /datum/action/cooldown/spell/undirected/list_target/convert_role/churchling/can_convert(mob/living/carbon/human/cast_on)
-	var/mob/living/living_owner = owner
 	if(QDELETED(cast_on))
 		return FALSE
 	//need a mind
