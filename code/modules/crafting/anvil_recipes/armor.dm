@@ -421,7 +421,6 @@
 	craftdiff = 3
 
 /datum/anvil_recipe/armor/steel/templar
-	req_bar = /obj/item/ingot/steel
 	craftdiff = 3
 	abstract_type = /datum/anvil_recipe/armor/steel/templar
 
