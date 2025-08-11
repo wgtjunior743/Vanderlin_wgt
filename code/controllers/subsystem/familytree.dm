@@ -412,6 +412,7 @@ SUBSYSTEM_DEF(familytree)
 	// ANY_GENDER always passes
 	if(H.gender_choice_pref == ANY_GENDER)
 		return TRUE
+
 	// Neutral pronouns can only match ANY_GENDER
 	if((H.pronouns == THEY_THEM || H.pronouns == IT_ITS) || (other.pronouns == THEY_THEM || other.pronouns == IT_ITS))
 		return (H.gender_choice_pref == ANY_GENDER)
@@ -421,7 +422,6 @@ SUBSYSTEM_DEF(familytree)
 
 	if(H.gender_choice_pref == DIFFERENT_GENDER)
 		return (H.pronouns != other.pronouns)
-
 
 	return FALSE
 
