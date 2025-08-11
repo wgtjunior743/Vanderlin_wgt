@@ -75,7 +75,6 @@ GLOBAL_LIST_INIT(wolf_suffixes, list("Fang", "Claw", "Stalker", "Prowler", "Roar
 #define SAME_GENDER "Same gender"
 #define DIFFERENT_GENDER "Different gender"
 
-
 #define FAMILY_FATHER "Father"
 #define FAMILY_MOTHER "Mother"
 #define FAMILY_PROGENY "Progeny"
