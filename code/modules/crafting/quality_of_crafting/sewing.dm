@@ -646,6 +646,14 @@
 	craftdiff = 3
 	category = "Cloak"
 
+/datum/repeatable_crafting_recipe/sewing/xylixtemplar
+	name = "xylixian surcoat"
+	output = /obj/item/clothing/cloak/stabard/templar/xylix
+	requirements = list(/obj/item/natural/cloth = 3,
+				/obj/item/natural/fibers = 1)
+	craftdiff = 3
+	category = "Cloak"
+
 /datum/repeatable_crafting_recipe/sewing/dress
 	name = "bar dress"
 	output = /obj/item/clothing/shirt/dress
