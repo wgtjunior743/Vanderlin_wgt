@@ -21,18 +21,18 @@
 	/// Blood healing amount
 	var/blood_restoration = 0
 
-/datum/action/cooldown/spell/healing/is_valid_target(atom/cast_on)
+/datum/action/cooldown/spell/inhumen_healing/is_valid_target(atom/cast_on)
 	. = ..()
 	if(!.)
 		return FALSE
 	return isliving(cast_on)
 
-/datum/action/cooldown/spell/healing/cast(mob/living/cast_on)
+/datum/action/cooldown/spell/inhumen_healing/cast(mob/living/cast_on)
 	. = ..()
 	var/conditional_buff = FALSE
 	var/situational_bonus = 10
 	//this if chain is stupid, replace with variables on /datum/patron when possible?
-	if(isliving(owner) || cast_on.mob_biotypes & MOB_UNDEAD )
+	if(isliving(owner))
 		var/mob/living/living_owner = owner
 		switch(living_owner.patron?.type)
 			if(/datum/patron/inhumen/zizo)
