@@ -372,6 +372,7 @@
 // --------- STEEL -----------
 /datum/anvil_recipe/armor/steel
 	req_bar = /obj/item/ingot/steel
+	abstract_type = /datum/anvil_recipe/armor/steel
 	craftdiff = 2
 
 /datum/anvil_recipe/armor/steel/bevor
@@ -420,7 +421,9 @@
 	craftdiff = 3
 
 /datum/anvil_recipe/armor/steel/templar
+	req_bar = /obj/item/ingot/steel
 	craftdiff = 3
+	abstract_type = /datum/anvil_recipe/armor/steel/templar
 
 /datum/anvil_recipe/armor/steel/templar/helmet_noc
 	name = "Noc Helmet"
