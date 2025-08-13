@@ -58,7 +58,6 @@
 	allowed_races = RACES_PLAYER_GRENZ
 	outfit = /datum/outfit/job/grenzelhoft_migration/countess
 	grant_lit_torch = TRUE
-	is_foreigner = FALSE
 
 /datum/outfit/job/grenzelhoft_migration/countess/pre_equip(mob/living/carbon/human/H)
 	..()
