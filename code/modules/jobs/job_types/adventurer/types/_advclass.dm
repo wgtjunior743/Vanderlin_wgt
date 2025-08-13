@@ -45,7 +45,7 @@
 	H.set_apprentice_name(apprentice_name)
 
 	if(is_recognized)
-		ADD_TRAIT(H, TRAT_RECOGNIZED, TRAIT_GENERIC)
+		ADD_TRAIT(H, TRAIT_RECOGNIZED, TRAIT_GENERIC)
 /*	for(var/trait in traits_applied)
 		ADD_TRAIT(H, trait, ADVENTURER_TRAIT) */
 

@@ -127,6 +127,8 @@
 
 	var/is_foreigner = FALSE
 
+	var/is_recognized = TRUE // For foreigners who are recognized.
+
 	var/datum/charflaw/forced_flaw
 
 	var/shows_in_list = TRUE
@@ -208,6 +210,8 @@
 
 	if(is_foreigner)
 		ADD_TRAIT(spawned, TRAIT_FOREIGNER, TRAIT_GENERIC)
+	if(is_recognized)
+		ADD_TRAIT(spawned, TRAIT_RECOGNIZED, TRAIT_GENERIC)
 
 	if(can_have_apprentices)
 		spawned.set_apprentice_training_skills(trainable_skills.Copy())

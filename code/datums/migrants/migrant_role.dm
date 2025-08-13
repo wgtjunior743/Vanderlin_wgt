@@ -29,7 +29,7 @@
 	if(is_foreigner)
 		ADD_TRAIT(character, TRAIT_FOREIGNER, TRAIT_GENERIC)
 	if(is_recognized)
-		ADD_TRAIT(character, TRAT_RECOGNIZED, TRAIT_GENERIC)
+		ADD_TRAIT(character, TRAIT_RECOGNIZED, TRAIT_GENERIC)
 	return
 
 /datum/migrant_role/pilgrim
