@@ -18,7 +18,7 @@
 	cooldown_time = 60 SECONDS
 	spell_cost = 100
 
-	aoe_radius = 6
+	aoe_radius = 4
 
 /datum/action/cooldown/spell/aoe/churn_undead/is_valid_target(atom/cast_on)
 	return isliving(cast_on)
