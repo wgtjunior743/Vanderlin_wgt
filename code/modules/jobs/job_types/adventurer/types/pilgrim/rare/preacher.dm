@@ -11,7 +11,6 @@
 	min_pq = 0
 
 	cmode_music = 'sound/music/cmode/church/CombatInquisitor.ogg'
-	is_recognized = TRUE
 
 /datum/outfit/job/adventurer/preacher/pre_equip(mob/living/carbon/human/H)
 	..()
