@@ -127,7 +127,7 @@
 
 	var/is_foreigner = FALSE
 
-	var/is_recognized = TRUE // For foreigners who are recognized.
+	var/is_recognized = FALSE // For foreigners who are recognized.
 
 	var/datum/charflaw/forced_flaw
 
