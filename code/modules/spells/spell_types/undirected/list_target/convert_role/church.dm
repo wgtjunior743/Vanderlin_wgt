@@ -21,8 +21,7 @@
 
 	if(cast_on.patron && (cast_on.patron.type in ALL_PROFANE_PATRONS))
 		to_chat(owner, span_danger("The Ten glare upon you in fury. CHILD, [cast_on.real_name] serves the Inhumen, do not disgrace Our name."))
-		living_owner.adjustFireLoss(50)
-		living_owner.adjust_divine_fire_stacks(1)
+		living_owner.adjust_divine_fire_stacks(50) // Half of the damage if you say the a profane word, hurts alot.
 		living_owner.IgniteMob()
 		return // Stop the recruitment entirely
 
@@ -51,8 +50,7 @@
 
 	if(cast_on.patron && (cast_on.patron.type in ALL_PROFANE_PATRONS))
 		to_chat(owner, span_danger("The Ten glare upon you in fury. CHILD, [cast_on.real_name] serves the Inhumen, do not disgrace Our name."))
-		living_owner.adjustFireLoss(50)
-		living_owner.adjust_divine_fire_stacks(1)
+		living_owner.adjust_divine_fire_stacks(50) // Half of the damage you take if you say the a profane word, hurts alot.
 		living_owner.IgniteMob()
 		return // Stop the recruitment entirely
 
@@ -83,14 +81,6 @@
 /datum/action/cooldown/spell/undirected/list_target/convert_role/churchling/cast(mob/living/carbon/human/cast_on)
 	// Patron-specific checks happen here, AFTER priest picks the target
 	var/mob/living/living_owner = owner
-
-	if(cast_on.patron && (cast_on.patron.type in ALL_PROFANE_PATRONS))
-		to_chat(owner, span_danger("The Ten glare upon you in fury. CHILD, [cast_on.real_name] serves the Inhumen, do not disgrace Our name."))
-		living_owner.adjustFireLoss(50)
-		living_owner.adjust_divine_fire_stacks(1)
-		living_owner.IgniteMob()
-		return // Stop the recruitment entirely
-
 	if(cast_on.patron && (cast_on.patron.type == /datum/patron/psydon))
 		to_chat(owner, span_info("The Ten glare upon you in sadness. CHILD, [cast_on.real_name] serves Psydon, he is dead, nobody can answer these prayers."))
 		return // Stop recruitment
