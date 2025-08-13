@@ -86,7 +86,7 @@
 			appendage_to_name += " [race_name]"
 
 
-		if(used_title && (!HAS_TRAIT(src, TRAIT_FOREIGNER) || HAS_TRAIT(src, TRAIT_RECRUITED)) && !HAS_TRAIT(src, TRAIT_FACELESS)) // job name, don't show job of foreigners.
+		if(used_title && (!HAS_TRAIT(src, TRAIT_FOREIGNER) || HAS_TRAIT(src, TRAIT_RECRUITED)) || HAS_TRAIT(src, TRAT_RECOGNIZED) && !HAS_TRAIT(src, TRAIT_FACELESS)) // job name, don't show job of foreigners.
 			appendage_to_name += ", [used_title]"
 
 		if(appendage_to_name) // if we got any of those paramaters add it to their name
@@ -168,7 +168,7 @@
 			var/datum/component/vampire_disguise/disguise_comp = GetComponent(/datum/component/vampire_disguise)
 			if(!disguise_comp.disguised)
 				. += span_userdanger("A MONSTER!")
-          
+
 		if(!is_bandit && (real_name in GLOB.outlawed_players))
 			. += span_userdanger("OUTLAW!")
 

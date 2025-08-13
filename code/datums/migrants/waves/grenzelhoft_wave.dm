@@ -5,6 +5,7 @@
 	allowed_races = RACES_PLAYER_GRENZ
 	outfit = /datum/outfit/job/grenzelhoft_migration/count
 	grant_lit_torch = TRUE
+	is_recognized = TRUE
 
 /datum/outfit/job/grenzelhoft_migration/count/pre_equip(mob/living/carbon/human/H)
 	..()
@@ -58,7 +59,7 @@
 	allowed_races = RACES_PLAYER_GRENZ
 	outfit = /datum/outfit/job/grenzelhoft_migration/countess
 	grant_lit_torch = TRUE
-	is_foreigner = FALSE
+	is_recognized = TRUE
 
 /datum/outfit/job/grenzelhoft_migration/countess/pre_equip(mob/living/carbon/human/H)
 	..()
@@ -109,6 +110,7 @@
 	allowed_sexes = list(MALE)
 	allowed_races = RACES_PLAYER_GRENZ
 	outfit = /datum/outfit/job/grenzelhoft_migration/grenzelhoft_knight
+	is_recognized = TRUE
 
 /datum/outfit/job/grenzelhoft_migration/grenzelhoft_knight/pre_equip(mob/living/carbon/human/H)
 	..()

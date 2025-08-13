@@ -22,6 +22,7 @@
 	var/list/category_tags = list(CTAG_DISABLED)
 	var/displays_adv_job = TRUE
 	var/apprentice_name //Must be set to give apprentices the correct title. Note that pilgrims cannot have apprentices.
+	var/is_recognized = FALSE // Shows their title even as foreigner, used for pilgrims and adventurers.
 
 /datum/advclass/proc/equipme(mob/living/carbon/human/H)
 	// input sleeps....
@@ -43,6 +44,8 @@
 			new horse(TU)
 	H.set_apprentice_name(apprentice_name)
 
+	if(is_recognized)
+		ADD_TRAIT(H, TRAT_RECOGNIZED, TRAIT_GENERIC)
 /*	for(var/trait in traits_applied)
 		ADD_TRAIT(H, trait, ADVENTURER_TRAIT) */
 
