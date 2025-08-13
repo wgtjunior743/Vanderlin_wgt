@@ -5,7 +5,6 @@
 	allowed_sexes = list(MALE)
 	allowed_races = RACES_PLAYER_NONDISCRIMINATED
 	grant_lit_torch = TRUE
-	is_foreigner = FALSE
 
 /datum/outfit/job/heartfelt/lord/pre_equip(mob/living/carbon/human/H)
 	..()
@@ -57,7 +56,6 @@
 	allowed_sexes = list(FEMALE)
 	allowed_races = RACES_PLAYER_NONDISCRIMINATED
 	grant_lit_torch = TRUE
-	is_foreigner = FALSE
 
 /datum/outfit/job/heartfelt/lady/pre_equip(mob/living/carbon/human/H)
 	..()
@@ -108,7 +106,6 @@
 	outfit = /datum/outfit/job/heartfelt/hand
 	allowed_races = RACES_PLAYER_NONDISCRIMINATED
 	grant_lit_torch = TRUE
-	is_foreigner = FALSE
 
 /datum/outfit/job/heartfelt/hand/pre_equip(mob/living/carbon/human/H)
 	..()
@@ -151,7 +148,6 @@
 	outfit = /datum/outfit/job/heartfelt/knight
 	allowed_races = RACES_PLAYER_NONDISCRIMINATED
 	grant_lit_torch = TRUE
-	is_foreigner = FALSE
 
 /datum/outfit/job/heartfelt/knight/pre_equip(mob/living/carbon/human/H)
 	..()
@@ -230,7 +226,6 @@
 	outfit = /datum/outfit/job/heartfelt/magos
 	allowed_races = RACES_PLAYER_NONDISCRIMINATED
 	grant_lit_torch = TRUE
-	is_foreigner = FALSE
 
 /datum/outfit/job/heartfelt/magos
 	allowed_patrons = list(/datum/patron/divine/noc)
@@ -295,7 +290,6 @@
 	outfit = /datum/outfit/job/heartfelt/prior
 	allowed_races = RACES_PLAYER_NONDISCRIMINATED
 	grant_lit_torch = TRUE
-	is_foreigner = FALSE
 
 /datum/outfit/job/heartfelt/prior
 	allowed_patrons = list(/datum/patron/divine/astrata)
@@ -343,7 +337,6 @@
 	outfit = /datum/outfit/job/heartfelt/artificer
 	allowed_races = RACES_PLAYER_NONDISCRIMINATED
 	grant_lit_torch = TRUE
-	is_foreigner = FALSE
 
 /datum/outfit/job/heartfelt/artificer/pre_equip(mob/living/carbon/human/H)
 	..()

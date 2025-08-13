@@ -20,6 +20,7 @@
 	advclass_cat_rolls = list(CTAG_PILGRIM = 15)
 
 	same_job_respawn_delay = 0
+	is_foreigner = TRUE
 	can_have_apprentices = FALSE
 	selection_color = "#a33096"
 

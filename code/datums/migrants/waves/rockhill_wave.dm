@@ -5,7 +5,6 @@
 	allowed_sexes = list(MALE,FEMALE)
 	allowed_races = RACES_PLAYER_NONDISCRIMINATED
 	grant_lit_torch = TRUE
-	is_foreigner = FALSE
 /datum/outfit/job/rockhill/mayor/pre_equip(mob/living/carbon/human/H)
 	..()
 	shirt = /obj/item/clothing/shirt/undershirt
