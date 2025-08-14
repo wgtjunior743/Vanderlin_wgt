@@ -73,7 +73,7 @@
 		neck = /obj/item/clothing/neck/mana_star
 	else
 		shoes = /obj/item/clothing/shoes/simpleshoes
-		shirt = /obj/item/clothing/shirt/dress/silkdress/black
+		shirt = /obj/item/clothing/shirt/dress/silkdress/colored/random
 		pants = /obj/item/clothing/pants/tights/colored/random
 		belt  =	/obj/item/storage/belt/leather
 		beltl = /obj/item/book/granter/spellbook/adept // spoiled brats
