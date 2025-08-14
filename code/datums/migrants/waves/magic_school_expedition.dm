@@ -15,7 +15,7 @@
 
 	head = /obj/item/clothing/head/wizhat
 	backr = /obj/item/storage/backpack/satchel
-	armor = /obj/item/clothing/shirt/robe/black
+	armor = /obj/item/clothing/shirt/robe/colored/black
 	belt  =	/obj/item/storage/belt/leather
 	beltr = /obj/item/storage/magebag/apprentice
 	backl = /obj/item/weapon/polearm/woodstaff
@@ -61,7 +61,7 @@
 	H.mana_pool?.set_intrinsic_recharge(MANA_ALL_LEYLINES)
 
 	if(H.gender == MALE)
-		pants = /obj/item/clothing/pants/tights/random
+		pants = /obj/item/clothing/pants/tights/colored/random
 		shoes = /obj/item/clothing/shoes/simpleshoes
 		shirt = /obj/item/clothing/shirt/shortshirt
 		belt  = /obj/item/storage/belt/leather
@@ -74,7 +74,7 @@
 	else
 		shoes = /obj/item/clothing/shoes/simpleshoes
 		shirt = /obj/item/clothing/shirt/dress/silkdress/black
-		pants = /obj/item/clothing/pants/tights/random
+		pants = /obj/item/clothing/pants/tights/colored/random
 		belt  =	/obj/item/storage/belt/leather
 		beltl = /obj/item/book/granter/spellbook/adept // spoiled brats
 		beltr = /obj/item/storage/magebag/apprentice
