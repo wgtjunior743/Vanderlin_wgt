@@ -124,8 +124,8 @@
 				position: relative;
 				overflow: auto;
 				background: #1a1a1a;
-				height: calc(100% - 40px); /* Reduced height */
-				margin-bottom: 20px; /* Added margin at bottom */
+				height: calc(100% - 40px);
+				margin-bottom: 20px; 
 			}
 
 			.hierarchy-sidebar {
