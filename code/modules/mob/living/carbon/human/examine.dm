@@ -186,11 +186,11 @@
 			if(HAS_TRAIT(src, TRAIT_CABAL) && HAS_TRAIT(user, TRAIT_CABAL))
 				. += span_purple("A fellow seeker of Her ascension.")
 
+		if(HAS_TRAIT(src, TRAIT_LEPROSY))
+			. += span_necrosis("A LEPER...")
+
 	if(HAS_TRAIT(src, TRAIT_MANIAC_AWOKEN))
 		. += span_userdanger("MANIAC!")
-
-	if(HAS_TRAIT(src, TRAIT_LEPROSY))
-		. += span_necrosis("A LEPER...")
 
 	if(HAS_TRAIT(src, TRAIT_FACELESS))
 		. += span_userdanger("FACELESS?! AN ASSASSIN!")
