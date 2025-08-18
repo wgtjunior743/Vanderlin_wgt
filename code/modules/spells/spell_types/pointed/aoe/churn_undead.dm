@@ -28,7 +28,7 @@
 		return
 	if(victim.mind)
 		if(victim.mind.has_antag_datum(/datum/antagonist/vampire/lord))
-			var/datum/antagonist/vampire/lord/lord_datum = vamp_datum
+			var/datum/antagonist/vampire/lord/lord_datum = victim.mind.has_antag_datum(/datum/antagonist/vampire/lord)
 			if(lord_datum.ascended)
 				victim.visible_message(span_warning("[victim] overpowers being churned!"), span_greentext("I overpower being churned!"))
 				to_chat(owner, span_userdanger("[victim] is too strong, I am churned!"))
