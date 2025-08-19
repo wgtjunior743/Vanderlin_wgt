@@ -80,7 +80,6 @@
 
 /datum/action/cooldown/spell/undirected/list_target/convert_role/churchling/cast(mob/living/carbon/human/cast_on)
 	// Patron-specific checks happen here, AFTER priest picks the target
-	var/mob/living/living_owner = owner
 	if(cast_on.patron && (cast_on.patron.type == /datum/patron/psydon))
 		to_chat(owner, span_info("The Ten glare upon you in sadness. CHILD, [cast_on.real_name] serves Psydon, he is dead, nobody can answer these prayers."))
 		return // Stop recruitment
