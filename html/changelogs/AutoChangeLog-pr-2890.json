@@ -1,1 +1,0 @@
-{"author":"Arkatos","delete-after":true,"changes":[{"bugfix":"Fixed a rare issue where a roundstart event failed to trigger due to wrong timing."}]}
