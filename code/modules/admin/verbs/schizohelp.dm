@@ -231,7 +231,9 @@ GLOBAL_LIST_EMPTY(voice_names)
 	/// Becomes TRUE when max answers is reached
 	var/locked = FALSE
 	/// Timer before the ticket is deleted
-	var/delete_timer = 1 MINUTES
+	var/delete_timer = 2 MINUTES
+	/// For the decay to prevent it from being deleted
+	var/asked_again = FALSE
 
 /datum/schizohelp/New(mob/owner)
 	. = ..()
@@ -269,6 +271,11 @@ GLOBAL_LIST_EMPTY(voice_names)
 	qdel(src)
 
 /datum/schizohelp/proc/answer_schizo(answer, mob/voice, ask_again = FALSE)
+	if(asked_again)
+		var/mob/schizo = owner.resolve()
+		addtimer(CALLBACK(src, PROC_REF(decay)), 3 MINUTES)
+		asked_again = FALSE
+		return
 	if(QDELETED(src) || !voice.client)
 		return
 	var/mob/schizo = owner.resolve()
@@ -293,12 +300,11 @@ GLOBAL_LIST_EMPTY(voice_names)
 			"[voice] ([voice.key || "NO KEY"]) [ADMIN_FLW(voice)] [ADMIN_SM(voice)] \
 			answered [schizo] ([schizo.key || "NO KEY"])'s [ADMIN_FLW(schizo)] [ADMIN_SM(schizo)] Mentor Help: [answer]"))
 
-
 	answers[voice.key] = answer
 
 	log_game("([voice.key || "NO KEY"]) answered ([schizo.key || "NO KEY"])'s Mentor Help: [answer]")
 
 	if(length(answers) >= max_answers && !ask_again && !locked)
 		locked = TRUE
-		to_chat(schizo, span_notice("<i>The voices grow silent... I must meditate another time if I wish for more guidance or ask again one of the voices...</i>"))
+		to_chat(schizo, span_notice("<i>The voices grow silent... I must meditate another time if i wish for more guidance or i could ASK AGAIN one of the voices...</i>"))
 		addtimer(CALLBACK(src, PROC_REF(decay)), delete_timer)
