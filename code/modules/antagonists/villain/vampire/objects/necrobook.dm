@@ -74,7 +74,7 @@
 		to_chat(user, span_warning("The Moon is watching. I must wait for Her to return."))
 		return
 	if(!user.adjust_bloodpool(SUN_STEAL_COST))
-		to_chat(user, span_warning("I do not have enough vitae, i need 5000 vitae to steal the Sun."))
+		to_chat(user, span_warning("I do not have enough vitae, I need [SUN_STEAL_COST] vitae to steal the Sun."))
 		return
 
 	return TRUE
