@@ -444,10 +444,8 @@
 	if(ishuman(user))
 		var/mob/living/carbon/human/user_human = user
 		if(user_human.clan)
-			if(user_human.potence_weapon_buff > 0)
-				for(var/i = 1; i <= user_human.potence_weapon_buff; i++)
-					used_str += 0.5
-					//For each level of potence user gains 0.5 STR, at 5 Potence their STR buff is 2.5
+			used_str += floor(0.5 * user_human.potence_weapon_buff)
+			// For each level of potence user gains 0.5 STR, at 5 Potence their STR buff is 2.5
 	if(used_str >= 11)
 		newforce = newforce + (newforce * ((used_str - 10) * 0.1))
 	else if(used_str <= 9)
