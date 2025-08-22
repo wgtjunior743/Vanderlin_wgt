@@ -57,7 +57,7 @@ GLOBAL_LIST_EMPTY(respawncounts)
 		var/mob/voice = locate(href_list["voice"])
 		if(QDELETED(schizo) || !voice.client)
 			return
-		var/msg = input("Ask again:", "To the voice of a [schizo.rng_voice_name]") as text|null
+		var/msg = input("Ask again:", "To the voice of a [schizo.voice_names[voice.client.ckey]]") as text|null
 		if(msg)
 			mob.schizohelp(msg, TRUE, voice, schizo)
 			schizo.asked_again = TRUE
