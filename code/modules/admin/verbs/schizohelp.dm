@@ -261,7 +261,6 @@ GLOBAL_LIST_EMPTY(voice_names)
 
 /datum/schizohelp/proc/decay()
 	if(asked_again)
-		var/mob/schizo = owner.resolve()
 		addtimer(CALLBACK(src, PROC_REF(decay)), 3 MINUTES)
 		asked_again = FALSE
 		return
