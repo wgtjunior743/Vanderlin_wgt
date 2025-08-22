@@ -23,7 +23,7 @@
 				to_chat(user, span_warning("I cannot summon any more death knights."))
 				return
 			if(!user.has_bloodpool_cost(DEATH_KNIGHT_COST))
-				to_chat(user, span_warning("I do not have enough vitae, i need 2500 vitae for a Death Knight."))
+				to_chat(user, span_warning("I do not have enough vitae, I need [DEATH_KNIGHT_COST] vitae for a Death Knight."))
 				return
 			if(!do_after(user, 10 SECONDS, src))
 				return
