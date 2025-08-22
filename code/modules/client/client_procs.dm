@@ -68,9 +68,14 @@ GLOBAL_LIST_EMPTY(respawncounts)
 		var/datum/schizohelp/schizo = locate(href_list["src"])
 		var/mob/voice = locate(href_list["like"])
 		if(schizo && voice && voice.client)
-			if(!(schizo.voted?[ckey]))
-				schizo.voted[ckey] = TRUE
-				to_chat(src, span_notice("You liked the answer of a [schizo.rng_voice_name]"))
+			var/voice_ckey = voice.client.ckey
+			if(!schizo.voted[voice_ckey])
+				schizo.voted[voice_ckey] = list()
+			// has this player already voted on THIS voice's answer?
+			if(!(schizo.voted[voice_ckey][src.ckey]))
+				schizo.voted[voice_ckey][src.ckey] = "like"
+
+				to_chat(src, span_notice("You liked the answer of a [schizo.voice_names[voice.client.ckey]]"))
 				to_chat(voice.client, span_notice("Your answer to [schizo.rng_name] was liked."))
 				update_mentor_stat(voice.client.ckey, "likes", 1)
 				var/now = world.time
@@ -88,7 +93,7 @@ GLOBAL_LIST_EMPTY(respawncounts)
 
 				update_mentor_stat(voice.client.ckey, "real_likes", 1)
 			else
-				to_chat(src, span_warning("You already voted on this answer!"))
+				to_chat(src, span_warning("You already voted on the [schizo.voice_names[voice.client.ckey]] answer!"))
 		return
 
 	// DISLIKE SCHIZOHELP
@@ -96,13 +101,17 @@ GLOBAL_LIST_EMPTY(respawncounts)
 		var/datum/schizohelp/schizo = locate(href_list["src"])
 		var/mob/voice = locate(href_list["dislike"])
 		if(schizo && voice && voice.client)
-			if(!(schizo.voted?[ckey]))
-				schizo.voted[ckey] = TRUE
-				to_chat(src, span_notice("You disliked the answer of a [schizo.rng_voice_name]."))
+			var/voice_ckey = voice.client.ckey
+			if(!schizo.voted[voice_ckey])
+				schizo.voted[voice_ckey] = list()
+			// has this player already voted on THIS voice's answer?
+			if(!(schizo.voted[voice_ckey][src.ckey]))
+				schizo.voted[voice_ckey][src.ckey] = "dislike"
+				to_chat(src, span_notice("You disliked the answer of a [schizo.voice_names[voice.client.ckey]]."))
 				to_chat(voice.client, span_notice("Your answer to [schizo.rng_name] was disliked"))
 				update_mentor_stat(voice.client.ckey, "dislikes", 1)
 			else
-				to_chat(src, span_warning("You already voted on this answer!"))
+				to_chat(src, span_warning("You already voted on the [schizo.voice_names[voice.client.ckey]] answer!"))
 		return
 
 	if(href_list["delete_painting"])

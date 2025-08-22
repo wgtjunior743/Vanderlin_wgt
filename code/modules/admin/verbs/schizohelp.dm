@@ -208,8 +208,6 @@ GLOBAL_LIST_EMPTY(voice_names)
 	var/answer = browser_input_text(src, "Answer their meditations...", "THE VOICE", multiline = TRUE)
 	if(!answer || QDELETED(schizo))
 		return
-	var/rng_voice_name_mob = mob.get_voice_name()
-	schizo.rng_voice_name = rng_voice_name_mob
 	update_mentor_stat(src.ckey, "answered", 1)
 	schizo.answer_schizo(answer, mob, ask_again)
 
@@ -225,7 +223,7 @@ GLOBAL_LIST_EMPTY(voice_names)
 	///For like,dislikes.
 	var/list/voted = list()
 	///Voice Name
-	var/rng_voice_name
+	var/list/voice_names = list()
 	///Schizo Name
 	var/rng_name
 	/// Becomes TRUE when max answers is reached
@@ -262,6 +260,11 @@ GLOBAL_LIST_EMPTY(voice_names)
 	qdel(src)
 
 /datum/schizohelp/proc/decay()
+	if(asked_again)
+		var/mob/schizo = owner.resolve()
+		addtimer(CALLBACK(src, PROC_REF(decay)), 3 MINUTES)
+		asked_again = FALSE
+		return
 	if(!length(answers))
 		var/mob/schizo = owner.resolve()
 		if(!QDELETED(schizo))
@@ -271,11 +274,6 @@ GLOBAL_LIST_EMPTY(voice_names)
 	qdel(src)
 
 /datum/schizohelp/proc/answer_schizo(answer, mob/voice, ask_again = FALSE)
-	if(asked_again)
-		var/mob/schizo = owner.resolve()
-		addtimer(CALLBACK(src, PROC_REF(decay)), 3 MINUTES)
-		asked_again = FALSE
-		return
 	if(QDELETED(src) || !voice.client)
 		return
 	var/mob/schizo = owner.resolve()
@@ -288,8 +286,11 @@ GLOBAL_LIST_EMPTY(voice_names)
 	(<a href='byond://?src=[REF(src)];dislike=[REF(voice)]'>DISLIKE</a>) \
 	(<a href='byond://?src=[REF(src)];ask_again=[REF(src)];voice=[REF(voice)]'>ASK AGAIN</a>)")
 
+	var/voice_ckey = voice.client.ckey
+	if(!voice_names[voice_ckey])
+		voice_names[voice_ckey] = voice.get_voice_name()
 
-	to_chat(schizo, mentor_block("[span_notice("<i>I hear the Voice of a [src.rng_voice_name] in my head...</i>\n<b>[answer]</b>")] [buttons]"))
+	to_chat(schizo, mentor_block("[span_notice("<i>I hear the Voice of a [voice_names[voice_ckey]] in my head...</i>\n<b>[answer]</b>")] [buttons]"))
 	var/sound/used = sound('sound/misc/notice (2).ogg')
 	used.pitch *= 1.5
 	SEND_SOUND(schizo, used)
