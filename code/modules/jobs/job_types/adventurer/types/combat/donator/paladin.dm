@@ -99,7 +99,7 @@
 		H.change_stat(STATKEY_END, 1)
 		H.change_stat(STATKEY_SPD, -2)
 		H.change_stat(STATKEY_LCK, 1)
-		if(!H.has_language(/datum/language/celestial) && H.patron.type in ALL_TEMPLE_PATRONS) // For discussing church matters with the other Clergy, no Psydonites allowed.
+		if(!H.has_language(/datum/language/celestial) && (H.patron?.type in ALL_TEMPLE_PATRONS)) // For discussing church matters with the other Clergy, no Psydonites allowed.
 			H.grant_language(/datum/language/celestial)
 			to_chat(H, "<span class='info'>I can speak Celestial with ,c before my speech.</span>")
 	if(H.dna?.species)
