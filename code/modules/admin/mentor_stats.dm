@@ -11,8 +11,8 @@
 			"likes" = 0,
 			"dislikes" = 0,
 			"real_likes" = 0,
-			"pq_gained" = 0,
-			"answered" = 0
+			"answered" = 0,
+			"triumph_gained" = 0
 		)
 		fdel(json_file)
 		WRITE_FILE(json_file, json_encode(json))
@@ -21,7 +21,7 @@
 
 
 
-/proc/update_mentor_stat(key, field, amt)
+/proc/update_mentor_stat(key, field, amt, mob/mob_c)
 	if(!key || !field)
 		return
 	var/json_file = file("data/player_saves/[copytext(key,1,2)]/[key]/mentor_stats.json")
@@ -34,23 +34,23 @@
 			"likes" = 0,
 			"dislikes" = 0,
 			"real_likes" = 0,
-			"pq_gained" = 0,
-			"answered" = 0
+			"answered" = 0,
+			"triumph_gained" = 0
 		)
 
 	if(!(field in json[ckey(key)]))
 		return
 
 	json[ckey(key)][field] += amt
-	// Check if this update triggers new PQ for real likes
+	// Check if this update triggers new Triumphs for real likes
 	var/real_likes = json[ckey(key)]["real_likes"]
-	var/pq_chunks_awarded = json[ckey(key)]["pq_gained"]  // store as integer chunks
-	var/expected_chunks = floor(real_likes / 10)
+	var/triumph_chunks_awarded = json[ckey(key)]["triumph_gained"]  // store as integer chunks
+	var/expected_chunks = floor(real_likes / 7)
 
-	if(expected_chunks > pq_chunks_awarded)
-		var/delta = expected_chunks - pq_chunks_awarded
-		adjust_playerquality(0.1 * delta, key)
-		json[ckey(key)]["pq_gained"] = expected_chunks
+	if(expected_chunks > triumph_chunks_awarded)
+		var/delta = expected_chunks - triumph_chunks_awarded
+		mob_c.adjust_triumphs(delta)
+		json[ckey(key)]["triumph_gained"] = expected_chunks
 
 
 	fdel(json_file)
@@ -71,7 +71,7 @@
 	popup_window_data += "<td width=34%><center><span style='color: #a8ff8c;'><b>Real Likes:</b> [stats["real_likes"]]</span></center></td>"
 	popup_window_data += "<td width=33%><div style='text-align:right'><span style='color: #ff6666;'><b>Voices answers dislikes:</b> [stats["dislikes"]]</span></div></td></tr>"
 	popup_window_data += "<tr><td width=33%><div style='text-align:left'><span style='color: #ffff66;'><b>Voices Answered:</b> [stats["answered"]]</span></div></td>"
-	popup_window_data += "<td width=34%><center><span style='color: #66ccff;'><b>PQ Gained:</b> [stats["pq_gained"]/ 10]</span></center></td>"
+	popup_window_data += "<td width=34%><center><span style='color: #41095e;'><b>Triumph Gained:</b> [stats["triumph_gained"]]</span></center></td>"
 	popup_window_data += "<td width=33%></td></tr>"
 	popup_window_data += "</table>"
 

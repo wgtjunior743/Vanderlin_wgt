@@ -77,12 +77,12 @@ GLOBAL_LIST_EMPTY(respawncounts)
 
 				to_chat(src, span_notice("You liked the answer of a [schizo.voice_names[voice.client.ckey]]"))
 				to_chat(voice.client, span_notice("Your answer to [schizo.rng_name] was liked."))
-				update_mentor_stat(voice.client.ckey, "likes", 1)
+				update_mentor_stat(voice.client.ckey, "likes", 1, voice)
 				var/now = world.time
 				var/last_like_from_player = voice.client.real_like_cooldowns[src.ckey]
 
-				//Limit of 10 Real likes per Round aka 0.1 PQ
-				if(voice.client.real_likes_received >= 10)
+				//Limit of 35 Real likes per Round aka 5 Triumphs
+				if(voice.client.real_likes_received >= 35)
 					return
 				//Can't give real likes for the same voice without a 10 Minutes cooldown
 				if(last_like_from_player && now - last_like_from_player < 10 MINUTES)
@@ -91,7 +91,7 @@ GLOBAL_LIST_EMPTY(respawncounts)
 				voice.client.real_like_cooldowns[src.ckey] = now
 				voice.client.real_likes_received  += 1
 
-				update_mentor_stat(voice.client.ckey, "real_likes", 1)
+				update_mentor_stat(voice.client.ckey, "real_likes", 1, voice)
 			else
 				to_chat(src, span_warning("You already voted on the [schizo.voice_names[voice.client.ckey]] answer!"))
 		return
@@ -109,7 +109,7 @@ GLOBAL_LIST_EMPTY(respawncounts)
 				schizo.voted[voice_ckey][src.ckey] = "dislike"
 				to_chat(src, span_notice("You disliked the answer of a [schizo.voice_names[voice.client.ckey]]."))
 				to_chat(voice.client, span_notice("Your answer to [schizo.rng_name] was disliked"))
-				update_mentor_stat(voice.client.ckey, "dislikes", 1)
+				update_mentor_stat(voice.client.ckey, "dislikes", 1, voice)
 			else
 				to_chat(src, span_warning("You already voted on the [schizo.voice_names[voice.client.ckey]] answer!"))
 		return

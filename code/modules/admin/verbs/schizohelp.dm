@@ -208,7 +208,7 @@ GLOBAL_LIST_EMPTY(voice_names)
 	var/answer = browser_input_text(src, "Answer their meditations...", "THE VOICE", multiline = TRUE)
 	if(!answer || QDELETED(schizo))
 		return
-	update_mentor_stat(src.ckey, "answered", 1)
+	update_mentor_stat(src.ckey, "answered", 1 , src)
 	schizo.answer_schizo(answer, mob, ask_again)
 
 /datum/schizohelp
