@@ -105,7 +105,6 @@
 	if(H.dna?.species)
 		if(H.dna.species.id == SPEC_ID_HUMEN)
 			H.dna.species.soundpack_m = new /datum/voicepack/male/knight()
-	var/datum/devotion/cleric_holder/C = new /datum/devotion/cleric_holder(H, H.patron)
 	var/holder = H.patron?.devotion_holder
 	if(holder)
 		var/datum/devotion/devotion = new holder()
