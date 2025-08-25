@@ -167,9 +167,8 @@
 	return null
 
 /datum/species/human/halfelf/after_creation(mob/living/carbon/human/C)
+	C.dna.species.native_language = pick("Elfish", "Imperial")
 	..()
 	C.grant_language(/datum/language/elvish)
 	to_chat(C, "<span class='info'>I can speak Elvish with ,e before my speech.</span>")
 
-/datum/species/human/halfelf/get_native_language()
-	return pick("Elfish", "Imperial")

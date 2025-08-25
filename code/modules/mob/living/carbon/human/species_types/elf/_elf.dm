@@ -5,6 +5,7 @@
 	name = "Elfb"
 	id = SPEC_ID_ELF
 	changesource_flags = WABBAJACK
+	native_language = "Elfish"
 
 	bodypart_features = list(
 		/datum/bodypart_feature/hair/head,
@@ -48,5 +49,3 @@
 	"red - autumn" = "a34332"
 	))
 
-/datum/species/elf/get_native_language()
-	return "Elfish"

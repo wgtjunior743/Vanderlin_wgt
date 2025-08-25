@@ -160,10 +160,9 @@
 
 /datum/species/human/halfdrow/after_creation(mob/living/carbon/human/C)
 	..()
+	C.dna.species.native_language = pick("Elfish", "Imperial")
 	if(C.skin_tone == SKIN_COLOR_ZIZO_CURSED)
 		exotic_bloodtype = /datum/blood_type/human/cursed_elf
 	C.grant_language(/datum/language/elvish)
 	to_chat(C, "<span class='info'>I can speak Elvish with ,e before my speech.</span>")
 
-/datum/species/human/halfdrow/get_native_language()
-	return pick("Elfish", "Imperial")

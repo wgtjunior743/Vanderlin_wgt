@@ -266,14 +266,14 @@ GLOBAL_LIST_EMPTY(patreon_races)
 
 	var/punch_damage = 0
 
+	/// Native language for the specie, they won't have accent on their native language.
+	var/native_language = "Imperial"
+
 ///////////
 // PROCS //
 ///////////
 
 /datum/species/proc/get_accent_list()
-	return
-
-/datum/species/proc/get_native_language()
 	return
 
 /datum/species/proc/handle_speech(datum/source, list/speech_args)
@@ -322,7 +322,8 @@ GLOBAL_LIST_EMPTY(patreon_races)
 
 
 		if(ismob(source))
-			var/nativelang = get_native_language()
+			human = source
+			var/nativelang = human.dna.species.native_language
 			var/language_check
 
 			var/list/language_map = list(
@@ -333,8 +334,14 @@ GLOBAL_LIST_EMPTY(patreon_races)
 				/datum/language/orcish = "Orcish",
 				/datum/language/celestial = "Celestial",
 				/datum/language/zalad = "Zalad",
-				/datum/language/deepspeak = "Deepspeak"
+				/datum/language/deepspeak = "Deepspeak",
+				/datum/language/oldpsydonic = "Old Psydonic"
 			)
+
+			if(nativelang == "Old Psydonic")
+				species_accent = strings("accents/grenz_replacement.json", "grenz")
+			if(nativelang == "Zalad")
+				species_accent = strings("accents/zalad_replacement.json", "arabic")
 
 			if (language in language_map)
 				language_check = language_map[language]

@@ -4,6 +4,7 @@
 /datum/species/triton
 	name = "Triton"
 	id = SPEC_ID_TRITON
+	native_language = "Deepspeak"
 	changesource_flags = WABBAJACK
 
 	desc = "The Children of Abyssor, also known as Tritons or their colloquial name, \"Deep Folk,\" \
@@ -188,5 +189,3 @@
 		"Turtle Egg" = HAIR_COLOR_TURTLE,
 	)
 
-/datum/species/triton/get_native_language()
-	return "Deepspeak"
