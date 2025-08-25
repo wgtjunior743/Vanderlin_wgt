@@ -17,11 +17,10 @@
 			head = /obj/item/clothing/head/helmet/heavy/bucket/gold
 			wrists = /obj/item/clothing/neck/psycross/g
 			H.cmode_music = 'sound/music/cmode/church/CombatInquisitor.ogg'
-			if(H.mind)
-				H.adjust_skillrank(/datum/skill/combat/swords, 1, TRUE)
-				H.change_stat(STATKEY_CON, 1)
-				H.change_stat(STATKEY_PER, 1)
-				H.grant_language(/datum/language/oldpsydonic)
+			H.adjust_skillrank(/datum/skill/combat/swords, 1, TRUE)
+			H.change_stat(STATKEY_CON, 1)
+			H.change_stat(STATKEY_PER, 1)
+			H.grant_language(/datum/language/oldpsydonic)
 		if(/datum/patron/divine/astrata)
 			head = /obj/item/clothing/head/helmet/heavy/necked/astrata
 			wrists = /obj/item/clothing/neck/psycross/silver/astrata
