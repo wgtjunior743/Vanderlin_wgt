@@ -55,9 +55,9 @@
 		ADD_TRAIT(H, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
 		ADD_TRAIT(H, TRAIT_NOBLE, TRAIT_GENERIC)
 		H.cmode_music = 'sound/music/cmode/adventurer/CombatOutlander.ogg'
-		if(H.dna?.species)
-			if(H.dna.species.id == SPEC_ID_HUMEN)
-				H.dna.species.native_language = "Zalad"
+	if(H.dna?.species)
+		if(H.dna.species.id == SPEC_ID_HUMEN)
+			H.dna.species.native_language = "Zalad"
 
 /datum/migrant_role/zalad/amirah
 	name = "Zalad Amirah"
@@ -112,9 +112,9 @@
 		ADD_TRAIT(H, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
 		ADD_TRAIT(H, TRAIT_NOBLE, TRAIT_GENERIC)
 		H.cmode_music = 'sound/music/cmode/adventurer/CombatOutlander.ogg'
-		if(H.dna?.species)
-			if(H.dna.species.id == SPEC_ID_HUMEN)
-				H.dna.species.native_language = "Zalad"
+	if(H.dna?.species)
+		if(H.dna.species.id == SPEC_ID_HUMEN)
+			H.dna.species.native_language = "Zalad"
 /datum/migrant_role/zalad/furusiyya
 	name = "Furusiyya"
 	greet_text = "You are a furusiyya, pledged to the Emir and the Amirah. Make sure they come out alive of that place."
