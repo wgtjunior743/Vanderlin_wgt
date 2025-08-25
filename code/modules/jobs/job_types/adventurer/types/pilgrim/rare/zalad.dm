@@ -59,6 +59,6 @@
 		ADD_TRAIT(H, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
 		ADD_TRAIT(H, TRAIT_NOBLE, TRAIT_GENERIC)
 		ADD_TRAIT(H, TRAIT_FOREIGNER, TRAIT_GENERIC)
-		if(H.dna?.species)
-			if(H.dna.species.id == SPEC_ID_HUMEN)
-				H.dna.species.native_language = "Zalad"
+	if(H.dna?.species)
+		if(H.dna.species.id == SPEC_ID_HUMEN || H.dna.species.id == SPEC_ID_HALF_ELF)
+			H.dna.species.native_language = "Zalad"

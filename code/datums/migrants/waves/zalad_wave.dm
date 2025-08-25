@@ -56,7 +56,7 @@
 		ADD_TRAIT(H, TRAIT_NOBLE, TRAIT_GENERIC)
 		H.cmode_music = 'sound/music/cmode/adventurer/CombatOutlander.ogg'
 	if(H.dna?.species)
-		if(H.dna.species.id == SPEC_ID_HUMEN)
+		if(H.dna.species.id == SPEC_ID_HUMEN || H.dna.species.id == SPEC_ID_HALF_ELF)
 			H.dna.species.native_language = "Zalad"
 
 /datum/migrant_role/zalad/amirah
@@ -113,7 +113,7 @@
 		ADD_TRAIT(H, TRAIT_NOBLE, TRAIT_GENERIC)
 		H.cmode_music = 'sound/music/cmode/adventurer/CombatOutlander.ogg'
 	if(H.dna?.species)
-		if(H.dna.species.id == SPEC_ID_HUMEN)
+		if(H.dna.species.id == SPEC_ID_HUMEN || H.dna.species.id == SPEC_ID_HALF_ELF)
 			H.dna.species.native_language = "Zalad"
 /datum/migrant_role/zalad/furusiyya
 	name = "Furusiyya"
@@ -178,7 +178,7 @@
 	ADD_TRAIT(H, TRAIT_STEELHEARTED, TRAIT_GENERIC)
 	H.cmode_music = 'sound/music/cmode/adventurer/CombatOutlander.ogg'
 	if(H.dna?.species)
-		if(H.dna.species.id == SPEC_ID_HUMEN)
+		if(H.dna.species.id == SPEC_ID_HUMEN || H.dna.species.id == SPEC_ID_HALF_ELF)
 			H.dna.species.native_language = "Zalad"
 
 /datum/migrant_role/zalad_guard
@@ -227,7 +227,7 @@
 	ADD_TRAIT(H, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
 	H.cmode_music = 'sound/music/cmode/adventurer/CombatOutlander.ogg'
 	if(H.dna?.species)
-		if(H.dna.species.id == SPEC_ID_HUMEN)
+		if(H.dna.species.id == SPEC_ID_HUMEN || H.dna.species.id == SPEC_ID_HALF_ELF)
 			H.dna.species.native_language = "Zalad"
 
 /datum/migrant_role/qatil
@@ -283,7 +283,7 @@
 	ADD_TRAIT(H, TRAIT_STEELHEARTED, TRAIT_GENERIC)
 	H.cmode_music = 'sound/music/cmode/adventurer/CombatOutlander3.ogg'
 	if(H.dna?.species)
-		if(H.dna.species.id == SPEC_ID_HUMEN)
+		if(H.dna.species.id == SPEC_ID_HUMEN || H.dna.species.id == SPEC_ID_HALF_ELF)
 			H.dna.species.native_language = "Zalad"
 /datum/migrant_wave/zalad_wave
 	name = "The Deshret Expedition"
