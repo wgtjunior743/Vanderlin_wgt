@@ -160,7 +160,10 @@
 
 /datum/species/human/halfdrow/after_creation(mob/living/carbon/human/C)
 	..()
-	C.dna.species.native_language = pick("Elfish", "Imperial")
+	if(!(C.accent in GLOB.accent_list))
+		C.dna.species.native_language = C.accent
+	C.dna.species.accent_language = C.dna.species.get_accent(C.dna.species.native_language, 2)
+
 	if(C.skin_tone == SKIN_COLOR_ZIZO_CURSED)
 		exotic_bloodtype = /datum/blood_type/human/cursed_elf
 	C.grant_language(/datum/language/elvish)

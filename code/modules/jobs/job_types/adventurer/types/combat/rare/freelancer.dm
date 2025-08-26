@@ -56,3 +56,4 @@
 	if(H.dna?.species)
 		if(H.dna.species.id == SPEC_ID_HUMEN)
 			H.dna.species.native_language = "Zalad"
+			H.dna.species.accent_language = H.dna.species.get_accent(H.dna.species.native_language)

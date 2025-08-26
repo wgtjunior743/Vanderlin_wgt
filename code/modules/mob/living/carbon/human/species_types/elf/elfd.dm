@@ -170,3 +170,6 @@
 
 /datum/species/elf/dark/get_accent_list()
 	return strings("accents/french_replacement.json", "french")
+
+/datum/species/elf/dark/after_creation(mob/living/carbon/C)
+	C.dna.species.accent_language = C.dna.species.get_accent(native_language, 2)
