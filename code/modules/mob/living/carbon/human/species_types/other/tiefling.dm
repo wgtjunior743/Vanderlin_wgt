@@ -198,6 +198,3 @@
 	var/static/list/last_names = world.file2list('strings/rt/names/other/tieflast.txt')
 	return last_names
 
-/datum/species/tieberian/get_accent_list()
-	return strings("accents/spanish_replacement.json", "spanish")
-

@@ -161,6 +161,3 @@
 
 /datum/species/halforc/get_possible_surnames(gender = MALE)
 	return null
-
-/datum/species/halforc/get_accent_list()
-	return strings("accents/halforc_replacement.json", "halforc")

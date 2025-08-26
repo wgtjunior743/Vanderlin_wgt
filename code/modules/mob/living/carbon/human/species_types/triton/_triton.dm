@@ -149,9 +149,6 @@
 	UnregisterSignal(C, COMSIG_MOB_SAY)
 	C.remove_language(/datum/language/deepspeak)
 
-/datum/species/triton/get_accent_list()
-	return strings("accents/triton_replacement.json", "triton")
-
 /datum/species/triton/check_roundstart_eligible()
 	return TRUE
 
