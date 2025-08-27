@@ -1,0 +1,1 @@
+{"author":"Wouju","delete-after":true,"changes":[{"rscadd":"Added new food items, herbsteak and herbird"},{"rscadd":"A new powder was added, used in crafting the herbsteak and herbird"},{"code_imp":"tweaked cooking repeatable crafting code. Now it checks if the item is a food snack item before attempting to apply freshness and food quality"}]}
