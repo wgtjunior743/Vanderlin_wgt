@@ -1,0 +1,1 @@
+{"author":"Wouju","delete-after":true,"changes":[{"rscadd":"ZIZO sigils are now cleanable with a damp rag"},{"rscadd":"ZIZO soap is now bright crimson bloody red. It also has more uses than base soap."},{"refactor":"Made various ZIZO and scrying orb chat messages use span_XYZs properly. Yell at me if they dont work"}]}
