@@ -1,0 +1,1 @@
+{"author":"F-e-r-n","delete-after":true,"changes":[{"balance":"Makes fullplate and encumbered people get up slower"},{"balance":"Removes strength check from encumbrance and makes carryweight scale on either STR or CON depending on whats higher."},{"balance":"50% encumbrance now disables sprinting from 70%"}]}
