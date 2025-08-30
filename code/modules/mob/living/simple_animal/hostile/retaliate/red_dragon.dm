@@ -31,6 +31,8 @@
 	pixel_y = -32
 	deathmessage = "collapses to the floor with a final roar, the impact rocking the ground."
 	footstep_type = FOOTSTEP_MOB_HEAVY
+	void_corruption = FALSE
+
 
 /mob/living/simple_animal/hostile/retaliate/voiddragon/red/void_pull(atom/target)
 	var/turf/T = get_turf(src)
