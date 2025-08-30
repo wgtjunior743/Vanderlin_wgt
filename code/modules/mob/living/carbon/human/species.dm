@@ -300,7 +300,7 @@ GLOBAL_LIST_EMPTY(patreon_races)
 	if(language == "Pirate")
 		return strings("accents/pirate_replacement.json", "pirate")
 	if(language == "Zizo Chant")
-	    return 
+		return
 	return
 
 /datum/species/proc/handle_speech(datum/source, list/speech_args)
