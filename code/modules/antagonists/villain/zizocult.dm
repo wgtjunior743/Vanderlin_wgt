@@ -278,7 +278,7 @@ GLOBAL_LIST_EMPTY(ritualslist)
 	var/list/to_check = list(src) // start with the clicked sigil
 	var/list/checked = list()
 	var/deletion_count = 0
-	var/max_deletions = 6
+	var/max_deletions = 9
 
 	while(to_check.len && deletion_count < max_deletions)
 		var/obj/effect/decal/cleanable/sigil/current = to_check[1]
@@ -299,10 +299,9 @@ GLOBAL_LIST_EMPTY(ritualslist)
 /obj/effect/decal/cleanable/sigil/attackby(obj/I, mob/user)
 	..()
 	if(istype(I, /obj/item/clothing/neck/psycross))
-		to_chat(user, span_notice("You remove part of the vile ritual with the deadening field of \the [I]!"))
+		to_chat(user, span_notice("You remove the vile ritual with the deadening field of \the [I]!"))
 		remove_connected()
 		return
-
 
 /obj/effect/decal/cleanable/sigil/attack_hand(mob/living/user)
 	. = ..()
