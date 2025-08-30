@@ -44,7 +44,6 @@
 	food_max = 0
 
 
-
 	ai_controller = /datum/ai_controller/voiddragon
 
 /mob/living/simple_animal/hostile/retaliate/voiddragon/Initialize()
