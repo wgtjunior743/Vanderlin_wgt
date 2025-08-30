@@ -449,7 +449,7 @@ GLOBAL_LIST_EMPTY(letters_sent)
 			max_purchases = 1
 		),
 		"Psydonian Dagger (3)" = list(
-			list(type = /obj/item/weapon/knife/dagger/psydon, count = 1),
+			list(type = /obj/item/weapon/knife/dagger/silver/psydon, count = 1),
 			cost = 3,
 			max_purchases = 3
 		),
