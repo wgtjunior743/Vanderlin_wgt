@@ -486,7 +486,7 @@
 		var/dist = get_dist(target, L)
 		var/damage = 30 * (1 - (dist / 4)) // 30 damage at epicenter, scaling down with distance
 		L.apply_damage(damage, BRUTE)
-		if(void_corruption == TRUE)
+		if(void_corruption)
 			L.apply_status_effect(/datum/status_effect/void_corruption)
 
 		var/throw_dir = get_dir(target, L)
