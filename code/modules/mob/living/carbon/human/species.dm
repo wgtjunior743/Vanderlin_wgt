@@ -299,8 +299,8 @@ GLOBAL_LIST_EMPTY(patreon_races)
 		return strings("accents/triton_replacement.json", "triton")
 	if(language == "Pirate")
 		return strings("accents/pirate_replacement.json", "pirate")
-  if(language == "Zizo Chant")
-    return 
+	if(language == "Zizo Chant")
+	    return 
 	return
 
 /datum/species/proc/handle_speech(datum/source, list/speech_args)
