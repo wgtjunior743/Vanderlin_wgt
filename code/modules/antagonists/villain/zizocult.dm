@@ -274,6 +274,36 @@ GLOBAL_LIST_EMPTY(ritualslist)
 			playsound(src, 'sound/foley/flesh_rem2.ogg', 30)
 			qdel(A)
 
+/obj/effect/decal/cleanable/sigil/proc/remove_connected()
+	var/list/to_check = list(src) // start with the clicked sigil
+	var/list/checked = list()
+	var/deletion_count = 0
+	var/max_deletions = 6
+
+	while(to_check.len && deletion_count < max_deletions)
+		var/obj/effect/decal/cleanable/sigil/current = to_check[1]
+		to_check.Cut(1,2)
+
+		if(current in checked)
+			continue
+		checked += current
+
+		// Grab all sigils in diagonal + cardinal adjacency
+		for(var/obj/effect/decal/cleanable/sigil/S in range(1, current))
+			if(!(S in checked))
+				to_check += S
+
+		qdel(current)
+		deletion_count++
+
+/obj/effect/decal/cleanable/sigil/attackby(obj/I, mob/user)
+	..()
+	if(istype(I, /obj/item/clothing/neck/psycross))
+		to_chat(user, span_notice("You remove part of the vile ritual with the deadening field of \the [I]!"))
+		remove_connected()
+		return
+
+
 /obj/effect/decal/cleanable/sigil/attack_hand(mob/living/user)
 	. = ..()
 	var/list/rituals = list()
@@ -503,8 +533,8 @@ GLOBAL_LIST_EMPTY(ritualslist)
 				return
 			if(H.anchored) // a way to bind the person to the rune if they choose to resist converting
 				return
-			if(istype(H.wear_neck, /obj/item/clothing/neck/psycross))
-				to_chat(user.mind, span_danger("\"They are wearing my bane...\""))
+			if(istype(H.wear_neck, /obj/item/clothing/neck/psycross/silver) || istype(H.wear_wrists, /obj/item/clothing/neck/psycross/silver) )
+				to_chat(user.mind, "<span class='danger'>\"They are wearing silver, it resists the dark magick!\"</span>")
 				return
 			if(length(SSmapping.retainer.cultists) >= 8)
 				to_chat(user.mind, span_danger("\"The veil is too strong to support more than seven lackeys.\""))
@@ -579,8 +609,8 @@ GLOBAL_LIST_EMPTY(ritualslist)
 						return
 					if(HL == SSticker.rulermob)
 						return
-					if(istype(HL.wear_neck, /obj/item/clothing/neck/psycross))
-						to_chat(user.mind, span_danger("\"They are wearing my bane...\""))
+					if(istype(HL.wear_neck, /obj/item/clothing/neck/psycross/silver) || istype(HL.wear_wrists, /obj/item/clothing/neck/psycross/silver))
+						to_chat(user.mind, "<span class='danger'>\"They are wearing silver, it resists the dark magick!\"</span>")
 						return
 					if(HAS_TRAIT(HL, TRAIT_NOSTAMINA))
 						return
