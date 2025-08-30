@@ -392,7 +392,7 @@
 		var/throw_speed = max(1, 3 - round(throw_dist / 3))
 		L.throw_at(src, throw_dist, throw_speed)
 		L.apply_damage(10, BRUTE)
-		if(void_corruption == TRUE)
+		if(void_corruption)
 			L.apply_status_effect(/datum/status_effect/void_corruption)
 
 	addtimer(CALLBACK(src, PROC_REF(void_pull_aftermath)), 1 SECONDS)
