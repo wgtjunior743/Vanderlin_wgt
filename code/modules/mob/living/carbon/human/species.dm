@@ -333,7 +333,8 @@ GLOBAL_LIST_EMPTY(patreon_races)
 				/datum/language/orcish = "Orcish",
 				/datum/language/celestial = "Celestial",
 				/datum/language/zalad = "Zalad",
-				/datum/language/deepspeak = "Deepspeak"
+				/datum/language/deepspeak = "Deepspeak",
+				/datum/language/undead = "Zizo Chant"
 			)
 
 			if (language in language_map)
