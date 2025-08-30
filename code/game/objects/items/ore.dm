@@ -226,12 +226,6 @@
 	. = ..()
 	enchant(/datum/enchantment/silver)
 
-/obj/item/ore/silver/Initialize(mapload)
-	. = ..()
-	icon_state = "oresilv[rand(1,3)]"
-	enchant(/datum/enchantment/silver)
-
-
 /obj/item/ingot/steel
 	name = "steel bar"
 	desc = "A bar of alloyed steel."
