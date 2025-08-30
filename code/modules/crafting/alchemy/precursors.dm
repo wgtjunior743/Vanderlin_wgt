@@ -122,6 +122,7 @@ GLOBAL_LIST_INIT(natural_precursor_registry, list())
 	)
 	init_types = list(
 		/obj/item/reagent_containers/food/snacks/produce/manabloom,
+		/obj/item/reagent_containers/powder/manabloom
 	)
 
 /datum/natural_precursor/vegetable
@@ -401,7 +402,7 @@ GLOBAL_LIST_INIT(natural_precursor_registry, list())
 		/datum/thaumaturgical_essence/earth = 5
 	)
 	init_types = list(
-		/obj/item/alch/hypericum,
+		/obj/item/alch/herb/hypericum,
 	)
 
 /datum/natural_precursor/leech
@@ -1511,7 +1512,7 @@ GLOBAL_LIST_INIT(natural_precursor_registry, list())
 		/datum/thaumaturgical_essence/life = 5
 	)
 	init_types = list(
-		/obj/item/alch/atropa
+		/obj/item/alch/herb/atropa
 	)
 
 /datum/natural_precursor/matricaria
@@ -1521,7 +1522,7 @@ GLOBAL_LIST_INIT(natural_precursor_registry, list())
 		/datum/thaumaturgical_essence/cycle = 5
 	)
 	init_types = list(
-		/obj/item/alch/matricaria
+		/obj/item/alch/herb/matricaria
 	)
 
 /datum/natural_precursor/symphitum
@@ -1531,7 +1532,7 @@ GLOBAL_LIST_INIT(natural_precursor_registry, list())
 		/datum/thaumaturgical_essence/earth = 5
 	)
 	init_types = list(
-		/obj/item/alch/symphitum
+		/obj/item/alch/herb/symphitum
 	)
 
 /datum/natural_precursor/taraxacum
@@ -1541,7 +1542,7 @@ GLOBAL_LIST_INIT(natural_precursor_registry, list())
 		/datum/thaumaturgical_essence/cycle = 5
 	)
 	init_types = list(
-		/obj/item/alch/taraxacum
+		/obj/item/alch/herb/taraxacum
 	)
 
 /datum/natural_precursor/euphrasia
@@ -1551,7 +1552,7 @@ GLOBAL_LIST_INIT(natural_precursor_registry, list())
 		/datum/thaumaturgical_essence/life = 5
 	)
 	init_types = list(
-		/obj/item/alch/euphrasia
+		/obj/item/alch/herb/euphrasia
 	)
 
 /datum/natural_precursor/paris
@@ -1561,7 +1562,7 @@ GLOBAL_LIST_INIT(natural_precursor_registry, list())
 		/datum/thaumaturgical_essence/life = 5
 	)
 	init_types = list(
-		/obj/item/alch/paris
+		/obj/item/alch/herb/paris
 	)
 
 /datum/natural_precursor/calendula
@@ -1571,7 +1572,7 @@ GLOBAL_LIST_INIT(natural_precursor_registry, list())
 		/datum/thaumaturgical_essence/light = 5
 	)
 	init_types = list(
-		/obj/item/alch/calendula
+		/obj/item/alch/herb/calendula
 	)
 
 /datum/natural_precursor/mentha
@@ -1581,7 +1582,7 @@ GLOBAL_LIST_INIT(natural_precursor_registry, list())
 		/datum/thaumaturgical_essence/air = 10
 	)
 	init_types = list(
-		/obj/item/alch/mentha
+		/obj/item/alch/herb/mentha
 	)
 
 /datum/natural_precursor/urtica
@@ -1591,7 +1592,7 @@ GLOBAL_LIST_INIT(natural_precursor_registry, list())
 		/datum/thaumaturgical_essence/life = 5
 	)
 	init_types = list(
-		/obj/item/alch/urtica
+		/obj/item/alch/herb/urtica
 	)
 
 /datum/natural_precursor/salvia
@@ -1601,7 +1602,7 @@ GLOBAL_LIST_INIT(natural_precursor_registry, list())
 		/datum/thaumaturgical_essence/magic = 5
 	)
 	init_types = list(
-		/obj/item/alch/salvia
+		/obj/item/alch/herb/salvia
 	)
 
 /datum/natural_precursor/rosa
@@ -1611,7 +1612,7 @@ GLOBAL_LIST_INIT(natural_precursor_registry, list())
 		/datum/thaumaturgical_essence/light = 5
 	)
 	init_types = list(
-		/obj/item/alch/rosa
+		/obj/item/alch/herb/rosa
 	)
 
 /datum/natural_precursor/hypericum
@@ -1621,7 +1622,7 @@ GLOBAL_LIST_INIT(natural_precursor_registry, list())
 		/datum/thaumaturgical_essence/order = 5
 	)
 	init_types = list(
-		/obj/item/alch/hypericum
+		/obj/item/alch/herb/hypericum
 	)
 
 /datum/natural_precursor/benedictus
@@ -1631,7 +1632,7 @@ GLOBAL_LIST_INIT(natural_precursor_registry, list())
 		/datum/thaumaturgical_essence/cycle = 5
 	)
 	init_types = list(
-		/obj/item/alch/benedictus
+		/obj/item/alch/herb/benedictus
 	)
 
 /datum/natural_precursor/valeriana
@@ -1641,7 +1642,7 @@ GLOBAL_LIST_INIT(natural_precursor_registry, list())
 		/datum/thaumaturgical_essence/motion = 5
 	)
 	init_types = list(
-		/obj/item/alch/valeriana
+		/obj/item/alch/herb/valeriana
 	)
 
 /datum/natural_precursor/artemisia
@@ -1651,7 +1652,7 @@ GLOBAL_LIST_INIT(natural_precursor_registry, list())
 		/datum/thaumaturgical_essence/poison = 5
 	)
 	init_types = list(
-		/obj/item/alch/artemisia
+		/obj/item/alch/herb/artemisia
 	)
 
 /datum/natural_precursor/euphorbia
@@ -1661,8 +1662,43 @@ GLOBAL_LIST_INIT(natural_precursor_registry, list())
 		/datum/thaumaturgical_essence/life = 5
 	)
 	init_types = list(
-		/obj/item/alch/euphorbia
+		/obj/item/alch/herb/euphorbia
 	)
+
+/datum/natural_precursor/mana_crystal
+	name = "mana crystal"
+	essence_yields = list(
+		/datum/thaumaturgical_essence/magic = 5,
+		/datum/thaumaturgical_essence/earth = 5
+	)
+	init_types = list(
+		/obj/item/mana_battery/mana_crystal/standard
+	)
+
+//1 standard crystal can be split into two small ones
+/datum/natural_precursor/mana_crystal_small
+	name = "small mana crystal"
+	essence_yields = list(
+		/datum/thaumaturgical_essence/magic = 2,
+		/datum/thaumaturgical_essence/earth = 1
+	)
+	init_types = list(
+		/obj/item/mana_battery/mana_crystal/small
+	)
+
+
+//why would you split thaumic iron after making, I do not know, but you can now
+/datum/natural_precursor/thaumic_iron
+	name = "thaumic iron"
+	essence_yields = list(
+		/datum/thaumaturgical_essence/fire = 10,
+		/datum/thaumaturgical_essence/earth = 5
+	)
+	init_types = list(
+		/obj/item/alch/thaumicdust,
+		/obj/item/ingot/thaumic
+	)
+
 
 /datum/natural_precursor/rotten_food
 	name = "rotten food"
@@ -1680,4 +1716,34 @@ GLOBAL_LIST_INIT(natural_precursor_registry, list())
 		/obj/item/reagent_containers/food/snacks/rotten/breadslice,
 		/obj/item/reagent_containers/food/snacks/rotten/egg,
 		/obj/item/reagent_containers/food/snacks/rotten/mince,
+	)
+
+//generic organs here
+/datum/natural_precursor/organs
+	name = "organs"
+	essence_yields = list(
+		/datum/thaumaturgical_essence/life = 5,
+		/datum/thaumaturgical_essence/void = 2,
+		/datum/thaumaturgical_essence/chaos = 1
+	)
+	init_types = list(
+		/obj/item/organ/appendix,
+		/obj/item/organ/heart,
+		/obj/item/organ/eyes,
+		/obj/item/organ/liver,
+		/obj/item/organ/lungs,
+		/obj/item/organ/stomach,
+		/obj/item/organ/tongue
+	)
+
+//the brain is unique enough that I think it justifies its own precursor
+/datum/natural_precursor/brain
+	name = "brain"
+	essence_yields = list(
+		/datum/thaumaturgical_essence/life = 8,
+		/datum/thaumaturgical_essence/void = 5,
+		/datum/thaumaturgical_essence/magic = 1
+	)
+	init_types = list(
+		/obj/item/organ/brain,
 	)

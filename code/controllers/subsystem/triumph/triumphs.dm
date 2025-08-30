@@ -62,6 +62,7 @@ SUBSYSTEM_DEF(triumphs)
 	// And then the list will have a number in a string that leads to a list of datums
 	var/list/list/list/central_state_data = list( // this is updated to be a list of lists in subsystem Initialize
 		TRIUMPH_CAT_CHARACTER = 0,
+		TRIUMPH_CAT_CHALLENGES = 0,
 		TRIUMPH_CAT_STORYTELLER = 0,
 		TRIUMPH_CAT_MISC = 0,
 		TRIUMPH_CAT_COMMUNAL = 0,
@@ -127,6 +128,9 @@ SUBSYSTEM_DEF(triumphs)
 		return FALSE
 	if(!ref_datum.allow_multiple_buys && C.has_triumph_buy(ref_datum.triumph_buy_id))
 		to_chat(C, span_warning("You already have this item!"))
+		return FALSE
+	if(C.has_triumph_buy(ref_datum.triumph_buy_id, TRUE))
+		to_chat(C, span_warning("You already have this item and it was not activated yet!"))
 		return FALSE
 
 	C.adjust_triumphs(ref_datum.triumph_cost * -1, counted = FALSE, silent = TRUE)

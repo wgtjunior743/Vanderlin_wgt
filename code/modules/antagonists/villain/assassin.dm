@@ -26,7 +26,7 @@
 /datum/antagonist/assassin/on_gain()
 	owner.current.cmode_music = list('sound/music/cmode/antag/CombatAssassin.ogg')
 	if(owner.current.job != "Drifter") // This code only runs if the assassin is assigned midround and is not a drifter.
-		owner.current.set_patron(/datum/patron/inhumen/graggar)
+		owner.current.set_patron(/datum/patron/inhumen/graggar, TRUE)
 		var/old_knife_skill = owner.current.get_skill_level(/datum/skill/combat/knives)
 		var/old_sneak_skill = owner.current.get_skill_level(/datum/skill/misc/sneaking)
 		if(old_knife_skill < 4) // If the assassined player has less than 4 knife skill, get them to 4.
@@ -48,8 +48,6 @@
 /datum/antagonist/assassin/on_removal()
 	if(!silent && owner.current)
 		to_chat(owner.current,"<span class='danger'>The red fog in my mind is fading. I am no longer an [name]!</span>")
-		REMOVE_TRAIT(owner.current, TRAIT_ASSASSIN, "[type]")
-		REMOVE_TRAIT(owner.current, TRAIT_VILLAIN, "[type]")
 	return ..()
 
 /datum/antagonist/assassin/on_life(mob/user)

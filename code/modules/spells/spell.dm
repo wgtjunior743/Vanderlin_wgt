@@ -264,8 +264,8 @@
 		return currently_charging
 	return ..()
 
-/datum/action/cooldown/spell/IsAvailable()
-	return ..() && can_cast_spell(feedback = FALSE)
+/datum/action/cooldown/spell/IsAvailable(feedback = FALSE)
+	return ..() && can_cast_spell(feedback = feedback)
 
 /datum/action/cooldown/spell/Trigger(trigger_flags, atom/target)
 	// We implement this can_cast_spell check before the parent call of Trigger()
@@ -479,10 +479,10 @@
 				to_chat(owner, span_warning("[src] can only be cast by humans!"))
 			return FALSE
 
-		if(spell_type == SPELL_MIRACLE)
-			if(feedback)
-				to_chat(owner, span_warning("My link to the divine is too weak to cast [src]!"))
-			return FALSE
+		// if(spell_type == SPELL_MIRACLE)
+		// 	if(feedback)
+		// 		to_chat(owner, span_warning("My link to the divine is too weak to cast [src]!"))
+		// 	return FALSE
 
 	if(LAZYLEN(required_items))
 		var/found = FALSE
@@ -603,13 +603,23 @@
 			do_after_flags &= ~IGNORE_USER_LOC_CHANGE
 		on_start_charge()
 		var/success = TRUE
-		if(!do_after(owner, get_adjusted_charge_time(), timed_action_flags = do_after_flags))
+		if(!do_after(owner, get_adjusted_charge_time(), timed_action_flags = do_after_flags, extra_checks = CALLBACK(src, PROC_REF(do_after_checks), owner, cast_on)))
 			success = FALSE
 			sig_return |= SPELL_CANCEL_CAST
 
-		on_end_charge(success)
+		if(currently_charging) // in case charging was interrupted elsewhere
+			on_end_charge(success)
 
 	return sig_return
+
+/datum/action/cooldown/spell/proc/do_after_checks(mob/owner, atom/cast_on)
+	if(!currently_charging)
+		return FALSE
+	if(!can_cast_spell(TRUE))
+		return FALSE
+	if(!is_valid_target(cast_on))
+		return FALSE
+	return TRUE
 
 /**
  * Actions done as the main effect of the spell.
@@ -625,7 +635,9 @@
 	if(owner)
 		SEND_SIGNAL(owner, COMSIG_MOB_CAST_SPELL, src, cast_on)
 		if(owner.ckey)
-			owner.log_message("cast the spell [name][cast_on != owner ? " on / at [cast_on]":""].", LOG_ATTACK)
+			owner.log_message("cast the spell [name][cast_on != owner ? " on / at [key_name_admin(cast_on)]":""].", LOG_ATTACK)
+			if(cast_on != owner)
+				cast_on.log_message("affected by spell [name] by [key_name_admin(owner)].", LOG_ATTACK)
 
 /**
  * Actions done after the main cast is finished.
@@ -843,8 +855,8 @@
 		return TRUE
 
 	if(!HAS_TRAIT(owner, TRAIT_NOSTAMINA))
-		var/stamina_spell = (spell_type == SPELL_STAMINA)
-		if(!caster.check_stamina(used_cost / (1 + stamina_spell)))
+		var/not_stamina_spell = (spell_type != SPELL_STAMINA)
+		if(!caster.check_stamina(used_cost / (1 + not_stamina_spell)))
 			if(feedback)
 				to_chat(owner, span_warning("I don't have enough stamina to cast!"))
 			return FALSE
@@ -923,8 +935,8 @@
 		used_type = type_override
 
 	if(!re_run)
-		var/stamina_spell = (used_type == SPELL_STAMINA)
-		owner.adjust_stamina(-(used_cost / (1 + stamina_spell)))
+		var/not_stamina_spell = (used_type != SPELL_STAMINA)
+		owner.adjust_stamina(-(used_cost / (1 + not_stamina_spell)))
 
 	if(spell_type == NONE)
 		return // No return value == No exp
@@ -937,13 +949,13 @@
 		if(SPELL_MIRACLE)
 			var/mob/living/carbon/human/H = owner
 			if(!istype(H) || !H.cleric)
-				return invoke_cost(used_cost, SPELL_MANA, TRUE)
+				return
 			H.cleric.update_devotion(-used_cost)
 
 		if(SPELL_ESSENCE)
 			var/obj/item/clothing/gloves/essence_gauntlet/gaunt = target
 			if(!gaunt.check_gauntlet_validity(owner))
-				return invoke_cost(used_cost, SPELL_MANA, TRUE)
+				return
 
 			gaunt.consume_essence(used_cost, attunements)
 

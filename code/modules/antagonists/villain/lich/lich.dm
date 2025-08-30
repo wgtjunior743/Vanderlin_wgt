@@ -22,7 +22,7 @@
 		TRAIT_TOXIMMUNE,
 		TRAIT_STEELHEARTED,
 		TRAIT_NOSLEEP,
-		TRAIT_VAMPMANSION,
+		TRAIT_INHUMENCAMP,
 		TRAIT_NOMOOD,
 		TRAIT_NOLIMBDISABLE,
 		TRAIT_SHOCKIMMUNE,
@@ -125,14 +125,14 @@
 	H.set_skillrank(/datum/skill/craft/alchemy, 5, TRUE)
 	H.set_skillrank(/datum/skill/magic/arcane, 5, TRUE)
 	H.set_skillrank(/datum/skill/misc/riding, 4, TRUE)
-	H.set_skillrank(/datum/skill/combat/polearms, 1, TRUE)
+	H.set_skillrank(/datum/skill/combat/polearms, 4, TRUE)
 	H.set_skillrank(/datum/skill/combat/wrestling, 3, TRUE)
 	H.set_skillrank(/datum/skill/combat/unarmed, 1, TRUE)
 	H.set_skillrank(/datum/skill/misc/swimming, 1, TRUE)
 	H.set_skillrank(/datum/skill/misc/climbing, 1, TRUE)
 	H.set_skillrank(/datum/skill/misc/athletics, 1, TRUE)
 	H.set_skillrank(/datum/skill/combat/swords, 2, TRUE)
-	H.set_skillrank(/datum/skill/combat/knives, 5, TRUE)
+	H.set_skillrank(/datum/skill/combat/knives, 2, TRUE)
 	H.set_skillrank(/datum/skill/craft/crafting, 1, TRUE)
 	H.adjust_skillrank(/datum/skill/labor/mathematics, 4, TRUE)
 
@@ -141,7 +141,8 @@
 	H.change_stat(STATKEY_CON, 5)
 	H.change_stat(STATKEY_END, -1)
 	H.change_stat(STATKEY_SPD, -1)
-
+	H.adjust_spell_points(17) //Same as CM - Until they receive their spellbook.
+	H.grant_language(/datum/language/undead)
 
 	H.dna.species.soundpack_m = new /datum/voicepack/lich()
 	H.ambushable = FALSE
@@ -252,5 +253,5 @@
 
 /obj/item/phylactery/proc/start_shaking()
 	var/offset = prob(50) ? -2 : 2
-	animate(src, pixel_x = pixel_x + offset, time = 0.2, loop = -1) //start shaking
+	animate(src, pixel_x = offset, time = 0.2 DECISECONDS, loop = -1, flags = ANIMATION_RELATIVE|ANIMATION_PARALLEL) //start shaking
 	visible_message(span_warning("[src] begins to glow and shake violently!"))

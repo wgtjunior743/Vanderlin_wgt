@@ -181,6 +181,10 @@
 	manipulate_possible_steam_creaks()
 
 /obj/structure/water_pipe/proc/manipulate_possible_steam_creaks()
+	if(!ispath(carrying_reagent, /datum/reagent/steam))
+		for(var/obj/particle_emitter/stored in particle_emitters)
+			RemoveEmitter(stored)
+		return
 	var/obj/particle_emitter/emitter
 	if(prob(25))
 		emitter = locate(/obj/particle_emitter) in particle_emitters
@@ -193,15 +197,11 @@
 
 	switch(icon_state)
 		if("base", "84", "4", "8", "18", "28")
-			emitter.pixel_x = rand(-8, -6)
-			emitter.pixel_y = rand(3, 6)
+			emitter.pixel_x = emitter.base_pixel_x + rand(-8, -6)
+			emitter.pixel_y = emitter.base_pixel_y + rand(3, 6)
 		if("14", "18", "21", "2", "1")
-			emitter.pixel_y = rand(14, 16)
-			emitter.pixel_x = rand(3, 9)
+			emitter.pixel_y = emitter.base_pixel_y + rand(14, 16)
+			emitter.pixel_x = emitter.base_pixel_x + rand(3, 9)
 		if("24")
 			for(var/obj/particle_emitter/stored in particle_emitters)
 				RemoveEmitter(stored)
-
-// /obj/structure/water_pipe/process()
-// 	if(!input)
-// 		return

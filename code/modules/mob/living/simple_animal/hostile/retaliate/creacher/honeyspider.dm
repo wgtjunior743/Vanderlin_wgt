@@ -18,8 +18,8 @@
 							/obj/item/natural/silk = 2)
 	perfect_butcher_results = list(/obj/item/reagent_containers/food/snacks/meat/strange = 2,
 							/obj/item/reagent_containers/food/snacks/spiderhoney = 2,
-							/obj/item/natural/silk = 3,
-							/obj/item/natural/head/spider = 1)
+							/obj/item/natural/silk = 3)
+	head_butcher = /obj/item/natural/head/spider
 
 	health = SPIDER_HEALTH
 	maxHealth = SPIDER_HEALTH
@@ -108,8 +108,9 @@
 	if(!stat)
 		user.visible_message("<span class='info'>[user] hand-feeds [O] to [src].</span>", "<span class='notice'>I hand-feed [O] to [src].</span>")
 		playsound(loc,'sound/misc/eat.ogg', rand(30,60), TRUE)
+		SEND_SIGNAL(src, COMSIG_MOB_FEED, O, 30)
+		SEND_SIGNAL(src, COMSIG_FRIENDSHIP_CHANGE, user, 10)
 		qdel(O)
-		food = min(food + 30, 100)
 		if(tame && owner == user)
 			return TRUE
 		var/realchance = tame_chance

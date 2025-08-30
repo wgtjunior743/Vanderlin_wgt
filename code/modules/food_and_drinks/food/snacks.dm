@@ -257,9 +257,44 @@ All foods are distributed among various categories. Use common sense.
 		return
 
 	var/apply_effect = TRUE
-	// check to see if what we're eating is appropriate fare for our "social class" (aka nobles shouldn't be eating sticks of butter you troglodytes)
-	if (ishuman(eater))
+	if(ishuman(eater))
 		var/mob/living/carbon/human/human_eater = eater
+
+		if(human_eater.culinary_preferences)
+			var/favorite_food_type = human_eater.culinary_preferences[CULINARY_FAVOURITE_FOOD]
+			if(favorite_food_type == type)
+				if(human_eater.add_stress(/datum/stressevent/favourite_food))
+					to_chat(human_eater, span_green("Yum! My favorite food!"))
+			else if(ispath(type, favorite_food_type))
+				var/obj/item/reagent_containers/food/snacks/favorite_food_instance = favorite_food_type
+				var/favorite_food_name = initial(favorite_food_instance.name)
+				if(favorite_food_name == name)
+					if(human_eater.add_stress(/datum/stressevent/favourite_food))
+						to_chat(human_eater, span_green("Yum! My favorite food!"))
+			else
+				var/obj/item/reagent_containers/food/snacks/favorite_food_instance = favorite_food_type
+				var/slice_path = initial(favorite_food_instance.slice_path)
+				if(slice_path && type == slice_path)
+					if(human_eater.add_stress(/datum/stressevent/favourite_food))
+						to_chat(human_eater, span_green("Yum! My favorite food!"))
+
+			var/hated_food_type = human_eater.culinary_preferences[CULINARY_HATED_FOOD]
+			if(hated_food_type == type)
+				if(human_eater.add_stress(/datum/stressevent/hated_food))
+					to_chat(human_eater, span_red("Yuck! My hated food!"))
+			else if(ispath(type, hated_food_type))
+				var/obj/item/reagent_containers/food/snacks/hated_food_instance = hated_food_type
+				var/hated_food_name = initial(hated_food_instance.name)
+				if(hated_food_name == name)
+					if(human_eater.add_stress(/datum/stressevent/hated_food))
+						to_chat(human_eater, span_red("Yuck! My hated food!"))
+			else
+				var/obj/item/reagent_containers/food/snacks/hated_food_instance = hated_food_type
+				var/slice_path = initial(hated_food_instance.slice_path)
+				if(slice_path && type == slice_path)
+					if(human_eater.add_stress(/datum/stressevent/hated_food))
+						to_chat(human_eater, span_red("Yuck! My hated food!"))
+
 		if (!HAS_TRAIT(human_eater, TRAIT_NASTY_EATER))
 			if (human_eater.is_noble())
 				if (!portable)
@@ -275,7 +310,7 @@ All foods are distributed among various categories. Use common sense.
 							eater.taste(reagents)
 							return
 						else
-							if (eater.has_stress(/datum/stressevent/noble_impoverished_food))
+							if (eater.has_stress_type(/datum/stressevent/noble_impoverished_food))
 								eater.add_stress(/datum/stressevent/noble_desperate)
 							apply_effect = FALSE
 					if (FARE_POOR to FARE_NEUTRAL)
@@ -317,10 +352,11 @@ All foods are distributed among various categories. Use common sense.
 			record_round_statistic(STATS_LUXURIOUS_FOOD_EATEN)
 		if(eat_effect == /datum/status_effect/debuff/rotfood)
 			SEND_SIGNAL(eater, COMSIG_ROTTEN_FOOD_EATEN, src)
-		qdel(src)
+		var/old_loc = loc
 		var/obj/item/trash = generate_trash(drop_location())
-		if(trash && isliving(loc))
-			var/mob/living/L = loc
+		qdel(src)
+		if(trash && isliving(old_loc))
+			var/mob/living/L = old_loc
 			L.put_in_hands(trash)
 
 	update_appearance(UPDATE_ICON_STATE)
@@ -629,7 +665,7 @@ All foods are distributed among various categories. Use common sense.
 			if(bitecount == 0 || prob(50))
 				M.emote("me", 1, "nibbles away at \the [src]")
 			bitecount++
-			L.food = min(L.food + 30, L.food_max)
+			SEND_SIGNAL(L, COMSIG_MOB_FEED, src, 30)
 			playsound(L.loc, 'sound/misc/eat.ogg', 25, TRUE)
 			L.taste(reagents) // why should carbons get all the fun?
 			if(bitecount >= 5)
@@ -699,6 +735,7 @@ All foods are distributed among various categories. Use common sense.
 	icon_state = "badrecipe"
 	list_reagents = list(/datum/reagent/toxin/bad_food = 30)
 	filling_color = "#8B4513"
+	faretype = FARE_IMPOVERISHED
 	foodtype = GROSS
 	burntime = 0
 	cooktime = 0

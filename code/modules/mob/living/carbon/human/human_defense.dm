@@ -28,8 +28,8 @@
 		if(bp && istype(bp , /obj/item/clothing))
 			var/obj/item/clothing/C = bp
 			if(zone2covered(def_zone, C.body_parts_covered))
-				if(C.max_integrity)
-					if(C.obj_integrity <= 0)
+				if(C.uses_integrity)
+					if(C.get_integrity() <= 0)
 						continue
 				var/val = C.armor.getRating(d_type)
 				// The code below finally fixes the targetting order of armor > shirt > flesh. - Foxtrot (#gundamtanaka)
@@ -41,7 +41,7 @@
 							protection = val
 							used = armorworn // ...force us to use it above all!
 				// If we don't have armor equipped or the one we have is broken...
-				else if(bp == shirtworn && (!armorworn || (armorworn.max_integrity && armorworn.obj_integrity <= 0) || !zone2covered(def_zone, armorworn.body_parts_covered)))
+				else if(bp == shirtworn && (!armorworn || (armorworn.uses_integrity && armorworn.get_integrity() <= 0) || !zone2covered(def_zone, armorworn.body_parts_covered)))
 					if(val > 0) // ...and it's not just a linen shirt...
 						if(val > protection)
 							protection = val
@@ -65,27 +65,39 @@
 		protection += physiology.armor.getRating(d_type)
 	return protection
 
+/// Return the armor that blocks the crit
 /mob/living/carbon/human/proc/checkcritarmor(def_zone, d_type)
 	if(!d_type)
-		return 0
+		return FALSE
+	var/obj/item/clothing/best_armor
 	if(isbodypart(def_zone))
 		var/obj/item/bodypart/CBP = def_zone
 		def_zone = CBP.body_zone
-	var/list/body_parts = list(head, wear_mask, wear_wrists, wear_shirt, wear_neck, cloak, wear_armor, wear_pants, backr, backl, gloves, shoes, belt, wear_ring)
-	for(var/bp in body_parts)
-		if(!bp)
+	var/list/clothing_slots = list(head, wear_mask, wear_wrists, wear_shirt, wear_neck, cloak, wear_armor, wear_pants, backr, backl, gloves, shoes, belt, wear_ring)
+	for(var/clothing in clothing_slots)
+		if(!clothing)
 			continue
-		if(bp && istype(bp , /obj/item/clothing))
-			var/obj/item/clothing/C = bp
-			if(zone2covered(def_zone, C.body_parts_covered))
-				if(C.obj_integrity > 1)
-					if(d_type in C.prevent_crits)
-						return TRUE
+		if(!istype(clothing, /obj/item/clothing))
+			continue
+		var/obj/item/clothing/article = clothing
+		if(!zone2covered(def_zone, article.body_parts_covered))
+			continue
+		if(article.obj_broken)
+			continue
+		// Snowflake
+		if(d_type == BCLASS_PIERCE)
+			d_type = BCLASS_STAB
+
+		if(d_type in article.prevent_crits)
+			if(!best_armor)
+				best_armor = article
+			else if (round(((best_armor.get_integrity() / best_armor.max_integrity) * 100), 1) < round(((article.get_integrity() / article.max_integrity) * 100), 1)) //We want the armor with highest % integrity
+				best_armor = article
+	return best_armor
 
 /mob/living/carbon/human/on_hit(obj/projectile/P)
 	if(dna && dna.species)
 		dna.species.on_hit(P, src)
-
 
 /mob/living/carbon/human/bullet_act(obj/projectile/P, def_zone = BODY_ZONE_CHEST)
 	if(dna && dna.species)

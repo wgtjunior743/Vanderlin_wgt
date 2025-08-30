@@ -112,11 +112,14 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 	var/deathmessage = ""
 
 	///Played when someone punches the creature.
-	var/attacked_sound = "punch"
+	var/punched_sound = "punch"
 
 	///If the creature has, and can use, hands.
 	var/dextrous = FALSE
 	var/dextrous_hud_type = /datum/hud/dextrous
+
+	///If the creature should have an innate TRAIT_MOVE_FLYING trait added on init that is also toggled off/on on death/revival.
+	var/is_flying_animal = FALSE
 
 	///Domestication.
 	var/tame = FALSE
@@ -134,7 +137,6 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 	///What kind of footstep this mob should have. Null if it shouldn't have any.
 	var/footstep_type
 
-	var/food = 0	//increase to make poop
 	var/food_max = 50
 	var/pooptype = /obj/item/natural/poo/horse
 	var/pooprog = 0
@@ -149,11 +151,29 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 
 	var/botched_butcher_results
 	var/perfect_butcher_results
+	/// Path of head to drop upon butchering
+	var/head_butcher
+
+	var/happy_funtime_mob = FALSE
+
+	var/can_saddle = FALSE
+	var/obj/item/ssaddle
+	// A flat percentage bonus to our ability to detect sneaking people only. Use in lieu of giving mobs huge STAPER bonuses if you want them to be observant.
+	var/simple_detect_bonus = 0
+
+	var/static/list/mob_friends = list(
+		"enemy" = -50,
+		"dislike" = -10,
+		"neutral" = 0,
+		"like" = 25,
+		"friend" = 50,
+		"best_friend" = 100
+	)
 
 /mob/living/simple_animal/Initialize()
 	. = ..()
 	if(gender == PLURAL)
-		gender = pick(MALE,FEMALE)
+		gender = pick(MALE, FEMALE)
 	if(!real_name)
 		real_name = name
 	if(!loc)
@@ -163,6 +183,12 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 		ai_controller.set_blackboard_key(BB_BASIC_FOODS, typecacheof(food_type))
 	if(footstep_type)
 		AddElement(/datum/element/footstep, footstep_type, 1, -6)
+	if(is_flying_animal)
+		ADD_TRAIT(src, TRAIT_MOVE_FLYING, ROUNDSTART_TRAIT)
+	if(food_max)
+		AddComponent(/datum/component/generic_mob_hunger, food_max, 0.25)
+	if(happy_funtime_mob)
+		AddComponent(/datum/component/friendship_container, mob_friends, "friend")
 
 /mob/living/simple_animal/Destroy()
 	if(nest)
@@ -187,8 +213,9 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 	if(!stat)
 		user.visible_message("<span class='info'>[user] hand-feeds [O] to [src].</span>", "<span class='notice'>I hand-feed [O] to [src].</span>")
 		playsound(loc,'sound/misc/eat.ogg', rand(30,60), TRUE)
+		SEND_SIGNAL(src, COMSIG_MOB_FEED, O, 30)
+		SEND_SIGNAL(src, COMSIG_FRIENDSHIP_CHANGE, user, 10)
 		qdel(O)
-		food = min(food + 30, 100)
 		if(tame && owner == user)
 			return TRUE
 		var/realchance = tame_chance
@@ -206,6 +233,7 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 	INVOKE_ASYNC(src, PROC_REF(emote), "lower_head", null, null, null, TRUE)
 	tame = TRUE
 	if(user)
+		SEND_SIGNAL(src, COMSIG_FRIENDSHIP_CHANGE, user, 55)
 		befriend(user)
 		record_round_statistic(STATS_ANIMALS_TAMED)
 		SEND_SIGNAL(user, COMSIG_ANIMAL_TAMED, src)
@@ -389,7 +417,7 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 				else
 					butcher = butcher_results
 			else
-				if(user.get_skill_level(/datum/skill/labor/butchering) == 5)
+				if(user.get_skill_level(/datum/skill/labor/butchering) >= 5)
 					butcher = perfect_butcher_results
 				else
 					butcher = butcher_results
@@ -400,6 +428,8 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 			if(CR.amount >= 10 MINUTES)
 				rotstuff = TRUE
 		var/atom/Tsec = drop_location()
+		if(head_butcher && (HAS_TRAIT(user, TRAIT_HEAD_BUTCHER) || butcher == perfect_butcher_results))
+			butcher[head_butcher] = 1
 		for(var/path in butcher)
 			for(var/i in 1 to butcher[path])
 				var/obj/item/I = new path(Tsec)
@@ -448,7 +478,6 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 			new i(loc)
 
 /mob/living/simple_animal/death(gibbed)
-	movement_type &= ~FLYING
 	if(nest)
 		nest.spawned_mobs -= src
 		nest = null
@@ -465,6 +494,8 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 		del_on_death = FALSE
 		qdel(src)
 	else
+		if(is_flying_animal)
+			REMOVE_TRAIT(src, TRAIT_MOVE_FLYING, ROUNDSTART_TRAIT)
 		health = 0
 		icon_state = icon_dead
 		if(flip_on_death)
@@ -489,7 +520,8 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 	icon = initial(icon)
 	icon_state = icon_living
 	density = initial(density)
-	setMovetype(initial(movement_type))
+	if(is_flying_animal)
+		ADD_TRAIT(src, TRAIT_MOVE_FLYING, ROUNDSTART_TRAIT)
 
 /mob/living/simple_animal/stripPanelUnequip(obj/item/what, mob/who, where)
 	if(!can_perform_action(who, NEED_DEXTERITY|FORBID_TELEKINESIS_REACH))
@@ -661,7 +693,7 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 	var/do_footstep = FALSE
 
 /mob/living/simple_animal/hostile/RangedAttack(atom/A, params) //Player firing
-	if(ranged && ranged_cooldown <= world.time)
+	if(!ai_controller && ranged && ranged_cooldown <= world.time)
 		target = A
 		OpenFire(A)
 	..()
@@ -752,8 +784,7 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 /mob/living/simple_animal/Life()
 	. = ..()
 	if(.)
-		food = max(food - 0.5, 0)
-		if(food > 0)
+		if(SEND_SIGNAL(src, COMSIG_MOB_RETURN_HUNGER) > 0)
 			pooprog += 0.5
 			if(pooprog >= 100)
 				pooprog = 0

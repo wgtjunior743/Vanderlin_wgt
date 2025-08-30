@@ -72,7 +72,7 @@
 	var/list/influence_sets = list()
 	/// Chosen influence factors, which are used to calculate storyteller influence. List of lists, which looks like RELEVANT_STATS = list(point gain, max capacity)
 	var/influence_factors = list()
-	/// Modifier to the calcualted value of the chosen influence factors, default is 1 (100%)
+	/// Point modifier to all influence factors including the follower count, default is 1 (100%)
 	var/influence_modifier = 1
 	/// How many influence points storyteller gets for each follower
 	var/follower_modifier = STANDARD_FOLLOWER_MODIFIER
@@ -159,7 +159,7 @@
 		// Determine which events are valid to pick
 		for(var/datum/round_event_control/event as anything in mode.event_pools[track])
 			var/players_amt = get_active_player_count(alive_check = TRUE, afk_check = TRUE, human_check = TRUE)
-			if(forced)
+			if(forced && SSticker.HasRoundStarted())
 				if(QDELETED(event))
 					message_admins("[event.name] was deleted!")
 					continue

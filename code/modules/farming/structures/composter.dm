@@ -79,10 +79,16 @@
 	var/compost_value = 0
 	if(istype(attacking_item, /obj/item/reagent_containers/food/snacks))
 		compost_value = 150
+	if(istype(attacking_item, /obj/item/alch/herb))
+		compost_value = 150
 	if(istype(attacking_item, /obj/item/natural/chaff))
 		compost_value = 150
 	if(istype(attacking_item, /obj/item/alch/bone))
 		compost_value = 100
+	if(istype(attacking_item, /obj/item/alch/sinew))
+		compost_value = 100
+	if(istype(attacking_item, /obj/item/alch/viscera))
+		compost_value = 50
 	if(istype(attacking_item, /obj/item/trash))
 		compost_value = 50
 	if(istype(attacking_item, /obj/item/reagent_containers/food/snacks/rotten))

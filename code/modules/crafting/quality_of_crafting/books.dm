@@ -1,12 +1,11 @@
 /obj/item/recipe_book
-	icon = 'icons/roguetown/items/books.dmi'
 
+	icon = 'icons/roguetown/items/books.dmi'
 	w_class = WEIGHT_CLASS_SMALL
 	grid_width = 32
 	grid_height = 64
 	var/list/types = list()
 	var/open
-	base_icon_state
 	var/can_spawn = TRUE
 	var/list/categories = list("All") // Default categories
 	var/current_category = "All"      // Default selected category
@@ -894,4 +893,9 @@
 		/datum/book_entry/plant_families,
 		/datum/book_entry/plant_genetics,
 		/datum/plant_def,
+		/datum/repeatable_crafting_recipe/bee_treatment,
+		/datum/repeatable_crafting_recipe/bee_treatment/antiviral,
+		/datum/repeatable_crafting_recipe/bee_treatment/miticide,
+		/datum/repeatable_crafting_recipe/bee_treatment/insecticide,
+		/datum/blueprint_recipe/carpentry/apiary,
 	)

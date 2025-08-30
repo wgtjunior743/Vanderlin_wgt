@@ -4,6 +4,23 @@
 	abstract_type = /datum/anvil_recipe/weapons
 	category = "Weapons"
 
+
+////////////////////////////////////
+// --------- TIN -----------
+//honestly the only tin "weapon" that comes to mind would be lead bullets
+/datum/anvil_recipe/weapons/tin
+	abstract_type = /datum/anvil_recipe/weapons/tin
+	req_bar = /obj/item/ingot/tin
+	craftdiff = 0
+////////////////////////////////////
+
+/datum/anvil_recipe/weapons/tin/lead_bullet
+	name = "4x Lead Bullets"
+	recipe_name = "a handful of lead bullets."
+	created_item = /obj/item/ammo_casing/caseless/bullet
+	craftdiff = 1
+	createditem_extra = 3
+
 //////////////////////////////////////////////////////////////////////////////////////////////
 // --------- COPPER -----------
 /datum/anvil_recipe/weapons/copper
@@ -524,3 +541,33 @@
 	appro_skill = /datum/skill/craft/weaponsmithing
 	additional_items = list(/obj/item/ingot/silver, /obj/item/ingot/gold)
 	created_item = /obj/item/weapon/sword/long/decorated
+
+/datum/anvil_recipe/weapons/silver/noble_sword_scabbard
+	name = "Decorated Silver Sword Scabbard (+Scabbard)"
+	appro_skill = /datum/skill/craft/weaponsmithing
+	additional_items = list(/obj/item/weapon/scabbard/sword)
+	created_item = /obj/item/weapon/scabbard/sword/noble
+
+/datum/anvil_recipe/weapons/silver/noble_knife_sheath
+	name = "Decorated Silver Knife Sheath (+Sheath)"
+	appro_skill = /datum/skill/craft/weaponsmithing
+	additional_items = list(/obj/item/weapon/scabbard/knife)
+	created_item = /obj/item/weapon/scabbard/knife/noble
+
+/datum/anvil_recipe/weapons/gold
+	abstract_type = /datum/anvil_recipe/weapons/gold
+	req_bar = /obj/item/ingot/gold
+	craftdiff = 5
+
+/datum/anvil_recipe/weapons/gold/noble_sword_scabbard
+	name = "Decorated Golden Sword Scabbard (+Scabbard)"
+	appro_skill = /datum/skill/craft/weaponsmithing
+	additional_items = list(/obj/item/weapon/scabbard/sword)
+	created_item = /obj/item/weapon/scabbard/sword/royal
+
+/datum/anvil_recipe/weapons/gold/noble_knife_sheath
+	name = "Decorated Golden Knife Sheath (+Sheath)"
+	appro_skill = /datum/skill/craft/weaponsmithing
+	additional_items = list(/obj/item/weapon/scabbard/knife)
+	created_item = /obj/item/weapon/scabbard/knife/royal
+

@@ -134,8 +134,6 @@ GLOBAL_VAR_INIT(focused_test, focused_test())
 		/obj/item/storage/fancy,
 		//needs a mob passed to view it
 		/atom/movable/screen/credit,
-		//invalid without mob/living passed
-		/obj/shapeshift_holder,
 		// requires a pod passed
 		/obj/effect/DPfall,
 		/obj/effect/DPtarget,
@@ -143,8 +141,12 @@ GLOBAL_VAR_INIT(focused_test, focused_test())
 		/obj/item/clothing/shirt/grenzelhoft,
 		// Sets usr on initialise,
 		/obj/item/sendingstonesummoner,
+		// sets all it's shit on initialize
+		/obj/effect/temp_visual/offered_item_effect,
 		// This should be obvious
 		/obj/merge_conflict_marker,
+		///this object exists purely to create a template spawning it in is nah
+		/obj/effect/landmark/house_spot,
 	)
 	//these are VERY situational and need info passed
 	ignore += typesof(/obj/effect/abstract)

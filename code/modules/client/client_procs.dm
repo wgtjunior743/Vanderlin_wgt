@@ -39,13 +39,80 @@ GLOBAL_LIST_EMPTY(respawncounts)
 	var/commendedsomeone
 	var/atom/movable/movingmob
 	var/whitelisted = 2
+	var/list/job_priority_boosts = list()
 
 /client/Topic(href, href_list, hsrc)
 	if(!usr || usr != mob)	//stops us calling Topic for somebody else's client. Also helps prevent usr=null
 		return
 
+	// ANSWER SCHIZOHELP
 	if(href_list["schizohelp"])
-		answer_schizohelp(locate(href_list["schizohelp"]))
+		var/datum/schizohelp/schizo = locate(href_list["schizohelp"])
+		var/again = (href_list["ask_again"]) ? TRUE : FALSE
+		answer_schizohelp(schizo, again)
+		return
+
+	// ASK AGAIN SCHIZOHELP
+	if(href_list["ask_again"])
+		var/datum/schizohelp/schizo = locate(href_list["ask_again"])
+		var/mob/voice = locate(href_list["voice"])
+		if(QDELETED(schizo) || !voice.client)
+			return
+		var/msg = input("Ask again:", "To the voice of a [schizo.voice_names[voice.client.ckey]]") as text|null
+		if(msg)
+			mob.schizohelp(msg, TRUE, voice, schizo)
+			schizo.asked_again = TRUE
+			return
+
+	// LIKE SCHIZOHELP
+	if(href_list["like"])
+		var/datum/schizohelp/schizo = locate(href_list["src"])
+		var/mob/voice = locate(href_list["like"])
+		if(schizo && voice && voice.client)
+			var/voice_ckey = voice.client.ckey
+			if(!schizo.voted[voice_ckey])
+				schizo.voted[voice_ckey] = list()
+			// has this player already voted on THIS voice's answer?
+			if(!(schizo.voted[voice_ckey][src.ckey]))
+				schizo.voted[voice_ckey][src.ckey] = "like"
+
+				to_chat(src, span_notice("You liked the answer of a [schizo.voice_names[voice.client.ckey]]"))
+				to_chat(voice.client, span_notice("Your answer to [schizo.rng_name] was liked."))
+				update_mentor_stat(voice.client.ckey, "likes", 1, voice)
+				var/now = world.time
+				var/last_like_from_player = voice.client.real_like_cooldowns[src.ckey]
+
+				//Limit of 35 Real likes per Round aka 5 Triumphs
+				if(voice.client.real_likes_received >= 35)
+					return
+				//Can't give real likes for the same voice without a 10 Minutes cooldown
+				if(last_like_from_player && now - last_like_from_player < 10 MINUTES)
+					return
+
+				voice.client.real_like_cooldowns[src.ckey] = now
+				voice.client.real_likes_received  += 1
+
+				update_mentor_stat(voice.client.ckey, "real_likes", 1, voice)
+			else
+				to_chat(src, span_warning("You already voted on the [schizo.voice_names[voice.client.ckey]] answer!"))
+		return
+
+	// DISLIKE SCHIZOHELP
+	if(href_list["dislike"])
+		var/datum/schizohelp/schizo = locate(href_list["src"])
+		var/mob/voice = locate(href_list["dislike"])
+		if(schizo && voice && voice.client)
+			var/voice_ckey = voice.client.ckey
+			if(!schizo.voted[voice_ckey])
+				schizo.voted[voice_ckey] = list()
+			// has this player already voted on THIS voice's answer?
+			if(!(schizo.voted[voice_ckey][src.ckey]))
+				schizo.voted[voice_ckey][src.ckey] = "dislike"
+				to_chat(src, span_notice("You disliked the answer of a [schizo.voice_names[voice.client.ckey]]."))
+				to_chat(voice.client, span_notice("Your answer to [schizo.rng_name] was disliked"))
+				update_mentor_stat(voice.client.ckey, "dislikes", 1, voice)
+			else
+				to_chat(src, span_warning("You already voted on the [schizo.voice_names[voice.client.ckey]] answer!"))
 		return
 
 	if(href_list["delete_painting"])
@@ -635,6 +702,7 @@ GLOBAL_LIST_EMPTY(respawncounts)
 	view_size.setZoomMode()
 	fit_viewport()
 	Master.UpdateTickRate()
+	SSjob.load_player_boosts(ckey)
 
 //////////////
 //DISCONNECT//
@@ -695,6 +763,7 @@ GLOBAL_LIST_EMPTY(respawncounts)
 	SSambience.remove_ambience_client(src)
 	seen_messages = null
 	Master.UpdateTickRate()
+	SSjob.save_player_boosts(ckey)
 	..() //Even though we're going to be hard deleted there are still some things that want to know the destroy is happening
 	return QDEL_HINT_HARDDEL_NOW
 
@@ -1121,6 +1190,7 @@ GLOBAL_LIST_EMPTY(respawncounts)
 	if(inactivity > duration)
 		return inactivity
 	return FALSE
+
 /// Send resources to the client.
 /// Sends both game resources and browser assets.
 /client/proc/send_resources()
@@ -1267,7 +1337,7 @@ GLOBAL_LIST_EMPTY(respawncounts)
 			whitelisted = 0
 		return whitelisted
 
-/client/proc/has_triumph_buy(triumph_id)
+/client/proc/has_triumph_buy(triumph_id, unactivated_check = FALSE)
 	if(!triumph_id)
 		return FALSE
 
@@ -1277,7 +1347,11 @@ GLOBAL_LIST_EMPTY(respawncounts)
 
 	for(var/datum/triumph_buy/T in my_triumphs)
 		if(T.triumph_buy_id == triumph_id)
-			return TRUE
+			if(unactivated_check)
+				if(!T.activated)
+					return TRUE
+			else
+				return TRUE
 	return FALSE
 
 /client/proc/activate_triumph_buy(triumph_id)
@@ -1305,6 +1379,11 @@ GLOBAL_LIST_EMPTY(respawncounts)
 	set category = "OOC"
 
 	show_round_stats(pick_assoc(GLOB.featured_stats))
+
+/client/proc/preload_music()
+	if(SSsounds.initialized == TRUE)
+		for(var/sound_path as anything in SSsounds.all_music_sounds)
+			src << load_resource(sound_path, -1)
 
 #undef LIMITER_SIZE
 #undef CURRENT_SECOND

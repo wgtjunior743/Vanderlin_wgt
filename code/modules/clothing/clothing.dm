@@ -63,6 +63,8 @@
 	var/list/allowed_ages = ALL_AGES_LIST_CHILD
 	var/list/allowed_race = ALL_RACES_LIST
 	var/armor_class = ARMOR_CLASS_NONE
+	///Multiplies your standing speed by this value.
+	var/stand_speed_reduction = 1
 
 	var/obj/item/clothing/head/hooded/hood
 	var/hoodtype
@@ -73,10 +75,7 @@
 	. = ..()
 	if(ispath(pocket_storage_component_path))
 		LoadComponent(pocket_storage_component_path)
-	if(prevent_crits)
-		if(prevent_crits.len)
-			has_inspect_verb = TRUE
-	if(armor_class)
+	if(length(prevent_crits) || armor_class)
 		has_inspect_verb = TRUE
 
 	if(uses_lord_coloring)
@@ -103,11 +102,11 @@
 /obj/item/clothing/get_inspect_entries(list/inspect_list)
 	. = ..()
 
-	if(prevent_crits)
-		if(length(prevent_crits))
-			. += "\n<b>DEFENSE:</b>"
-			for(var/X in prevent_crits)
-				. += "\n<b>[X] damage</b>"
+	if(length(prevent_crits))
+		. += "\n<b>DEFENSE:</b>"
+		for(var/X in prevent_crits)
+			. += "\n<b>[X] damage</b>"
+
 	if(body_parts_covered)
 		. += "\n<b>COVERAGE:</b>"
 		for(var/zone in body_parts_covered2organ_names(body_parts_covered))
@@ -340,7 +339,8 @@
 		for(var/new_trait in trait_or_traits)
 			ADD_CLOTHING_TRAIT(wearer, new_trait)
 
-/obj/item/clothing/obj_break(damage_flag, silent)
+/obj/item/clothing/atom_break(damage_flag)
+	. = ..()
 	if(!damaged_clothes)
 		update_clothes_damaged_state(TRUE)
 	var/brokemessage = FALSE
@@ -352,7 +352,10 @@
 	if(ismob(loc) && brokemessage)
 		var/mob/M = loc
 		to_chat(M, "ARMOR BROKEN...!")
-	..()
+
+/obj/item/clothing/atom_fix()
+	. = ..()
+	update_clothes_damaged_state(FALSE)
 
 /obj/item/clothing/proc/update_clothes_damaged_state(damaging = TRUE)
 	var/index = "[REF(initial(icon))]-[initial(icon_state)]"
@@ -417,25 +420,16 @@ BLIND     // can't see anything
 		else
 			rolldown()
 
-/obj/item/clothing/obj_destruction(damage_flag)
-	if(damage_flag == "acid")
-		obj_destroyed = TRUE
-		acid_melt()
-	else if(damage_flag == "fire")
-		obj_destroyed = TRUE
-		burn()
-	else
-		if(!ismob(loc))
-			obj_destroyed = TRUE
-			if(destroy_sound)
-				playsound(src, destroy_sound, 100, TRUE)
-			if(destroy_message)
-				visible_message(destroy_message)
-			deconstruct(FALSE)
-		else
-			return FALSE
-	return TRUE
+/obj/item/clothing/atom_destruction(damage_flag)
+	if(damage_flag in list("acid", "fire"))
+		return ..()
 
+	if(!ismob(loc))
+		if(destroy_sound)
+			playsound(src, destroy_sound, 100, TRUE)
+		if(destroy_message)
+			visible_message(destroy_message)
+		deconstruct(FALSE)
 
 /obj/item/clothing/proc/MakeHood()
 	if(!hood)

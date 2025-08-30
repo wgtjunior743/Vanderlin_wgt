@@ -27,6 +27,30 @@
 /datum/reagent/consumable/reaction_mob(mob/living/M, method=TOUCH, reac_volume)
 	if (method == INGEST && ishuman(M))
 		var/mob/living/carbon/human/HM = M
+
+		if(HM.culinary_preferences)
+			var/favorite_drink_type = HM.culinary_preferences[CULINARY_FAVOURITE_DRINK]
+			if(favorite_drink_type == type)
+				if(HM.add_stress(/datum/stressevent/favourite_drink))
+					to_chat(HM, span_green("Yum! My favorite drink!"))
+			else if(ispath(type, favorite_drink_type))
+				var/datum/reagent/consumable/favorite_drink_instance = favorite_drink_type
+				var/favorite_drink_name = initial(favorite_drink_instance.name)
+				if(favorite_drink_name == name)
+					if(HM.add_stress(/datum/stressevent/favourite_drink))
+						to_chat(HM, span_green("Yum! My favorite drink!"))
+
+			var/hated_drink_type = HM.culinary_preferences[CULINARY_HATED_DRINK]
+			if(hated_drink_type == type)
+				if(HM.add_stress(/datum/stressevent/hated_drink))
+					to_chat(HM, span_red("Yuck! My hated drink!"))
+			else if(ispath(type, hated_drink_type))
+				var/datum/reagent/consumable/hated_drink_instance = hated_drink_type
+				var/hated_drink_name = initial(hated_drink_instance.name)
+				if(hated_drink_name == name)
+					if(HM.add_stress(/datum/stressevent/hated_drink))
+						to_chat(HM, span_red("Yuck! My hated drink!"))
+
 		if (quality)
 			switch (quality)
 				if (DRINK_NICE)
@@ -40,11 +64,11 @@
 					if (prob(25))
 						to_chat(M, span_green("A fine beverage."))
 					if (HM.is_noble() || HM.is_courtier() || HM.is_yeoman())
-						M.remove_stress_list(list(/datum/stressevent/noble_impoverished_food, /datum/stressevent/noble_bland_food))
+						M.remove_stress(list(/datum/stressevent/noble_impoverished_food, /datum/stressevent/noble_bland_food))
 				if (DRINK_VERYGOOD to DRINK_FANTASTIC)
 					if (HM.is_noble() || HM.is_courtier() || HM.is_yeoman())
 						M.add_stress(/datum/stressevent/wine_great)
-						M.remove_stress_list(list(/datum/stressevent/noble_desperate, /datum/stressevent/noble_impoverished_food, /datum/stressevent/noble_bland_food, /datum/stressevent/noble_bad_manners, /datum/stressevent/noble_ate_without_table))
+						M.remove_stress(list(/datum/stressevent/noble_desperate, /datum/stressevent/noble_impoverished_food, /datum/stressevent/noble_bland_food, /datum/stressevent/noble_bad_manners, /datum/stressevent/noble_ate_without_table))
 						if (prob(25))
 							to_chat(M, span_blue("Absolutely exquisite!"))
 					else

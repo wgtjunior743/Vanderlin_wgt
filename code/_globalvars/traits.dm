@@ -25,10 +25,12 @@ GLOBAL_LIST_INIT(traits_by_type, list(
 		"TRAIT_IGNOREDAMAGESLOWDOWN" = TRAIT_IGNOREDAMAGESLOWDOWN,
 		"TRAIT_DEATHCOMA" = TRAIT_DEATHCOMA,
 		"TRAIT_FAKEDEATH" = TRAIT_FAKEDEATH,
+		"TRAIT_NO_TRANSFORM" = TRAIT_NO_TRANSFORM,
 		"TRAIT_STUNIMMUNE" = TRAIT_STUNIMMUNE,
 		"TRAIT_SLEEPIMMUNE" = TRAIT_SLEEPIMMUNE,
 		"TRAIT_PUSHIMMUNE" = TRAIT_PUSHIMMUNE,
 		"TRAIT_STABLEHEART" = TRAIT_STABLEHEART,
+		"TRAIT_STASIS" = TRAIT_STASIS,
 		"TRAIT_RESISTHEAT" = TRAIT_RESISTHEAT,
 		"TRAIT_RESISTHEATHANDS" = TRAIT_RESISTHEATHANDS,
 		"TRAIT_RESISTCOLD" = TRAIT_RESISTCOLD,
@@ -96,7 +98,6 @@ GLOBAL_LIST_INIT(traits_by_type, list(
 		"Xenophobia" = TRAIT_XENOPHOBIC,
 		"Tolerant" = TRAIT_TOLERANT,
 		"Nude Sleeper" = TRAIT_NUDE_SLEEPER,
-		"Civilized Barbarian" = TRAIT_CIVILIZEDBARBARIAN,
 		"Intimidating" = TRAIT_NOSEGRAB,
 		"Nutcracker" = TRAIT_NUTCRACKER,
 		"Strong Bite" = TRAIT_STRONGBITE,
@@ -159,6 +160,7 @@ GLOBAL_LIST_INIT(traits_by_type, list(
 		"Violator of the Coven" = TRAIT_VIOLATOR,
 		"Endless Slumber" = TRAIT_TORPOR,
 		"Boundless Energy" = TRAIT_NOENERGY,
+		"Head Butcher" = TRAIT_HEAD_BUTCHER,
 	),
 	/obj/item/bodypart = list(
 		"TRAIT_PARALYSIS" = TRAIT_PARALYSIS
@@ -168,7 +170,15 @@ GLOBAL_LIST_INIT(traits_by_type, list(
 		"TRAIT_NO_TELEPORT" = TRAIT_NO_TELEPORT,
 		"TRAIT_WIELDED" = TRAIT_WIELDED,
 		"TRAIT_NEEDS_TWO_HANDS" = TRAIT_NEEDS_TWO_HANDS,
-		)
+		"TRAIT_HARD_TO_STEAL" = TRAIT_HARD_TO_STEAL,
+		),
+	/atom/movable = list(
+		"TRAIT_MOVE_GROUND" = TRAIT_MOVE_GROUND,
+		"TRAIT_MOVE_FLYING" = TRAIT_MOVE_FLYING,
+		"TRAIT_MOVE_VENTCRAWLING" = TRAIT_MOVE_VENTCRAWLING,
+		"TRAIT_MOVE_FLOATING" = TRAIT_MOVE_FLOATING,
+		"TRAIT_MOVE_PHASING" = TRAIT_MOVE_PHASING
+		),
 	))
 
 GLOBAL_LIST_INIT(roguetraits, list(
@@ -255,6 +265,7 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_AMAZING_BACK = span_notice("I'm able to carry far more on my back!"),
 	TRAIT_HOLLOWBONES = span_danger("My bones are light as air, Its hard to wear armor."),
 	TRAIT_RECRUITED = "I have been recruited!",
+	TRAIT_RECOGNIZED = span_notice("These people recognize me, my renown has spread from my homeland to this very place."),
 	TRAIT_EARGRAB = span_info("I can keep a tight grip on the ear of unruly children."),
 	TRAIT_KITTEN_MOM = span_info("Kittens love you, they see you are a parent."),
 	TRAIT_FACELESS = span_danger("I am faceless. I am shunned. The others will recognise me for what I am. If I give them the chance."),
@@ -273,3 +284,24 @@ GLOBAL_LIST(trait_name_map)
 		for(var/tname in GLOB.traits_by_type[key])
 			var/val = GLOB.traits_by_type[key][tname]
 			.[val] = tname
+
+GLOBAL_LIST_INIT(movement_type_trait_to_flag, list(
+	TRAIT_MOVE_GROUND = GROUND,
+	TRAIT_MOVE_FLYING = FLYING,
+	TRAIT_MOVE_VENTCRAWLING = VENTCRAWLING,
+	TRAIT_MOVE_FLOATING = FLOATING,
+	TRAIT_MOVE_PHASING = PHASING
+	))
+
+GLOBAL_LIST_INIT(movement_type_addtrait_signals, set_movement_type_addtrait_signals())
+GLOBAL_LIST_INIT(movement_type_removetrait_signals, set_movement_type_removetrait_signals())
+
+/proc/set_movement_type_addtrait_signals(signal_prefix)
+	. = list()
+	for(var/trait in GLOB.movement_type_trait_to_flag)
+		. += SIGNAL_ADDTRAIT(trait)
+
+/proc/set_movement_type_removetrait_signals(signal_prefix)
+	. = list()
+	for(var/trait in GLOB.movement_type_trait_to_flag)
+		. += SIGNAL_REMOVETRAIT(trait)

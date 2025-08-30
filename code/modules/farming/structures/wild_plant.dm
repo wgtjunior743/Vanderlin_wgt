@@ -23,8 +23,8 @@
 	name = name + plant_type.name
 	desc = desc + plant_type.name
 
-	pixel_x = rand(-12, 12)
-	pixel_y = rand(-12, 12)
+	pixel_x = base_pixel_x + rand(-12, 12)
+	pixel_y = base_pixel_y + rand(-12, 12)
 
 	icon_state = "[plant_type.icon_state]2"
 
@@ -82,9 +82,10 @@
 		feedback = "Praise Dendor for our harvest is bountiful."
 		modifier += is_ascendant(DENDOR) ? 4 : 3
 
-	record_featured_stat(FEATURED_STATS_FARMERS, user)
-	record_featured_object_stat(FEATURED_STATS_CROPS, plant_type.name)
-	record_round_statistic(STATS_PLANTS_HARVESTED)
+	if(user.client)
+		record_featured_stat(FEATURED_STATS_FARMERS, user)
+		record_featured_object_stat(FEATURED_STATS_CROPS, plant_type.name)
+		record_round_statistic(STATS_PLANTS_HARVESTED)
 	to_chat(user, span_notice(feedback))
 	yield_produce(modifier)
 

@@ -6,6 +6,7 @@
 	sellprice = 0
 	force = 0
 	throwforce = 0
+	faretype = FARE_POOR
 	var/list/pipe_reagents = list()
 	var/seed
 	var/bitesize_mod = 0
@@ -13,23 +14,37 @@
 	var/datum/plant_genetics/source_genetics
 
 /obj/item/reagent_containers/food/snacks/produce/proc/set_quality(quality)
-	crop_quality = quality
+	crop_quality = clamp(quality, 0, 4)
 	update_appearance(UPDATE_OVERLAYS)
+	if(crop_quality >= 3) // gold tier and above
+		AddComponent(/datum/component/particle_spewer/sparkle)
+	else
+		var/datum/component/particle_spewer = GetComponent(/datum/component/particle_spewer/sparkle)
+		if(particle_spewer)
+			particle_spewer.RemoveComponent()
 
 /obj/item/reagent_containers/food/snacks/produce/update_overlays()
 	. = ..()
 	// Add quality overlay to the food item
-	if(crop_quality <= 0)
+	if(crop_quality <= 0 || !ismob(loc))
 		return
 	var/list/quality_icons = list(
 		null, // Regular has no overlay
-		"bronze",
+		// "bronze",
 		"silver",
 		"gold",
 		"diamond",
 	)
 	if(crop_quality <= length(quality_icons) && quality_icons[crop_quality])
 		. += mutable_appearance('icons/effects/crop_quality.dmi', quality_icons[crop_quality])
+
+/obj/item/reagent_containers/food/snacks/produce/dropped(mob/user, silent)
+	. = ..()
+	update_appearance(UPDATE_OVERLAYS)
+
+/obj/item/reagent_containers/food/snacks/produce/equipped(mob/user, slot, initial)
+	. = ..()
+	update_appearance(UPDATE_OVERLAYS)
 
 /obj/item/reagent_containers/food/snacks/produce/fruit
 	name = "fruit"
@@ -44,8 +59,8 @@
 	. = ..()
 	if(!tastes)
 		tastes = list("[name]" = 1)
-	pixel_x = rand(-5, 5)
-	pixel_y = rand(-5, 5)
+	pixel_x = base_pixel_x + rand(-5, 5)
+	pixel_y = base_pixel_y + rand(-5, 5)
 
 /obj/item/reagent_containers/food/snacks/produce/Crossed(mob/living/carbon/human/H)
 	..()
@@ -214,7 +229,7 @@
 	icon_state = "berriesc0"
 	seed = /obj/item/neuFarm/seed/berry
 	tastes = list("berry" = 1)
-	faretype = FARE_NEUTRAL
+	faretype = FARE_POOR
 	bitesize = 5
 	list_reagents = list(/datum/reagent/consumable/nutriment = 0.5)
 	dropshrink = 0.75

@@ -127,6 +127,10 @@
 	if(modifiers["middle"])
 		if(QDELETED(book))
 			book = new(null)
+		var/mob/M = usr
+		for(var/datum/recipe as anything in M.mind?.learned_recipes)
+			book.types |= recipe.type
+		book.generate_categories()
 		usr << browse(book.generate_html(usr),"window=recipe;size=800x810")
 		return
 	if(world.time < lastclick + 3 SECONDS)
@@ -135,6 +139,11 @@
 	if(!HAS_TRAIT(usr, TRAIT_BLUEPRINT_VISION))
 		var/mob/vision = usr
 		vision.enter_blueprint()
+	else
+		var/mob/vision = usr
+		REMOVE_TRAIT(usr, TRAIT_BLUEPRINT_VISION, TRAIT_GENERIC)
+		vision.blueprints.quit()
+		vision.blueprints = null
 
 /atom/movable/screen/craft/Destroy()
 	QDEL_NULL(book)
@@ -212,12 +221,11 @@
 		var/obj/item/I = hud.mymob.get_item_by_slot(slot_id)
 		if(I)
 			icon_state = icon_full
-			if(I.max_integrity)
-				if(I.obj_integrity < I.max_integrity)
+			if(I.uses_integrity)
+				if(I.obj_broken)
+					icon_state = "slotbroke"
+				else if(I.get_integrity() < I.max_integrity)
 					icon_state = "slotdmg"
-					if(I.integrity_failure)
-						if((I.obj_integrity / I.max_integrity) <= I.integrity_failure)
-							icon_state = "slotbroke"
 		else
 			icon_state = icon_empty
 	return ..()
@@ -1315,6 +1323,61 @@
 		H.check_for_injuries(H)
 		to_chat(H, "I am [H.get_encumbrance() * 100]% encumbered.")
 
+/atom/movable/screen/party_member_health
+	name = "party_health"
+	icon = 'icons/mob/rogueheat.dmi'
+	icon_state = "dam0"
+	screen_loc = "WEST:28,CENTER-1:15"
+
+	var/member_key
+	var/mob/member
+	var/datum/party/party
+
+/atom/movable/screen/party_member_health/Destroy()
+	if(member)
+		UnregisterSignal(member, COMSIG_MOB_HEALTHHUD_UPDATE)
+	member = null
+	party = null
+	return ..()
+
+/atom/movable/screen/party_member_health/proc/set_party_member(mob/mob, datum/party/incoming_party)
+	member = mob
+	party = incoming_party
+	RegisterSignal(member, COMSIG_MOB_HEALTHHUD_UPDATE, PROC_REF(update_info))
+
+/atom/movable/screen/party_member_health/proc/update_info(incoming_state)
+	icon_state = incoming_state
+
+
+/atom/movable/screen/party_member_name
+	name = "party_member_name"
+	icon = 'icons/mob/screen_gen.dmi'
+	icon_state = "blank"
+	screen_loc = "EAST-1,CENTER-1:15"
+	maptext_width = 128
+	maptext_height = 48
+	maptext_x = -64
+	maptext_y = 0
+	var/member_key
+	var/mob/member
+	var/datum/party/party
+
+/atom/movable/screen/party_member_name/proc/set_party_member(mob/mob, datum/party/incoming_party, rank = "Recruit")
+	member = mob
+	party = incoming_party
+	member_key = mob.ckey
+	var/display_name = mob.real_name || mob.name
+
+	maptext = {"<div style="text-align: left; font-family: 'Small Fonts'; font-size: 7px; color: #FFFFFF; text-shadow: 1px 1px 0px #000000;">
+		<div style="color: #FFFFFF;">[display_name]</div>
+		<div style="color: #FFD700; margin-top: 1px;">[rank]</div>
+	</div>"}
+
+/atom/movable/screen/party_member_name/Destroy()
+	member = null
+	party = null
+	return ..()
+
 /atom/movable/screen/mood
 	name = "mood"
 	icon_state = "mood5"
@@ -1529,46 +1592,18 @@
 		if(LAZYACCESS(modifiers, LEFT_CLICK))
 			if(M.charflaw)
 				to_chat(M, "*----*")
-				to_chat(M, "<span class='info'>[M.charflaw.desc]</span>")
+				to_chat(M, span_info("[M.charflaw.desc]"))
 			to_chat(M, "*--------*")
-			var/list/already_printed = list()
-			var/list/pos_stressors = M.positive_stressors
-			for(var/datum/stressevent/S in pos_stressors)
-				if(S in already_printed)
-					continue
-				var/cnt = 1
-				for(var/datum/stressevent/CS in pos_stressors)
-					if(CS == S)
-						continue
-					if(CS.type == S.type)
-						cnt++
-						already_printed += CS
-				var/ddesc = S.desc
-				if(islist(S.desc))
-					ddesc = pick(S.desc)
-				if(cnt > 1)
-					to_chat(M, "• [ddesc] (x[cnt])")
+			if(!length(M.stressors))
+				to_chat(M, span_info("I'm not feeling much of anything right now."))
+			for(var/stress_type in M.stressors)
+				var/datum/stressevent/stress_event = M.stressors[stress_type]
+				var/count = stress_event.stacks
+				var/ddesc = islist(stress_event.desc) ? pick(stress_event.desc) : stress_event.desc
+				if(count > 1)
+					to_chat(M, "• [ddesc] (x[count])")
 				else
 					to_chat(M, "• [ddesc]")
-			var/list/neg_stressors = M.negative_stressors
-			for(var/datum/stressevent/S in neg_stressors)
-				if(S in already_printed)
-					continue
-				var/cnt = 1
-				for(var/datum/stressevent/CS in neg_stressors)
-					if(CS == S)
-						continue
-					if(CS.type == S.type)
-						cnt++
-						already_printed += CS
-				var/ddesc = S.desc
-				if(islist(S.desc))
-					ddesc = pick(S.desc)
-				if(cnt > 1)
-					to_chat(M, "[ddesc] (x[cnt])")
-				else
-					to_chat(M, "[ddesc]")
-			already_printed = list()
 			to_chat(M, "*--------*")
 		if(LAZYACCESS(modifiers, RIGHT_CLICK))
 			if(M.get_triumphs() <= 0)

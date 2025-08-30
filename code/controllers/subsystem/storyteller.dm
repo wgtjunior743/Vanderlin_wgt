@@ -558,6 +558,8 @@ SUBSYSTEM_DEF(gamemode)
 				continue
 			if(length(required_roles) && !(candidate.mind.assigned_role.title in required_roles))
 				continue
+			if(candidate.mind.special_role)
+				continue
 
 		if(be_special)
 			if(!(candidate.client.prefs) || !(be_special in candidate.client.prefs.be_special))
@@ -801,15 +803,9 @@ SUBSYSTEM_DEF(gamemode)
 	if(ttime >= GLOB.round_timer)
 		if(roundvoteend)
 			if(ttime >= round_ends_at)
-				// for(var/mob/living/carbon/human/H in GLOB.human_list)
-				// 	if(H.stat != DEAD)
-				// 		if(H.allmig_reward)
-				// 			H.adjust_triumphs(H.allmig_reward)
-				// 			H.allmig_reward = 0
 				return TRUE
-		else
-			if(!SSvote.mode)
-				SSvote.initiate_vote("endround", pick("Zlod", "Sun King", "Gaia", "Moon Queen", "Aeon", "Gemini", "Aries"))
+		else if(!SSvote.mode)
+			SSvote.initiate_vote("endround", "The Gods")
 
 	if(SSmapping.retainer.head_rebel_decree)
 		if(reb_end_time == 0)
@@ -1288,6 +1284,7 @@ SUBSYSTEM_DEF(gamemode)
 			if(listed.name != event_name)
 				continue
 			listed.occurrences++
+			listed.last_round_occurrences++
 
 /// Chooses a number of chronicle stats from the chronicle sets which will be shown at the round end panel
 /datum/controller/subsystem/gamemode/proc/pick_chronicle_stats()
@@ -1432,6 +1429,8 @@ SUBSYSTEM_DEF(gamemode)
 
 	for(var/stat_name in statistics_to_clear)
 		force_set_round_statistic(stat_name, 0)
+
+	var/total_wealth = 0
 
 	var/list/current_valid_humans = list()
 
@@ -1591,6 +1590,7 @@ SUBSYSTEM_DEF(gamemode)
 				set_chronicle_stat(CHRONICLE_STATS_FASTEST_PERSON, human_mob, "SPEEDSTER", "#54d6c2", "[human_mob.STASPD] speed")
 
 			var/wealth = get_mammons_in_atom(human_mob)
+			total_wealth += wealth
 			if(wealth > highest_wealth)
 				highest_wealth = wealth
 				set_chronicle_stat(CHRONICLE_STATS_RICHEST_PERSON, human_mob, "MAGNATE", "#d8dd90", "[wealth] mammons")
@@ -1643,7 +1643,7 @@ SUBSYSTEM_DEF(gamemode)
 		var/mob/living/carbon/human/random_passerby = pick(potential_passers)
 
 		chosen_chronicle_stats[1] = CHRONICLE_STATS_PSYDON_FAVOURITE
-		set_chronicle_stat(CHRONICLE_STATS_PSYDON_FAVOURITE, valid_psydon_favourite, "PSYDON'S FAVOURITE", "#e6e6e6", "buying his way in")
+		set_chronicle_stat(CHRONICLE_STATS_PSYDON_FAVOURITE, valid_psydon_favourite, "PSYDON'S FAVOURITE", "#e6e6e6", "buying their way in")
 
 		if(random_passerby)
 			chosen_chronicle_stats[2] = CHRONICLE_STATS_RANDOM_PASSERBY
@@ -1652,6 +1652,8 @@ SUBSYSTEM_DEF(gamemode)
 	else if(!isnull(GLOB.chronicle_stats[CHRONICLE_STATS_PSYDON_FAVOURITE]))
 		chosen_chronicle_stats = list()
 		pick_chronicle_stats()
+
+	force_set_round_statistic(STATS_MAMMONS_HELD, total_wealth)
 
 /// Returns total follower influence for the given storyteller
 /datum/controller/subsystem/gamemode/proc/get_follower_influence(datum/storyteller/chosen_storyteller)
@@ -1675,6 +1677,8 @@ SUBSYSTEM_DEF(gamemode)
 			total_influence += max(min_mod, base_mod - (i - diminish_threshold))
 		else
 			total_influence += max(second_min_mod, base_mod - (i - diminish_threshold))
+
+	total_influence = total_influence * initialized_storyteller.influence_modifier
 
 	return total_influence
 

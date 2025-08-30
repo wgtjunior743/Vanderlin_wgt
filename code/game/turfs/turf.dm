@@ -1,6 +1,7 @@
 /turf
 	icon = 'icons/turf/floors.dmi'
 	level = 1
+	uses_integrity = TRUE
 
 	var/intact = 1
 
@@ -31,18 +32,7 @@
 	var/bullet_sizzle = FALSE //used by ammo_casing/bounce_away() to determine if the shell casing should make a sizzle sound when it's ejected over the turf
 							//IE if the turf is supposed to be water, set TRUE.
 
-	var/turf_integrity	//defaults to max_integrity
-	var/max_integrity = 500
-	var/integrity_failure = 0 //0 if we have no special broken behavior, otherwise is a percentage of at what point the obj breaks. 0.5 being 50%
-	///Damage under this value will be completely ignored
-	var/damage_deflection = 5
-
-	var/blade_dulling = DULLING_FLOOR
-	var/attacked_sound
-
-	var/break_sound = null //The sound played when a turf breaks
 	var/debris = null
-	var/break_message = null
 
 	/// What we overlay onto turfs in our smoothing_list
 	var/neighborlay
@@ -53,6 +43,8 @@
 
 	/// Uses colours defined by the monarch roundstart see [lordcolor.dm]
 	var/uses_lord_coloring = FALSE
+
+	var/list/datum/automata_cell/autocells
 
 /turf/vv_edit_var(var_name, new_value)
 	var/static/list/banned_edits = list("x", "y", "z")
@@ -92,8 +84,9 @@
 	if (light_power && (light_outer_range || light_inner_range))
 		update_light()
 
-	if(turf_integrity == null)
-		turf_integrity = max_integrity
+	if(uses_integrity)
+		atom_integrity = max_integrity
+	TEST_ONLY_ASSERT((!armor || istype(armor)), "[type] has an armor that contains an invalid value at intialize")
 
 	var/turf/T = GET_TURF_ABOVE(src)
 	if(T)
@@ -437,6 +430,12 @@
 	progress.end_progress()
 
 	return TRUE
+
+/turf/proc/get_cell(type)
+	for(var/datum/automata_cell/C in autocells)
+		if(istype(C, type))
+			return C
+	return null
 
 //////////////////////////////
 //Distance procs

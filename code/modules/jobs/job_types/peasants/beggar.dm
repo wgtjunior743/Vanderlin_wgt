@@ -5,7 +5,6 @@
 	the glances of disgust and loathing others give you is just a friendly greeting; \
 	the only reason you've not been killed already is because volfs are known to be repelled by decaying flesh. \
 	You're going to be a solemn reminder of what happens when something unwanted is born into this world."
-	flag = APPRENTICE
 	department_flag = PEASANTS
 	display_order = JDO_VAGRANT
 	job_flags = (JOB_ANNOUNCE_ARRIVAL | JOB_EQUIP_RANK | JOB_NEW_PLAYER_JOINABLE)
@@ -56,6 +55,7 @@
 	H.adjust_skillrank(/datum/skill/combat/wrestling, pick(1,2,3), TRUE) // Street-fu
 	H.adjust_skillrank(/datum/skill/combat/unarmed, pick(1,2,3), TRUE)
 	H.base_fortune = rand(1, 20)
+	H.recalculate_stats(FALSE)
 	if(prob(5))
 		r_hand = /obj/item/weapon/mace/woodclub
 	H.change_stat(STATKEY_INT, -3)

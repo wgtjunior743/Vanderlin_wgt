@@ -22,7 +22,7 @@
 	pickup_sound = 'sound/foley/equip/swordsmall2.ogg'
 	equip_sound = 'sound/foley/dropsound/holster_sword.ogg'
 	drop_sound = 'sound/foley/dropsound/blade_drop.ogg'
-	wdefense = MEDIOCHRE_PARRY
+	wdefense = MEDIOCRE_PARRY
 	wbalance = HARD_TO_DODGE
 	melting_material = /datum/material/steel
 	melt_amount = 50
@@ -131,16 +131,47 @@
 	icon_state = "huntingknife"
 	max_blade_int = 140
 	max_integrity = INTEGRITY_STRONG
-	wdefense = MEDIOCHRE_PARRY
+	wdefense = MEDIOCRE_PARRY
 	wbalance = HARD_TO_DODGE
 	melting_material = /datum/material/steel
 	melt_amount = 75
 	sellprice = 6
 
 
+/obj/item/weapon/knife/dagger/navaja
+	possible_item_intents = list(/datum/intent/dagger/thrust,/datum/intent/dagger/cut,  /datum/intent/dagger/thrust)
+	name = "navaja"
+	desc = "A folding Etruscan knife valued by merchants, mercenaries and peasants for its convenience. It possesses a long hilt, allowing for a sizeable blade with good reach."
+	force = 5
+	icon_state = "navaja_c"
+	item_state = "elfdag"
+	var/extended = 0
+	wdefense = 2
+	sellprice = 30 //shiny :o
+
+/obj/item/weapon/knife/dagger/navaja/attack_self(mob/user)
+	extended = !extended
+	playsound(src.loc, 'sound/blank.ogg', 50, TRUE)
+	if(extended)
+		force = 20
+		wdefense = 6
+		w_class = WEIGHT_CLASS_NORMAL
+		throwforce = 23
+		icon_state = "navaja_o"
+		attack_verb = list("slashed", "stabbed", "sliced", "torn", "ripped", "diced", "cut")
+		sharpness = IS_SHARP
+	else
+		force = 5
+		w_class = WEIGHT_CLASS_SMALL
+		throwforce = 5
+		icon_state = "navaja_c"
+		attack_verb = list("stubbed", "poked")
+		sharpness = IS_BLUNT
+		wdefense = 2
+
 /obj/item/weapon/knife/scissors
 	possible_item_intents = list(/datum/intent/dagger/thrust, /datum/intent/dagger/cut, /datum/intent/snip)
-	max_integrity = 100
+	max_integrity = INTEGRITY_WORST
 	name = "iron scissors"
 	desc = "Scissors made of iron that may be used to salvage usable materials from clothing."
 	icon_state = "iscissors"
@@ -159,13 +190,14 @@
 	releasedrain = 0
 	blade_class = BCLASS_PUNCH
 
-/obj/item/weapon/knife/scissors/attack_obj(obj/O, mob/living/user) //This is scissor action! We're putting this here not to lose sight of it!
-	if(user.used_intent.type == /datum/intent/snip && istype(O, /obj/item))
-		var/obj/item/item = O
+/obj/item/weapon/knife/scissors/pre_attack(atom/A, mob/living/user, params)
+	if(user.used_intent.type == /datum/intent/snip && isitem(A))
+		var/obj/item/item = A
 		if(item.sewrepair && item.salvage_result) // We can only salvage objects which can be sewn!
+			. = TRUE
 			var/skill_level = user.get_skill_level(/datum/skill/misc/sewing)
 			var/salvage_time = (7 SECONDS - (skill_level * 10))
-			if(!do_after(user, salvage_time, user))
+			if(!do_after(user, salvage_time, A))
 				return
 			if(item.fiber_salvage) //We're getting fiber as base if fiber is present on the item
 				new /obj/item/natural/fibers(get_turf(item))
@@ -191,8 +223,8 @@
 	return ..()
 
 /obj/item/weapon/knife/scissors/steel
-	force = 14
-	max_integrity = 150
+	force = DAMAGE_DAGGER + 2
+	max_integrity = INTEGRITY_POOR
 	name = "steel scissors"
 	desc = "Scissors made of solid steel that may be used to salvage usable materials from clothing, more durable and a tad more deadly than their iron conterpart."
 	icon_state = "sscissors"
@@ -214,7 +246,7 @@
 	parrysound = list('sound/combat/parry/bladed/bladedmedium (1).ogg','sound/combat/parry/bladed/bladedmedium (2).ogg','sound/combat/parry/bladed/bladedmedium (3).ogg')
 	swingsound = list('sound/combat/wooshes/bladed/wooshmed (1).ogg','sound/combat/wooshes/bladed/wooshmed (2).ogg','sound/combat/wooshes/bladed/wooshmed (3).ogg')
 	throwforce = 15
-	max_integrity = 150
+	max_integrity = INTEGRITY_POOR
 	slot_flags = ITEM_SLOT_HIP
 	thrown_bclass = BCLASS_CHOP
 	w_class = WEIGHT_CLASS_NORMAL
@@ -227,11 +259,11 @@
 /obj/item/weapon/knife/cleaver/combat
 	name = "hack-knife"
 	desc = "A short blade that even the weakest of hands can aspire to do harm with."
-	force = 10
+	force = DAMAGE_KNIFE
 	possible_item_intents = list(/datum/intent/dagger/cut, /datum/intent/dagger/chop)
 	icon_state = "combatknife"
 	throwforce = 16
-	max_integrity = 180
+	max_integrity = INTEGRITY_STANDARD - 20
 	slot_flags = ITEM_SLOT_HIP
 	w_class = WEIGHT_CLASS_NORMAL
 	melting_material = /datum/material/iron
@@ -254,7 +286,8 @@
 	name = "iron dagger"
 	desc = "Thin, sharp, pointed death."
 	icon_state = "idagger"
-	melting_material = null
+	melting_material = /datum/material/iron
+	melt_amount = 75
 	sellprice = 12
 
 //................ Steel Dagger ............... //
@@ -262,7 +295,8 @@
 	name = "steel dagger"
 	desc = "A dagger made of refined steel."
 	icon_state = "sdagger"
-	melting_material = null
+	melting_material = /datum/material/steel
+	melt_amount = 75
 	wdefense = AVERAGE_PARRY
 	wbalance = VERY_HARD_TO_DODGE
 
@@ -274,7 +308,7 @@
 	name ="plaguebringer sickle"
 	desc = "A wicked edge brings feculent delights."
 	icon_state = "pestrasickle"
-	max_integrity = 200
+	max_integrity = INTEGRITY_STANDARD
 	wdefense = GOOD_PARRY //They use a dagger, but it should be fine for them to also parry with it.
 //................ Fanged dagger ............... //
 /obj/item/weapon/knife/dagger/steel/dirk
@@ -288,9 +322,9 @@
 	name = "silver dagger"
 	desc = "A dagger made of fine silver, the bane of the undead."
 	icon_state = "sildagger"
-	melting_material = null
-	max_blade_int = 112 // .8 of steel
-	max_integrity = 240 // .8 of steel
+	melting_material = /datum/material/silver
+	max_blade_int = 120
+	max_integrity = INTEGRITY_STRONG * 0.8
 	sellprice = 45
 	last_used = 0
 
@@ -299,16 +333,11 @@
 	enchant(/datum/enchantment/silver)
 
 //................ Psydonian Dagger ............... //
-/obj/item/weapon/knife/dagger/psydon
+/obj/item/weapon/knife/dagger/silver/psydon
 	name = "psydonian dagger"
 	desc = "A silver dagger favored by close range fighters of the inquisition."
 	icon_state = "psydagger"
-	melting_material = null
 	sellprice = 60
-
-/obj/item/weapon/knife/dagger/psydon/Initialize(mapload)
-	. = ..()
-	enchant(/datum/enchantment/silver)
 
 //................ Profane Dagger ............... //
 /obj/item/weapon/knife/dagger/steel/profane
@@ -362,9 +391,9 @@
 	if(!istype(target))
 		return FALSE
 	if(target.has_flaw(/datum/charflaw/hunted) || HAS_TRAIT(target, TRAIT_ZIZOID_HUNTED)) // Check to see if the dagger will do 20 damage or 14
-		force = 20
+		force = DAMAGE_KNIFE * 2
 	else
-		force = 14
+		force = DAMAGE_DAGGER + 2
 	return FALSE
 
 /obj/item/weapon/knife/dagger/steel/profane/afterattack(mob/living/carbon/human/target, mob/living/user = usr, proximity)
@@ -433,8 +462,8 @@
 	S.language_holder = target.language_holder.copy(S)
 	target.visible_message("<span class='danger'>[target]'s soul is pulled from their body and sucked into the profane dagger!</span>", "<span class='danger'>My soul is trapped within the profane dagger. Damnation!</span>")
 	playsound(src, 'sound/magic/soulsteal.ogg', 100, extrarange = 5)
-	src.blade_int = src.max_blade_int // Stealing a soul successfully sharpens the blade.
-	src.obj_integrity = src.max_integrity // And fixes the dagger. No blacksmith required!
+	blade_int = max_blade_int // Stealing a soul successfully sharpens the blade.
+	repair_damage(max_integrity) // And fixes the dagger. No blacksmith required!
 
 /obj/item/weapon/knife/dagger/steel/profane/proc/get_profane_ghost(mob/living/carbon/human/target, mob/user)
 	var/mob/dead/observer/chosen_ghost
@@ -483,7 +512,7 @@
 	desc = "A tool favored by the wood-elves, easy to make, useful for skinning the flesh of beast and man alike."
 	icon_state = "stone_knife"
 	resistance_flags = FLAMMABLE // Weapon made mostly of wood
-	max_integrity = 30
+	max_integrity = INTEGRITY_WORST - 70
 	max_blade_int = 30
 	wdefense = TERRIBLE_PARRY
 	smeltresult = /obj/item/fertilizer/ash
@@ -506,7 +535,7 @@
 	desc = "A knife of an older design, the copper serves decent enough."
 	icon_state = "cdagger"
 	max_blade_int = 75
-	max_integrity = 75
+	max_integrity = INTEGRITY_WORST - 25
 	swingsound = list('sound/combat/wooshes/bladed/wooshsmall (1).ogg','sound/combat/wooshes/bladed/wooshsmall (2).ogg','sound/combat/wooshes/bladed/wooshsmall (3).ogg')
 	associated_skill = /datum/skill/combat/knives
 	pickup_sound = 'sound/foley/equip/swordsmall2.ogg'
@@ -519,10 +548,10 @@
 	name = "iron tossblade"
 	desc = ""
 	item_state = "bone_dagger"
-	force = 12
-	throwforce = 25
+	force = DAMAGE_DAGGER
+	throwforce = DAMAGE_DAGGER + 13
 	throw_speed = 4
-	max_integrity = 50
+	max_integrity = INTEGRITY_WORST - 50
 	wdefense = 1
 	icon_state = "throw_knifei"
 	embedding = list("embedded_pain_multiplier" = 4, "embed_chance" = 25, "embedded_fall_chance" = 20)
@@ -534,10 +563,8 @@
 	name = "steel tossblade"
 	desc = ""
 	item_state = "bone_dagger"
-	force = 12
-	throwforce = 25
 	throw_speed = 4
-	max_integrity = 100
+	max_integrity = INTEGRITY_WORST
 	wdefense = 1
 	icon_state = "throw_knifes"
 	embedding = list("embedded_pain_multiplier" = 4, "embed_chance" = 30, "embedded_fall_chance" = 15)
@@ -548,10 +575,8 @@
 	name = "psydonian tossblade"
 	desc = "An unconventional method of delivering silver to a heretic; but one PSYDON smiles at, all the same. Doubles as an 'actual' knife in a pinch."
 	item_state = "bone_dagger"
-	force = 12
-	throwforce = 25
 	throw_speed = 4
-	max_integrity = 150
+	max_integrity = INTEGRITY_POOR
 	wdefense = 3
 	icon_state = "throw_knifes"
 	embedding = list("embedded_pain_multiplier" = 4, "embed_chance" = 50, "embedded_fall_chance" = 0)

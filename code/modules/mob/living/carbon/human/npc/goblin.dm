@@ -18,6 +18,9 @@
 	stand_attempts = 6
 	bloodpool = 250 // Small, frail creechers with not so much vitality to gain from.
 
+/mob/living/carbon/human/species/goblin/apply_prefs_job(client/player_client, datum/job/job)
+	return
+
 /mob/living/carbon/human/species/goblin/npc
 	ai_controller = /datum/ai_controller/human_npc
 	dodgetime = 30 //they can dodge easily, but have a cooldown on it
@@ -138,7 +141,7 @@
 
 /datum/species/goblin/regenerate_icons(mob/living/carbon/human/H)
 	H.icon_state = ""
-	if(H.notransform)
+	if(HAS_TRAIT(H, TRAIT_NO_TRANSFORM))
 		return 1
 	H.update_inv_hands()
 	H.update_inv_handcuffed()
@@ -306,6 +309,8 @@
 	H.base_constitution = rand(4, 8)
 	H.base_endurance = rand(8, 12)
 	H.base_speed = rand(8, 14)
+	H.recalculate_stats(FALSE)
+
 	if(is_species(H, /datum/species/goblin/hell))
 		H.STASTR += 6
 		H.STACON += 6

@@ -11,8 +11,8 @@
 		add_atom_colour(set_color, FIXED_COLOUR_PRIORITY)
 	. = ..()
 	alpha = 180
-	pixel_x = rand(-12, 12)
-	pixel_y = rand(-9, 0)
+	pixel_x = base_pixel_x + rand(-12, 12)
+	pixel_y = base_pixel_y + rand(-9, 0)
 
 /atom/movable/screen/alert/status_effect/buff/playing_music
 	name = "Playing Music"
@@ -39,7 +39,7 @@
 			continue
 		if(!H.can_hear())
 			continue
-		if (!H.has_stress(stress_to_apply))
+		if (!H.has_stress_type(stress_to_apply))
 			H.add_stress(stress_to_apply)
 			if (prob(50))
 				to_chat(H, stress_to_apply.desc)

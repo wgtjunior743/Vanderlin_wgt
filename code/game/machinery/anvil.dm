@@ -61,8 +61,6 @@
 
 	if(istype(W, /obj/item/weapon/hammer))
 		var/obj/item/weapon/hammer/hammer = W
-		if(!hammer.can_smith)
-			return
 		user.changeNext_move(CLICK_CD_MELEE)
 		if(!hingot)
 			return
@@ -75,6 +73,9 @@
 			user.flash_fullscreen("whiteflash")
 			shake_camera(user, 1, 1)
 			playsound(src,pick('sound/items/bsmith1.ogg','sound/items/bsmith2.ogg','sound/items/bsmith3.ogg','sound/items/bsmith4.ogg'), 100, FALSE)
+		if(has_world_trait(/datum/world_trait/delver))
+			if(!has_recipe_unlocked(user.key, hingot.currecipe.type))
+				return
 		var/used_str = user.STASTR
 		if(iscarbon(user))
 			var/mob/living/carbon/C = user
@@ -109,6 +110,8 @@
 					continue
 				M.playsound_local(M_turf, null, 100, 1, get_rand_frequency(), falloff_exponent = 5, S = far_smith_sound)
 
+		if(istype(hammer, /obj/item/weapon/hammer/wood))
+			hammer.take_damage(hammer.max_integrity * 0.03, BRUTE, "blunt")
 		return
 
 	if(hingot && hingot.currecipe && hingot.currecipe.needed_item && istype(W, hingot.currecipe.needed_item))
@@ -129,7 +132,7 @@
 		return
 	..()
 
-/obj/machinery/anvil/proc/choose_recipe(user)
+/obj/machinery/anvil/proc/choose_recipe(mob/user)
 	if(!hingot || !hott)
 		return
 
@@ -137,6 +140,11 @@
 	for(var/datum/anvil_recipe/R in GLOB.anvil_recipes)
 		if(is_abstract(R.type)) //these recipes are initialized
 			continue
+
+		if(has_world_trait(/datum/world_trait/delver))
+			if(!has_recipe_unlocked(user.key, R.type))
+				continue
+
 		if(istype(hingot, R.req_bar))
 			if(!valid_types.Find(R.i_type))
 				valid_types += R.i_type
@@ -198,8 +206,8 @@
 	if(!hingot)
 		return
 	var/obj/item/I = hingot
-	I.pixel_x = 0
-	I.pixel_y = 0
+	I.pixel_x = I.base_pixel_x
+	I.pixel_y = I.base_pixel_y
 	var/mutable_appearance/M = new /mutable_appearance(I)
 	if(hott)
 		M.filters += filter(type="color", color = list(3,0,0,1, 0,2.7,0,0.4, 0,0,1,0, 0,0,0,1))

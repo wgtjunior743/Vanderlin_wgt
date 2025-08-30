@@ -472,11 +472,6 @@
 			update_inv_legcuffed()
 			return TRUE
 
-/mob/living/carbon/get_standard_pixel_y_offset(lying = 0)
-	. = ..()
-	if(lying)
-		. = . - 6
-
 /mob/living/carbon/proc/accident(obj/item/I)
 	if(!I || (I.item_flags & ABSTRACT) || HAS_TRAIT(I, TRAIT_NODROP))
 		return
@@ -974,7 +969,6 @@
 				set_stat(SOFT_CRIT)
 			else
 				set_stat(CONSCIOUS)
-		// update_mobility()
 	update_damage_hud()
 	update_health_hud()
 	update_spd()
@@ -1268,6 +1262,8 @@
 	. = ..()
 	if(!.)
 		return
+	if(silent)
+		return FALSE
 	if(mouth?.muteinmouth)
 		return FALSE
 	for(var/obj/item/grabbing/grab in grabbedby)
@@ -1320,7 +1316,7 @@
 		var/modifier = 1
 		if(ishuman(src))
 			var/mob/living/carbon/human/H = src
-			if(is_child(H))
+			if(H.age == AGE_CHILD)
 				modifier = 5
 		if(HAS_TRAIT(src, TRAIT_HOLLOWBONES))
 			modifier = 4
@@ -1359,7 +1355,7 @@
 /mob/living/carbon/encumbrance_to_speed()
 	var/exponential = (2.71 ** -(get_encumbrance() - 0.6)) * 10
 	var/speed_factor = 1 / (1 + exponential)
-	var/precentage =  CLAMP(speed_factor * (1 - (STASTR / 20)), 0, 1)
+	var/precentage =  CLAMP(speed_factor, 0, 1)
 
 	add_movespeed_modifier("encumbrance", override = TRUE, multiplicative_slowdown = 5 * precentage)
 

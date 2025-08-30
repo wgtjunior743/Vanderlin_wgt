@@ -297,6 +297,13 @@
 	craftdiff = 1
 	category = "Neck"
 
+/datum/repeatable_crafting_recipe/sewing/courtphys_collar
+	name = "court physician's collar"
+	requirements = list(/obj/item/natural/cloth = 3, /obj/item/natural/fibers = 2,)
+	output = /obj/item/clothing/neck/courtphysician
+	craftdiff = 1
+	category = "Neck"
+
 /datum/repeatable_crafting_recipe/sewing/roguehood
 	name = "cloth hood"
 	requirements = list(/obj/item/natural/cloth = 1, /obj/item/natural/fibers = 1,)
@@ -374,7 +381,7 @@
 /datum/repeatable_crafting_recipe/sewing/flowercrown/rosa
 	name = "rosa crown"
 	requirements = list(/obj/item/rope = 1,\
-					/obj/item/alch/rosa = 2)
+					/obj/item/alch/herb/rosa = 2)
 	output = /obj/item/clothing/head/flowercrown/rosa
 
 /datum/repeatable_crafting_recipe/sewing/flowercrown/rosa/create_blacklisted_paths()
@@ -383,7 +390,7 @@
 /datum/repeatable_crafting_recipe/sewing/flowercrown/salvia
 	name = "salvia crown"
 	requirements = list(/obj/item/rope = 1,\
-					/obj/item/alch/salvia = 2)
+					/obj/item/alch/herb/salvia = 2)
 	output = /obj/item/clothing/head/flowercrown/salvia
 
 /datum/repeatable_crafting_recipe/sewing/flowercrown/salvia/create_blacklisted_paths()
@@ -518,6 +525,13 @@
 	output = /obj/item/clothing/shirt/robe/phys
 	requirements = list(/obj/item/natural/cloth = 3,
 				/obj/item/natural/fibers = 1)
+	craftdiff = 3
+
+/datum/repeatable_crafting_recipe/sewing/courtphysician_robes
+	name = "court physician robes"
+	output = /obj/item/clothing/shirt/robe/courtphysician
+	requirements = list(/obj/item/natural/cloth = 4,
+				/obj/item/natural/fibers = 3)
 	craftdiff = 3
 
 /datum/repeatable_crafting_recipe/sewing/robe
@@ -777,3 +791,11 @@
 /datum/repeatable_crafting_recipe/sewing/carpet/red
 	name = "red carpet"
 	output = /obj/item/natural/carpet_fibers/red
+
+/datum/repeatable_crafting_recipe/sewing/beehood
+	name = "beehood"
+	output = /obj/item/clothing/head/beekeeper
+	requirements = list(/obj/item/natural/cloth = 4,
+				/obj/item/natural/fibers = 2)
+	craftdiff = 2
+	category = "Hat"

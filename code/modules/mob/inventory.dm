@@ -169,8 +169,8 @@
 	if(I.pulledby)
 		I.pulledby.stop_pulling()
 	update_inv_hands()
-	I.pixel_x = initial(I.pixel_x)
-	I.pixel_y = initial(I.pixel_y)
+	I.pixel_x = I.base_pixel_x
+	I.pixel_y = I.base_pixel_y
 	if(hud_used)
 		hud_used.throw_icon?.update_appearance()
 		hud_used.give_intent?.update_appearance()
@@ -270,8 +270,8 @@
 /mob/proc/dropItemToGround(obj/item/I, force = FALSE, silent = TRUE)
 	. = doUnEquip(I, force, drop_location(), FALSE, silent = silent)
 	if(. && I) //ensure the item exists and that it was dropped properly.
-		I.pixel_x = initial(I.pixel_x) + rand(-6,6)
-		I.pixel_y = initial(I.pixel_x) + rand(-6,6)
+		I.pixel_x = I.base_pixel_x + rand(-6,6)
+		I.pixel_y = I.base_pixel_x + rand(-6,6)
 		I.afterdrop()
 
 //for when the item will be immediately placed in a loc other than the ground
@@ -306,9 +306,8 @@
 		update_inv_hands()
 	if(atkswinging)
 		stop_attack(FALSE)
+
 	if(I)
-		if(IS_WEAKREF_OF(I, offered_item))
-			offered_item = null
 		if(client)
 			client.screen -= I
 		I.layer = initial(I.layer)
@@ -327,6 +326,12 @@
 	SEND_SIGNAL(I, COMSIG_ITEM_POST_UNEQUIP, force, newloc, no_move, invdrop, silent)
 	SEND_SIGNAL(src, COMSIG_MOB_UNEQUIPPED_ITEM, I, force, newloc, no_move, invdrop, silent)
 	return TRUE
+
+/mob/living/doUnEquip(obj/item/I, force, newloc, no_move, invdrop, silent)
+	. = ..()
+	if(I)
+		if(IS_WEAKREF_OF(I, offered_item_ref))
+			stop_offering_item()
 
 //Outdated but still in use apparently. This should at least be a human proc.
 //Daily reminder to murder this - Remie.

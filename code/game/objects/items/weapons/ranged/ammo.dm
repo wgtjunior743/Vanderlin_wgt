@@ -300,6 +300,7 @@
 	embedchance = 80
 	armor_penetration = 0
 	damage = ARROW_DAMAGE-2
+	woundclass = BCLASS_STAB
 
 //................ Poison Arrow ............... //
 /obj/item/ammo_casing/caseless/arrow/poison
@@ -502,7 +503,6 @@
 	icon_state = "musketball"
 	dropshrink = 0.5
 	possible_item_intents = list(/datum/intent/use)
-	max_integrity = 0
 	force = 3
 
 //................ Cannon Ball ............... //
