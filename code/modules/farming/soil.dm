@@ -15,7 +15,7 @@
 
 // These get multiplied by 0.0 to 1.0 depending on amount of weeds
 #define WEED_WATER_CONSUMPTION_RATE 5 / (1 MINUTES)
-#define WEED_NUTRITION_CONSUMPTION_RATE 5 / (1 MINUTES)
+#define WEED_NUTRITION_CONSUMPTION_RATE 2 / (1 MINUTES)
 
 #define PLANT_REGENERATION_RATE 10 / (1 MINUTES)
 #define PLANT_DECAY_RATE 10 / (1 MINUTES)
@@ -570,8 +570,11 @@
 	// Weeds eat water and NPK nutrients to grow
 	var/weed_factor = weeds / MAX_PLANT_WEEDS
 	adjust_water(-dt * weed_factor * WEED_WATER_CONSUMPTION_RATE)
+	adjust_nitrogen(-dt * weed_factor * WEED_NUTRITION_CONSUMPTION_RATE)
+	adjust_phosphorus(-dt * weed_factor * WEED_NUTRITION_CONSUMPTION_RATE)
+	adjust_potassium(-dt * weed_factor * WEED_NUTRITION_CONSUMPTION_RATE)
 
-	if((get_total_npk() > 0 )&& plant_genetics)
+	if((get_total_npk() > 0) && plant_genetics)
 		var/genetic_value = (100 - plant_genetics.disease_resistance) * 0.03
 		adjust_weeds(dt * WEED_GROWTH_RATE * genetic_value)
 
