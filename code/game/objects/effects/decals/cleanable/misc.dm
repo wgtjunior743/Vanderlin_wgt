@@ -219,11 +219,11 @@
 /obj/effect/decal/cleanable/debris/stone
 	name = "stone chippings"
 	icon_state = "pebbly"
-	beauty = -20
+	beauty = -50
 	clean_type = CLEAN_TYPE_LIGHT_DECAL
 
 /obj/effect/decal/cleanable/debris/wood
 	name = "sawdust"
 	icon_state = "woody"
-	beauty = -20
+	beauty = -50
 	clean_type = CLEAN_TYPE_LIGHT_DECAL
