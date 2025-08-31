@@ -1221,7 +1221,7 @@ GLOBAL_LIST_INIT(name_adjustments, list())
 						skin_tone = listy[new_s_tone]
 
 				if("selected_accent")
-					if(istype(pref_species, /datum/species/human/halfelf) || istype(pref_species, /datum/species/human/halfdrow))
+					if(pref_species.name == "Half-Elf" || pref_species.name == "Half-Drow")
 						change_accent = TRUE
 					else
 						change_accent = FALSE
@@ -1234,7 +1234,7 @@ GLOBAL_LIST_INIT(name_adjustments, list())
 						if(accent)
 							selected_accent = accent
 					if(change_accent && !patreon)
-						if(istype(pref_species, /datum/species/human/halfelf))
+						if(pref_species.name == "Half-Elf")
 							var/list/halfelf_accents = list(
 								"Humen Accent" = "Imperial",
 								"Elf Accent" = "Elfish"
@@ -1242,7 +1242,7 @@ GLOBAL_LIST_INIT(name_adjustments, list())
 							var/accent = browser_input_list(user, "CHOOSE YOUR HERO'S ACCENT", "VOICE OF THE WORLD", halfelf_accents, selected_accent)
 							if(accent)
 								selected_accent = halfelf_accents[accent]
-						if(istype(pref_species, /datum/species/human/halfdrow))
+						if(pref_species.name == "Half-Drow")
 							var/list/halfdrow_accents = list(
 								"Humen Accent" = "Imperial",
 								"Dark Elf Accent" = "Elfish"
@@ -1674,7 +1674,7 @@ GLOBAL_LIST_INIT(name_adjustments, list())
 		if(is_misc_banned(parent.ckey, BAN_MISC_PUNISHMENT_CURSE))
 			ADD_TRAIT(character, TRAIT_PUNISHMENT_CURSE, TRAIT_BAN_PUNISHMENT)
 
-	if(istype(pref_species, /datum/species/human/halfelf) || istype(pref_species, /datum/species/human/halfdrow))
+	if(pref_species.name == "Half-Elf" || pref_species.name == "Half-Drow")
 		change_accent = TRUE
 	else
 		change_accent = FALSE
@@ -1682,10 +1682,10 @@ GLOBAL_LIST_INIT(name_adjustments, list())
 	if(patreon)
 		character.accent = selected_accent
 	if(patreon && change_accent)
-		if(istype(pref_species, /datum/species/human/halfelf))
+		if(pref_species.name == "Half-Elf")
 			if(selected_accent == ACCENT_ELF)
 				character.accent = "Elfish"
-		if(istype(pref_species, /datum/species/human/halfdrow))
+		if(pref_species.name == "Half-Drow")
 			if(selected_accent == ACCENT_DELF)
 				character.accent = "Elfish"
 		change_accent = FALSE
