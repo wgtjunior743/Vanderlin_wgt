@@ -40,6 +40,7 @@
 	aggressive = 1
 	deathmessage = "collapses to the floor with a final roar, the impact rocking the ground."
 	footstep_type = FOOTSTEP_MOB_HEAVY
+	var/void_corruption = TRUE
 	food_max = 0
 
 
@@ -390,7 +391,8 @@
 		var/throw_speed = max(1, 3 - round(throw_dist / 3))
 		L.throw_at(src, throw_dist, throw_speed)
 		L.apply_damage(10, BRUTE)
-		L.apply_status_effect(/datum/status_effect/void_corruption)
+		if(void_corruption)
+			L.apply_status_effect(/datum/status_effect/void_corruption)
 
 	addtimer(CALLBACK(src, PROC_REF(void_pull_aftermath)), 1 SECONDS)
 
@@ -483,7 +485,8 @@
 		var/dist = get_dist(target, L)
 		var/damage = 30 * (1 - (dist / 4)) // 30 damage at epicenter, scaling down with distance
 		L.apply_damage(damage, BRUTE)
-		L.apply_status_effect(/datum/status_effect/void_corruption)
+		if(void_corruption)
+			L.apply_status_effect(/datum/status_effect/void_corruption)
 
 		var/throw_dir = get_dir(target, L)
 		L.throw_at(get_edge_target_turf(L, throw_dir), 3, 2)
