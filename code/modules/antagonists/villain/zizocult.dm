@@ -276,35 +276,6 @@ GLOBAL_LIST_EMPTY(ritualslist)
 			playsound(src, 'sound/foley/flesh_rem2.ogg', 30)
 			qdel(A)
 
-/obj/effect/decal/cleanable/sigil/proc/remove_connected()
-	var/list/to_check = list(src) // start with the clicked sigil
-	var/list/checked = list()
-	var/deletion_count = 0
-	var/max_deletions = 9
-
-	while(to_check.len && deletion_count < max_deletions)
-		var/obj/effect/decal/cleanable/sigil/current = to_check[1]
-		to_check.Cut(1,2)
-
-		if(current in checked)
-			continue
-		checked += current
-
-		// Grab all sigils in diagonal + cardinal adjacency
-		for(var/obj/effect/decal/cleanable/sigil/S in range(1, current))
-			if(!(S in checked))
-				to_check += S
-
-		qdel(current)
-		deletion_count++
-
-/obj/effect/decal/cleanable/sigil/attackby(obj/I, mob/user)
-	..()
-	if(istype(I, /obj/item/clothing/neck/psycross))
-		to_chat(user, span_notice("You remove the vile ritual with the deadening field of \the [I]!"))
-		remove_connected()
-		return
-
 /obj/effect/decal/cleanable/sigil/attack_hand(mob/living/user)
 	. = ..()
 	var/list/rituals = list()
