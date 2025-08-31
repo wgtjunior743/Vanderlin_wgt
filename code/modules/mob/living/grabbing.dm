@@ -12,7 +12,7 @@
 	id = "oiled"
 	duration = 5 MINUTES
 	alert_type = /atom/movable/screen/alert/status_effect/oiled
-	var/slip_chance = 8 // chance to slip when moving
+	var/slip_chance = 3 // chance to slip when moving
 
 /atom/movable/screen/alert/status_effect/oiled
 	name = "Oiled"
