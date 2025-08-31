@@ -243,6 +243,7 @@
 			H.adjust_skillrank(/datum/skill/combat/bows, 2, TRUE) //Once more, the assassin trades their crossbow abilities to match their disguise.
 			H.adjust_skillrank(/datum/skill/combat/crossbows, -2, TRUE)
 		if("Servant") // You think you're safe? No keys to the keep though. Hopefully less people pick Noble with this in mind.
+			H.job = "Servant"
 			H.adjust_skillrank(/datum/skill/misc/sewing, 1, TRUE)
 			H.adjust_skillrank(/datum/skill/craft/crafting, 1, TRUE)
 			H.adjust_skillrank(/datum/skill/craft/cooking, 3, TRUE) // Trustworthy poisoner.

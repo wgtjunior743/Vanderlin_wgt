@@ -72,6 +72,11 @@
 	T.spark_act()
 	H.put_in_hands(T, forced = TRUE)
 
+	//Those two disguises won't work if they are recognized as foreigners.
+	if(HAS_TRAIT(H, TRAIT_ASSASSIN))
+		var/title_spawned = H.get_role_title()
+		if(title_spawned == "Beggar" ||  title_spawned == "Servant")
+			REMOVE_TRAIT(H, TRAIT_FOREIGNER, TRAIT_GENERIC)
 /*
 	Whoa! we are checking requirements here!
 	On the datum! Wow!
