@@ -222,7 +222,7 @@
 	beauty = -20
 	clean_type = CLEAN_TYPE_LIGHT_DECAL
 
-/obj/effect/decal/cleanable/debris/wood	// sawdust gets cleared by weather
+/obj/effect/decal/cleanable/debris/wood
 	name = "sawdust"
 	icon_state = "woody"
 	beauty = -20
