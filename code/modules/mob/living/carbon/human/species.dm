@@ -413,6 +413,7 @@ GLOBAL_LIST_EMPTY(patreon_races)
 	..()
 
 /datum/species/proc/after_creation(mob/living/carbon/human/H)
+	H.dna.species.accent_language = H.dna.species.get_accent(H.dna.species.native_language)
 	return TRUE
 
 /proc/generate_selectable_species()

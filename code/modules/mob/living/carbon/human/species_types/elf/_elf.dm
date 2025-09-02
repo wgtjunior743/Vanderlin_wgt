@@ -23,7 +23,7 @@
 
 /datum/species/elf/after_creation(mob/living/carbon/C)
 	..()
-//	if(!C.has_language(/datum/language/elvish))
+	C.dna.species.accent_language = C.dna.species.get_accent(native_language, 1)
 	C.grant_language(/datum/language/elvish)
 	to_chat(C, "<span class='info'>I can speak Elfish with ,e before my speech.</span>")
 
