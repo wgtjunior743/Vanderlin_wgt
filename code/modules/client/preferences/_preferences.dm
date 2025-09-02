@@ -1221,7 +1221,7 @@ GLOBAL_LIST_INIT(name_adjustments, list())
 						skin_tone = listy[new_s_tone]
 
 				if("selected_accent")
-					if(pref_species.multiple_accents && length(pref_species.multiple_accents))
+					if(length(pref_species.multiple_accents))
 						change_accent = TRUE
 					else
 						change_accent = FALSE
@@ -1233,7 +1233,7 @@ GLOBAL_LIST_INIT(name_adjustments, list())
 						var/accent = browser_input_list(user, "CHOOSE YOUR HERO'S ACCENT", "VOICE OF THE WORLD", GLOB.accent_list, selected_accent)
 						if(accent)
 							selected_accent = accent
-					if(change_accent && !patreon)
+					else if(change_accent)
 						var/accent = browser_input_list(user, "CHOOSE YOUR HERO'S ACCENT", "VOICE OF THE WORLD", pref_species.multiple_accents, selected_accent)
 						if(accent)
 							selected_accent = pref_species.multiple_accents[accent]
