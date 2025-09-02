@@ -270,7 +270,8 @@ GLOBAL_LIST_EMPTY(patreon_races)
 	var/native_language = "Imperial"
 	/// Accent based of the language
 	var/accent_language
-
+	/// For races that can have more than one Accent such as the Half-Drow and Half-Elf
+	var/multiple_accents
 
 ///////////
 // PROCS //

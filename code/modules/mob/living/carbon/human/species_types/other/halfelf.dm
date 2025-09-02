@@ -10,6 +10,10 @@
 /datum/species/human/halfelf
 	name = "Half-Elf"
 	id = SPEC_ID_HALF_ELF
+	multiple_accents = list(
+		"Humen Accent" = "Imperial",
+		"Elf Accent" = "Elfish"
+	)
 	desc = "The child of an Elf and a Humen. \
 	\n\n\
 	Half-Elves are generally frowned upon by more conservative peoples, \

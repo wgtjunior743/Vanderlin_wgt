@@ -10,6 +10,10 @@
 /datum/species/human/halfdrow
 	name = "Half-Drow"
 	id = SPEC_ID_HALF_DROW
+	multiple_accents = list(
+		"Humen Accent" = "Imperial",
+		"Dark Elf Accent" = "Elfish"
+	)
 	desc = "The child of a Dark Elf and Humen. \
 	\n\n\
 	The distinction between Half-Elves and 'Half-Drow' has been a subject of debate for centuries. \

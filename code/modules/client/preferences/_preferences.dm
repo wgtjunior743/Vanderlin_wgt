@@ -1221,7 +1221,7 @@ GLOBAL_LIST_INIT(name_adjustments, list())
 						skin_tone = listy[new_s_tone]
 
 				if("selected_accent")
-					if(pref_species.name == "Half-Elf" || pref_species.name == "Half-Drow")
+					if(pref_species.multiple_accents && length(pref_species.multiple_accents))
 						change_accent = TRUE
 					else
 						change_accent = FALSE
@@ -1234,22 +1234,9 @@ GLOBAL_LIST_INIT(name_adjustments, list())
 						if(accent)
 							selected_accent = accent
 					if(change_accent && !patreon)
-						if(pref_species.name == "Half-Elf")
-							var/list/halfelf_accents = list(
-								"Humen Accent" = "Imperial",
-								"Elf Accent" = "Elfish"
-							)
-							var/accent = browser_input_list(user, "CHOOSE YOUR HERO'S ACCENT", "VOICE OF THE WORLD", halfelf_accents, selected_accent)
-							if(accent)
-								selected_accent = halfelf_accents[accent]
-						if(pref_species.name == "Half-Drow")
-							var/list/halfdrow_accents = list(
-								"Humen Accent" = "Imperial",
-								"Dark Elf Accent" = "Elfish"
-							)
-							var/accent = browser_input_list(user, "CHOOSE YOUR HERO'S ACCENT", "VOICE OF THE WORLD", halfdrow_accents, selected_accent)
-							if(accent)
-								selected_accent = halfdrow_accents[accent]
+						var/accent = browser_input_list(user, "CHOOSE YOUR HERO'S ACCENT", "VOICE OF THE WORLD", pref_species.multiple_accents, selected_accent)
+						if(accent)
+							selected_accent = pref_species.multiple_accents[accent]
 				if("ooccolor")
 					var/new_ooccolor = input(user, "Choose your OOC colour:", "Game Preference", ooccolor) as color|null
 					if(new_ooccolor)
@@ -1674,7 +1661,7 @@ GLOBAL_LIST_INIT(name_adjustments, list())
 		if(is_misc_banned(parent.ckey, BAN_MISC_PUNISHMENT_CURSE))
 			ADD_TRAIT(character, TRAIT_PUNISHMENT_CURSE, TRAIT_BAN_PUNISHMENT)
 
-	if(pref_species.name == "Half-Elf" || pref_species.name == "Half-Drow")
+	if(pref_species.multiple_accents && length(pref_species.multiple_accents))
 		change_accent = TRUE
 	else
 		change_accent = FALSE
@@ -1682,6 +1669,7 @@ GLOBAL_LIST_INIT(name_adjustments, list())
 	if(patreon)
 		character.accent = selected_accent
 	if(patreon && change_accent)
+		//If i don't force it here, patreon users won't be native speakers of these languages because of the accent bypass in the species code.
 		if(pref_species.name == "Half-Elf")
 			if(selected_accent == ACCENT_ELF)
 				character.accent = "Elfish"
