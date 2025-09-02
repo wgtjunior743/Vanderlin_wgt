@@ -1229,12 +1229,13 @@ GLOBAL_LIST_INIT(name_adjustments, list())
 						to_chat(user, "Sorry, this option is Patreon-exclusive or unavailable to your race.")
 						selected_accent = ACCENT_DEFAULT
 						return
+					var/accent
 					if(patreon)
-						var/accent = browser_input_list(user, "CHOOSE YOUR HERO'S ACCENT", "VOICE OF THE WORLD", GLOB.accent_list, selected_accent)
+						accent = browser_input_list(user, "CHOOSE YOUR HERO'S ACCENT", "VOICE OF THE WORLD", GLOB.accent_list, selected_accent)
 						if(accent)
 							selected_accent = accent
 					else if(change_accent)
-						var/accent = browser_input_list(user, "CHOOSE YOUR HERO'S ACCENT", "VOICE OF THE WORLD", pref_species.multiple_accents, selected_accent)
+						accent = browser_input_list(user, "CHOOSE YOUR HERO'S ACCENT", "VOICE OF THE WORLD", pref_species.multiple_accents, selected_accent)
 						if(accent)
 							selected_accent = pref_species.multiple_accents[accent]
 				if("ooccolor")
@@ -1668,15 +1669,6 @@ GLOBAL_LIST_INIT(name_adjustments, list())
 
 	if(patreon)
 		character.accent = selected_accent
-	if(patreon && change_accent)
-		//If i don't force it here, patreon users won't be native speakers of these languages because of the accent bypass in the species code.
-		if(pref_species.name == "Half-Elf")
-			if(selected_accent == ACCENT_ELF)
-				character.accent = "Elfish"
-		if(pref_species.name == "Half-Drow")
-			if(selected_accent == ACCENT_DELF)
-				character.accent = "Elfish"
-		change_accent = FALSE
 	if(change_accent && !patreon)
 		character.accent = selected_accent
 		change_accent = FALSE

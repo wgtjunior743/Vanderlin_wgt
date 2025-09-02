@@ -366,10 +366,18 @@ GLOBAL_LIST_EMPTY(patreon_races)
 				ACCENT_ZALAD
 			)
 
-
+			///This will only trigger for patreon users
 			if(human.accent in accents_list)
-				species_accent = human.return_accent_list()
-				special_accent = TRUE
+				/// If the human is using a specie with multiple accents
+				if(length(human.dna.species.multiple_accents))
+					var/normalized_accent = (human.accent in GLOB.accent_list) ? GLOB.accent_list[human.accent] : human.accent
+					/// If the accent they picked is different to their species accent, in this case a Half Elf with an Elf Accent would not get special_accent set to TRUE.
+					if(!(normalized_accent == species_accent))
+						species_accent = human.return_accent_list()
+						special_accent = TRUE
+				else
+					species_accent = human.return_accent_list()
+					special_accent = TRUE
 
 			var/list/language_map = list(
 				/datum/language/common = "Imperial",

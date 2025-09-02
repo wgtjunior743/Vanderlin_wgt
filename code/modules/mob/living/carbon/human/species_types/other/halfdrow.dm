@@ -164,6 +164,10 @@
 
 /datum/species/human/halfdrow/after_creation(mob/living/carbon/human/C)
 	..()
+	//If a patreon user picks the Dark Elf Accent as a Half Drow, it will work the same as a non patreon user.
+	if(C.accent == ACCENT_DELF)
+		C.dna.species.native_language = "Elfish"
+		C.dna.species.accent_language = C.dna.species.get_accent(C.dna.species.native_language, 2)
 	if(!(C.accent in GLOB.accent_list))
 		C.dna.species.native_language = C.accent
 	C.dna.species.accent_language = C.dna.species.get_accent(C.dna.species.native_language, 2)
