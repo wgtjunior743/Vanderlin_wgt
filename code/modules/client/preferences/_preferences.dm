@@ -1221,7 +1221,7 @@ GLOBAL_LIST_INIT(name_adjustments, list())
 						skin_tone = listy[new_s_tone]
 
 				if("selected_accent")
-					if(pref_species.multiple_accents && length(pref_species.multiple_accents))
+					if(length(pref_species.multiple_accents))
 						change_accent = TRUE
 					else
 						change_accent = FALSE
