@@ -77,7 +77,6 @@
 	icon = 'icons/roguetown/items/produce.dmi'
 	icon_state = "spice"
 	item_state = "spice"
-	volume = 15
 	list_reagents = list(/datum/reagent/druqks = 15)
 	sellprice = 16
 
@@ -136,7 +135,6 @@
 	desc = "A potent drug that causes a state of euphoria, but can also arrest breathing."
 	icon = 'icons/roguetown/items/produce.dmi'
 	icon_state = "ozium"
-	volume = 15
 	list_reagents = list(/datum/reagent/ozium = 15)
 	sellprice = 8
 
@@ -169,7 +167,6 @@
 	desc = "Derived from the skins of certain pallid goblins. Makes folk quick to act and anger."
 	icon = 'icons/roguetown/items/produce.dmi'
 	icon_state = "moondust"
-	volume = 15
 	list_reagents = list(/datum/reagent/moondust = 15)
 	sellprice = 16
 
@@ -212,8 +209,7 @@
 	desc = "This moondust glitters even in the dark. It seems to have certain pure properties."
 	icon = 'icons/roguetown/items/produce.dmi'
 	icon_state = "moondust_purest"
-	volume = 18
-	list_reagents = list(/datum/reagent/moondust_purest = 18)
+	list_reagents = list(/datum/reagent/moondust_purest = 15)
 	sellprice = 20
 
 /datum/reagent/moondust_purest
@@ -258,7 +254,6 @@
 	desc = "Crushed manabloom useful as a combat measure against mages."
 	icon = 'icons/roguetown/items/produce.dmi'
 	icon_state = "salt"
-	volume = 5
 	list_reagents = list(/datum/reagent/toxin/manabloom_juice = 5)
 	sellprice = 10
 	color = COLOR_CYAN
@@ -281,7 +276,6 @@
 	desc = "Explosive powder known to be produced by the dwarves. It's used in many explosives."
 	icon = 'icons/roguetown/items/produce.dmi'
 	icon_state = "blastpowder"
-	volume = 15
 	list_reagents = list(/datum/reagent/blastpowder = 15)
 	sellprice = 15
 	var/primed = FALSE
