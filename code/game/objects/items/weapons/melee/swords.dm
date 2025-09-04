@@ -210,6 +210,10 @@
 	possible_item_intents = list(/datum/intent/sword/cut, /datum/intent/sword/thrust/short, /datum/intent/sword/chop)
 	max_integrity = 200
 
+/obj/item/weapon/sword/sabre/noc/Initialize(mapload)
+	. = ..()
+	enchant(/datum/enchantment/silver)
+
 //................ Cutlass ............... //
 /obj/item/weapon/sword/sabre/cutlass
 	name = "cutlass"
