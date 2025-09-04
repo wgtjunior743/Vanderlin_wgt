@@ -2900,4 +2900,3 @@
 		)
 	SEND_SIGNAL(offered_item, COMSIG_OBJ_HANDED_OVER, src, offerer)
 	offerer.stop_offering_item()
-
