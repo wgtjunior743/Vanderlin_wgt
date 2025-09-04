@@ -1,6 +1,7 @@
-#define TELEPATHY_COOLDOWN (30 SECONDS)
 
 /mob/living/carbon/human/proc/vampire_telepathy()
+	var/TELEPATHY_COOLDOWN = 30 SECONDS
+
 	set name = "Telepathy"
 	set category = "VAMPIRE"
 
