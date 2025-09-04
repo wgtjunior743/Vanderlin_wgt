@@ -819,7 +819,6 @@
 			set_resting(TRUE, silent = TRUE)
 		return
 
-	set_lying_angle(0)
 	set_body_position(STANDING_UP)
 	set_lying_angle(0)
 
