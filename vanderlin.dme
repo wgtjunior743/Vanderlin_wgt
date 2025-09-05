@@ -268,6 +268,7 @@
 #include "code\__HELPERS\screen_atoms.dm"
 #include "code\__HELPERS\shell.dm"
 #include "code\__HELPERS\spatial_info.dm"
+#include "code\__HELPERS\split_string_to_list.dm"
 #include "code\__HELPERS\stat_tracking.dm"
 #include "code\__HELPERS\stonekeep.dm"
 #include "code\__HELPERS\text.dm"
