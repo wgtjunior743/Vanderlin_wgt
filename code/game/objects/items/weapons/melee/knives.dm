@@ -450,7 +450,7 @@
 				to_chat(user, span_danger("You can't do that!"))
 				return
 			var/obj/item/bodypart/head/target_head = target.get_bodypart(BODY_ZONE_HEAD)
-			if(isnull(target_head))
+			if(QDELETED(target_head))
 				to_chat(user, span_notice("I need their head or else i can't take their face!"))
 				return
 
