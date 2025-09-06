@@ -766,8 +766,6 @@
 	)
 
 	for(var/zone in full)
-		message_admins("TARGET PARTS [target_parts[zone]]")
-		message_admins("MY PARTS [original_parts[zone]]")
 		original_parts[zone] = self.get_bodypart(zone)
 		target_parts[zone] = target.get_bodypart(zone)
 
