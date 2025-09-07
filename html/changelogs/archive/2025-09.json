@@ -194,5 +194,22 @@
                 "rscadd": "Your runetext chat messages now print out gradually"
             }
         ]
+    },
+    "2025-09-07": {
+        "wgtjunior743": [
+            {
+                "bugfix": "Crusader Tabard overwriting the Tabard craft"
+            }
+        ],
+        "SarmentiCampbell": [
+            {
+                "rscadd": "Added four new type of godless"
+            }
+        ],
+        "grungussuss": [
+            {
+                "admin": "admins have a new god hand smite"
+            }
+        ]
     }
 }
