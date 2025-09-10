@@ -75,8 +75,6 @@
 		return TRUE
 	if(m_intent == MOVE_INTENT_RUN)
 		var/boon = get_learning_boon(/datum/skill/misc/athletics)
-		var/total =  (STAINT*0.1) * boon
-		message_admins("XP GAINED ATHLETICS = [total], var/boon [boon], STATINT*0.1 = [STAINT*0.1]")
 		adjust_experience(/datum/skill/misc/athletics, (STAINT*0.1) * boon)
 	stamina = CLAMP(stamina+added, 0, maximum_stamina)
 	if(internal_regen && added < 0)
