@@ -226,8 +226,8 @@
 	dat += "<body>"
 	dat += "<div id='top_handwriting'><center>Cycle \Roman[sleep_adv_cycle]</center></div>"
 	dat += "<div id='class_select_box_div'>"
-	dat += "<br><center>Dream, for those who dream may reach higher heights</center><br>"
-	dat += "<center>\Roman[sleep_adv_points]</center>"
+	dat += "<br><center> <span style='color:#968160;'> Dream, for those who dream may reach higher heights </span> </center><br>"
+	dat += "<center><span style='color:#968160;'> \Roman[sleep_adv_points] </span> </center>"
 	dat += "<br>"
 	for(var/skill_type in SSskills.all_skills)
 		var/datum/skill/skill = GetSkillRef(skill_type)
@@ -244,15 +244,16 @@
 		dat += "<br><a [can_buy ? "" : "class='linkOff'"] href='byond://?src=[REF(src)];task=buy_special'>Dream something <b>special</b></a> - \Roman[get_special_cost()]"
 		dat += "<br>Specials can have negative or positive effects"
 	dat += "<div class='footer'>"
-	dat += "<br><br><center>Your points will be retained<br><a href='byond://?src=[REF(src)];task=continue'>Continue</a></center>"
+	dat += "<br><br><center><span style='color:#968160;'>Your points will be retained<br></span><a href='byond://?src=[REF(src)];task=continue' style='color:#503636; text-decoration:none; background-color:black;'>Continue</a></center>"
 	dat += {"
 			</body>
 		</html>
 	"}
-	var/datum/browser/popup = new(user, "dreams", "<center>Dreams</center>", 350, 450)
-	popup.set_window_options(can_close = FALSE)
-	popup.set_content(dat.Join())
-	popup.open(FALSE)
+
+	user << browse(
+		dat.Join(),
+		"window=dreams;size=350x450;can_close=0;can_minimize=0;can_maximize=0;can_resize=0;titlebar=0;border=0"
+	)
 
 /datum/sleep_adv/proc/close_ui()
 	if(!mind.current)
