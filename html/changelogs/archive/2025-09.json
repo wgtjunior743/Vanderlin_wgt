@@ -260,5 +260,20 @@
                 "rscdel": "deleted herobrine"
             }
         ]
+    },
+    "2025-09-10": {
+        "CheffieGithub": [
+            {
+                "bugfix": "IMPORTANT: fixed toggles not being able to be saved if all options are off."
+            }
+        ],
+        "Bloo4420": [
+            {
+                "rscadd": "gave peddlers the ability say their currently stocked wares out loud"
+            },
+            {
+                "spellcheck": "corrected the two instances of max_merchanise in the file to be max_merchandise"
+            }
+        ]
     }
 }
