@@ -1245,7 +1245,6 @@
 #include "code\datums\skills\craft.dm"
 #include "code\datums\skills\labor.dm"
 #include "code\datums\skills\magic.dm"
-#include "code\datums\skills\mining.dm"
 #include "code\datums\skills\misc.dm"
 #include "code\datums\status_effects\buffs.dm"
 #include "code\datums\status_effects\debuffs.dm"
