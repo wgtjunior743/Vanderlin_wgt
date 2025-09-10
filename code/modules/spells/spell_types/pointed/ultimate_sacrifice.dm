@@ -14,7 +14,7 @@
 	var/list/things = list()
 	if(target_radius)
 		for(var/mob/living/carbon/human/H in oview(target_radius, center))
-			if(H.stat == DEAD)
+			if(H.stat != DEAD)
 				continue
 			things += H
 
@@ -43,7 +43,7 @@
 		to_chat(owner, span_warning("The ritual was interrupted!"))
 		return FALSE
 
-	if(cast_on.stat == DEAD || QDELETED(cast_on))
+	if(cast_on.stat != DEAD || QDELETED(cast_on))
 		return
 
 	owner.say("RAVOX, I GIVE MY LIFE FOR THEIRS!", forced = "ravox_ritual")
