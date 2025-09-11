@@ -404,3 +404,24 @@ SUBSYSTEM_DEF(triumphs)
 			sorted_list[cache_key] = triumph_leaderboard[cache_key]
 
 	triumph_leaderboard = sorted_list
+
+/// Called when an admin disables a Triumph Buy.
+/// Refunds all current owners of that Triumph Buy and disactive it.
+/datum/controller/subsystem/triumphs/proc/refund_from_admin_toggle(datum/triumph_buy/TB)
+	if(!TB)
+		return
+
+	var/list/to_refund = list()
+	// Collect all buys belonging to this Triumph type
+	for(var/ckey in triumph_buy_owners)
+		var/list/player_buys = triumph_buy_owners[ckey]
+		if(!islist(player_buys))
+			continue
+		for(var/datum/triumph_buy/owned in player_buys)
+			if(owned.type == TB.type)
+				to_refund += owned
+
+	// Process refunds
+	for(var/datum/triumph_buy/owned in to_refund)
+		var/client/C = GLOB.directory[owned.ckey_of_buyer] // check if player is online
+		attempt_to_unbuy_triumph_condition(C, owned, "ADMIN DISABLE", TRUE)
