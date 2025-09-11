@@ -8,7 +8,7 @@
 	for(var/datum/triumph_buy/TB as anything in SStriumphs.triumph_buy_datums)
 		choices += "[TB.name] ([TB.disabled ? "Disabled" : "Enabled"])"
 
-	if(!choices.len)
+	if(!length(choices))
 		to_chat(src, span_warning("No Triumph Buys found in SStriumphs!"))
 		return
 
