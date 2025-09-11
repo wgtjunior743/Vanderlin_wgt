@@ -49,7 +49,7 @@
 	..()
 	H.adjust_skillrank(/datum/skill/magic/blood, 1, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/wrestling, 5, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/unarmed, 4, TRUE)
+	H.clamped_adjust_skillrank(/datum/skill/combat/unarmed, 4, 4, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/swords, 4, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/axesmaces, 4, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/polearms, 4, TRUE)
