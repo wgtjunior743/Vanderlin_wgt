@@ -23,7 +23,7 @@
 	if(src.bloodpool > 25)
 		src.adjust_bloodpool(-25)
 	else
-		to_chat(src, span_danger("You don't got enough blood to send a telepathy message!"))
+		to_chat(src, span_danger("I don't have enough blood to send a telepathy message!"))
 		return
 
 	// set cooldown
