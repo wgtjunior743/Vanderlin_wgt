@@ -2,7 +2,7 @@
 	name = "Zalad Emir"
 	greet_text = "An Emir hailing from the Deshret, here on business for the Mercator's Guild."
 	allowed_sexes = list(MALE)
-	allowed_races = RACES_PLAYER_ZYBANTINE
+	allowed_races = RACES_PLAYER_ZALADIN
 	outfit = /datum/outfit/job/zalad_migration/emir
 	grant_lit_torch = TRUE
 	is_recognized = TRUE
@@ -68,7 +68,7 @@
 	name = "Zalad Amirah"
 	greet_text = "An Amirah hailing from Deshret, here on business for the Mercator's Guild to the Isle of the Enigma."
 	allowed_sexes = list(FEMALE)
-	allowed_races = RACES_PLAYER_ZYBANTINE
+	allowed_races = RACES_PLAYER_ZALADIN
 	outfit = /datum/outfit/job/zalad_migration/amirah
 	grant_lit_torch = TRUE
 	is_recognized = TRUE
@@ -129,7 +129,7 @@
 	name = "Furusiyya"
 	greet_text = "You are a furusiyya, pledged to the Emir and the Amirah. Make sure they come out alive of that place."
 	allowed_sexes = list(MALE)
-	allowed_races = RACES_PLAYER_ZYBANTINE
+	allowed_races = RACES_PLAYER_ZALADIN
 	outfit = /datum/outfit/job/zalad_migration/furusiyya
 	grant_lit_torch = TRUE
 	is_recognized = TRUE
