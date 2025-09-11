@@ -12,7 +12,7 @@
 		to_chat(src, span_warning("No Triumph Buys found in SStriumphs!"))
 		return
 
-	var/choice = input(src, "Select a Triumph Buy to toggle.", "Toggle Triumph Buy") as null|anything in choices
+	var/choice = browser_input_list(src, "Select a Triumph Buy to toggle.", "Toggle Triumph Buy", choices)
 	if(!choice)
 		return
 
