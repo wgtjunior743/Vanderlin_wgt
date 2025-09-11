@@ -120,6 +120,9 @@ SUBSYSTEM_DEF(triumphs)
 
 /// This occurs when you try to buy a triumph condition and sets it up
 /datum/controller/subsystem/triumphs/proc/attempt_to_buy_triumph_condition(client/C, datum/triumph_buy/ref_datum)
+	if(ref_datum.disabled)
+		to_chat(C, span_warning("This Triumph Buy has been disabled by administrators!"))
+		return FALSE
 	if(ref_datum.limited && triumph_buy_stocks[ref_datum.type] <= 0)
 		to_chat(C, span_warning("The item is out of stock!"))
 		return FALSE
