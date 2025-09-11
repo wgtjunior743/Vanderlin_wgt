@@ -5,7 +5,7 @@
 		return FALSE
 
 	var/list/choices = list()
-	for(var/datum/triumph_buy/TB in SStriumphs.triumph_buy_datums)
+	for(var/datum/triumph_buy/TB as anything in SStriumphs.triumph_buy_datums)
 		choices += "[TB.name] ([TB.disabled ? "Disabled" : "Enabled"])"
 
 	if(!choices.len)
