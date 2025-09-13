@@ -341,5 +341,28 @@
                 "server": "SSplexora now actually sends the serverstart request, roundnotify should work now"
             }
         ]
+    },
+    "2025-09-13": {
+        "Wouju": [
+            {
+                "rscadd": "Archivists can now be Zizo worshippers."
+            },
+            {
+                "rscadd": "Gave zizo chant to zizo mages, court mages, rogue mages (whom are basically already zizoites) and archivists"
+            },
+            {
+                "balance": "making stuff from clay requires crafting now instead of masonry"
+            }
+        ],
+        "leaKsi": [
+            {
+                "bugfix": "Smuggling contracts now work!"
+            }
+        ],
+        "wgtjunior743": [
+            {
+                "admin": "New Admin verb to disable Triumph Buys"
+            }
+        ]
     }
 }
