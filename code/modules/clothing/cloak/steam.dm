@@ -42,7 +42,7 @@
 		equipped_items |= V
 
 	if(length(equipped_types) != length(GLOB.steam_armor))
-		to_chat(user, "<span class='warning'>You must be wearing the full steam armor set to operate the [src]...</span>")
+		to_chat(user, span_warning("You must be wearing the full steam armor set to operate the [src]..."))
 		return SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
 
 	//Toggle on/off
