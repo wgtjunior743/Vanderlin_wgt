@@ -39,6 +39,7 @@
 	set category = "IC"
 	set hidden = 1
 
+	#ifdef USES_PQ
 	if(client)
 		#ifdef USES_PQ
 		if(get_playerquality(client.ckey) <= -20)
@@ -63,6 +64,7 @@
 	set category = "IC"
 	set hidden = TRUE
 
+	#ifdef USES_PQ
 	if(client)
 		#ifdef USES_PQ
 		if(get_playerquality(client.ckey) <= -20)
