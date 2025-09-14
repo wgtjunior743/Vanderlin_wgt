@@ -7856,6 +7856,14 @@
 /obj/effect/mapping_helpers/access/locker,
 /turf/open/floor/wood,
 /area/rogue/indoors/town/manor/captain)
+"eDu" = (
+/obj/structure/door/viewport{
+	dir = 4;
+	name = "Metals"
+	},
+/obj/effect/mapping_helpers/access/keyset/manor/vault,
+/turf/open/floor/cobble,
+/area/rogue/under/town/basement)
 "eDF" = (
 /turf/closed/wall/mineral/stone,
 /area/rogue/indoors/town/clocktower)
@@ -20789,6 +20797,10 @@
 /obj/machinery/light/fueled/torchholder,
 /turf/open/floor/grass,
 /area/rogue/outdoors/town)
+"mIa" = (
+/obj/structure/bars,
+/turf/open/floor/cobble,
+/area/rogue/under/town/basement)
 "mIk" = (
 /obj/structure/table/wood{
 	dir = 1;
@@ -25495,6 +25507,10 @@
 	},
 /turf/open/transparent/openspace,
 /area/rogue/outdoors/town)
+"pBY" = (
+/obj/structure/stockpile_storage/metal,
+/turf/open/floor/cobble,
+/area/rogue/under/town/basement)
 "pCd" = (
 /obj/structure/fluff/statue/tdummy,
 /turf/open/floor/dirt,
@@ -27383,6 +27399,14 @@
 	},
 /turf/open/floor/grass/yel,
 /area/rogue/outdoors/town)
+"qNH" = (
+/obj/structure/door/viewport{
+	dir = 8;
+	name = "Stockpiles"
+	},
+/obj/effect/mapping_helpers/access/keyset/manor/vault,
+/turf/open/floor/tile,
+/area/rogue/indoors/town/vault)
 "qOe" = (
 /obj/structure/table/wood/counter/end{
 	dir = 1
@@ -31206,6 +31230,14 @@
 /obj/machinery/light/fueled/torchholder{
 	dir = 4
 	},
+/turf/open/floor/cobble,
+/area/rogue/under/town/basement)
+"teP" = (
+/obj/structure/door/viewport{
+	dir = 8;
+	name = "Food and Materials"
+	},
+/obj/effect/mapping_helpers/access/keyset/manor/vault,
 /turf/open/floor/cobble,
 /area/rogue/under/town/basement)
 "tfe" = (
@@ -35564,6 +35596,10 @@
 	},
 /turf/open/floor/cobble,
 /area/rogue/indoors/dungeon)
+"vSh" = (
+/obj/structure/stockpile_storage,
+/turf/open/floor/cobble,
+/area/rogue/under/town/basement)
 "vSJ" = (
 /obj/structure/table/wood/plain_alt,
 /obj/item/natural/cloth,
@@ -36319,6 +36355,10 @@
 "wpK" = (
 /turf/open/floor/wood,
 /area/rogue/indoors/town/manor/garrison)
+"wpQ" = (
+/obj/structure/stockpile_storage/food,
+/turf/open/floor/cobble,
+/area/rogue/under/town/basement)
 "wqd" = (
 /obj/machinery/light/fueled/firebowl,
 /turf/open/floor/blocks,
@@ -42234,7 +42274,7 @@ vtv
 vtv
 vtv
 vtv
-vtv
+nyB
 vtv
 vtv
 vtv
@@ -59644,10 +59684,10 @@ fkZ
 vgJ
 vgJ
 vgJ
-vgJ
-vgJ
-vgJ
-vgJ
+tHe
+tHe
+tHe
+tHe
 aLp
 aLp
 aLp
@@ -59846,10 +59886,10 @@ fkZ
 vgJ
 vgJ
 vgJ
-vgJ
-vgJ
-vgJ
-vgJ
+tHe
+wpQ
+jKy
+iRT
 aLp
 epm
 jvD
@@ -60048,10 +60088,10 @@ fkZ
 vgJ
 vgJ
 vgJ
-vgJ
-vgJ
-vgJ
-vgJ
+tHe
+iRT
+iRT
+iRT
 aLp
 rjZ
 jvD
@@ -60250,10 +60290,10 @@ fkZ
 vgJ
 vgJ
 vgJ
-vgJ
-vgJ
-vgJ
-vgJ
+tHe
+iRT
+iRT
+vSh
 aLp
 mwG
 cZh
@@ -60450,12 +60490,12 @@ jZh
 jUb
 fkZ
 vgJ
-vgJ
-vgJ
-vgJ
-vgJ
-vgJ
-vgJ
+tHe
+tHe
+tHe
+mIa
+teP
+mIa
 aLp
 aLp
 aLp
@@ -60652,14 +60692,14 @@ jZh
 jUb
 fkZ
 vgJ
-vgJ
-vgJ
-vgJ
-vgJ
-vgJ
-vgJ
-vgJ
-vgJ
+tHe
+iRT
+iRT
+iRT
+iRT
+iRT
+jKy
+iRT
 tHe
 dFX
 bET
@@ -60854,14 +60894,14 @@ jZh
 jUb
 fkZ
 vgJ
-vgJ
-vgJ
-vgJ
-vgJ
-vgJ
-vgJ
-vgJ
-vgJ
+tHe
+iRT
+iRT
+iRT
+iRT
+uyK
+iRT
+iRT
 tHe
 dFX
 iRT
@@ -61056,13 +61096,13 @@ jZh
 jUb
 fkZ
 vgJ
-vgJ
-vgJ
-vgJ
-vgJ
+tHe
+mIa
+eDu
+mIa
 mcU
 mcU
-mcU
+qNH
 mcU
 mcU
 mcU
@@ -61258,10 +61298,10 @@ jZh
 jUb
 fkZ
 vgJ
-vgJ
-vgJ
-vgJ
-vgJ
+tHe
+iRT
+iRT
+iRT
 mcU
 jAE
 xaU
@@ -61460,10 +61500,10 @@ jZh
 jUb
 fkZ
 vgJ
-vgJ
-vgJ
-vgJ
-vgJ
+tHe
+uyK
+pBY
+iRT
 mcU
 xaU
 vqr
@@ -61662,10 +61702,10 @@ jZh
 jUb
 fkZ
 vgJ
-vgJ
-vgJ
-vgJ
-vgJ
+tHe
+tHe
+tHe
+tHe
 mcU
 mRh
 gye
