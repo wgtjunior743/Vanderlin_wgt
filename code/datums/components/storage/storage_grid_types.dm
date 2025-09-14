@@ -110,6 +110,18 @@
 	allow_dump_out = TRUE
 	insert_preposition = "in"
 
+/datum/component/storage/concrete/grid/handbasket
+	max_w_class = WEIGHT_CLASS_NORMAL
+	screen_max_rows = 3
+	screen_max_columns = 3
+	click_gather = TRUE
+	collection_mode = COLLECT_EVERYTHING
+	dump_time = 0
+	allow_quick_gather = TRUE
+	allow_quick_empty = TRUE
+	allow_dump_out = TRUE
+	insert_preposition = "in"
+
 /datum/component/storage/concrete/grid/sack/meat/New(datum/P, ...)
 	. = ..()
 	set_holdable(list(
