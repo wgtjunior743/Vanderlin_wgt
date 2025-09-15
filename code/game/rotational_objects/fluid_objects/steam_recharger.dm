@@ -34,7 +34,7 @@
 		return
 
 	if(placed_atom.obj_broken)
-		src.visible_message(span_notice("[placed_atom] is broken."))
+		visible_message(span_notice("[placed_atom] is broken."))
 		remove_placed()
 
 	var/taking_pressure = min(100, input.water_pressure)
