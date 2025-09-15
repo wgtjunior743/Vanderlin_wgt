@@ -53,7 +53,7 @@
 
 	if(do_after(user, windtime SECONDS, src))
 		if(toggling_on)
-			if(!SEND_SIGNAL(user, COMSIG_ATOM_PROXY_STEAM_USE, src, 1, "steam_armor"))
+			if(!SEND_SIGNAL(user, COMSIG_ATOM_PROXY_STEAM_USE, src, 0.5, "steam_armor"))
 				to_chat(user, span_warning("The [src.name] is out of steam!"))
 				return SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
 			active = TRUE
