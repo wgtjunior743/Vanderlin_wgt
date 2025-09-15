@@ -64,7 +64,6 @@
 		else
 			active = FALSE
 			power_off(user)
-			remove_status_effect(user)
 			to_chat(user, span_info("You power down [src], the steam quiets."))
 			user.audible_message(span_info("The [src.name] sputters and hisses, coming to a stop."), runechat_message = TRUE)
 
