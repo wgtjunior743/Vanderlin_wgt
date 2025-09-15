@@ -23,6 +23,7 @@
 	. = ..()
 
 /obj/item/clothing/cloak/boiler/attack_hand_secondary(mob/living/user, params)
+	..()
 	if(. == SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN)
 		return
 
