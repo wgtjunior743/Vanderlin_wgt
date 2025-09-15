@@ -53,6 +53,9 @@
 
 	if(do_after(user, windtime SECONDS, src))
 		if(toggling_on)
+			if(!SEND_SIGNAL(user, COMSIG_ATOM_PROXY_STEAM_USE, src, 1, "steam_armor"))
+				to_chat(user, span_warning("The [src.name] is out of steam!"))
+				return SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
 			active = TRUE
 			power_on(user)
 			apply_status_effect(user)
@@ -67,22 +70,25 @@
 
 
 /obj/item/clothing/cloak/boiler/proc/power_on(mob/living/user)
-	var/mob/living/carbon/human/user_carbon = user
-	var/obj/item/clothing/shoes/boots/armor/steam/boots = locate() in list(user_carbon.shoes)
-	//Stops the speed debuff from the boots
-	if(boots)
-		boots.power_on(user)
+	if(ishuman(user))
+		var/mob/living/carbon/human/user_carbon = user
+		var/obj/item/clothing/shoes/boots/armor/steam/boots = locate() in list(user_carbon.shoes)
+		//Stops the speed debuff from the boots
+		if(boots)
+			boots.power_on(user)
 
 	RegisterSignal(user, COMSIG_MOVABLE_MOVED, PROC_REF(try_steam_usage), override = TRUE)
 	return
 
 /obj/item/clothing/cloak/boiler/proc/power_off(mob/living/user, var/disable = FALSE)
-	var/mob/living/carbon/human/user_carbon = user
-	var/obj/item/clothing/shoes/boots/armor/steam/boots = locate() in list(user_carbon.shoes)
+	if(ishuman(user))
+		var/mob/living/carbon/human/user_carbon = user
+		var/obj/item/clothing/shoes/boots/armor/steam/boots = locate() in list(user_carbon.shoes)
+	
+		if(boots)
+			boots.power_off(user)
 
-	if(boots)
-		boots.power_off(user)
-
+	remove_status_effect(user)
 	UnregisterSignal(user, COMSIG_MOVABLE_MOVED) // stop burning steam
 	//Triggers when the player removes the boiler or any steamknight armor without turning the boiler off, penalizes them.
 	if(active && !disable)
@@ -96,9 +102,6 @@
 		else
 			SEND_SIGNAL(user, COMSIG_ATOM_PROXY_STEAM_USE, src, random_loss, "steam_armor")
 
-		if(boots)
-			boots.power_off(user)
-		user.remove_status_effect(/datum/status_effect/buff/powered_steam_armor)
 	//Triggers when the steamknight armor runs out of steam.
 	if(disable)
 		active = FALSE
