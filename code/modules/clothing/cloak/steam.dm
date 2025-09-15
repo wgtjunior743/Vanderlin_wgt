@@ -73,7 +73,7 @@
 
 
 /obj/item/clothing/cloak/boiler/proc/power_on(mob/living/carbon/user)
-	var/obj/item/clothing/shoes/boots/armor/steam/boots = locate() in list(user_carbon.shoes)
+	var/obj/item/clothing/shoes/boots/armor/steam/boots = locate() in list(user.shoes)
 	//Stops the speed debuff from the boots
 	if(boots)
 		boots.power_on(user)
@@ -82,7 +82,7 @@
 	return
 
 /obj/item/clothing/cloak/boiler/proc/power_off(mob/living/carbon/user, var/disable = FALSE, var/broken = FALSE)
-	var/obj/item/clothing/shoes/boots/armor/steam/boots = locate() in list(user_carbon.shoes)
+	var/obj/item/clothing/shoes/boots/armor/steam/boots = locate() in list(user.shoes)
 
 	if(boots)
 		boots.power_off(user)
