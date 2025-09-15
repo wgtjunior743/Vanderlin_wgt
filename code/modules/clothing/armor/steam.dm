@@ -30,11 +30,9 @@
 	. = ..()
 	AddComponent(/datum/component/item_equipped_movement_rustle, custom_sounds = SFX_POWER_ARMOR_STEP)
 
-/obj/item/clothing/armor/steam/dropped(mob/living/user)
-	var/mob/living/carbon/human/user_carbon = user
-
+/obj/item/clothing/armor/steam/dropped(mob/living/carbon/user)
 	// Locate the boiler in the back slots
-	var/obj/item/clothing/cloak/boiler/B = locate(/obj/item/clothing/cloak/boiler) in list(user_carbon.backr, user_carbon.backl)
+	var/obj/item/clothing/cloak/boiler/B = locate(/obj/item/clothing/cloak/boiler) in list(user.backr, user.backl)
 	if(B)
 		B.power_off(user)
 

@@ -9,11 +9,9 @@
 	item_weight = 9 * BRONZE_MULTIPLIER
 	smeltresult = /obj/item/ingot/bronze
 
-/obj/item/clothing/head/helmet/heavy/steam/dropped(mob/living/user)
-	var/mob/living/carbon/human/user_carbon = user
-
+/obj/item/clothing/head/helmet/heavy/steam/dropped(mob/living/carbon/user)
 	// Locate the boiler in the back slots
-	var/obj/item/clothing/cloak/boiler/B = locate(/obj/item/clothing/cloak/boiler) in list(user_carbon.backr, user_carbon.backl)
+	var/obj/item/clothing/cloak/boiler/B = locate(/obj/item/clothing/cloak/boiler) in list(user.backr, user.backl)
 	if(B)
 		B.power_off(user)
 
