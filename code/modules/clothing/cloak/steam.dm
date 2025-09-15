@@ -53,7 +53,7 @@
 
 	if(do_after(user, windtime SECONDS, src))
 		if(toggling_on)
-			if(!SEND_SIGNAL(user, COMSIG_ATOM_PROXY_STEAM_USE, src, 0.5, "steam_armor"))
+			if(!SEND_SIGNAL(user, COMSIG_ATOM_PROXY_STEAM_USE, src, 0.5, "steam_armor", FALSE, TRUE))
 				to_chat(user, span_warning("The [src.name] is out of steam!"))
 				return SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
 			active = TRUE
@@ -83,7 +83,7 @@
 	if(ishuman(user))
 		var/mob/living/carbon/human/user_carbon = user
 		var/obj/item/clothing/shoes/boots/armor/steam/boots = locate() in list(user_carbon.shoes)
-	
+
 		if(boots)
 			boots.power_off(user)
 
