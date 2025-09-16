@@ -75,7 +75,6 @@
 	aggressive = 1
 	retreat_health = null
 	remains_type = null
-	dendor_taming_chance = DENDOR_TAME_PROB_NONE
 
 
 

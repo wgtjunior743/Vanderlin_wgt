@@ -33,7 +33,6 @@
 	defdrain = 10
 	dodgetime = 30
 	aggressive = 1
-	dendor_taming_chance = DENDOR_TAME_PROB_NONE
 	damage_coeff = list(BRUTE = 0, BURN = 0, TOX = 0, CLONE = 0, STAMINA = 0, OXY = 0)
 
 	ai_controller = /datum/ai_controller/polter
