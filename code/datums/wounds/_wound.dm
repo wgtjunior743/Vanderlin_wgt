@@ -346,7 +346,11 @@ GLOBAL_LIST_INIT(primordial_wounds, init_primordial_wounds())
 		return
 	if(human_owner.stat >= DEAD) //forget it
 		return
-	if(istype(human_owner.wear_neck, /obj/item/clothing/neck/psycross/silver) || istype(human_owner.wear_wrists, /obj/item/clothing/neck/psycross/silver))
+	var/list/silver_items = list(
+		/obj/item/clothing/neck/psycross/silver,
+		/obj/item/clothing/neck/silveramulet
+	)
+	if(istype(human_owner.wear_neck, silver_items[1]) || istype(human_owner.wear_neck, silver_items[2]) || istype(human_owner.wear_wrists, silver_items[1]))
 		if(prob(50))
 			return
 	to_chat(human_owner, span_danger("I feel horrible... REALLY horrible..."))
