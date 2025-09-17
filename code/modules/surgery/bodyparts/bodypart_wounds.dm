@@ -198,9 +198,6 @@
 					added_wound = /datum/wound/bite/small
 					do_crit = FALSE // This is like leaving a mark on your skin or getting bit by a cat
 
-	if(!added_wound)
-		return
-
 	if(do_crit)
 		var/crit_attempt = try_crit(bclass, dam, user, zone_precise, silent, crit_message)
 		if(crit_attempt)
