@@ -569,7 +569,7 @@
 	if(owner)
 		if(!owner.has_embedded_objects())
 			owner.clear_alert("embeddedobject")
-			SEND_SIGNAL(owner, COMSIG_CLEAR_MOOD_EVENT, "embedded")
+			owner.remove_stress(/datum/stress_event/embedded)
 		if(can_be_disabled)
 			update_disabled()
 	return TRUE

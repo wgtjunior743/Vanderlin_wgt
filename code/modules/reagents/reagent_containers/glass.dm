@@ -131,7 +131,7 @@
 			if(ishuman(user) && istype(src, /obj/item/reagent_containers/glass/bowl))
 				var/mob/living/carbon/human/human_user = user
 				if(human_user.is_noble()) // egads we're an unmannered SLOB
-					human_user.add_stress(/datum/stressevent/noble_bad_manners)
+					human_user.add_stress(/datum/stress_event/noble_bad_manners)
 					if(prob(25))
 						to_chat(human_user, span_red("I've got better manners than this..."))
 			to_chat(user, span_notice("I swallow a gulp of [src]."))

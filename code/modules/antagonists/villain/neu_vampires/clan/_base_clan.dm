@@ -500,16 +500,16 @@ And it also helps for the character set panel
 /datum/status_effect/debuff/blood_disgust/on_apply()
 	. = ..()
 	if(.)
-		owner.add_stress(/datum/stressevent/bad_blood)
+		owner.add_stress(/datum/stress_event/bad_blood)
 		owner.adjustBruteLoss(5)
 
 /datum/status_effect/debuff/blood_disgust/on_remove()
 	. = ..()
-	owner.remove_stress(/datum/stressevent/bad_blood)
+	owner.remove_stress(/datum/stress_event/bad_blood)
 
-/datum/stressevent/bad_blood
+/datum/stress_event/bad_blood
 	desc = span_warning("That blood was revolting!")
-	stressadd = 3
+	stress_change = 3
 	max_stacks = 10
-	stressadd_per_extra_stack = 3
+	stress_change_per_extra_stack = 3
 	timer = 10 MINUTES
