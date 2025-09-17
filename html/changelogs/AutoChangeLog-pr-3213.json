@@ -1,1 +1,0 @@
-{"author":"ProperPickle","delete-after":true,"changes":[{"rscadd":"Added a spell for eavesdropping/planting bugs."},{"image":"added phantom ear sprites for spellbook icon, obj icons, and in-text icon. Sprite help from Krayon."},{"code_imp":"added a drop_source parameter which keeps track of whether a drop proc was called by a throw or a drop to prevent qdel double counting."}]}
