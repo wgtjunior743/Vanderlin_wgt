@@ -393,15 +393,38 @@
 				return list("shrink" = 0.3,"sx" = -2,"sy" = -5,"nx" = 4,"ny" = -5,"wx" = 0,"wy" = -5,"ex" = 2,"ey" = -5,"nturn" = 0,"sturn" = 0,"wturn" = 0,"eturn" = 0,"nflip" = 0,"sflip" = 0,"wflip" = 0,"eflip" = 0,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0)
 	return ..()
 
-/datum/intent/axe/cut/battle/greataxe
+/datum/intent/axe/cut/battle/greataxe/doublehead //Better to cut as well
+	penfactor = AP_AXE_CUT
 	reach = 2
+	chargetime = 1.5
+	damfactor = 1.2 // More damage as well
+	swingdelay = 1.5
+	misscost = 15 // Heavier means more stamina loss if you miss
+	item_damage_type = "slash"
 
-/datum/intent/axe/chop/battle/greataxe
+
+/datum/intent/axe/chop/battle/greataxe //Essentially a better polearm chop, this weapon is made to chop people limbs off.
+	penfactor = AP_GREATAXE_CHOP  // Same AP as the polearm CHOP
 	reach = 2
+	chargetime = 2
+	swingdelay = 2
+	no_early_release = TRUE // Needs fo fully charge
+	damfactor = 1.2
+	misscost = 20
+
+/datum/intent/axe/chop/battle/greataxe/doublehead //Stronger than the one bladed axe but heavier
+	penfactor = AP_GREATAXE_CHOP
+	reach = 2
+	chargetime = 2.5 // Needs more time to fully charge it
+	no_early_release = TRUE // Needs fo fully charge
+	swingdelay = 2.5
+	damfactor = 1.3 // Stronger
+	misscost = 25 // Costs more if you miss
+
 
 /obj/item/weapon/greataxe
 	force = DAMAGE_AXE
-	force_wielded = DAMAGE_HEAVYAXE_WIELD
+	force_wielded = DAMAGE_HEAVYAXE_WIELD - 5
 	possible_item_intents = list(/datum/intent/axe/cut, /datum/intent/axe/chop, /datum/intent/spear/bash) //bash is for nonlethal takedowns, only targets limbs
 	gripped_intents = list(/datum/intent/axe/cut/battle/greataxe, /datum/intent/axe/chop/battle/greataxe,  /datum/intent/spear/bash)
 	name = "greataxe"
@@ -422,8 +445,14 @@
 	smeltresult = /obj/item/ingot/iron
 	associated_skill = /datum/skill/combat/axesmaces
 	blade_dulling = DULLING_BASHCHOP
-	wdefense = AVERAGE_PARRY 
+	wdefense = AVERAGE_PARRY
 	wbalance = EASY_TO_DODGE
+	max_integrity = INTEGRITY_STRONG
+	slowdown = 1
+	slot_flags = ITEM_SLOT_BACK
+	melting_material = /datum/material/iron
+	melt_amount = 150
+	sellprice = 60
 
 /obj/item/weapon/greataxe/getonmobprop(tag)
 	. = ..()
@@ -437,6 +466,8 @@
 				return list("shrink" = 0.3,"sx" = -2,"sy" = -5,"nx" = 4,"ny" = -5,"wx" = 0,"wy" = -5,"ex" = 2,"ey" = -5,"nturn" = 0,"sturn" = 0,"wturn" = 0,"eturn" = 0,"nflip" = 0,"sflip" = 0,"wflip" = 0,"eflip" = 0,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0)
 
 /obj/item/weapon/greataxe/steel
+	force = DAMAGE_AXE
+	force_wielded = DAMAGE_HEAVYAXE_WIELD
 	possible_item_intents = list(/datum/intent/axe/cut, /datum/intent/axe/chop, /datum/intent/spear/bash) //bash is for nonlethal takedowns, only targets limbs
 	gripped_intents = list(/datum/intent/axe/cut/battle/greataxe, /datum/intent/axe/chop/battle/greataxe,  /datum/intent/spear/bash)
 	name = "steel greataxe"
@@ -446,23 +477,35 @@
 	minstr = 11
 	max_blade_int = 300
 	smeltresult = /obj/item/ingot/steel
+	max_integrity = INTEGRITY_STRONGEST
+	smeltresult = /obj/item/ingot/steel
+	melting_material = /datum/material/steel
+	melt_amount = 150
+	sellprice = 90
 
-/obj/item/weapon/greataxe/steel/doublehead 
+/obj/item/weapon/greataxe/steel/doublehead // trades more damage for being worse to parry with and easier to dodge
+	slowdown = 1.5 //HEAVY
 	possible_item_intents = list(/datum/intent/axe/cut, /datum/intent/axe/chop, /datum/intent/spear/bash) //bash is for nonlethal takedowns, only targets limbs
-	gripped_intents = list(/datum/intent/axe/cut/battle/greataxe, /datum/intent/axe/chop/battle/greataxe,  /datum/intent/spear/bash)
+	gripped_intents = list(/datum/intent/axe/cut/battle/greataxe/doublehead, /datum/intent/axe/chop/battle/greataxe/doublehead,  /datum/intent/spear/bash)
 	name = "double-headed steel greataxe"
 	desc = "A steel great axe with a wicked double-bladed head. Perfect for cutting either men or trees into stumps.."
 	icon_state = "doublegreataxe"
 	icon = 'icons/roguetown/weapons/64.dmi'
 	max_blade_int = 400
 	minstr = 12
+	melt_amount = 150
+	wbalance = VERY_EASY_TO_DODGE
+	wdefense = MEDIOCRE_PARRY
+	sellprice = 100
 
 /obj/item/weapon/greataxe/steel/doublehead/graggar
 	name = "vicious greataxe"
 	desc = "A greataxe who's edge thrums with the motive force, violence, oh, sweet violence!"
 	icon_state = "graggargaxe"
-	blade_dulling = DULLING_BASHCHOP 
+	blade_dulling = DULLING_BASHCHOP
 	icon = 'icons/roguetown/weapons/64.dmi'
+	sellprice = 0 // Graggarite axe, nobody wants this
+
 
 /obj/item/weapon/greataxe/dreamscape
 	force = 10
@@ -477,6 +520,7 @@
 	associated_skill = /datum/skill/combat/axesmaces
 	blade_dulling = DULLING_BASHCHOP
 	wdefense = 5
+	sellprice = 0
 
 /obj/item/weapon/greataxe/dreamscape/active
 	// to do, make this burn you if you don't regularly soak it.
@@ -486,4 +530,5 @@
 	icon_state = "dreamaxeactive"
 	max_blade_int = 500
 	wdefense = 6
+	sellprice = 0
 
