@@ -501,7 +501,7 @@
 	icon = 'icons/roguetown/weapons/64.dmi'
 	max_blade_int = 400
 	minstr = 12
-	melt_amount = 150
+	melt_amount = 180
 	wbalance = VERY_EASY_TO_DODGE
 	wdefense = MEDIOCRE_PARRY
 	sellprice = 100
