@@ -79,12 +79,11 @@
 | Great axe cut intent |	small AP
 \---------------------*/
 
-/datum/intent/axe/cut/battle/greataxe/doublehead //Better to cut as well
+/datum/intent/axe/cut/battle/greataxe //Decent to cut as well
 	reach = 2
-	chargetime = 1.5
-	damfactor = 1.2 // More damage as well
-	swingdelay = 1.5
-	misscost = 15 // Heavier means more stamina loss if you miss
+	damfactor = 1.1
+	swingdelay = 1
+	misscost = 10
 	item_damage_type = "slash"
 
 /*---------------------\
