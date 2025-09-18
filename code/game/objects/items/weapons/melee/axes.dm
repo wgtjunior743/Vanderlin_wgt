@@ -491,7 +491,7 @@
 	melt_amount = 150
 	sellprice = 90
 
-/obj/item/weapon/greataxe/steel/doublehead // trades more damage for being worse to parry with and easier to dodge
+/obj/item/weapon/greataxe/steel/doublehead // Trades more damage for being worse to parry with and easier to dodge of.
 	slowdown = 1.5 //HEAVY
 	possible_item_intents = list(/datum/intent/axe/cut, /datum/intent/axe/chop, /datum/intent/spear/bash) //bash is for nonlethal takedowns, only targets limbs
 	gripped_intents = list(/datum/intent/axe/cut/battle/greataxe/doublehead, /datum/intent/axe/chop/battle/greataxe/doublehead,  /datum/intent/spear/bash)
