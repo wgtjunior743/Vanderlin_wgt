@@ -402,7 +402,6 @@
 	misscost = 15 // Heavier means more stamina loss if you miss
 	item_damage_type = "slash"
 
-
 /datum/intent/axe/chop/battle/greataxe //Essentially a better polearm chop, this weapon is made to chop people limbs off.
 	penfactor = AP_GREATAXE_CHOP  // Same AP as the polearm CHOP
 	reach = 2
@@ -420,6 +419,15 @@
 	swingdelay = 2.5
 	damfactor = 1.3 // Stronger
 	misscost = 25 // Costs more if you miss
+
+/datum/intent/axe/cut/battle/greataxe/doublehead //Better to cut as well
+	penfactor = AP_AXE_CUT
+	reach = 2
+	chargetime = 1.5
+	damfactor = 1.2 // More damage as well
+	swingdelay = 1.5
+	misscost = 15 // Heavier means more stamina loss if you miss
+	item_damage_type = "slash"
 
 
 /obj/item/weapon/greataxe
