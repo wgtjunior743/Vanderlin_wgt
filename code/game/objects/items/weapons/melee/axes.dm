@@ -422,7 +422,8 @@
 	smeltresult = /obj/item/ingot/iron
 	associated_skill = /datum/skill/combat/axesmaces
 	blade_dulling = DULLING_BASHCHOP
-	wdefense = MEDIOCRE_PARRY
+	wdefense = AVERAGE_PARRY 
+	wbalance = EASY_TO_DODGE
 
 /obj/item/weapon/greataxe/getonmobprop(tag)
 	. = ..()
