@@ -400,8 +400,8 @@
 	reach = 2
 
 /obj/item/weapon/greataxe
-	force = 15
-	force_wielded = 30
+	force = DAMAGE_AXE
+	force_wielded = DAMAGE_HEAVYAXE_WIELD
 	possible_item_intents = list(/datum/intent/axe/cut, /datum/intent/axe/chop, /datum/intent/spear/bash) //bash is for nonlethal takedowns, only targets limbs
 	gripped_intents = list(/datum/intent/axe/cut/battle/greataxe, /datum/intent/axe/chop/battle/greataxe,  /datum/intent/spear/bash)
 	name = "greataxe"
@@ -436,8 +436,8 @@
 				return list("shrink" = 0.3,"sx" = -2,"sy" = -5,"nx" = 4,"ny" = -5,"wx" = 0,"wy" = -5,"ex" = 2,"ey" = -5,"nturn" = 0,"sturn" = 0,"wturn" = 0,"eturn" = 0,"nflip" = 0,"sflip" = 0,"wflip" = 0,"eflip" = 0,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0)
 
 /obj/item/weapon/greataxe/steel
-	force = 15
-	force_wielded = 30
+	force = DAMAGE_AXE
+	force_wielded = DAMAGE_HEAVYAXE_WIELD 
 	possible_item_intents = list(/datum/intent/axe/cut, /datum/intent/axe/chop, /datum/intent/spear/bash) //bash is for nonlethal takedowns, only targets limbs
 	gripped_intents = list(/datum/intent/axe/cut/battle/greataxe, /datum/intent/axe/chop/battle/greataxe,  /datum/intent/spear/bash)
 	name = "steel greataxe"
@@ -449,14 +449,15 @@
 	smeltresult = /obj/item/ingot/steel
 
 /obj/item/weapon/greataxe/steel/doublehead
-	force = 15
-	force_wielded = 35
+	force = DAMAGE_AXE
+	force_wielded = DAMAGE_HEAVYAXE_WIELD 
 	possible_item_intents = list(/datum/intent/axe/cut, /datum/intent/axe/chop, /datum/intent/spear/bash) //bash is for nonlethal takedowns, only targets limbs
 	gripped_intents = list(/datum/intent/axe/cut/battle/greataxe, /datum/intent/axe/chop/battle/greataxe,  /datum/intent/spear/bash)
 	name = "double-headed steel greataxe"
 	desc = "A steel great axe with a wicked double-bladed head. Perfect for cutting either men or trees into stumps.."
 	icon_state = "doublegreataxe"
 	icon = 'icons/roguetown/weapons/64.dmi'
+	max_blade_int = 400
 	minstr = 12
 
 /obj/item/weapon/greataxe/steel/doublehead/graggar
@@ -464,8 +465,8 @@
 	desc = "A greataxe who's edge thrums with the motive force, violence, oh, sweet violence!"
 	icon_state = "graggargaxe"
 	blade_dulling = DULLING_BASHCHOP
-	force = 20
-	force_wielded = 40
+	force = DAMAGE_AXE
+	force_wielded = DAMAGE_HEAVYAXE_WIELD 
 	icon = 'icons/roguetown/weapons/64.dmi'
 
 /obj/item/weapon/greataxe/dreamscape
