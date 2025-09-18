@@ -4570,8 +4570,8 @@
 /turf/open/floor/cobble,
 /area/rogue/under/town/basement)
 "cHs" = (
-/obj/structure/flora/grass/bush/wall/tall,
 /obj/structure/fluff/railing/wood,
+/obj/structure/flora/grass,
 /turf/open/floor/grass,
 /area/rogue/outdoors/town)
 "cHF" = (
@@ -14871,6 +14871,14 @@
 /obj/effect/mapping_helpers/access/locker,
 /turf/open/floor/ruinedwood/turned/darker,
 /area/rogue/indoors/town)
+"iLa" = (
+/obj/structure/fluff/railing/wood,
+/obj/structure/fluff/railing/wood{
+	dir = 4
+	},
+/obj/structure/flora/grass/bush/wall/tall,
+/turf/open/floor/grass,
+/area/rogue/outdoors/town)
 "iLe" = (
 /obj/structure/fluff/railing/wood{
 	pixel_y = -4
@@ -17491,9 +17499,8 @@
 /turf/open/floor/tile/kitchen,
 /area/rogue/indoors/villagegarrison)
 "kpz" = (
-/obj/structure/flora/grass,
 /obj/structure/chair/bench/church/smallbench{
-	pixel_y = 17
+	dir = 1
 	},
 /turf/open/floor/grass,
 /area/rogue/outdoors/town)
@@ -42291,7 +42298,7 @@ vtv
 vtv
 vtv
 vtv
-nyB
+vtv
 vtv
 vtv
 vtv
@@ -104008,7 +104015,7 @@ dQt
 bDH
 cKJ
 itF
-ylf
+iLa
 ehF
 eLP
 iSk
