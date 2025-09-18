@@ -414,7 +414,17 @@ GLOBAL_VAR_INIT(mobids, 1)
 
 	if(isturf(A.loc) && isliving(src))
 		face_atom(A)
-		visible_message("<span class='emote'>[src] looks at [A].</span>")
+		if(src.m_intent != MOVE_INTENT_SNEAK)
+			visible_message("<span class='emote'>[src] looks at [A].</span>")
+		else
+			if(isliving(A))
+				var/mob/living/observer = src
+				var/mob/living/target = A
+
+				var/observer_roll = observer.STAPER + rand(1,5)
+				var/target_roll   = target.STAPER + rand(1,5)
+				if(target_roll > observer_roll)
+					to_chat(A, span_warning("[src] peeks at you!"))
 	var/list/result = A.examine(src)
 	if(LAZYLEN(result))
 		for(var/i in 1 to (length(result) - 1))
