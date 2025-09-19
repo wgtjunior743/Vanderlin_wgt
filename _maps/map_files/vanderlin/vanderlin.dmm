@@ -3721,6 +3721,7 @@
 /obj/structure/closet/crate/crafted_closet/dark,
 /obj/item/flashlight/flare/torch/lantern,
 /obj/item/flashlight/flare/torch/lantern,
+/obj/item/flashlight/flare/torch/lantern,
 /turf/open/floor/blocks/newstone/alt,
 /area/rogue/indoors/town/church)
 "cfq" = (
@@ -4762,8 +4763,8 @@
 /area/rogue/under/town/caverogue)
 "cOf" = (
 /obj/structure/door,
-/obj/effect/mapping_helpers/access/keyset/church/grave,
 /obj/effect/mapping_helpers/access/locker,
+/obj/effect/mapping_helpers/access/keyset/church/general,
 /turf/open/floor/cobble,
 /area/rogue/indoors/town/church)
 "cOg" = (
@@ -11617,7 +11618,7 @@
 	name = "dungeoneer's quarters"
 	},
 /obj/effect/mapping_helpers/access/locker,
-/obj/effect/mapping_helpers/access/keyset/manor/general,
+/obj/effect/mapping_helpers/access/keyset/manor/dungeon,
 /turf/open/floor/blocks,
 /area/rogue/indoors/town/manor/dungeoneer)
 "gKv" = (
@@ -12177,10 +12178,10 @@
 /area/rogue/outdoors/river)
 "heH" = (
 /obj/effect/mapping_helpers/access/locker,
-/obj/effect/mapping_helpers/access/keyset/manor/general,
 /obj/structure/door/violet{
 	name = "Archivist's Chambers"
 	},
+/obj/effect/mapping_helpers/access/keyset/manor/archive,
 /turf/open/floor/tile/checkeralt,
 /area/rogue/indoors/town/manor/archivist)
 "heJ" = (
@@ -17297,11 +17298,11 @@
 /turf/open/floor/cobble,
 /area/rogue/under/dungeon)
 "kjy" = (
-/obj/effect/mapping_helpers/access/keyset/manor/general,
 /obj/structure/door/violet{
 	name = "Royal Guard's Storage"
 	},
 /obj/effect/mapping_helpers/access/locker,
+/obj/effect/mapping_helpers/access/keyset/manor/atarms,
 /turf/open/floor/cobble,
 /area/rogue/under/town/basement)
 "kjC" = (
@@ -18911,10 +18912,10 @@
 /area/rogue/indoors/town/garrison)
 "ltJ" = (
 /obj/effect/mapping_helpers/access/locker,
-/obj/effect/mapping_helpers/access/keyset/manor/general,
 /obj/structure/door/violet{
 	name = "Archivist's Chambers"
 	},
+/obj/effect/mapping_helpers/access/keyset/manor/archive,
 /turf/open/floor/blocks,
 /area/rogue/indoors/town/manor/library)
 "luj" = (
@@ -21428,8 +21429,8 @@
 /obj/structure/door/violet{
 	name = "Royal Guard's Chambers"
 	},
-/obj/effect/mapping_helpers/access/keyset/manor/general,
 /obj/effect/mapping_helpers/access/locker,
+/obj/effect/mapping_helpers/access/keyset/manor/atarms,
 /turf/open/floor/woodturned/nosmooth,
 /area/rogue/indoors/town/manor/knight/knight2)
 "mZl" = (
@@ -23978,8 +23979,8 @@
 /obj/structure/door/violet{
 	name = "Royal Guard's Chambers"
 	},
-/obj/effect/mapping_helpers/access/keyset/manor/general,
 /obj/effect/mapping_helpers/access/locker,
+/obj/effect/mapping_helpers/access/keyset/manor/atarms,
 /turf/open/floor/woodturned/nosmooth,
 /area/rogue/indoors/town/manor/knight/knight1)
 "oBI" = (
@@ -27458,10 +27459,10 @@
 /area/rogue/indoors/town/church/chapel)
 "qOn" = (
 /obj/effect/mapping_helpers/access/locker,
-/obj/effect/mapping_helpers/access/keyset/manor/general,
 /obj/structure/door/window{
 	name = "Archives"
 	},
+/obj/effect/mapping_helpers/access/keyset/manor/archive,
 /turf/open/floor/blocks,
 /area/rogue/indoors/town/manor/library)
 "qOK" = (
@@ -27945,6 +27946,7 @@
 /obj/structure/table/wood{
 	icon_state = "tablewood1"
 	},
+/obj/item/key/graveyard,
 /obj/item/key/graveyard,
 /obj/item/key/graveyard,
 /turf/open/floor/blocks/newstone/alt,
@@ -29022,7 +29024,7 @@
 /area/rogue/indoors/town)
 "rMu" = (
 /obj/structure/door/iron/bars,
-/obj/effect/mapping_helpers/access/keyset/church/grave,
+/obj/effect/mapping_helpers/access/keyset/church/general,
 /turf/open/floor/cobblerock,
 /area/rogue/outdoors/town)
 "rME" = (
