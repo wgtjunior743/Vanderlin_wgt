@@ -88,7 +88,8 @@
 		H.grant_language(/datum/language/oldpsydonic)
 		to_chat(H, "<span class='info'>I can speak Old Psydonic with ,m before my speech.</span>")
 
-	if(H.job == "Crusader") // If they come through the crusader_wave, they are from Grenzelhoft.
+	var/job = H.get_role_title()
+	if(job == "Crusader") // If they come through the crusader_wave, they are from Grenzelhoft.
 		if(H.dna?.species.id == SPEC_ID_HUMEN)
 			H.dna.species.native_language = "Old Psydonic"
 			H.dna.species.accent_language = H.dna.species.get_accent(H.dna.species.native_language)
