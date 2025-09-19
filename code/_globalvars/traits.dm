@@ -161,7 +161,6 @@ GLOBAL_LIST_INIT(traits_by_type, list(
 		"Endless Slumber" = TRAIT_TORPOR,
 		"Boundless Energy" = TRAIT_NOENERGY,
 		"Keen Ears"	= TRAIT_KEENEARS,
-		"Head Butcher" = TRAIT_HEAD_BUTCHER,
 	),
 	/obj/item/bodypart = list(
 		"TRAIT_PARALYSIS" = TRAIT_PARALYSIS
