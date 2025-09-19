@@ -86,11 +86,12 @@
 					to_chat(H, span_warning("Daylight shines around me... the curse begins to fade."))
 					COOLDOWN_START(src, message_cooldown, 10 SECONDS)
 
-/datum/antagonist/werewolf/proc/generate_werewolf(mob/living/user)
-	var/mob/living/carbon/human/H = user
+/datum/antagonist/werewolf/proc/generate_werewolf(mob/living/carbon/human/user)
+	if(!istype(user))
+		return
 	var/mob/living/carbon/human/species/werewolf/W = new (get_turf(user))
 
-	if(H.age == AGE_CHILD)
+	if(user.age == AGE_CHILD)
 		W.age = AGE_CHILD
 
 	W.set_patron(user.patron)
