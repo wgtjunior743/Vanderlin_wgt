@@ -1,0 +1,1 @@
+{"author":"CheffieGithub","delete-after":true,"changes":[{"rscadd":"Converted various things to balloon alerts for readability."},{"rscadd":"Re-added reagent container transfer amount changing. Shift left/right click to \\\"scroll\\\" the transfer amounts, report containers with only one option."}]}
