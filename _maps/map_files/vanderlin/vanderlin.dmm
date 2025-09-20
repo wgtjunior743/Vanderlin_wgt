@@ -1296,7 +1296,10 @@
 /area/rogue/indoors/town/theatre)
 "aIM" = (
 /obj/machinery/light/fueled/hearth,
-/obj/item/cooking/pan,
+/obj/item/reagent_containers/glass/bucket/pot/copper{
+	pixel_x = -3;
+	pixel_y = 9
+	},
 /turf/open/floor/ruinedwood/spiral,
 /area/rogue/indoors/town/magician)
 "aIQ" = (
@@ -18660,6 +18663,7 @@
 	pixel_y = 11
 	},
 /obj/machinery/light/fueled/wallfire/candle/blue,
+/obj/item/recipe_book/alchemy,
 /turf/open/floor/ruinedwood/spiral,
 /area/rogue/indoors/town/magician)
 "ljN" = (
@@ -25850,6 +25854,7 @@
 /obj/structure/table/wood{
 	icon_state = "tablewood1"
 	},
+/obj/machinery/essence/splitter,
 /turf/open/floor/hexstone,
 /area/rogue/indoors/town/magician)
 "pLX" = (
