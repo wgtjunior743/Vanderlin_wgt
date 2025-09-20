@@ -1,0 +1,1 @@
+{"author":"grungussuss","delete-after":true,"changes":[{"bugfix":"jobs disabled by an admin before the round has started will not be elligible for roundstart rolls."},{"admin":"admins can now disable migration."},{"admin":"admins can now disable particle weather."}]}
