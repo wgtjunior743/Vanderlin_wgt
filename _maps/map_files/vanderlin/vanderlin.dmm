@@ -1707,9 +1707,13 @@
 /area/rogue/indoors/town/tavern)
 "aUR" = (
 /obj/structure/table/wood/crafted,
-/obj/item/reagent_containers/glass/bottle/water{
-	pixel_x = -7;
-	pixel_y = 1
+/obj/item/reagent_containers/glass/cup/wooden{
+	pixel_x = 7;
+	pixel_y = 8
+	},
+/obj/item/reagent_containers/glass/cup/wooden{
+	pixel_x = 2;
+	pixel_y = 3
 	},
 /turf/open/floor/churchrough,
 /area/rogue/indoors/town/manor/phys)
@@ -3075,10 +3079,10 @@
 /turf/open/floor/churchmarble,
 /area/rogue/indoors/town/shop)
 "bLn" = (
-/obj/structure/chair/stool,
 /obj/structure/fluff/walldeco/church/line{
 	dir = 1
 	},
+/obj/structure/chair/stool,
 /turf/open/floor/churchmarble,
 /area/rogue/indoors/town/manor/phys)
 "bLt" = (
@@ -5373,7 +5377,7 @@
 /obj/machinery/light/fueled/wallfire/candle/blue,
 /obj/item/clothing/shirt/tunic/colored/green,
 /obj/item/clothing/gloves/leather/phys,
-/obj/item/clothing/face/spectacles/golden,
+/obj/item/clothing/head/physhat,
 /turf/open/floor/carpet/royalblack,
 /area/rogue/indoors/town/manor/phys)
 "djr" = (
@@ -8383,6 +8387,7 @@
 	pixel_y = 5
 	},
 /obj/item/natural/feather,
+/obj/item/candle/yellow,
 /turf/open/floor/carpet/royalblack,
 /area/rogue/indoors/town/manor/phys)
 "eSV" = (
@@ -9511,6 +9516,7 @@
 /obj/structure/fluff/railing/border{
 	dir = 5
 	},
+/obj/structure/fermentation_keg/random/water,
 /turf/open/floor/churchrough,
 /area/rogue/indoors/town/manor/phys)
 "fzC" = (
@@ -9971,7 +9977,7 @@
 	dir = 1;
 	icon_state = "longtable"
 	},
-/obj/item/candle/yellow,
+/obj/item/clothing/face/spectacles/golden,
 /turf/open/floor/carpet/royalblack,
 /area/rogue/indoors/town/manor/phys)
 "fLu" = (
@@ -14381,11 +14387,6 @@
 /turf/open/floor/ruinedwood/turned/darker,
 /area/rogue/indoors/town)
 "ium" = (
-/obj/structure/table/wood/crafted,
-/obj/item/reagent_containers/glass/carafe/redwine{
-	pixel_x = -9;
-	pixel_y = 4
-	},
 /turf/open/floor/churchrough,
 /area/rogue/indoors/town/manor/phys)
 "iun" = (
@@ -15520,6 +15521,12 @@
 "jfU" = (
 /turf/closed/wall/mineral/stone/window,
 /area/rogue/indoors/town/merc_guild)
+"jgj" = (
+/obj/structure/fluff/walldeco/church/line{
+	dir = 1
+	},
+/turf/open/floor/churchmarble,
+/area/rogue/indoors/town/manor/phys)
 "jgq" = (
 /obj/machinery/light/fueled/wallfire/candle,
 /obj/structure/closet/crate/crafted_closet/inn,
@@ -16904,7 +16911,7 @@
 	dir = 8
 	},
 /obj/structure/fluff/walldeco/church/line,
-/obj/structure/fake_machine/mail/l,
+/obj/machinery/light/fueled/wallfire/candle/blue/l,
 /turf/open/floor/churchmarble,
 /area/rogue/indoors/town/manor/phys)
 "kak" = (
@@ -29089,7 +29096,15 @@
 /obj/structure/fluff/walldeco/church/line{
 	dir = 8
 	},
-/obj/structure/fermentation_keg/random/water,
+/obj/structure/table/wood/crafted,
+/obj/item/reagent_containers/glass/carafe/redwine{
+	pixel_x = -9;
+	pixel_y = 4
+	},
+/obj/item/reagent_containers/glass/bottle/water{
+	pixel_x = 7;
+	pixel_y = 4
+	},
 /turf/open/floor/churchrough,
 /area/rogue/indoors/town/manor/phys)
 "rOK" = (
@@ -36441,7 +36456,8 @@
 /obj/structure/fluff/walldeco/church/line{
 	dir = 1
 	},
-/obj/machinery/light/fueled/cauldron,
+/obj/structure/fake_machine/mail/l,
+/obj/structure/chair/stool,
 /turf/open/floor/churchmarble,
 /area/rogue/indoors/town/manor/phys)
 "wsO" = (
@@ -137704,7 +137720,7 @@ rJL
 rJL
 agc
 agc
-rJL
+diR
 mMx
 qdU
 iBK
@@ -137906,7 +137922,7 @@ diR
 uUd
 jzi
 jMR
-agc
+diR
 psd
 psd
 iBK
@@ -138303,7 +138319,7 @@ agc
 aXx
 vdz
 ium
-bLn
+jgj
 whv
 bHs
 aRf
