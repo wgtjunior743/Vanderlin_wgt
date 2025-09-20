@@ -5420,7 +5420,7 @@
 	pixel_x = 10;
 	pixel_y = 10
 	},
-/obj/item/reagent_containers/glass/carafe/silver,
+/obj/item/reagent_containers/glass/carafe/silver/redwine,
 /turf/open/floor/ruinedwood/turned/darker,
 /area/rogue/indoors/town)
 "dkS" = (
@@ -6446,7 +6446,11 @@
 /area/rogue/outdoors/town)
 "dQx" = (
 /obj/structure/table/wood/plain_alt,
-/obj/item/reagent_containers/glass/cup,
+/obj/item/reagent_containers/glass/cup{
+	pixel_x = -7;
+	pixel_y = 15
+	},
+/obj/item/clothing/face/cigarette/pipe,
 /turf/open/floor/wood,
 /area/rogue/indoors/town)
 "dQT" = (
@@ -15642,9 +15646,7 @@
 	},
 /area/rogue/outdoors/town/roofs)
 "jjY" = (
-/obj/structure/mannequin{
-	pixel_y = 9
-	},
+/obj/structure/mannequin/male,
 /turf/open/floor/wood,
 /area/rogue/indoors/town)
 "jki" = (
@@ -22519,7 +22521,15 @@
 /obj/machinery/light/fueled/wallfire/candle{
 	pixel_y = -32
 	},
-/obj/item/reagent_containers/glass/cup,
+/obj/item/reagent_containers/glass/cup{
+	pixel_y = 12;
+	pixel_x = 8
+	},
+/obj/item/reagent_containers/food/snacks/hardtack{
+	pixel_x = -7;
+	name = "dusty hardtack";
+	desc = "Very, very hard and dry. This one is probably older than the Veteran."
+	},
 /turf/open/floor/ruinedwood/turned/darker,
 /area/rogue/indoors/town)
 "nHG" = (
@@ -24066,7 +24076,10 @@
 /area/rogue/indoors/town/steward)
 "oEK" = (
 /obj/structure/closet/crate/crafted_closet/inn,
-/obj/item/key/apartments/penthouse1,
+/obj/item/clothing/pants/tights/colored/black,
+/obj/item/clothing/shirt/dress/gen,
+/obj/item/clothing/shirt/undershirt/colored/black,
+/obj/item/clothing/shoes/boots/leather,
 /turf/open/floor/wood,
 /area/rogue/indoors/town)
 "oEY" = (
@@ -24639,6 +24652,16 @@
 "oVK" = (
 /turf/open/floor/ruinedwood,
 /area/rogue/outdoors/town/roofs)
+"oVN" = (
+/obj/structure/closet/crate/drawer,
+/obj/machinery/light/fueled/wallfire/candle{
+	pixel_x = 32;
+	pixel_y = 0
+	},
+/obj/item/coin/copper/pile,
+/obj/item/key/apartments/penthouse1,
+/turf/open/floor/wood,
+/area/rogue/indoors/town)
 "oVR" = (
 /obj/structure/door{
 	name = "guard's barracks"
@@ -29403,6 +29426,14 @@
 /obj/effect/decal/cleanable/dirt/dust,
 /obj/structure/closet/crate/crafted_closet,
 /turf/open/floor/wood,
+/area/rogue/indoors/town)
+"saf" = (
+/obj/structure/table/wood/plain_alt,
+/obj/item/reagent_containers/glass/bottle/redwine{
+	pixel_y = 11;
+	pixel_x = -4
+	},
+/turf/open/floor/ruinedwood/turned/darker,
 /area/rogue/indoors/town)
 "saj" = (
 /obj/structure/window/openclose{
@@ -36890,6 +36921,7 @@
 /obj/machinery/light/fueled/wallfire/big_fireplace{
 	pixel_y = 32
 	},
+/obj/structure/chair/stool,
 /turf/open/floor/ruinedwood/turned/darker,
 /area/rogue/indoors/town)
 "wEd" = (
@@ -39098,6 +39130,10 @@
 /obj/structure/bars/cemetery,
 /turf/open/floor/blocks,
 /area/rogue/indoors/town/church)
+"ybf" = (
+/obj/structure/chair/stool,
+/turf/open/floor/ruinedwood/turned/darker,
+/area/rogue/indoors/town)
 "ybn" = (
 /obj/item/kitchen/spoon,
 /obj/structure/fake_machine/scomm/l,
@@ -180625,7 +180661,7 @@ dZI
 oUI
 dtq
 gtM
-vxh
+saf
 fJX
 qDs
 dtq
@@ -181641,7 +181677,7 @@ xBE
 dtq
 oEK
 uTi
-rKL
+oVN
 gWJ
 dtq
 dtq
@@ -182439,7 +182475,7 @@ dtq
 jZM
 kkI
 dtq
-ocA
+ybf
 ocA
 ocA
 ocA
