@@ -121,6 +121,8 @@
 				realchance += (user.get_skill_level(/datum/skill/labor/taming) * 20)
 			if(prob(realchance))
 				tamed(user)
+				var/boon = user.get_learning_boon(/datum/skill/labor/taming)
+				user.adjust_experience(/datum/skill/labor/taming, (user.STAINT*10) * boon)
 			else
 				tame_chance += bonus_tame_chance
 		return TRUE
