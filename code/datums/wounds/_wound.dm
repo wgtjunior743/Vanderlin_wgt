@@ -346,7 +346,7 @@ GLOBAL_LIST_INIT(primordial_wounds, init_primordial_wounds())
 		return
 	if(human_owner.stat >= DEAD) //forget it
 		return
-	var/list/silver_items = list(
+	var/static/list/silver_items = list(
 		/obj/item/clothing/neck/psycross/silver,
 		/obj/item/clothing/neck/silveramulet
 	)
