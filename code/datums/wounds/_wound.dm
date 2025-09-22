@@ -350,7 +350,7 @@ GLOBAL_LIST_INIT(primordial_wounds, init_primordial_wounds())
 		/obj/item/clothing/neck/psycross/silver,
 		/obj/item/clothing/neck/silveramulet
 	)
-	if(istype(human_owner.wear_neck, silver_items[1]) || istype(human_owner.wear_neck, silver_items[2]) || istype(human_owner.wear_wrists, silver_items[1]))
+	if(is_type_in_list(human_owner.wear_wrists, silver_items) || is_type_in_list(human_owner.wear_neck, silver_items))
 		if(prob(50))
 			return
 	to_chat(human_owner, span_danger("I feel horrible... REALLY horrible..."))
