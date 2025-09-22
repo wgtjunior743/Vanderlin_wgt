@@ -3078,6 +3078,7 @@
 #include "code\modules\spells\spell_types\undirected\conjure_item\magicians_brick.dm"
 #include "code\modules\spells\spell_types\undirected\conjure_item\poison_bomb.dm"
 #include "code\modules\spells\spell_types\undirected\conjure_item\puffer.dm"
+#include "code\modules\spells\spell_types\undirected\conjure_item\summon_leech.dm"
 #include "code\modules\spells\spell_types\undirected\conjure_item\summon_trident.dm"
 #include "code\modules\spells\spell_types\undirected\jaunt\_jaunt.dm"
 #include "code\modules\spells\spell_types\undirected\jaunt\ethereal_jaunt.dm"
