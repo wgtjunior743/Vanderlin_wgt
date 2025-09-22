@@ -39,7 +39,7 @@
 	miracles = list(
 		CLERIC_T0 = /datum/action/cooldown/spell/healing,
 		CLERIC_T1 = /datum/action/cooldown/spell/projectile/swordfish,
-		CLERIC_T2 = /datum/action/cooldown/spell/undirected/conjure_item/summon_trident,
+		CLERIC_T2 = /datum/action/cooldown/spell/undirected/conjure_item/summon_trident/miracle,
 		CLERIC_T3 = /datum/action/cooldown/spell/ocean_embrace,
 	)
 
