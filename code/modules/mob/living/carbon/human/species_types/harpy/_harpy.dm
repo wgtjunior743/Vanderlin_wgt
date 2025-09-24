@@ -136,6 +136,8 @@
 
 	"grey - osprey" = "7c828a",
 
+	"orange - oriole" = "d55f2a",
+
 	"white - swan" = "d3d9e3",
 	"white - egret" = "dee9ed",
 	"white - owl" = "f4f4f4",
