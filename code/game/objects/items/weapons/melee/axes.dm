@@ -516,7 +516,7 @@
 	minstr = 12
 	melt_amount = 180
 	wbalance = VERY_EASY_TO_DODGE
-	wdefense = MEDIOCRE_PARRY
+	wdefense = AVERAGE_PARRY
 	sellprice = 100
 
 /obj/item/weapon/greataxe/steel/doublehead/graggar
