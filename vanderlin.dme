@@ -2466,6 +2466,7 @@
 #include "code\modules\jobs\job_types\garrison\royal_knight.dm"
 #include "code\modules\jobs\job_types\garrison\town_elder.dm"
 #include "code\modules\jobs\job_types\garrison\veteran.dm"
+#include "code\modules\jobs\job_types\garrison\watchlieutenant.dm"
 #include "code\modules\jobs\job_types\nobility\archivist.dm"
 #include "code\modules\jobs\job_types\nobility\captain.dm"
 #include "code\modules\jobs\job_types\nobility\consort.dm"
