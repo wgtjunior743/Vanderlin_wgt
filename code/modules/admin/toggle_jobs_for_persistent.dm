@@ -21,6 +21,7 @@
 				else
 					job_to_toggle.enabled = FALSE
 					job_to_toggle.total_positions = 0
+					job_to_toggle.spawn_positions = 0
 			message_admins("[key_name_admin(usr)] disabled all jobs and enabled all persistent jobs.")
 		if("ENABLE ALL JOBS, DISABLE PERSISTENT JOBS")
 			for(var/datum/job/job_to_toggle in SSjob.joinable_occupations)
@@ -31,5 +32,6 @@
 				else
 					job_to_toggle.enabled = TRUE
 					job_to_toggle.total_positions = initial(job_to_toggle.total_positions)
+					job_to_toggle.spawn_positions = initial(job_to_toggle.spawn_positions)
 			message_admins("[key_name_admin(usr)] enabled all jobs and disabled all persistent jobs.")
 	SSblackbox.record_feedback("tally", "admin_verb", 1, "Toggle all jobs for persistent")
