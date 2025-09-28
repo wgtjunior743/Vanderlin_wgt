@@ -647,7 +647,7 @@
 	recipe_name = "a cuirass"
 	created_item = /obj/item/clothing/armor/cuirass/rare/elven
 
-/datum/anvil_recipe/armor/steel/helmetsall/zalad
+/datum/anvil_recipe/armor/steel/helmetsall_zalad
 	name = "Kulah Khud"
 	recipe_name = "a Zalad Sallet"
 	created_item = /obj/item/clothing/head/helmet/sallet/zalad
