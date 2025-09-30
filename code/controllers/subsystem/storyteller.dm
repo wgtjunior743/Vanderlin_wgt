@@ -755,13 +755,7 @@ SUBSYSTEM_DEF(gamemode)
 		for(var/type in subtypesof(/datum/storyteller))
 			storytellers[type] = new type()
 
-	for(var/storyteller_name in storytellers)
-		var/datum/storyteller/initialized_storyteller = storytellers[storyteller_name]
-		if(initialized_storyteller?.ascendant)
-			to_chat(world, "<br>")
-			to_chat(world, span_reallybig("[initialized_storyteller.name] is ascendant!"))
-			to_chat(world, "<br>")
-
+	handle_god_ascensions()
 	pick_most_influential(TRUE)
 	calculate_ready_players()
 	roll_pre_setup_points()
