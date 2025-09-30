@@ -38,11 +38,6 @@
 	return TRUE
 
 /datum/surgery_step/bestow_lux/success(mob/user, mob/living/target, target_zone, obj/item/tool, datum/intent/intent)
-	if(target.get_lux_status() == LUX_NO_LUX)
-		display_results(user, target, span_notice("You cannot infuse lux into these heatens!"),
-		"[user] works the lux into [target]'s innards.",
-		"[user] works the lux into [target]'s innards.")
-		return FALSE
 	display_results(user, target, span_notice("You succeed in integrating lux into [target]'s hearth."),
 		"[user] works the lux into [target]'s innards.",
 		"[user] works the lux into [target]'s innards.")
