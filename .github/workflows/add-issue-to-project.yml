@@ -1,18 +1,56 @@
 name: Add-issue-to-project
-
 on:
   issues:
     types:
       - opened
-
 jobs:
   add-to-project:
     name: Add issue to project
     runs-on: ubuntu-latest
     steps:
       - uses: actions/add-to-project@v0.5.0
+        id: add-project
         with:
-          # You can target a project in a different organization
-          # to the issue
           project-url: https://github.com/orgs/Monkestation/projects/12
           github-token: ${{ secrets.TRIAGE_TOKEN }}
+      
+      - name: Set date field
+        env:
+          GITHUB_TOKEN: ${{ secrets.TRIAGE_TOKEN }}
+          PROJECT_ID: ${{ steps.add-project.outputs.projectId }}
+          ITEM_ID: ${{ steps.add-project.outputs.itemId }}
+        run: |
+          FIELD_ID=$(gh api graphql -f query='
+            query($projectId: ID!) {
+              node(id: $projectId) {
+                ... on ProjectV2 {
+                  fields(first: 20) {
+                    nodes {
+                      ... on ProjectV2Field {
+                        id
+                        name
+                      }
+                      ... on ProjectV2SingleSelectField {
+                        id
+                        name
+                      }
+                    }
+                  }
+                }
+              }
+            }' -f projectId=$PROJECT_ID --jq '.data.node.fields.nodes[] | select(.name=="Date") | .id')
+          
+          TODAY=$(date -u +"%Y-%m-%d")
+          gh api graphql -f query='
+            mutation($projectId: ID!, $itemId: ID!, $fieldId: ID!, $value: Date!) {
+              updateProjectV2ItemFieldValue(input: {
+                projectId: $projectId
+                itemId: $itemId
+                fieldId: $fieldId
+                value: {date: $value}
+              }) {
+                projectV2Item {
+                  id
+                }
+              }
+            }' -f projectId=$PROJECT_ID -f itemId=$ITEM_ID -f fieldId=$FIELD_ID -f value=$TODAY
