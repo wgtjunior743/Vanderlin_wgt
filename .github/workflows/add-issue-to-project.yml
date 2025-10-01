@@ -1,23 +1,18 @@
-# .github/workflows/add-issue-to-project.yml
-name: Add issue to project + set DateAdded
+name: Add-issue-to-project
+
 on:
   issues:
-    types: [opened]
+    types:
+      - opened
 
 jobs:
   add-to-project:
+    name: Add issue to project
     runs-on: ubuntu-latest
     steps:
-      - name: Get project node id
-        env:
-          GH_TOKEN: ${{ secrets.TRIAGE_TOKEN }}    # token avec accès au Project (PAT) ou GitHub App token
-        run: |
-          PROJECT_ID=$(gh api graphql -f query='query { organization(login:"Monkestation"){ projectV2(number: 12){ id } } }' -H "Authorization: Bearer $GH_TOKEN" --jq '.data.organization.projectV2.id')
-          echo "PROJECT_ID=$PROJECT_ID" >> $GITHUB_ENV
-
-      - name: Add issue to project
-        env:
-          GH_TOKEN: ${{ secrets.TRIAGE_TOKEN }}
-        run: |
-          ITEM_ID=$(gh api graphql -f query='mutation($projectId:ID!, $contentId:ID!){ addProjectV2ItemById(input:{projectId:$projectId, contentId:$contentId}){ item{ id } } }' -F projectId="$PROJECT_ID" -F contentId="${{ github.event.issue.node_id }}" -H "Authorization: Bearer $GH_TOKEN" --jq '.data.addProjectV2ItemById.item.id')
-          echo "ITEM_ID=$ITEM_ID" >> $GITHUB_ENV
+      - uses: actions/add-to-project@v0.5.0
+        with:
+          # You can target a project in a different organization
+          # to the issue
+          project-url: https://github.com/orgs/Monkestation/projects/12
+          github-token: ${{ secrets.TRIAGE_TOKEN }}
