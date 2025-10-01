@@ -130,7 +130,7 @@ SUBSYSTEM_DEF(migrants)
 		if(!isnull(assignments[assignment]))
 			continue
 		var/list/priority = get_priority_players(active_migrants, assignment, current_wave)
-		if(length(priority))
+		if(!length(priority))
 			continue
 		var/client/picked
 		priority = shuffle(priority)
