@@ -20,6 +20,8 @@ GLOBAL_LIST_INIT_TYPED(blood_types, /datum/blood_type, init_subtypes_w_path_keys
 	var/datum/reagent/restoration_chem
 	///do we contain Lux?
 	var/contains_lux = FALSE
+	///is our lux tainted?
+	var/tainted_lux = FALSE
 
 /datum/blood_type/New()
 	. = ..()
