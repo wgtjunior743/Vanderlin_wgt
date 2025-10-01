@@ -706,14 +706,15 @@ SUBSYSTEM_DEF(gamemode)
 		if(!ishuman(player_mob))
 			continue
 		active_players++
-		if(player_mob.mind?.assigned_role)
-			if(player_mob.mind.job_bitflag & BITFLAG_ROYALTY)
+		var/datum/job/assigned = player_mob.mind?.assigned_role
+		if(assigned)
+			if(assigned.job_bitflag & BITFLAG_ROYALTY)
 				royalty++
-			if(player_mob.mind.job_bitflag & BITFLAG_CONSTRUCTOR)
+			if(assigned.job_bitflag & BITFLAG_CONSTRUCTOR)
 				constructor++
-			if(player_mob.mind.job_bitflag & BITFLAG_CHURCH)
+			if(assigned.job_bitflag & BITFLAG_CHURCH)
 				church++
-			if(player_mob.mind.job_bitflag & BITFLAG_GARRISON)
+			if(assigned.job_bitflag & BITFLAG_GARRISON)
 				garrison++
 	update_pop_scaling()
 
