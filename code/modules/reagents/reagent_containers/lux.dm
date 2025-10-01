@@ -130,8 +130,8 @@
 	name = "tainted lux"
 	desc = "A warped remnant of soulstuff, twisted by the touch of darker powers. It quivers with a sickly pulse, its surface slick like spoiled yolk."
 	icon = 'icons/roguetown/items/produce.dmi'
-	icon_state = "lux" //placeholder
-	item_state = "lux" //placeholder
+	icon_state = "tainted_lux"
+	item_state = "tainted_lux"
 	possible_transfer_amounts = list()
 	volume = 15
 	list_reagents = list(/datum/reagent/lux_tainted = 5)
