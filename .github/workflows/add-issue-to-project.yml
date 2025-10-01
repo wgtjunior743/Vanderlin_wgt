@@ -1,0 +1,25 @@
+﻿name: Add Issue To Project
+
+on:
+  issues:
+    types:
+      - opened
+
+jobs:
+  add_to_project:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Generate App Token
+      id: app-token-generation
+      uses: actions/create-github-app-token@v1
+      if: env.APP_PRIVATE_KEY != '' && env.APP_ID != ''
+      with:
+        app-id: ${{ secrets.APP_ID }}
+        private-key: ${{ secrets.APP_PRIVATE_KEY }}
+      env:
+        APP_PRIVATE_KEY: ${{ secrets.APP_PRIVATE_KEY }}
+        APP_ID: ${{ secrets.APP_ID }}
+    - uses: actions/add-to-project@v0.5.0
+      with:
+        project-url: https://github.com/orgs/Monkestation/projects/12/views/1
+        github-token: ${{ steps.app-token-generation.outputs.token || secrets.GITHUB_TOKEN }}
