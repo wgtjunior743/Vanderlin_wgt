@@ -17,9 +17,18 @@ jobs:
       - name: Set date field
         env:
           GITHUB_TOKEN: ${{ secrets.TRIAGE_TOKEN }}
-          PROJECT_ID: ${{ steps.add-project.outputs.projectId }}
           ITEM_ID: ${{ steps.add-project.outputs.itemId }}
         run: |
+          # Get the project ID
+          PROJECT_ID=$(gh api graphql -f query='
+            query($org: String!, $number: Int!) {
+              organization(login: $org) {
+                projectV2(number: $number) {
+                  id
+                }
+              }
+            }' -f org="Monkestation" -F number=12 --jq '.data.organization.projectV2.id')
+          
           FIELD_ID=$(gh api graphql -f query='
             query($projectId: ID!) {
               node(id: $projectId) {
@@ -40,7 +49,10 @@ jobs:
               }
             }' -f projectId=$PROJECT_ID --jq '.data.node.fields.nodes[] | select(.name=="Date") | .id')
           
+          # Get today's date in ISO format
           TODAY=$(date -u +"%Y-%m-%d")
+          
+          # Update the field
           gh api graphql -f query='
             mutation($projectId: ID!, $itemId: ID!, $fieldId: ID!, $value: Date!) {
               updateProjectV2ItemFieldValue(input: {
