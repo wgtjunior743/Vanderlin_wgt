@@ -14,7 +14,7 @@
 	name = "Infuse Lux"
 	implements = list(
 		/obj/item/reagent_containers/lux = 80,
-		/obj/item/reagent_containers/lux/tainted = 50,
+		/obj/item/reagent_containers/lux_tainted = 50,
 	)
 	target_mobtypes = list(/mob/living/carbon/human, /mob/living/carbon/monkey)
 	time = 10 SECONDS
@@ -34,7 +34,7 @@
 		return FALSE
 
 /datum/surgery_step/bestow_lux/preop(mob/user, mob/living/target, target_zone, obj/item/tool, datum/intent/intent)
-	if(istype(tool, /obj/item/reagent_containers/lux/tainted))
+	if(istype(tool, /obj/item/reagent_containers/lux_tainted))
 		tainted = TRUE
 	display_results(user, target, span_notice("I begin to implant [tool.name] into [target]..."),
 		span_notice("[user] begins to work [tool.name] into [target]'s heart."),

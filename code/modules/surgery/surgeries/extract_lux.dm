@@ -52,7 +52,7 @@
 			display_results(user, target, span_notice("You extract a single dose of tainted lux from [target]'s heart."),
 				"[user] extracts tainted lux from [target]'s innards.",
 				"[user] extracts tainted lux from [target]'s innards.")
-			new /obj/item/reagent_containers/lux/tainted(target.loc)
+			new /obj/item/reagent_containers/lux_tainted(target.loc)
 		else
 			display_results(user, target, span_notice("You extract a single dose of lux from [target]'s heart."),
 				"[user] extracts lux from [target]'s innards.",

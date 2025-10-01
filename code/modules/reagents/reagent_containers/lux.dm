@@ -134,8 +134,8 @@
 	item_state = "lux" //placeholder
 	possible_transfer_amounts = list()
 	volume = 15
-	list_reagents = list(/datum/reagent/lux/tainted= 5)
-	grind_results = list(/datum/reagent/lux/tainted = 5)
+	list_reagents = list(/datum/reagent/lux_tainted = 5)
+	grind_results = list(/datum/reagent/lux_tainted = 5)
 	sellprice = 25
 
 /datum/reagent/lux_tainted
