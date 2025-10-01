@@ -26,8 +26,6 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.TRIAGE_TOKEN }}
         run: |
-          DATE=$(date +%F)
-          # Remplace FIELD_ID par le node id de ton champ date dans le projet
-          gh api graphql -f query='mutation($projectId:ID!, $itemId:ID!, $fieldId:ID!, $date:String!){ updateProjectV2ItemFieldValue(input:{projectId:$projectId, itemId:$itemId, fieldId:$fieldId, value:{date:$date}}){ projectV2Item{ id } } }' \
-            -F projectId="$PROJECT_ID" -F itemId="$ITEM_ID" -F fieldId="FIELD_ID" -F date="$DATE" \
+          DATE=$(date +%Y-%m-%d)
+          gh api graphql -f query="mutation { updateProjectV2ItemFieldValue(input: {projectId: \"$PROJECT_ID\", itemId: \"$ITEM_ID\", fieldId: \"FIELD_ID\", value: {date: \"$DATE\"}}) { projectV2Item { id } } }" \
             -H "Authorization: Bearer $GH_TOKEN"
