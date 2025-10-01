@@ -21,11 +21,3 @@ jobs:
         run: |
           ITEM_ID=$(gh api graphql -f query='mutation($projectId:ID!, $contentId:ID!){ addProjectV2ItemById(input:{projectId:$projectId, contentId:$contentId}){ item{ id } } }' -F projectId="$PROJECT_ID" -F contentId="${{ github.event.issue.node_id }}" -H "Authorization: Bearer $GH_TOKEN" --jq '.data.addProjectV2ItemById.item.id')
           echo "ITEM_ID=$ITEM_ID" >> $GITHUB_ENV
-
-      - name: Set DateAdded field
-        env:
-          GH_TOKEN: ${{ secrets.TRIAGE_TOKEN }}
-        run: |
-          DATE=$(date +%Y-%m-%d)
-          gh api graphql -f query="mutation { updateProjectV2ItemFieldValue(input: {projectId: \"$PROJECT_ID\", itemId: \"$ITEM_ID\", fieldId: \"FIELD_ID\", value: {date: \"$DATE\"}}) { projectV2Item { id } } }" \
-            -H "Authorization: Bearer $GH_TOKEN"
