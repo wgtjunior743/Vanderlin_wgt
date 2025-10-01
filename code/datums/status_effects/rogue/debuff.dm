@@ -539,3 +539,23 @@
 	. = ..()
 	var/datum/component/stinky_component = GetComponent(/datum/component/rot/stinky_person)
 	stinky_component?.RemoveComponent()
+
+/datum/status_effect/debuff/tainted_lux
+	id = "tainted_lux"
+	alert_type = /atom/movable/screen/alert/status_effect/debuff/tainted_lux
+	effectedstats = list(STATKEY_LCK = -2)
+	duration = -1
+
+/atom/movable/screen/alert/status_effect/debuff/tainted_lux
+	name = "Tainted Lux"
+	desc = span_danger("Something within me is broken... what was once bright now writhes with a poisoned pulse...")
+
+/datum/status_effect/debuff/received_tainted_lux
+	id = "received_tainted_lux"
+	alert_type = /atom/movable/screen/alert/status_effect/debuff/received_tainted_lux
+	effectedstats = list(STATKEY_LCK = -2)
+	duration = -1
+
+/atom/movable/screen/alert/status_effect/debuff/received_tainted_lux
+	name = "Received Tainted Lux"
+	desc = span_danger("It stirs inside me... but it is wrong, twisted... if this is a soul, then it has been corrupted long before it reached me...")

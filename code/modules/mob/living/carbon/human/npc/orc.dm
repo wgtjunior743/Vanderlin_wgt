@@ -186,6 +186,7 @@
 	damage_overlay_type = ""
 	changesource_flags = WABBAJACK
 	var/raceicon = "orc"
+	exotic_bloodtype = /datum/blood_type/human/corrupted/orc
 
 /datum/species/orc/update_damage_overlays(mob/living/carbon/human/H)
 	return

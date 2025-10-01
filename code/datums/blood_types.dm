@@ -141,6 +141,23 @@ GLOBAL_LIST_INIT_TYPED(blood_types, /datum/blood_type, init_subtypes_w_path_keys
 /datum/blood_type/human/medicator
 	name = "Medicator"
 
+/datum/blood_type/human/corrupted
+	contains_lux = TRUE
+	tainted_lux = TRUE
+	reagent_type = /datum/reagent/blood
+
+/datum/blood_type/human/corrupted/goblin
+	name = "Goblin"
+
+/datum/blood_type/human/corrupted/orc
+	name = "Orc"
+
+/datum/blood_type/human/corrupted/rousman
+	name = "Rousman"
+
+/datum/blood_type/human/corrupted/zizombie
+	name = "Zizombie"
+
 /datum/blood_type/human/a_plus
 	name = "A+"
 	compatible_types = list(

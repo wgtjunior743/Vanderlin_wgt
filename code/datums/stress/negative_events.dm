@@ -623,3 +623,8 @@
 	desc = "<span class='boldwarning'>It's uncomfortable, and I can't take it off!</span>\n" //torture yay!
 	stress_change = 50
 	timer = 1000 MINUTES
+
+/datum/stress_event/consumed_tainted_lux
+	desc = span_warning("Why did i drink that?")
+	stress_change = 15
+	timer = 10 MINUTES
