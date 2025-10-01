@@ -10,14 +10,9 @@ jobs:
     name: Add issue to project
     runs-on: ubuntu-latest
     steps:
-      # Capture today's date (ISO format, which projects accept for date fields)
-      - name: Get date
-        id: get-date
-        run: echo "today=$(date +'%Y-%m-%d')" >> $GITHUB_OUTPUT
-
       - uses: actions/add-to-project@v0.5.0
         with:
+          # You can target a project in a different organization
+          # to the issue
           project-url: https://github.com/orgs/Monkestation/projects/12
           github-token: ${{ secrets.TRIAGE_TOKEN }}
-          fields: |
-            Date: ${{ steps.get-date.outputs.today }}
