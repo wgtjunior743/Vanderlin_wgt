@@ -61,7 +61,7 @@
 				target.apply_status_effect(/datum/status_effect/debuff/received_tainted_lux)
 			else
 				target.apply_status_effect(/datum/status_effect/debuff/tainted_lux)
-	display_results(user, target, span_notice("You succeed in integrating [tool.name] into [target]'s hearth."),
+	display_results(user, target, span_notice("You succeed in integrating [tool.name] into [target]'s heart."),
 		"[user] works the [tool.name] into [target]'s innards.",
 		"[user] works the [tool.name] into [target]'s innards.")
 	target.emote("breathgasp")
