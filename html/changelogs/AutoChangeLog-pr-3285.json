@@ -1,1 +1,0 @@
-{"author":"CheffieGithub","delete-after":true,"changes":[{"refactor":"Refactored advclass to be a subtype of job and migrant_role to reference a job. report any role weirdness."},{"admin":"Select Equipment renamed to Admin Dress, can now equip jobs and outfits are listed immediately."}]}
