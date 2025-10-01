@@ -1,6 +1,6 @@
-/datum/advclass/mercenary/sellmage
+/datum/job/advclass/mercenary/sellmage
 	//a mage noble selling his services.
-	name = "Sellmage"
+	title = "Sellmage"
 	tutorial = "( DUE TO BEING A NOBLE, THIS CLASS WILL BE DIFFICULT FOR INHUMEN. YOU HAVE BEEN WARNED. )\
 	\n\n\ \
 	You're a noble, but in name only. You were taught in magic from an early age, but it wasn't enough. \
@@ -13,16 +13,15 @@
 	But it all goes away whenever a zenarii filled pouch is thrown your way, for a while atleast."
 	//not RACES_PLAYER_NONDISCRIMINATED becauses they are a FOREIGN noble
 	allowed_races = RACES_PLAYER_FOREIGNNOBLE
-	outfit = /datum/outfit/job/mercenary/sellmage
+	outfit = /datum/outfit/mercenary/sellmage
 	category_tags = list(CTAG_MERCENARY)
-	maximum_possible_slots = 2 //balance slop
+	total_positions = 2 //balance slop
 	allowed_ages = list(AGE_MIDDLEAGED, AGE_OLD, AGE_IMMORTAL)//they were a mage, or learnt magic, before becoming a mercenary
 	cmode_music = 'sound/music/cmode/adventurer/CombatSorcerer.ogg'
 
-/datum/outfit/job/mercenary/sellmage
 	allowed_patrons = list(/datum/patron/divine/noc, /datum/patron/inhumen/zizo)//only noc or zizo worshippers can be mages
 
-/datum/outfit/job/mercenary/sellmage/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/mercenary/sellmage/pre_equip(mob/living/carbon/human/H)
 	..()
 
 	H.mana_pool?.set_intrinsic_recharge(MANA_ALL_LEYLINES)
@@ -30,8 +29,6 @@
 	if(prob(1)) //extremely rare just like court mage
 		H.cmode_music = 'sound/music/cmode/antag/combat_evilwizard.ogg'
 
-	head = /obj/item/clothing/head/wizhat/random
-	armor = /obj/item/clothing/shirt/robe/colored/mage
 	shirt = /obj/item/clothing/armor/chainmail/iron //intended, iron chainmail underneath the robe to stop knives
 	ring = /obj/item/clothing/ring/silver
 	gloves = /obj/item/clothing/gloves/leather
@@ -43,8 +40,6 @@
 	backr = /obj/item/storage/backpack/satchel
 	backl = /obj/item/weapon/polearm/woodstaff/quarterstaff/iron
 	backpack_contents = list(/obj/item/book/granter/spellbook/adept = 1, /obj/item/chalk = 1, /obj/item/reagent_containers/glass/bottle/manapot = 1)
-	if(H.gender == FEMALE)
-		head = /obj/item/clothing/head/wizhat/witch
 
 	//combat
 	H.adjust_skillrank(/datum/skill/combat/knives, 1, TRUE)
@@ -79,3 +74,20 @@
 	H.merctype = 9
 
 	ADD_TRAIT(H, TRAIT_NOBLE, TRAIT_GENERIC)
+
+/datum/outfit/mercenary/sellmage/post_equip(mob/living/carbon/human/H)
+	. = ..()
+	var/static/list/selectablehat = list(
+		"Witch hat" = /obj/item/clothing/head/wizhat/witch,
+		"Random Wizard hat" = /obj/item/clothing/head/wizhat/random,
+		"Mage hood" = /obj/item/clothing/head/roguehood/colored/mage,
+		"Generic Wizard hat" = /obj/item/clothing/head/wizhat/gen,
+		"Mage hood" = /obj/item/clothing/head/roguehood/colored/mage,
+		"Black hood" = /obj/item/clothing/head/roguehood/colored/black,
+	)
+	H.select_equippable(H, selectablehat, message = "Choose your hat of choice", title = "WIZARD")
+	var/static/list/selectablerobe = list(
+		"Black robes" = /obj/item/clothing/shirt/robe/colored/black,
+		"Mage robes" = /obj/item/clothing/shirt/robe/colored/mage,
+	)
+	H.select_equippable(H, selectablerobe, message = "Choose your robe of choice", title = "WIZARD")
