@@ -329,7 +329,7 @@
 			pixel_z = 0,
 		)
 
-	addtimer(CALLBACK(src, PROC_REF(end_of_life)), delay + 2 SECONDS)
+		addtimer(CALLBACK(src, PROC_REF(end_of_life)), delay + 2 SECONDS)
 
 /datum/chatmessage/proc/add_string(string = "", direction = 1, audible = TRUE)
 	if(QDELETED(src))
