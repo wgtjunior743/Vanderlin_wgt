@@ -2897,3 +2897,6 @@
 		)
 	SEND_SIGNAL(offered_item, COMSIG_OBJ_HANDED_OVER, src, offerer)
 	offerer.stop_offering_item()
+
+/mob/living/proc/is_dead() // bwuh
+	return (!QDELETED(src) && (stat >= DEAD))
