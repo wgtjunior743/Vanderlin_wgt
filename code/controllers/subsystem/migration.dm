@@ -339,15 +339,12 @@ SUBSYSTEM_DEF(migrants)
 	var/first_val = -1
 
 	if(length(triumph_weighted))
+		first_val = triumph_weighted[1]
 		for(var/client/client in triumph_weighted)
-			first_val = triumph_weighted[client]
-			break
-
-		for(var/client/client in triumph_weighted)
+			// Check if anything is not equal to the first value in the list
 			if(triumph_weighted[client] != first_val)
 				all_equal = FALSE
 				break
-
 
 	//Convert weighted list to prioritized list
 	while(length(triumph_weighted))
