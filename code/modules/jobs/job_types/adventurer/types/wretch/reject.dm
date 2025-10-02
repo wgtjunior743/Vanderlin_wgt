@@ -1,8 +1,17 @@
 /datum/job/advclass/wretch/reject
 	title = "Rejected Royal"
-	tutorial = "You were once a member of the royal family, but due to your actions, you have been cast out to roam the wilds. \
+	tutorial = "You were once a member of the royal family, but due to your actions, or the circumstances of your birth, you have been cast out to roam the wilds. \
 	Now, you return, seeking redemption or perhaps... revenge."
-	allowed_races = RACES_PLAYER_ROYALTY
+	allowed_races = list(\
+		SPEC_ID_HUMEN,\
+		SPEC_ID_HALF_ELF,\
+		SPEC_ID_HALF_DROW,\
+		SPEC_ID_DWARF,\
+		SPEC_ID_ELF,\
+		SPEC_ID_DROW,\
+		SPEC_ID_HALF_ORC,\
+		SPEC_ID_TIEFLING,\
+)
 	allowed_ages = list(AGE_ADULT, AGE_CHILD)
 	total_positions = 1
 	cmode_music = 'sound/music/cmode/nobility/combat_noble.ogg'
@@ -66,10 +75,11 @@
 	H.change_stat(STATKEY_CON, 1)
 	H.change_stat(STATKEY_SPD, 2)
 	H.change_stat(STATKEY_LCK, 1)
-	ADD_TRAIT(H, TRAIT_NOBLE, TRAIT_GENERIC)
 	ADD_TRAIT(H, TRAIT_BEAUTIFUL, TRAIT_GENERIC)
 	ADD_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_GENERIC)
 	ADD_TRAIT(H, TRAIT_LIGHT_STEP, TRAIT_GENERIC)
+	if(H.dna.species.id != SPEC_ID_TIEFLING)
+		ADD_TRAIT(H, TRAIT_NOBLE, TRAIT_GENERIC)
 
 /datum/outfit/wretch/reject/post_equip(mob/living/carbon/human/H, visualsOnly)
 	. = ..()
