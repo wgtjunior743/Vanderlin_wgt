@@ -284,14 +284,6 @@ SUBSYSTEM_DEF(migrants)
 
 	SSjob.EquipRank(character, migrant_job, character.client)
 	SSticker.minds += character.mind
-	var/mob/living/carbon/human/humanc
-	if(ishuman(character))
-		humanc = character	//Let's retypecast the var to be human,
-	if(humanc)
-		var/fakekey = get_display_ckey(character.ckey)
-		GLOB.character_list[character.mobid] = "[fakekey] was [character.real_name] ([migrant_job.title])<BR>"
-		GLOB.character_ckey_list[character.real_name] = character.ckey
-		log_character("[character.ckey] ([fakekey]) - [character.real_name] - [migrant_job.title]")
 
 	GLOB.joined_player_list += character.ckey
 	GLOB.respawncounts[character.ckey] += 1
@@ -307,15 +299,22 @@ SUBSYSTEM_DEF(migrants)
 		// Adding antag datums can move your character to places, so here's a bandaid
 		character.forceMove(spawn_on_location)
 
-	if(!istype(role_instance, /datum/migrant_role/advclass))
-		if(GLOB.adventurer_hugbox_duration)
-			addtimer(CALLBACK(character, TYPE_PROC_REF(/mob/living/carbon/human, adv_hugboxing_start)), 1)
+	if(!ishuman(character))
 		return
+
+	var/mob/living/carbon/human/human_character = character
+
+	var/fakekey = get_display_ckey(human_character.ckey)
+	GLOB.character_list[human_character.mobid] = "[fakekey] was [human_character.real_name] ([migrant_job.title])<BR>"
+	GLOB.character_ckey_list[human_character.real_name] = human_character.ckey
+	log_character("[human_character.ckey] ([fakekey]) - [human_character.real_name] - [migrant_job.title]")
 
 	var/datum/migrant_role/advclass/adv_migrant = role_instance
 	if(adv_migrant.advclass_cat_rolls)
-		SSrole_class_handler.setup_class_handler(character, adv_migrant.advclass_cat_rolls)
-		hugboxify_for_class_selection(character)
+		SSrole_class_handler.setup_class_handler(human_character, adv_migrant.advclass_cat_rolls)
+		human_character.hugboxify_for_class_selection()
+	else if(GLOB.adventurer_hugbox_duration)
+		addtimer(CALLBACK(human_character, TYPE_PROC_REF(/mob/living/carbon/human, adv_hugboxing_start)), 1)
 
 /datum/controller/subsystem/migrants/proc/get_priority_players(list/players, role_type, wave_type)
 	var/list/priority = list()
@@ -656,16 +655,25 @@ SUBSYSTEM_DEF(migrants)
 	landmarks = shuffle(landmarks)
 	return get_turf(pick(landmarks))
 
-/proc/hugboxify_for_class_selection(mob/living/carbon/human/character)
-	character.advsetup = 1
-	character.invisibility = INVISIBILITY_MAXIMUM
-	character.become_blind("advsetup")
-
+/mob/living/carbon/human/proc/hugboxify_for_class_selection()
+	advsetup = TRUE
+	density = FALSE
+	invisibility = INVISIBILITY_MAXIMUM
+	become_blind("advsetup")
 	if(GLOB.adventurer_hugbox_duration)
-		///FOR SOME FUCKING REASON THIS REFUSED TO WORK WITHOUT A FUCKING TIMER IT JUST FUCKED SHIT UP
-		addtimer(CALLBACK(character, TYPE_PROC_REF(/mob/living/carbon/human, adv_hugboxing_start)), 1)
+		adv_hugboxing_start()
 
-/proc/grant_lit_torch(mob/living/carbon/human/character)
+/mob/living/carbon/human/proc/finish_class_hugbox()
+	advsetup = FALSE
+	density = initial(density)
+	invisibility = initial(invisibility)
+	cure_blind("advsetup")
+
+	var/atom/movable/screen/advsetup/GET_IT_OUT = locate() in hud_used?.static_inventory //locate() still iterates over contents
+	if(GET_IT_OUT)
+		qdel(GET_IT_OUT)
+
+/mob/living/carbon/human/proc/grant_lit_torch()
 	var/obj/item/flashlight/flare/torch/torch = new()
 	torch.spark_act()
-	character.put_in_hands(torch, forced = TRUE)
+	put_in_hands(torch, forced = TRUE)
