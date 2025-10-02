@@ -22,10 +22,12 @@
 	skill_min = SKILL_LEVEL_EXPERT
 	preop_sound = 'sound/surgery/organ2.ogg'
 	success_sound = 'sound/surgery/organ1.ogg'
-	var/tainted = FALSE
+	var/tainted_lux = FALSE
+	var/tainted_mob = FALSE
 
 /datum/surgery_step/bestow_lux/validate_target(mob/user, mob/living/target, target_zone, datum/intent/intent)
 	. = ..()
+
 	if(target.stat == DEAD)
 		return FALSE
 
@@ -33,9 +35,15 @@
 		to_chat(user, "They do not need more Lux!")
 		return FALSE
 
+	if(target.get_lux_tainted_status())
+		tainted_mob = TRUE
+
 /datum/surgery_step/bestow_lux/preop(mob/user, mob/living/target, target_zone, obj/item/tool, datum/intent/intent)
 	if(istype(tool, /obj/item/reagent_containers/lux_tainted))
-		tainted = TRUE
+		tainted_lux = TRUE
+	if(tainted_mob && !tainted_lux)
+		to_chat(user, "They can only receive tainted lux!")
+		return FALSE
 	display_results(user, target, span_notice("I begin to implant [tool.name] into [target]..."),
 		span_notice("[user] begins to work [tool.name] into [target]'s heart."),
 		span_notice("[user] begins to work [tool.name] into [target]'s heart."))
@@ -47,7 +55,7 @@
 		"[user] works the lux into [target]'s innards.",
 		"[user] works the lux into [target]'s innards.")
 		return FALSE
-	if(tainted)
+	if(tainted_lux && !tainted_mob)
 		if(prob(50))
 			display_results(user, target,
 				span_danger("You succeed in integrating [tool.name] into [target]'s heart but their body failed to handle the [tool.name]!"),

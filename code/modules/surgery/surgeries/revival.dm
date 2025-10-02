@@ -21,7 +21,8 @@
 	time = 10 SECONDS
 	surgery_flags = SURGERY_BLOODY | SURGERY_INCISED | SURGERY_CLAMPED | SURGERY_RETRACTED | SURGERY_BROKEN
 	skill_min = SKILL_LEVEL_EXPERT
-	var/tainted = FALSE
+	var/tainted_lux = FALSE
+	var/tainted_mob = FALSE
 
 /datum/surgery_step/infuse_lux/validate_target(mob/user, mob/living/target, target_zone, datum/intent/intent)
 	. = ..()
@@ -34,10 +35,15 @@
 	if(HAS_TRAIT(target, TRAIT_NECRA_CURSE))
 		to_chat(user, span_warning("Necra holds tight to this one."))
 		return FALSE
+	if(target.get_lux_tainted_status())
+		tainted_mob = TRUE
 
 /datum/surgery_step/infuse_lux/preop(mob/user, mob/living/target, target_zone, obj/item/tool, datum/intent/intent)
 	if(istype(tool, /obj/item/reagent_containers/lux_tainted))
-		tainted = TRUE
+		tainted_lux = TRUE
+	if(tainted_mob && !tainted_lux)
+		to_chat(user, "They can only receive tainted lux!")
+		return FALSE
 	display_results(user, target,
 		span_notice("I begin to infuse [target]'s heart with [tool.name]."),
 		span_notice("[user] begins to work [tool.name] into [target]'s heart."),
@@ -49,7 +55,7 @@
 	if(!target.revive(full_heal = FALSE))
 		to_chat(user, span_warning("Nothing happens."))
 		return FALSE
-	if(tainted)
+	if(tainted_lux && !tainted_mob)
 		if(prob(50))
 			display_results(user, target,
 				span_danger("You succeed in restarting [target]'s heart but their body failed to handle the [tool.name]!"),
