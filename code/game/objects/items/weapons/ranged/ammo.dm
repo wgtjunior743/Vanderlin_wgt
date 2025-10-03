@@ -475,7 +475,7 @@
 	armor_penetration = BULLET_PENETRATION
 	speed = 0.3
 	accuracy = 50 //Lower accuracy than an arrow.
-	critable = FALSE //Can't crit
+	reduce_crit_chance = 10 //Reduces crit chance
 	dismemberment = 0 //Can't dismember
 
 /obj/projectile/bullet/fragment
