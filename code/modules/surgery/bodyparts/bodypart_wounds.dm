@@ -120,7 +120,7 @@
 	return bleed_rate
 
 /// Called after a bodypart is attacked so that wounds and critical effects can be applied
-/obj/item/bodypart/proc/bodypart_attacked_by(bclass, dam, mob/living/user, zone_precise, silent = FALSE, crit_message = FALSE)
+/obj/item/bodypart/proc/bodypart_attacked_by(bclass, dam, mob/living/user, zone_precise, silent = FALSE, crit_message = FALSE, weapon_can_crit = TRUE)
 	if(!bclass || !dam || !owner || (owner.status_flags & GODMODE))
 		return FALSE
 
@@ -135,6 +135,8 @@
 			dam += 10
 		if(ispath(user.rmb_intent?.type, /datum/rmb_intent/weak))
 			do_crit = FALSE
+	if(!weapon_can_crit)
+		do_crit = FALSE
 
 	var/added_wound
 	switch(bclass) //do stuff but only when we are a blade that adds wounds

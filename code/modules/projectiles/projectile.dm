@@ -144,7 +144,8 @@
 	var/bonus_accuracy = 0 //bonus accuracy that cannot be affected by range drop off.
 	///this is basically do we ignore projectile effects?
 	var/dirty = NONE
-
+	///if the projectile can trigger a crit to carbon mobs, true by default.
+	var/critable = TRUE
 /obj/projectile/proc/handle_drop()
 	return
 
