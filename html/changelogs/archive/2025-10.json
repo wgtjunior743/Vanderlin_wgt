@@ -57,5 +57,38 @@
                 "rscadd": "Added a pouch with mammons to the VL"
             }
         ]
+    },
+    "2025-10-03": {
+        "snowyseshi": [
+            {
+                "code_imp": "Silver enchant now checks if its used by a weapon."
+            },
+            {
+                "balance": "more chance to roll secondary antag if the storyteller rolls maniac or aspirant in highpop"
+            }
+        ],
+        "Siro": [
+            {
+                "bugfix": "Replace unicode form of music notes to ascii for proper runechat handling."
+            },
+            {
+                "rscadd": "Another music note. Why not?"
+            }
+        ],
+        "Wouju": [
+            {
+                "balance": "Mantrap crafting recipe, the non-anvil one, makes a makeshift mantrap instead of an old one"
+            }
+        ],
+        "wgtjunior743": [
+            {
+                "rscadd": "Peeks, if you examine someone while you are sneaking there will be no visible message but the target may notice you looking at them based on your sneak skill vs theirs PER and abit of luck."
+            }
+        ],
+        "Magiy-Anne": [
+            {
+                "rscadd": "Added half-drow, drow, half-orcs, and tieflings to Rejected Royal Wretch"
+            }
+        ]
     }
 }
