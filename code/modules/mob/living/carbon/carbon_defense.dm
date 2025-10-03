@@ -78,7 +78,7 @@
  		if(P.reduce_crit_chance == 0)
 			BP.bodypart_attacked_by(P.woundclass, newdam, zone_precise = def_zone, crit_message = TRUE)
 		else
-			BP.bodypart_attacked_by(P.woundclass, newdam, zone_precise = def_zone, crit_message = TRUE, P.reduce_crit_chance)
+			BP.bodypart_attacked_by(P.woundclass, newdam, zone_precise = def_zone, crit_message = TRUE, reduce_crit = P.reduce_crit_chance)
 		return TRUE
 
 /mob/living/carbon/check_projectile_embed(obj/projectile/P, def_zone, blocked)
