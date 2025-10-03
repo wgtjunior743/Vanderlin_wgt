@@ -387,6 +387,7 @@ Remember to update _globalvars/traits.dm if you're adding/removing/renaming trai
 #define TRAIT_MOONWATER_ELIXIR			"Moonwater Elixir"
 #define TRAIT_FLOWERFIELD_IMMUNITY		"Flower Strider"
 #define TRAIT_SECRET_OFFICIANT			"Secret Officiant"
+#define TRAIT_RECOGNIZE_ADDICTS			"Addict Recognition"
 #define TRAIT_NOENERGY 					"Boundless Energy" //Specifically, You don't lose fatigue, but you do continue losing stamina.
 #define TRAIT_KEENEARS					"Keen Ears"
 #define TRAIT_POISON_RESILIENCE			"Poison Resilience"
