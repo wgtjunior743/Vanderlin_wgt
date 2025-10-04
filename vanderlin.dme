@@ -3180,6 +3180,7 @@
 #include "code\modules\spells\spell_types\undirected\jaunt\_jaunt.dm"
 #include "code\modules\spells\spell_types\undirected\jaunt\ethereal_jaunt.dm"
 #include "code\modules\spells\spell_types\undirected\list_target\_list_target.dm"
+#include "code\modules\spells\spell_types\undirected\list_target\bardic_inspiration.dm"
 #include "code\modules\spells\spell_types\undirected\list_target\encode_thoughts.dm"
 #include "code\modules\spells\spell_types\undirected\list_target\grant_nobility.dm"
 #include "code\modules\spells\spell_types\undirected\list_target\grant_title.dm"
