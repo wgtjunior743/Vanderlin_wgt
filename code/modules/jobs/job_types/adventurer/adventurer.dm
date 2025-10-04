@@ -39,7 +39,7 @@ GLOBAL_VAR_INIT(adventurer_hugbox_duration_still, 3 MINUTES)
 	// Calculate the potential new spawn positions
 	var/new_spawn = adventurer_slot_formula(count)
 
-	// Never reduce spawn_positions
+	// Sync everything
 	spawn_positions = new_spawn
 	total_positions_so_far = new_spawn
 	total_positions = new_spawn
