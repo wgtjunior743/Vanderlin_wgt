@@ -164,6 +164,7 @@ GLOBAL_LIST_INIT(traits_by_type, list(
 		"Boundless Energy" = TRAIT_NOENERGY,
 		"Keen Ears"	= TRAIT_KEENEARS,
 		"Poison Resilience" = TRAIT_POISON_RESILIENCE,
+		"Expert Forager" = TRAIT_FORAGER,
 	),
 	/obj/item/bodypart = list(
 		"TRAIT_PARALYSIS" = TRAIT_PARALYSIS
@@ -280,6 +281,7 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_NOENERGY = span_info("I don't need rest; I won't ever feel fatigue."),
 	TRAIT_KEENEARS = span_info("I've a good pair of ears, and can tell who is speaking, even when they're out of sight. I can also hear whispers from further away."),
 	TRAIT_POISON_RESILIENCE	= span_info("I'm more resilient to poisons."),
+	TRAIT_FORAGER = span_info("I can tell which jackberries are poisonous."),
 ))
 
 /// value -> trait name, generated on use from trait_by_type global
