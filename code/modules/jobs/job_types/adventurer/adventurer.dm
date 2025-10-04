@@ -36,7 +36,7 @@ GLOBAL_VAR_INIT(adventurer_hugbox_duration_still, 3 MINUTES)
 	to_chat(H, merc_ad)
 
 /datum/job/adventurer/set_spawn_and_total_positions(count)
-	// Calculate the potential new spawn positions
+	// Calculate the new spawn positions
 	var/new_spawn = adventurer_slot_formula(count)
 
 	// Sync everything
