@@ -146,6 +146,7 @@
 	var/dirty = NONE
 	///projectile crit reduce chance since more dmg increases the crit chance it can get absurdly high, 0 for nothing.
 	var/reduce_crit_chance = 0
+	
 /obj/projectile/proc/handle_drop()
 	return
 
