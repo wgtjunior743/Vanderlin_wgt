@@ -51,6 +51,7 @@
 								used = skin_armor
 							else
 								used = shirtworn //  ...skip straight to the shirt slot, and target it!
+				// Otherwise, proceed with normal assignment of bodypart protected by armor that isn't armor or shirt
 				else if(!istype(bp, wear_armor) && !istype(bp, wear_shirt))
 					if(val > 0)
 						if(val > protection)
