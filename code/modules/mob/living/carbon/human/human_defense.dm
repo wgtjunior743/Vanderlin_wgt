@@ -35,21 +35,22 @@
 				// The code below finally fixes the targetting order of armor > shirt > flesh. - Foxtrot (#gundamtanaka)
 				var/obj/item/armorworn = src.get_item_by_slot(ITEM_SLOT_ARMOR) // The armor we're wearing
 				var/obj/item/shirtworn = src.get_item_by_slot(ITEM_SLOT_SHIRT) // The shirt we're wearing
-				if(bp == armorworn) // If the targeted bodypart has an armor...
+				var/armor_protection = 0 // We are going to check if the armor protects more than the shirt.
+				if(bp == armorworn && (armorworn.uses_integrity && armorworn.get_integrity() > 0) && zone2covered(def_zone, armorworn.body_parts_covered)) // If the targeted bodypart has an armor...
 					if(val > 0) // ...and it's an actual armor with armor values...
 						if(val > protection)
 							protection = val
+							armor_protection = val
 							used = armorworn // ...force us to use it above all!
 				// If we don't have armor equipped or the one we have is broken...
-				else if(bp == shirtworn && (!armorworn || (armorworn.uses_integrity && armorworn.get_integrity() <= 0) || !zone2covered(def_zone, armorworn.body_parts_covered)))
+				else if(bp == shirtworn)
 					if(val > 0) // ...and it's not just a linen shirt...
-						if(val > protection)
+						if(val > protection && val > armor_protection)
 							protection = val
 							if(skin_armor)
 								used = skin_armor
 							else
 								used = shirtworn //  ...skip straight to the shirt slot, and target it!
-				// Otherwise, proceed with normal assignment of bodypart protected by armor that isn't armor or shirt
 				else if(!istype(bp, wear_armor) && !istype(bp, wear_shirt))
 					if(val > 0)
 						if(val > protection)
