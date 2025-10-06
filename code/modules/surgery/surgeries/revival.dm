@@ -58,12 +58,10 @@
 	if(tainted_lux && !tainted_mob)
 		if(prob(50))
 			display_results(user, target,
-				span_danger("You succeed in restarting [target]'s heart but their body failed to handle the [tool.name]!"),
-				span_danger("[target]'s heart could not handle the [tool.name]!."),
+				span_danger("You succeed in restarting [target]'s heart, but the [tool.name] has corrupted their being!"),
+				span_danger("[target]'s heart is clouded with a dark, sinister energy from the [tool.name]."),
 			)
-			qdel(tool)
-			target.gib()
-			return FALSE
+			target.apply_status_effect(/datum/status_effect/debuff/corrupted_by_tainted_lux)
 	display_results(user, target,
 		span_notice("You succeed in restarting [target]'s heart with the infusion of [tool.name]."),
 		span_notice("[user] works [tool.name] into [target]'s heart."),

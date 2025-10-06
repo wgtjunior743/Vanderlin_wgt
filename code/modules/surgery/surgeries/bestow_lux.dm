@@ -58,17 +58,14 @@
 	if(tainted_lux && !tainted_mob)
 		if(prob(50))
 			display_results(user, target,
-				span_danger("You succeed in integrating [tool.name] into [target]'s heart but their body failed to handle the [tool.name]!"),
-				span_danger("[target]'s heart could not handle the [tool.name]!"),
+				span_danger("You succeed in infusing [tool.name] into [target]'s heart, but their body struggles under its power!"),
+				span_danger("[target]'s heart writhes with dark, twisted energy... the [tool.name] has left its mark on them."),
 			)
-			qdel(tool)
-			target.gib()
-			return TRUE
+			target.apply_status_effect(/datum/status_effect/debuff/corrupted_by_tainted_lux)
+		if(target.get_lux_status() == LUX_NO_LUX)
+			target.apply_status_effect(/datum/status_effect/debuff/received_tainted_lux)
 		else
-			if(target.get_lux_status() == LUX_NO_LUX)
-				target.apply_status_effect(/datum/status_effect/debuff/received_tainted_lux)
-			else
-				target.apply_status_effect(/datum/status_effect/debuff/tainted_lux)
+			target.apply_status_effect(/datum/status_effect/debuff/tainted_lux)
 	display_results(user, target, span_notice("You succeed in integrating [tool.name] into [target]'s heart."),
 		"[user] works the [tool.name] into [target]'s innards.",
 		"[user] works the [tool.name] into [target]'s innards.")

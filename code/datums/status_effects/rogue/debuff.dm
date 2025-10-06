@@ -559,3 +559,13 @@
 /atom/movable/screen/alert/status_effect/debuff/received_tainted_lux
 	name = "Received Tainted Lux"
 	desc = span_danger("It stirs inside me... but it is wrong, twisted... if this is a soul, then it has been corrupted long before it reached me...")
+
+/datum/status_effect/debuff/corrupted_by_tainted_lux
+	id = "corrupted_by_tainted_lux"
+	alert_type = /atom/movable/screen/alert/status_effect/debuff/corrupted_by_tainted_lux
+	effectedstats = list(STATKEY_LCK = -4)
+	duration = -1
+
+/atom/movable/screen/alert/status_effect/debuff/corrupted_by_tainted_lux
+	name = "Corrupted..."
+	desc = span_danger("It filled my veins with light and rot alike... I can feel it crawling under my skin, whispering that I should never have done it...")
