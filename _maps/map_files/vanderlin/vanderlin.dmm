@@ -27421,9 +27421,9 @@
 /obj/structure/fluff/walldeco/church/line{
 	dir = 4
 	},
-/obj/item/clothing/neck/psycross/noc,
-/obj/item/clothing/neck/psycross/noc,
-/obj/item/clothing/neck/psycross/noc,
+/obj/item/clothing/neck/psycross/silver/noc,
+/obj/item/clothing/neck/psycross/silver/noc,
+/obj/item/clothing/neck/psycross/silver/noc,
 /turf/open/floor/churchmarble,
 /area/rogue/indoors/town/church)
 "qvO" = (
@@ -31932,9 +31932,9 @@
 /obj/item/clothing/neck/psycross/silver/ravox,
 /obj/item/clothing/neck/psycross/silver/ravox,
 /obj/item/clothing/neck/psycross/silver/ravox,
-/obj/item/clothing/neck/psycross/silver/malum_steel,
-/obj/item/clothing/neck/psycross/silver/malum_steel,
-/obj/item/clothing/neck/psycross/silver/malum_steel,
+/obj/item/clothing/neck/psycross/silver/malum/steel,
+/obj/item/clothing/neck/psycross/silver/malum/steel,
+/obj/item/clothing/neck/psycross/silver/malum/steel,
 /turf/open/floor/churchmarble,
 /area/rogue/indoors/town/church)
 "tjO" = (
