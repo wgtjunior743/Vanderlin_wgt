@@ -428,18 +428,14 @@ GLOBAL_LIST_INIT(name_adjustments, list())
 
 		dat += "<b>[skin_tone_wording]: </b><a href='?_src_=prefs;preference=s_tone;task=input'>Change </a>"
 		//dat += "<a href='?_src_=prefs;preference=toggle_random;random_type=[RANDOM_SKIN_TONE]'>[(randomise[RANDOM_SKIN_TONE]) ? "Lock" : "Unlock"]</A>"
-		dat += "<br>"
 
 	dat += "<br>"
 	dat += "<b>Voice Type:</b> <a href='?_src_=prefs;preference=voicetype;task=input'>[voice_type]</a>"
 	dat += "<br><b>Voice Color:</b> <a href='?_src_=prefs;preference=voice;task=input'>Change</a>"
-	dat += "<br>"
 	dat += "<br><b>Accent:</b> <a href='?_src_=prefs;preference=selected_accent;task=input'>[selected_accent]</a>"
-	dat += "<br>"
 	dat += "<br><b>Features:</b> <a href='?_src_=prefs;preference=customizers;task=menu'>Change</a>"
 	if(length(pref_species.descriptor_choices))
 		dat += "<br><b>Descriptors:</b> <a href='?_src_=prefs;preference=descriptors;task=menu'>Change</a>"
-		dat += "<br>"
 
 	dat += "<br><b>Headshot:</b> <a href='?_src_=prefs;preference=headshot;task=input'>Change</a>"
 	if(headshot_link != null)
@@ -448,7 +444,7 @@ GLOBAL_LIST_INIT(name_adjustments, list())
 
 	dat += "<br><b>[(length(ooc_notes) < MINIMUM_OOC_NOTES) ? "<font color = '#802929'>" : ""]OOC Notes:[(length(ooc_notes) < MINIMUM_OOC_NOTES) ? "</font>" : ""]</b><a href='?_src_=prefs;preference=formathelp;task=input'>(?)</a><a href='?_src_=prefs;preference=ooc_notes;task=input'>Change</a>"
 	dat += "<br><b>OOC Extra:</b> <a href='?_src_=prefs;preference=ooc_extra;task=input'>Change</a>"
-	dat += "<br><a href='?_src_=prefs;preference=ooc_preview;task=input'><b>Preview Examine</b></a>"
+	dat += "<br><a href='?_src_=prefs;preference=ooc_preview;task=input' style='margin: 0; padding: 0;'><b>Preview Examine</b></a>"
 
 	dat += "<br><b>Loadout Item I:</b> <a href='?_src_=prefs;preference=loadout_item;loadout_number=1;task=input'>[loadout1 ? loadout1.name : "None"]</a>"
 	dat += "<br><b>Loadout Item II:</b> <a href='?_src_=prefs;preference=loadout_item;loadout_number=2;task=input'>[loadout2 ? loadout2.name : "None"]</a>"
@@ -488,7 +484,7 @@ GLOBAL_LIST_INIT(name_adjustments, list())
 	user?.client.acquire_dpi()
 	winshow(user, "stonekeep_prefwin", TRUE)
 	winshow(user, "stonekeep_prefwin.character_preview_map", TRUE)
-	var/datum/browser/popup = new(user, "preferences_browser", "<div align='center'>Character Sheet</div>", 700, 600)
+	var/datum/browser/popup = new(user, "preferences_browser", "<div align='center'>Character Sheet</div>", 700, 650)
 	popup.set_window_options(can_close = TRUE)
 	popup.set_content(dat.Join())
 	popup.open(FALSE)

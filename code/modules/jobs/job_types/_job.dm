@@ -3,6 +3,8 @@
 	var/enabled = TRUE
 	/// The name of the job , used for preferences, bans and more. Make sure you know what you're doing before changing this.
 	var/title = "NOPE"
+	/// Visual title override
+	var/title_override = null
 	/// The title of this job given to female mobs. Fluff, not as important as [var/title].
 	var/f_title = null
 	/// When joining the round, this text will be shown to the player.
@@ -313,12 +315,6 @@
 	if(voicepack_f)
 		spawned.dna?.species.soundpack_f = new voicepack_f()
 
-	if(length(advclass_cat_rolls))
-		spawned.advsetup = TRUE
-		spawned.invisibility = INVISIBILITY_MAXIMUM
-		spawned.density = FALSE
-		spawned.become_blind("advsetup")
-
 	/// WHY WAS THIS ON OUTFIT??? It shouldn't be HERE either
 	if(spawned.familytree_pref != FAMILY_NONE && !spawned.family_datum)
 		SSfamilytree.AddLocal(spawned, spawned.familytree_pref)
@@ -327,6 +323,9 @@
 	for(var/datum/triumph_buy/T in owned_triumph_buys)
 		if(!T.activated)
 			T.on_after_spawn(spawned)
+
+	if(length(advclass_cat_rolls))
+		spawned.hugboxify_for_class_selection()
 
 /// Called by [after_spawn] and run before anything else.
 /// Change your stat values and such here, not in outfits.
@@ -488,6 +487,9 @@
 	equipped_human.remove_spells(source = src)
 
 /datum/job/proc/get_informed_title(mob/mob)
+	if(title_override)
+		return title_override
+
 	if(mob.gender == FEMALE && f_title)
 		return f_title
 

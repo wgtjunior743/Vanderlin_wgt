@@ -50,11 +50,6 @@
 	return TRUE
 
 /datum/surgery_step/bestow_lux/success(mob/user, mob/living/target, target_zone, obj/item/tool, datum/intent/intent)
-	if(target.get_lux_status() == LUX_NO_LUX)
-		display_results(user, target, span_notice("You cannot infuse lux into these heatens!"),
-		"[user] works the lux into [target]'s innards.",
-		"[user] works the lux into [target]'s innards.")
-		return FALSE
 	if(tainted_lux && !tainted_mob)
 		if(prob(50))
 			display_results(user, target,
@@ -69,12 +64,16 @@
 	display_results(user, target, span_notice("You succeed in integrating [tool.name] into [target]'s heart."),
 		"[user] works the [tool.name] into [target]'s innards.",
 		"[user] works the [tool.name] into [target]'s innards.")
+
 	target.emote("breathgasp")
 	target.Jitter(100)
 	target.update_body()
 	qdel(tool)
-	target.remove_status_effect(/datum/status_effect/debuff/lux_drained)
-	target.remove_status_effect(/datum/status_effect/debuff/flaw_lux_taken)
+	if(target.get_lux_status() == LUX_NO_LUX)
+		target.apply_status_effect(/datum/status_effect/buff/received_lux)
+	else
+		target.remove_status_effect(/datum/status_effect/debuff/lux_drained)
+		target.remove_status_effect(/datum/status_effect/debuff/flaw_lux_taken)
 	return TRUE
 
 /datum/surgery_step/bestow_lux/failure(mob/user, mob/living/target, target_zone, obj/item/tool, datum/intent/intent, success_prob)

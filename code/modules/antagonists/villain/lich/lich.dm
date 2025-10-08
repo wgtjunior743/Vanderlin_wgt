@@ -46,6 +46,7 @@
 		/datum/action/cooldown/spell/raise_undead,
 		/datum/action/cooldown/spell/diagnose,
 		/datum/action/cooldown/spell/eyebite,
+		/datum/action/cooldown/spell/control_undead
 	)
 
 /datum/antagonist/lich/on_gain()
@@ -61,6 +62,7 @@
 	move_to_spawnpoint()
 	remove_job()
 	owner.current?.roll_mob_stats()
+	owner.current?.remove_stat_modifier("innate_age")
 	skele_look()
 	equip_lich()
 

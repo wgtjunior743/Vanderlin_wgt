@@ -404,7 +404,7 @@
 	character.forceMove(location)
 	character.reagents.add_reagent(pick(/datum/reagent/ozium, /datum/reagent/moondust, /datum/reagent/druqks), 15)
 	character.reagents.add_reagent(/datum/reagent/consumable/ethanol/beer, 72)
-	grant_lit_torch(character)
+	character.grant_lit_torch()
 
 /datum/special_trait/atrophy
 	name = "Atrophy"
@@ -612,7 +612,7 @@
 			weapon = /obj/item/weapon/sword/long/exe/astrata
 			character.cmode_music = 'sound/music/cmode/church/CombatAstrata.ogg'
 		if(/datum/patron/divine/noc)
-			psycross = /obj/item/clothing/neck/psycross/noc
+			psycross = /obj/item/clothing/neck/psycross/silver/noc
 			helmet = /obj/item/clothing/head/helmet/heavy/necked/noc
 			cloak = /obj/item/clothing/cloak/stabard/templar/noc
 			weapon = /obj/item/weapon/sword/sabre/noc

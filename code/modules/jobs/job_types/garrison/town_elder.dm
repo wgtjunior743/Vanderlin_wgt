@@ -53,9 +53,6 @@
 
 /datum/outfit/town_elder/post_equip(mob/living/carbon/human/H, visuals_only = FALSE)
 	. = ..()
-	H.advsetup = 1
-	H.invisibility = INVISIBILITY_MAXIMUM
-	H.become_blind("bard_select")
 	var/instruments = list(
 		"Harp" = /obj/item/instrument/harp,
 		"Lute" = /obj/item/instrument/lute,
@@ -70,11 +67,6 @@
 	if(!spawn_instrument)
 		spawn_instrument = /obj/item/instrument/lute
 	H.equip_to_slot_or_del(new spawn_instrument(H),ITEM_SLOT_BACK_R, TRUE)
-	H.advsetup = 0
-	H.invisibility = initial(H.invisibility)
-	H.cure_blind("bard_select")
-	var/atom/movable/screen/advsetup/GET_IT_OUT = locate() in H.hud_used?.static_inventory
-	qdel(GET_IT_OUT)
 
 /datum/job/advclass/town_elder/mayor
 	title = "Mayor"
@@ -117,6 +109,7 @@
 	H.adjust_skillrank(/datum/skill/misc/music, 5, TRUE)
 
 	H.add_spell(/datum/action/cooldown/spell/vicious_mockery)
+	H.add_spell(/datum/action/cooldown/spell/bardic_inspiration)
 
 	H.change_stat(STATKEY_STR, -1)
 	H.change_stat(STATKEY_PER, 2)
@@ -266,7 +259,7 @@
 			ADD_TRAIT(H, TRAIT_EMPATH, TRAIT_GENERIC)
 			H.virginity = FALSE
 		if(/datum/patron/divine/noc)
-			neck = /obj/item/clothing/neck/psycross/noc
+			neck = /obj/item/clothing/neck/psycross/silver/noc
 			H.cmode_music = 'sound/music/cmode/adventurer/CombatMonk.ogg'
 			var/language = pickweight(list("Dwarvish" = 1, "Elvish" = 1, "Hellspeak" = 1, "Zaladin" = 1, "Orcish" = 1,))
 			switch(language)
@@ -409,6 +402,7 @@
 	ADD_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_GENERIC)
 	ADD_TRAIT(H, TRAIT_BARDIC_TRAINING, TRAIT_GENERIC)
 	H.add_spell(/datum/action/cooldown/spell/vicious_mockery)
+	H.add_spell(/datum/action/cooldown/spell/bardic_inspiration)
 
 
 /datum/job/advclass/town_elder/dreamwatcher
@@ -430,7 +424,7 @@
 	beltl = /obj/item/flashlight/flare/torch/lantern
 	backl = /obj/item/storage/backpack/satchel
 	wrists = /obj/item/clothing/wrists/nocwrappings
-	neck = /obj/item/clothing/neck/psycross/noc
+	neck = /obj/item/clothing/neck/psycross/silver/noc
 	backpack_contents = list(/obj/item/storage/belt/pouch/coins/poor = 1, /obj/item/needle = 1 )
 
 	if(H.patron != /datum/patron/divine/noc)

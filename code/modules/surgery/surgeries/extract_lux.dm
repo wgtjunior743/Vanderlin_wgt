@@ -58,10 +58,11 @@
 				"[user] extracts lux from [target]'s innards.",
 				"[user] extracts lux from [target]'s innards.")
 			new /obj/item/reagent_containers/lux(target.loc)
-
-		if (target.has_status_effect(/datum/status_effect/debuff/received_tainted_lux))
+		if(target.has_status_effect(/datum/status_effect/debuff/received_tainted_lux))
 			target.remove_status_effect(/datum/status_effect/debuff/received_tainted_lux)
-		else
+		else if(target.has_status_effect(/datum/status_effect/buff/received_lux))
+      target.remove_status_effect(/datum/status_effect/buff/received_lux)
+    else 
 			target.apply_status_effect(/datum/status_effect/debuff/lux_drained)
 			target.remove_status_effect(/datum/status_effect/debuff/tainted_lux)
 		SEND_SIGNAL(user, COMSIG_LUX_EXTRACTED, target)
