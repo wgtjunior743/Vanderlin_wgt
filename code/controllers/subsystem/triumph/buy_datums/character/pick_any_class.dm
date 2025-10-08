@@ -59,3 +59,4 @@
 		class = pick(possible_classes)
 
 	SSjob.EquipRank(spawned, class, player_client)
+	SSrole_class_handler.special_session_queue[spawned.ckey].Remove(TRIUMPH_BUY_ANY_CLASS)
