@@ -1582,6 +1582,7 @@
 #include "code\game\objects\items\weapons\melee\special.dm"
 #include "code\game\objects\items\weapons\melee\swords.dm"
 #include "code\game\objects\items\weapons\melee\whips.dm"
+#include "code\game\objects\items\weapons\ranged\airgun.dm"
 #include "code\game\objects\items\weapons\ranged\ammo.dm"
 #include "code\game\objects\items\weapons\ranged\blowgun.dm"
 #include "code\game\objects\items\weapons\ranged\bows.dm"
