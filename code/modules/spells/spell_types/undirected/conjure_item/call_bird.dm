@@ -41,6 +41,12 @@
 		"Cancel" = "cancel",
 	)
 
+/datum/action/cooldown/spell/undirected/call_bird/inquisitor
+	destinations = list(
+		"Holy Bishop of the Inquisition" = "the Holy Bishop of the Inquisition",
+		"Cancel" = "cancel",
+	)
+
 /datum/action/cooldown/spell/undirected/call_bird/Destroy(force)
 	owned_bird?.source_spell = null
 	owned_bird = null
