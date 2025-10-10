@@ -35,9 +35,7 @@ GLOBAL_LIST_EMPTY(lord_titles)
 
 /datum/job/lord/get_informed_title(mob/mob, change_title = FALSE, new_title)
 	if(change_title)
-		message_admins("CHANGE TITLE")
 		ruler_title = new_title
-		message_admins("TITLE [ruler_title]")
 		return "[ruler_title]"
 	else
 		return "[ruler_title]"
