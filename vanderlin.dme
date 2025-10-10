@@ -2539,6 +2539,7 @@
 #include "code\modules\jobs\job_types\church\adept.dm"
 #include "code\modules\jobs\job_types\church\inquisitor.dm"
 #include "code\modules\jobs\job_types\church\monk.dm"
+#include "code\modules\jobs\job_types\church\noc_inquisitor.dm"
 #include "code\modules\jobs\job_types\church\priest.dm"
 #include "code\modules\jobs\job_types\church\templar.dm"
 #include "code\modules\jobs\job_types\garrison\dungeoneer.dm"
