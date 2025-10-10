@@ -46,6 +46,6 @@
 	if(!islist(status_traits) || !length(status_traits))
 		return
 
-	for(var/trait in status_traits.Copy())
-		status_traits -= trait
+	for(var/trait in status_traits)
+		REMOVE_TRAIT(src, trait, null)
 
