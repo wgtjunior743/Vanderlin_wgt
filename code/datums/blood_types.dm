@@ -159,7 +159,7 @@ GLOBAL_LIST_INIT_TYPED(blood_types, /datum/blood_type, init_subtypes_w_path_keys
 /datum/blood_type/lycan
 	name = "Lycan"
 	used_table = /datum/chimeric_table/lycan
-  
+
 /datum/blood_type/human/corrupted
 	contains_lux = TRUE
 	tainted_lux = TRUE
@@ -167,15 +167,15 @@ GLOBAL_LIST_INIT_TYPED(blood_types, /datum/blood_type, init_subtypes_w_path_keys
 
 /datum/blood_type/human/corrupted/goblin
 	name = "Goblin"
-  used_table = /datum/chimeric_table/goblin
+	used_table = /datum/chimeric_table/goblin
 
 /datum/blood_type/human/corrupted/orc
 	name = "Orc"
-  used_table = /datum/chimeric_table/orc
-  
+	used_table = /datum/chimeric_table/orc
+
 /datum/blood_type/human/corrupted/rousman
 	name = "Rousman"
-  used_table = /datum/chimeric_table/rousman
-  
+	used_table = /datum/chimeric_table/rousman
+
 /datum/blood_type/human/corrupted/zizombie
 	name = "Zizombie"
