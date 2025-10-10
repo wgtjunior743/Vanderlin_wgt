@@ -17,6 +17,15 @@
 		/datum/job/hand = POINTY_EARS,
 		/datum/job/captain = POINTY_EARS
 	)
+	blacklist = list(
+		/datum/job/inquisitor,
+		/datum/job/adept,
+		/datum/job/advclass/royalknight/steam,
+	)
+
+	slot_adjust = list(
+		/datum/job/noc_inquisitor = 1,
+	)
 
 #undef POINTY_EARS
 
