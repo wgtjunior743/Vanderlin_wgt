@@ -32,6 +32,7 @@
 	for(var/job as anything in blacklist)
 		change_job_position(job, 0)
 		var/datum/job/J = SSjob.GetJobType(job)
+		J?.enabled = FALSE
 		J?.job_flags &= ~(JOB_NEW_PLAYER_JOINABLE)
 	for(var/job as anything in slot_adjust)
 		change_job_position(job, slot_adjust[job])
