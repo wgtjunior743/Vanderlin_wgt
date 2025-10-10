@@ -43,7 +43,7 @@
 
 /// Proc that handles removing all traits from a target.
 /datum/proc/remove_all_traits()
-	if(!islist(status_traits) || !length(status_traits))
+	if(!length(status_traits))
 		return
 
 	for(var/trait in status_traits)
