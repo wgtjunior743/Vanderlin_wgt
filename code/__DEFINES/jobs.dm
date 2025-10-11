@@ -73,6 +73,7 @@
 
 #define JDO_APOTHECARY 6
 #define JDO_FELDSHER 6.1
+#define JDO_CLINICAPPRENTICE 6.2
 
 #define JDO_CAPTAIN 7
 #define JDO_VET 7.1
