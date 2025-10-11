@@ -486,8 +486,8 @@
 /datum/job/proc/remove_spells(mob/living/equipped_human)
 	equipped_human.remove_spells(source = src)
 
-/datum/job/proc/get_informed_title(mob/mob)
-	if(title_override)
+/datum/job/proc/get_informed_title(mob/mob, forced = FALSE)
+	if(title_override || forced)
 		return title_override
 
 	if(mob.gender == FEMALE && f_title)
