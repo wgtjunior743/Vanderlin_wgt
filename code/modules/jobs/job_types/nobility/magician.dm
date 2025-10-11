@@ -43,6 +43,7 @@
 
 /datum/outfit/magician/pre_equip(mob/living/carbon/human/H)
 	..()
+	H.mana_pool?.set_intrinsic_recharge(MANA_ALL_LEYLINES)
 	backr = /obj/item/storage/backpack/satchel
 	cloak = /obj/item/clothing/cloak/black_cloak
 	ring = /obj/item/clothing/ring/gold
