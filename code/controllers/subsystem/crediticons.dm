@@ -61,7 +61,7 @@ SUBSYSTEM_DEF(crediticons)
 		credit_name = "[target.original_name]"
 	if(target.mind.assigned_role)
 		var/datum/job/job = target.mind.assigned_role
-		var/used_title = job.get_informed_title(target)
+		var/used_title = job.get_informed_title(target, TRUE)
 		if(used_title)
 			credit_name = "[credit_name]\nthe [used_title]"
 
