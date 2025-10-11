@@ -7,6 +7,8 @@
 	var/title_override = null
 	/// The title of this job given to female mobs. Fluff, not as important as [var/title].
 	var/f_title = null
+	/// For the outlaw icon generation.
+	var/parent_job_title
 	/// When joining the round, this text will be shown to the player.
 	var/tutorial = null
 
@@ -486,8 +488,8 @@
 /datum/job/proc/remove_spells(mob/living/equipped_human)
 	equipped_human.remove_spells(source = src)
 
-/datum/job/proc/get_informed_title(mob/mob, forced = FALSE)
-	if(title_override || forced)
+/datum/job/proc/get_informed_title(mob/mob)
+	if(title_override)
 		return title_override
 
 	if(mob.gender == FEMALE && f_title)
