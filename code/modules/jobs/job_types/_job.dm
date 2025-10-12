@@ -180,7 +180,6 @@
 	var/static/list/actors_list_blacklist = list(
 		/datum/job/adventurer,
 		/datum/job/pilgrim,
-		/datum/job/wretch,
 	)
 
 /datum/job/New()
