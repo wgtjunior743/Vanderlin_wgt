@@ -79,6 +79,7 @@
 	belt = /obj/item/storage/belt/leather/rope
 	beltl = /obj/item/storage/belt/pouch/coins/poor
 	backl = /obj/item/storage/backpack/satchel
+	backpack_contents = list(/obj/item/recipe_book/cooking = 1)
 	neck = /obj/item/key/tavern
 	if(H.gender == MALE)
 		armor = /obj/item/clothing/armor/leather/vest/colored/black
@@ -129,6 +130,7 @@
 	beltl = /obj/item/storage/belt/pouch/coins/poor
 	neck = /obj/item/key/matron
 	backl = /obj/item/storage/backpack/satchel
+	backpack_contents = list(/obj/item/recipe_book/cooking = 1)
 	if(H.gender == MALE)
 		armor = /obj/item/clothing/armor/leather/vest/colored/black
 	else
@@ -175,6 +177,7 @@
 	beltl = /obj/item/storage/belt/pouch/coins/poor
 	beltr = /obj/item/storage/keyring/gaffer_assistant
 	backl = /obj/item/storage/backpack/satchel
+	backpack_contents = list(/obj/item/recipe_book/cooking = 1)
 	if(H.gender == MALE)
 		armor = /obj/item/clothing/armor/leather/vest/colored/black
 	else
