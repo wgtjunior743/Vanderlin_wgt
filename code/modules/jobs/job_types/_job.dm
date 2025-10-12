@@ -297,6 +297,7 @@
 	var/type_check
 	if(parent_job)
 		type_check = parent_job.type
+		used_title = parent_job.get_informed_title(spawned)
 	else
 		type_check = type
 	if(!(type_check in actors_list_blacklist)) //don't show these.
