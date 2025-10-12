@@ -7,6 +7,8 @@
 	var/title_override = null
 	/// The title of this job given to female mobs. Fluff, not as important as [var/title].
 	var/f_title = null
+	/// For the outlaw icon generation.
+	var/parent_job_title
 	/// When joining the round, this text will be shown to the player.
 	var/tutorial = null
 
