@@ -78,6 +78,7 @@
 	shirt = /obj/item/clothing/shirt/undershirt/colored/uncolored
 	belt = /obj/item/storage/belt/leather/rope
 	beltl = /obj/item/storage/belt/pouch/coins/poor
+	backl = /obj/item/storage/backpack/satchel
 	neck = /obj/item/key/tavern
 	if(H.gender == MALE)
 		armor = /obj/item/clothing/armor/leather/vest/colored/black
@@ -127,6 +128,7 @@
 	belt = /obj/item/storage/belt/leather/rope
 	beltl = /obj/item/storage/belt/pouch/coins/poor
 	neck = /obj/item/key/matron
+	backl = /obj/item/storage/backpack/satchel
 	if(H.gender == MALE)
 		armor = /obj/item/clothing/armor/leather/vest/colored/black
 	else
@@ -172,6 +174,7 @@
 	belt = /obj/item/storage/belt/leather/rope
 	beltl = /obj/item/storage/belt/pouch/coins/poor
 	beltr = /obj/item/storage/keyring/gaffer_assistant
+	backl = /obj/item/storage/backpack/satchel
 	if(H.gender == MALE)
 		armor = /obj/item/clothing/armor/leather/vest/colored/black
 	else
