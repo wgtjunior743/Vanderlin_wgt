@@ -252,6 +252,7 @@
 			shirt = /obj/item/clothing/shirt/undershirt/colored/uncolored
 			belt = /obj/item/storage/belt/leather/assassin
 			beltl = /obj/item/storage/belt/pouch/coins/poor
+			backl = /obj/item/storage/backpack/satchel
 			if(H.gender == MALE)
 				armor = /obj/item/clothing/armor/leather/vest/colored/black
 			else
