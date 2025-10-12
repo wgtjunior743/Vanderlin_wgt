@@ -57,12 +57,32 @@
 						if(val > protection)
 							protection = val
 							used = C
+
+	var/obj/item/clothing/cloak/boiler/steam_boiler_r = src.get_item_by_slot(ITEM_SLOT_BACK_R)
+	if(!istype(steam_boiler_r))
+		steam_boiler_r = null
+
+	var/obj/item/clothing/cloak/boiler/steam_boiler_l = src.get_item_by_slot(ITEM_SLOT_BACK_L)
+	if(!istype(steam_boiler_l))
+		steam_boiler_l = null
+
+	#define DO_DAMAGE(target, damage_num, do_sound) \
+		if(!blade_dulling) blade_dulling = BCLASS_BLUNT; \
+		if(do_sound && used?.blocksound) playsound(loc, get_armor_sound(used.blocksound, blade_dulling), 100); \
+		target.take_damage(damage_num, damage_flag = d_type, sound_effect = FALSE, armor_penetration = 100)
+
+	var/boiler_damage = damage/5
 	if(used)
-		if(!blade_dulling)
-			blade_dulling = BCLASS_BLUNT
-		if(used.blocksound)
-			playsound(loc, get_armor_sound(used.blocksound, blade_dulling), 100)
-		used.take_damage(damage, damage_flag = d_type, sound_effect = FALSE, armor_penetration = 100)
+		DO_DAMAGE(used, damage, TRUE)
+
+	if(steam_boiler_r && def_zone == BODY_ZONE_CHEST)
+		DO_DAMAGE(steam_boiler_r, boiler_damage, FALSE)
+
+	if(steam_boiler_l && def_zone == BODY_ZONE_CHEST)
+		DO_DAMAGE(steam_boiler_l, boiler_damage, FALSE)
+
+	#undef DO_DAMAGE
+
 	if(physiology)
 		protection += physiology.armor.getRating(d_type)
 	return protection
