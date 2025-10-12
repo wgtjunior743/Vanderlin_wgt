@@ -107,10 +107,10 @@
 		else
 			SEND_SIGNAL(user, COMSIG_ATOM_PROXY_STEAM_USE, src, random_loss, "steam_armor", FALSE, FALSE)
 
-	//Triggers when the steamknight boiler runs out of steam.
+	//Triggers when the steamknight boiler runs out of steam to move the armor.
 	if(disable)
 		active = FALSE
-		user.audible_message(span_warning("The [src.name] hisses and sputters, running completely out of steam!"), runechat_message = TRUE)
+		user.audible_message(span_warning("The [src.name] hisses and sputters, there's not enough steam to power the armor!"), runechat_message = TRUE)
 
 	//Triggers when steamknight boiler breaks while active.
 	if(broken)
@@ -145,7 +145,7 @@
 					steam_cost *= 3
 
 	if(!SEND_SIGNAL(source, COMSIG_ATOM_PROXY_STEAM_USE, src, steam_cost, "steam_armor", FALSE, FALSE))
-		//Out of steam, shut down the boiler forcibly
+		//Not enough steam to power the armor, shut down the boiler forcibly
 		power_off(source, TRUE)
 		return FALSE
 
