@@ -7,8 +7,8 @@
 	var/title_override = null
 	/// The title of this job given to female mobs. Fluff, not as important as [var/title].
 	var/f_title = null
-	/// For the outlaw icon generation.
-	var/parent_job_title
+	/// Used if the job gets switched later to something else.
+	var/datum/job/parent_job
 	/// When joining the round, this text will be shown to the player.
 	var/tutorial = null
 
@@ -180,7 +180,7 @@
 	var/static/list/actors_list_blacklist = list(
 		/datum/job/adventurer,
 		/datum/job/pilgrim,
-		/datum/job/wretch
+		/datum/job/wretch,
 	)
 
 /datum/job/New()
@@ -295,7 +295,12 @@
 		DIRECT_OUTPUT(spawned, load_resource(cmode_music, -1)) //preload their combat mode music
 		spawned.cmode_music = cmode_music
 
-	if(!(type in actors_list_blacklist)) //don't show these.
+	var/type_check
+	if(parent_job)
+		type_check = parent_job.type
+	else
+		type_check = type
+	if(!(type_check in actors_list_blacklist)) //don't show these.
 		GLOB.actors_list[spawned.mobid] = "[spawned.real_name] as [used_title]<BR>"
 
 	if(forced_flaw)
