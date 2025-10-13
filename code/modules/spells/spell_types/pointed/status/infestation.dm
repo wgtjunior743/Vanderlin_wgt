@@ -18,14 +18,14 @@
 	charge_time = 2 SECONDS
 	cooldown_time = 60 SECONDS
 	spell_cost = 20
-	duration_scaling = FALSE
-
+	duration_scaling = TRUE
+	duration_modification = 5 SECONDS
 	status_effect = /datum/status_effect/debuff/infestation
 
 /datum/status_effect/debuff/infestation
 	id = "infestation"
 	alert_type = /atom/movable/screen/alert/status_effect/debuff/infestation
-	duration = 10 SECONDS
+	duration = 5 SECONDS
 	effectedstats = list(STATKEY_CON = -2)
 	var/static/mutable_appearance/rotten = mutable_appearance('icons/roguetown/mob/rotten.dmi', "rotten")
 
