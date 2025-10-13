@@ -18,7 +18,7 @@
 	charge_time = 2 SECONDS
 	cooldown_time = 60 SECONDS
 	spell_cost = 20
-	duration_scaling = TRUE
+	duration_scaling = FALSE
 
 	status_effect = /datum/status_effect/debuff/infestation
 
