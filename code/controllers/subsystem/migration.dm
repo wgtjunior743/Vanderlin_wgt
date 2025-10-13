@@ -299,6 +299,10 @@ SUBSYSTEM_DEF(migrants)
 		character.mind.add_antag_datum(migrant_job.antag_role)
 		// Adding antag datums can move your character to places, so here's a bandaid
 		character.forceMove(spawn_on_location)
+	else if (role.antag_datum)
+		character.mind.add_antag_datum(role.antag_datum)
+		// Adding antag datums can move your character to places, so here's a bandaid
+		character.forceMove(spawn_on_location)
 
 	if(!ishuman(character))
 		return
