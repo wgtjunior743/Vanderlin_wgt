@@ -529,7 +529,7 @@ GLOBAL_LIST_INIT(roleplay_readme, world.file2list("strings/rt/Lore_Primer.txt"))
 	if(joined_area)
 		joined_area.on_joining_game(new_character)
 	if(new_character.client)
-		var/atom/movable/screen/splash/Spl = new(new_character.client, TRUE)
+		var/atom/movable/screen/splash/Spl = new(null, null, new_character.client, TRUE, FALSE)
 		Spl.Fade(TRUE)
 	new_character = null
 	qdel(src)
