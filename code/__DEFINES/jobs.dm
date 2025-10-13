@@ -28,6 +28,8 @@
 #define FACTION_NONE		"None"
 #define FACTION_NEUTRAL		"Neutral"
 #define FACTION_TOWN		"Town"
+#define FACTION_FOREIGNERS  "Foreigners"
+#define FACTION_MIGRANTS  	"Migrants"
 #define FACTION_UNDEAD		"Undead"
 #define FACTION_PLANTS		"Plants"
 #define FACTION_VINES		"Vines" //Seemingly unused

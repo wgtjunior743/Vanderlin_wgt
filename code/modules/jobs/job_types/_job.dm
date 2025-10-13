@@ -29,6 +29,12 @@
 	/// How many players currently have this job
 	var/current_positions = 0
 
+	///How many slots were open in this round. Used to prevent slots locking with decreasing amount of alive players
+	var/total_positions_so_far = 0
+
+	///If the roles will scale depending on the amount of players, example : adventurer, only for jobs that are not in the FACTION_TOWN
+	var/scales = FALSE
+
 	/// Whether this job clears a slot when you get a rename prompt.
 	var/antag_job = FALSE
 
@@ -486,3 +492,9 @@
 		return f_title
 
 	return title
+
+/datum/job/proc/set_spawn_and_total_positions(count)
+	return spawn_positions
+
+/datum/job/proc/get_total_positions(latejoin)
+	return latejoin ? total_positions : spawn_positions
