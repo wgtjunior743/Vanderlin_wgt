@@ -506,5 +506,21 @@
                 "balance": "Feldsher and Apothecary both have 1 slot, they can have two apprentices each"
             }
         ]
+    },
+    "2025-10-13": {
+        "wgtjunior743": [
+            {
+                "bugfix": "Wanted posters for real."
+            },
+            {
+                "bugfix": "You can ride moles by taming them with tame beast just like taming normally."
+            },
+            {
+                "bugfix": "Court Mage got natural mana regen roundstart."
+            },
+            {
+                "rscadd": "An option to choose between toss blade and leather belt for the Faceless class."
+            }
+        ]
     }
 }
