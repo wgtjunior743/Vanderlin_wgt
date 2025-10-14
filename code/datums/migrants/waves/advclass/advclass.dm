@@ -79,7 +79,6 @@
 /datum/migrant_role/advclass/bandit
 	name = "Bandit"
 	migrant_job = /datum/job/bandit
-	antag_datum = /datum/antagonist/bandit
 	advclass_cat_rolls = list(CTAG_BANDIT = 20)
 
 /datum/migrant_wave/bandit

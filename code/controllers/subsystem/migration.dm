@@ -268,9 +268,6 @@ SUBSYSTEM_DEF(migrants)
 
 	var/datum/job/migrant_job = SSjob.GetJobType(role_instance.migrant_job)
 
-	if(!migrant_job)
-		migrant_job = SSjob.GetJobType(/datum/job/migrant/generic)
-
 	SSjob.AssignRole(new_player, migrant_job, 1)
 
 	new_player.mind.late_joiner = TRUE
@@ -298,11 +295,7 @@ SUBSYSTEM_DEF(migrants)
 	var/datum/antagonist/antag_role = null
 	if(migrant_job.antag_role)
 		antag_role = migrant_job.antag_role
-	else if(role_instance.antag_datum)
-		antag_role = role_instance.antag_datum
-
-	if(antag_role && character.mind)
-		character.mind.add_antag_datum(antag_role)
+	var/datum/antagonist/antag_role = migrant_job?.antag_role || role_instance?.antag_datum
 		character.forceMove(spawn_on_location)
 
 	if(!ishuman(character))

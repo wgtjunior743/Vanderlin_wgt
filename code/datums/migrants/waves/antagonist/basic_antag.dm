@@ -1,11 +1,9 @@
 /datum/migrant_role/lich
 	name = "Lich"
-	migrant_job = /datum/job/migrant/generic
 	antag_datum = /datum/antagonist/lich
 
 /datum/migrant_role/harlequinn
 	name = "Harlequinn"
-	migrant_job = /datum/job/migrant/generic
 	antag_datum = /datum/antagonist/harlequinn
 
 /datum/migrant_wave/harlequinn
