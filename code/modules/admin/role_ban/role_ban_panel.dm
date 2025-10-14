@@ -54,7 +54,7 @@
 			curse_string += "[curse_ban] "
 		strings += curse_string
 	if(races)
-		var/races_string = "Races: "
+		var/races_string = "Species: "
 		for(var/races_ban in races)
 			races_string += "[races_ban] "
 		strings += races_string
@@ -183,7 +183,7 @@
 	dat += "<BR><BR><b>Applied Curses:</b> <a href='byond://?src=[REF(src)];task=add_curse'>Add</a>"
 	for(var/curse_ban in selected_curses)
 		dat += "<BR> - [curse_ban] <a href='byond://?src=[REF(src)];task=remove_curse;curse_ban=[curse_ban]'>Remove</a>"
-	dat += "<BR><BR><b>Applied Races:</b> <a href='byond://?src=[REF(src)];task=add_race'>Add</a>"
+	dat += "<BR><BR><b>Applied Species:</b> <a href='byond://?src=[REF(src)];task=add_race'>Add</a>"
 	for(var/race_ban in selected_races)
 		dat += "<BR> - [race_ban] <a href='byond://?src=[REF(src)];task=remove_race;race_ban=[race_ban]'>Remove</a>"
 

@@ -215,7 +215,7 @@ GLOBAL_LIST_INIT(roleplay_readme, world.file2list("strings/rt/Lore_Primer.txt"))
 		if(JOB_UNAVAILABLE_BANNED)
 			return "You are currently banned from [jobtitle]."
 		if(JOB_UNAVAILABLE_RACE_BANNED)
-			return "You are currently banned from playing that race."
+			return "You are currently banned from playing that species."
 		if(JOB_UNAVAILABLE_PLAYTIME)
 			return "You do not have enough relevant playtime for [jobtitle]."
 		if(JOB_UNAVAILABLE_SLOTFULL)

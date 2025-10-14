@@ -547,7 +547,7 @@ GLOBAL_LIST_INIT(name_adjustments, list())
 
 		var/race_ban = FALSE
 		if(is_race_banned(user.ckey, user.client.prefs.pref_species.id))
-			HTML += "</td> <td><a> YOU ARE BANNED FROM PLAYING THE RACE: [user.client.prefs.pref_species.id]</a></td></tr>"
+			HTML += "</td> <td><a> YOU ARE BANNED FROM PLAYING THE SPECIES: [user.client.prefs.pref_species.id]</a></td></tr>"
 			race_ban = TRUE
 
 		//The job before the current job. I only use this to get the previous jobs color when I'm filling in blank rows.
