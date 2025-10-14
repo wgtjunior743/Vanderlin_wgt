@@ -281,7 +281,7 @@
 				belt_pick = pick(belt_options)
 			switch(belt_pick)
 				if("Leather Belt")
-					belt = /obj/item/storage/belt/leather/assassin
+					belt = /obj/item/storage/belt/leather
 				if("Toss Blade Belt")
 					belt = /obj/item/storage/belt/leather/knifebelt/black/steel
 
