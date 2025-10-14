@@ -48,14 +48,8 @@
 		switch(H.patron?.type)
 			if (/datum/patron/psydon, /datum/patron/psydon/progressive)
 				wrists = /obj/item/clothing/neck/psycross/silver
-			if(/datum/patron/divine/astrata)
-				wrists = /obj/item/clothing/neck/psycross/silver/astrata
-			if(/datum/patron/divine/necra)
-				wrists = /obj/item/clothing/neck/psycross/silver/necra
-			if(/datum/patron/divine/pestra)
-				wrists = /obj/item/clothing/neck/psycross/silver/pestra
 			else
-				wrists = /obj/item/clothing/wrists/bracers/leather
+				wrists = /obj/item/clothing/neck/silveramulet
 	H.verbs |= /mob/living/carbon/human/proc/torture_victim
 	ADD_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_GENERIC)		//Witch Hunter is more of a duelist in combat and should be dodging and parrying, and not tanking hits
 	ADD_TRAIT(H, TRAIT_STEELHEARTED, TRAIT_GENERIC)		//If they have torture variables, they shouldn't be effected by stuff.
