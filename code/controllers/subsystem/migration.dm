@@ -294,7 +294,7 @@ SUBSYSTEM_DEF(migrants)
 
 	var/datum/antagonist/antag_role = migrant_job?.antag_role || role_instance?.antag_datum
 	if(antag_role)
-		character.mind.add_antag_datum(migrant_job.antag_role)
+		character.mind.add_antag_datum(antag_role)
 		character.forceMove(spawn_on_location)
 
 	if(!ishuman(character))
