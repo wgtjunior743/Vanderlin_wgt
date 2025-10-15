@@ -27,7 +27,6 @@
 
 /datum/migrant_role/advclass/adventurer/werewolf
 	name = "Adventurer"
-	migrant_job = /datum/job/adventurer
 	antag_datum = /datum/antagonist/werewolf
 	advclass_cat_rolls = list(CTAG_ADVENTURER = 15)
 
