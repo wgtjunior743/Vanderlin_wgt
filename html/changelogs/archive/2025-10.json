@@ -602,5 +602,30 @@
                 "balance": "certain reagents had their smells and tastes changed"
             }
         ]
+    },
+    "2025-10-15": {
+        "wgtjunior743": [
+            {
+                "balance": "Nerf Infestation Spell"
+            },
+            {
+                "bugfix": "Faceless assassin getting the assassin belt variant with another dagger and more poison"
+            }
+        ],
+        "AnDigitalGondola": [
+            {
+                "bugfix": "Fixed burnt trees being invisible"
+            }
+        ],
+        "Wouju": [
+            {
+                "balance": "Lock's difficulty now affects the % chance for a lockpick to break, how loud the lockpicking is, and how often the lockpick is tested if it will break. Levelling lockpicking should be easier now."
+            }
+        ],
+        "PineappleMan929": [
+            {
+                "balance": "Tritons are ugly now"
+            }
+        ]
     }
 }
