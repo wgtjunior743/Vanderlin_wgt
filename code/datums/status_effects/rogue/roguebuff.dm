@@ -842,7 +842,6 @@
 	. = ..()
 	var/mob/living/carbon/human/H = owner
 	var/obj/item/organ/eyes/eyes = H.getorgan(/obj/item/organ/eyes)
-	/obj/item/organ/eyes/elf
 	if(!eyes)
 		return
 	ADD_TRAIT(owner, TRAIT_BESTIALSENSE, REF(src)) //It is not related to Dendor, it is just for the night vision.
