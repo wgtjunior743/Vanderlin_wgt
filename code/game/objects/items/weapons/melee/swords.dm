@@ -762,6 +762,10 @@
 	sellprice = 363
 	static_price = TRUE
 
+/obj/item/weapon/sword/long/vlord/Initialize(mapload)
+	. = ..()
+	enchant(/datum/enchantment/vampiric)
+
 /obj/item/weapon/sword/long/vlord/getonmobprop(tag)
 	. = ..()
 	if(tag)
