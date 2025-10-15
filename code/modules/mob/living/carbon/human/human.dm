@@ -561,9 +561,9 @@
 		priority_announce("The Ten have named [coronated.real_name] the inheritor of [SSmapping.config.map_name]!", \
 		title = "Long Live [lord_job.get_informed_title(coronated)] [coronated.real_name]!", sound = 'sound/misc/bell.ogg')
 	if(href_list[VV_HK_CHANGE_TITLE])
-		if(!src.mind?.assigned_role)
+		if(!mind?.assigned_role)
 			return
-		var/datum/job/human_job = src.mind.assigned_role
+		var/datum/job/human_job = mind.assigned_role
 		var/new_title = browser_input_text(usr, "What new title would you like to assign?", "Title Change")
 		if(!new_title)
 			return
