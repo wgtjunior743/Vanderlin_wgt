@@ -15,7 +15,6 @@
 
 /datum/migrant_role/advclass/adventurer/maniac
 	name = "Crazed Adventurer"
-	migrant_job = /datum/job/adventurer
 	antag_datum = /datum/antagonist/maniac
 	advclass_cat_rolls = list(CTAG_ADVENTURER = 15)
 
