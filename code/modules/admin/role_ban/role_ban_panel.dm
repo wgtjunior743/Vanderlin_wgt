@@ -315,7 +315,7 @@
 			var/to_remove = href_list["curse_ban"]
 			selected_curses -= to_remove
 		if("add_race")
-			var/selected_race_thing = input(user, "Choose a Race", "Races", null) as null|anything in ALL_RACE_BANS
+			var/selected_race_thing = input(user, "Choose a Race", "Races", null) as null|anything in RACES_PLAYER_ALL
 			if(!selected_race_thing)
 				return
 			selected_races |= selected_race_thing
