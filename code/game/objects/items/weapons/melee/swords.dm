@@ -504,6 +504,7 @@
 	icon_state = "nimcha"
 	desc = "A swift sword of Lakkarian origin. It's popular with the noblewomen of Ei Osalla."
 	wbalance = HARD_TO_DODGE
+	dropshrink = 0.8
 	sellprice = 140 // its made with gold and steel, thats pretty valuable
 
 //................ Lord's Rapier ............... //
