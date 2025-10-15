@@ -567,7 +567,7 @@
 		var/new_title = browser_input_text(usr, "What new title would you like to assign?", "Title Change")
 		if(!new_title)
 			return
-		human_job.title_override = new_title
+		admin_title = new_title
 		if(is_lord_job(human_job))
 			var/datum/job/lord_job = SSjob.GetJobType(/datum/job/lord)
 			lord_job?.get_informed_title(src, TRUE, new_title)
