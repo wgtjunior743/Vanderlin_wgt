@@ -168,6 +168,8 @@ GLOBAL_LIST_INIT(traits_by_type, list(
 		"Poison Resilience" = TRAIT_POISON_RESILIENCE,
 		"Expert Forager" = TRAIT_FORAGER,
 		"Seed Finder" = TRAIT_SEED_FINDER,
+		"Recruited" = TRAIT_RECRUITED,
+		"Recognized" = TRAIT_RECOGNIZED,
 	),
 	/obj/item/bodypart = list(
 		"TRAIT_PARALYSIS" = TRAIT_PARALYSIS
