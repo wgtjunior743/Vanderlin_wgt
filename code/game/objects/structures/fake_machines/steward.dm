@@ -299,7 +299,8 @@
 		if(findtext(num2text(amount_to_pay), "."))
 			return
 		for(var/mob/living/carbon/human/H in GLOB.human_list)
-			if(H.job == job_to_pay)
+			var/job_check = H.mind?.assigned_role?.parent_job ? H.mind.assigned_role.parent_job.title : H.job
+			if(job_check == job_to_pay)
 				record_round_statistic(STATS_WAGES_PAID, amount_to_pay)
 				SStreasury.give_money_account(amount_to_pay, H)
 	if(href_list["compact"])

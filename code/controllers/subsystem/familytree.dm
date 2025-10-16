@@ -156,7 +156,8 @@ SUBSYSTEM_DEF(familytree)
 	if(!H || !status || istype(H, /mob/living/carbon/human/dummy))
 		return
 	//Exclude princes and princesses from having their parentage calculated.
-	if(H.job in excluded_jobs)
+	var/job_check = H.mind?.assigned_role?.parent_job ? H.mind.assigned_role.parent_job.title : H.job
+	if(job_check in excluded_jobs)
 		return
 	switch(status)
 		if(FAMILY_PARTIAL)

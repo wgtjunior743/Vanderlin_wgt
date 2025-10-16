@@ -219,8 +219,9 @@ SUBSYSTEM_DEF(vote)
 					if(H.stat != DEAD)
 						vote_power += 3
 					if(H.job)
+						var/job_check = H.mind?.assigned_role?.parent_job ? H.mind.assigned_role.parent_job.title : H.job
 						var/list/list_of_powerful = list("Monarch", "Consort", "Priest", "Steward", "Hand")
-						if(H.job in list_of_powerful)
+						if(job_check in list_of_powerful)
 							vote_power += 5
 						else
 							if(H.mind)
