@@ -326,6 +326,7 @@ Remember to update _globalvars/traits.dm if you're adding/removing/renaming trai
 #define DEVOTION_TRAIT "devotion_trait"
 
 #define TRAIT_WEBWALK 					"Webwalker"
+#define TRAIT_BRUSHWALK					"Brushwalker"
 #define TRAIT_DEADNOSE 					"Dead Nose"
 #define TRAIT_STINKY					"Natural Stench"
 #define TRAIT_ZJUMP 					"High Jumping"
@@ -439,6 +440,7 @@ Remember to update _globalvars/traits.dm if you're adding/removing/renaming trai
 #define TRAIT_NUDE_SLEEPER "Nude Sleeper"
 #define TRAIT_BEAUTIFUL "Beautiful"
 #define TRAIT_UGLY "Ugly"
+#define TRAIT_FISHFACE "Fishface"
 #define TRAIT_SCHIZO_FLAW "Schizophrenic"
 #define TRAIT_VIOLATOR					"Violator of the Coven"
 #define TRAIT_TORPOR					"Endless Slumber"
