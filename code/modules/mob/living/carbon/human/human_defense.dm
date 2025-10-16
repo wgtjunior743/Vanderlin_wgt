@@ -71,7 +71,7 @@
 	if(used)
 		if(!blade_dulling)
 			blade_dulling = BCLASS_BLUNT
-		if(used?.blocksound)
+		if(used.blocksound)
 			playsound(loc, get_armor_sound(used.blocksound, blade_dulling), 100)
 		used.take_damage(damage, damage_flag = d_type, sound_effect = FALSE, armor_penetration = 100)
 
