@@ -158,7 +158,7 @@ SUBSYSTEM_DEF(familytree)
 		return
 	//Exclude princes and princesses from having their parentage calculated.
 	var/datum/job/job_check = H.mind?.assigned_role?.parent_job ? H.mind.assigned_role.parent_job : H.mind?.assigned_role
-	if((job_check) && job_check.type in excluded_jobs)
+	if(job_check && (job_check.type in excluded_jobs))
 		return
 	switch(status)
 		if(FAMILY_PARTIAL)
