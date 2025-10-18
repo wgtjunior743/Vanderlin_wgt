@@ -219,9 +219,8 @@ SUBSYSTEM_DEF(vote)
 					if(H.stat != DEAD)
 						vote_power += 3
 					if(H.job)
-						var/datum/job/job_check = H.mind?.assigned_role?.parent_job ? H.mind.assigned_role.parent_job : H.mind?.assigned_role
 						var/list/list_of_powerful = list(/datum/job/lord, /datum/job/consort, /datum/job/advclass/consort, /datum/job/priest, /datum/job/steward, /datum/job/hand, /datum/job/advclass/hand)
-						if(job_check && (job_check.type in list_of_powerful))
+						if(H.mind?.assigned_role && is_type_in_list(H.mind.assigned_role, list_of_powerful))
 							vote_power += 5
 						else
 							if(H.mind)
