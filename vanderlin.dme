@@ -3195,6 +3195,7 @@
 #include "code\modules\spells\spell_types\pointed\projectile\arcyne_bolt.dm"
 #include "code\modules\spells\spell_types\pointed\projectile\blood_lightning.dm"
 #include "code\modules\spells\spell_types\pointed\projectile\blood_steal.dm"
+#include "code\modules\spells\spell_types\pointed\projectile\bullet.dm"
 #include "code\modules\spells\spell_types\pointed\projectile\enrapturing Powder.dm"
 #include "code\modules\spells\spell_types\pointed\projectile\eora_curse.dm"
 #include "code\modules\spells\spell_types\pointed\projectile\falcon_disrupt.dm"
