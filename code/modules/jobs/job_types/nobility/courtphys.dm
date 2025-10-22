@@ -11,7 +11,7 @@
 	spawn_positions = 1
 	min_pq = 6
 
-	allowed_races = RACES_PLAYER_COURT_PHYSICIAN
+	allowed_races = RACES_PLAYER_NONHERETICAL
 
 	outfit = /datum/outfit/courtphys
 	give_bank_account = 100
@@ -58,5 +58,5 @@
 	ADD_TRAIT(H, TRAIT_STEELHEARTED, TRAIT_GENERIC)
 	ADD_TRAIT(H, TRAIT_DEADNOSE, TRAIT_GENERIC)
 	ADD_TRAIT(H, TRAIT_LEGENDARY_ALCHEMIST, TRAIT_GENERIC)
-	if(H.dna.species.id != SPEC_ID_MEDICATOR)
+	if(H.dna.species.id in RACES_PLAYER_NONDISCRIMINATED) // Astrata forbid a medicator gets nobility
 		ADD_TRAIT(H, TRAIT_NOBLE, TRAIT_GENERIC)
