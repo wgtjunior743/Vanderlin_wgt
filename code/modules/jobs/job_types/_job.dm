@@ -313,6 +313,7 @@
 		spawned.set_flaw(forced_flaw)
 
 	if(spawned.charflaw)
+		spawned.ckey = player_client.ckey
 		spawned.charflaw.after_spawn(spawned)
 
 	if(antag_role && spawned.mind)
