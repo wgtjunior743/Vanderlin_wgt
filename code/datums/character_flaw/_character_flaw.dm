@@ -141,8 +141,9 @@ GLOBAL_LIST_INIT(character_flaws, list(
 	if(!ishuman(user))
 		return
 	var/mob/living/carbon/human/H = user
-	if(H.get_triumphs() >= 3)
-		H.adjust_triumphs(-3)
+	var/triumphs = get_triumph_amount(mob_client.ckey)
+	if(triumphs >= 3)
+		adjust_triumphs(mob_client.ckey, -3)
 		H.set_flaw(/datum/charflaw/eznoflaw)
 		return
 	H.get_random_flaw()
