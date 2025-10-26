@@ -293,9 +293,6 @@
 		if(noble_income)
 			SStreasury.noble_incomes[spawned] = noble_income
 
-	if(job_flags & JOB_SHOW_IN_CREDITS)
-		SScrediticons.processing += spawned
-
 	if(cmode_music)
 		DIRECT_OUTPUT(spawned, load_resource(cmode_music, -1)) //preload their combat mode music
 		spawned.cmode_music = cmode_music
@@ -335,6 +332,9 @@
 
 	if(length(advclass_cat_rolls))
 		spawned.hugboxify_for_class_selection()
+
+	if(job_flags & JOB_SHOW_IN_CREDITS)
+		SScrediticons.processing += spawned
 
 /datum/job/proc/adjust_patron(mob/living/carbon/human/spawned)
 	if(!length(allowed_patrons))
