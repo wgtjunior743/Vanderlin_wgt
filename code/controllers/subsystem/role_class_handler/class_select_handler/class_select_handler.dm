@@ -106,7 +106,7 @@
 					continue
 				if(class_cat_alloc_bypass_reqs || CUR_AZZ.check_requirements(human_mob))
 					local_total_insert_sortlist += CUR_AZZ
-					if(CUR_AZZ.roll_chance < 100)
+					if(CUR_AZZ.roll_chance < 100 || CUR_AZZ.bypass_class_cat_limits)
 						local_rare_insert_sortlist += CUR_AZZ
 					else
 						local_insert_sortlist += CUR_AZZ

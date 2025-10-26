@@ -2,7 +2,7 @@
 	title = "Assassin"
 	tutorial = "From a young age you have been drawn to blood, to hurting others. Eventually you found others like you, and a god who would bless your actions. Your cursed dagger has never led you astray, and with every stab you feel a little less empty."
 	allowed_sexes = list(MALE, FEMALE)
-	roll_chance = 99 // This way it will always appear no matter the class_cat_alloc_attempts.
+	bypass_class_cat_limits = TRUE
 	outfit = /datum/outfit/adventurer/assassin
 	category_tags = list(CTAG_PILGRIM)
 	total_positions = 2
