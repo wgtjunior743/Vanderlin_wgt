@@ -5,7 +5,7 @@
 	 *	This list is organized like so
 	 *	class_cat_alloc_attempts = list(CTAG_PILGRIM = 5, CTAG_ADVENTURER = 3, etc)
 	 *	Wherein you will have this datum attempt to roll you up 5 pilgrim category classes, and 3 adventurer class categories
-	 * This only counts towards non rare classes with roll_chance of 100.
+	 *	This only counts towards non rare classes with roll_chance of 100 and classes with bypass_class_cat_limits = FALSE.
 	 */
 	var/list/class_cat_alloc_attempts
 
@@ -116,20 +116,21 @@
 				// Make sure we aren't going to attempt to pick more than what we even have avail
 				var/job_rolls = min(class_cat_alloc_attempts[SORT_CAT_KEY], length(local_insert_sortlist))
 
-				var/bypass_limit_job_rolls = length(local_bypass_limit_insert_sortlist)
+				var/bypass_limit_rolls = length(local_bypass_limit_insert_sortlist)
 
 				local_insert_sortlist = shuffle(local_insert_sortlist) // Shuffles to prevent the same classes every time
 				for(var/i in 1 to job_rolls)
 					rolled_classes[local_insert_sortlist[i]] = 0
 
-				for(var/i in 1 to bypass_limit_job_rolls)
-					rolled_classes[bypass_limit_job_rolls[i]] = 0
+				if(bypass_limit_rolls)
+					for(var/i in 1 to bypass_limit_rolls)
+						rolled_classes[local_bypass_limit_insert_sortlist[i]] = 0
 
 				// We are plusboosting too
 				if(class_cat_plusboost_attempts && (SORT_CAT_KEY in class_cat_plusboost_attempts))
 					if(class_cat_plusboost_attempts[SORT_CAT_KEY])
 						for(var/i in 1 to class_cat_plusboost_attempts[SORT_CAT_KEY])
-							var/datum/job/advclass/boostclass = pick(local_insert_sortlist)
+							var/datum/job/advclass/boostclass = pick(local_total_insert_sortlist)
 							if(boostclass in rolled_classes)
 								rolled_classes[boostclass] += 1
 
