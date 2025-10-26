@@ -6,7 +6,6 @@
 	outfit = /datum/outfit/adventurer/assassin
 	category_tags = list(CTAG_PILGRIM)
 	total_positions = 2
-	roll_chance = 100
 	inherit_parent_title = TRUE //this prevents advjob from being set back to "Assassin" in equipme
 	min_pq = 6
 
