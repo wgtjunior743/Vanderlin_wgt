@@ -96,7 +96,7 @@
 		for(var/SORT_CAT_KEY in class_cat_alloc_attempts)
 			var/list/subsystem_ctag_list = SSrole_class_handler.sorted_class_categories[SORT_CAT_KEY]
 			var/list/local_insert_sortlist = list()
-			var/list/local_rare_insert_sortlist = list() // This is not affected by the class_cat_alloc_attempts
+			var/list/local_bypass_limit_insert_sortlist = list() // This is not affected by the class_cat_alloc_attempts
 			var/list/local_total_insert_sortlist = list()
 
 			for(var/datum/job/advclass/CUR_AZZ in subsystem_ctag_list)
@@ -107,7 +107,7 @@
 				if(class_cat_alloc_bypass_reqs || CUR_AZZ.check_requirements(human_mob))
 					local_total_insert_sortlist += CUR_AZZ
 					if(CUR_AZZ.roll_chance < 100 || CUR_AZZ.bypass_class_cat_limits)
-						local_rare_insert_sortlist += CUR_AZZ
+						local_bypass_limit_insert_sortlist += CUR_AZZ
 					else
 						local_insert_sortlist += CUR_AZZ
 
@@ -116,14 +116,14 @@
 				// Make sure we aren't going to attempt to pick more than what we even have avail
 				var/job_rolls = min(class_cat_alloc_attempts[SORT_CAT_KEY], length(local_insert_sortlist))
 
-				var/rare_job_rolls = length(local_rare_insert_sortlist)
+				var/bypass_limit_job_rolls = length(local_bypass_limit_insert_sortlist)
 
 				local_insert_sortlist = shuffle(local_insert_sortlist) // Shuffles to prevent the same classes every time
 				for(var/i in 1 to job_rolls)
 					rolled_classes[local_insert_sortlist[i]] = 0
 
-				for(var/i in 1 to rare_job_rolls)
-					rolled_classes[local_rare_insert_sortlist[i]] = 0
+				for(var/i in 1 to bypass_limit_job_rolls)
+					rolled_classes[bypass_limit_job_rolls[i]] = 0
 
 				// We are plusboosting too
 				if(class_cat_plusboost_attempts && (SORT_CAT_KEY in class_cat_plusboost_attempts))
