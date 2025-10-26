@@ -3175,6 +3175,7 @@
 #include "code\modules\spells\spell_types\pointed\aoe\knock.dm"
 #include "code\modules\spells\spell_types\pointed\aoe\lightning_lure.dm"
 #include "code\modules\spells\spell_types\pointed\aoe\repulse.dm"
+#include "code\modules\spells\spell_types\pointed\aoe\snuff.dm"
 #include "code\modules\spells\spell_types\pointed\aoe\on_turf\_on_turf.dm"
 #include "code\modules\spells\spell_types\pointed\aoe\on_turf\arcyne_storm.dm"
 #include "code\modules\spells\spell_types\pointed\aoe\on_turf\ensnare.dm"
