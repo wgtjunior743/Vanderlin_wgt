@@ -5,7 +5,7 @@
 	triumph_cost = 30
 	category = TRIUMPH_CAT_CHARACTER
 	visible_on_active_menu = TRUE
-    manual_activation = TRUE
+	manual_activation = TRUE
 
 /datum/triumph_buy/pick_any_class/on_buy()
 	. = ..()
