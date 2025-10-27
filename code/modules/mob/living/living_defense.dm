@@ -10,13 +10,13 @@
 		armor_check = max(0, armor - damage)
 
 		// Decide feedback based on how much damage got through
-		if(armor_check == 0)
+		if(armor_check == 0 && armor_penetration)
+			to_chat(src, "<span class='danger'>[penetrated_text || "My armor was penetrated!"]</span>")
+		else if(armor_check > 0)
 			if(armor_penetration)
-				to_chat(src, "<span class='danger'>[penetrated_text || "My armor was penetrated!"]</span>")
+				to_chat(src, "<span class='warning'>[soften_text || "My armor softens the blow!"]</span>")
 			else
 				to_chat(src, "<span class='notice'>[absorb_text || "My armor absorbs the blow!"]</span>")
-		else
-			to_chat(src, "<span class='warning'>[soften_text || "My armor softens the blow!"]</span>")
 
 	return armor
 
