@@ -2,7 +2,7 @@
 	name = "No Advanced Class Restrictions"
 	desc = "Get a single run of any advanced class from any job! You must join as any job that has advanced classes to begin with.WARNING: THIS CAN EASILY BREAK AND ADMINS ARE NOT OBLIGED TO FIX YOUR CHARACTER."
 	triumph_buy_id = TRIUMPH_BUY_ANY_CLASS
-	triumph_cost = 30
+	triumph_cost = 20
 	category = TRIUMPH_CAT_CHARACTER
 	visible_on_active_menu = TRUE
 	manual_activation = TRUE
