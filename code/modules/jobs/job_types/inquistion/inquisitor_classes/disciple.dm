@@ -59,10 +59,10 @@
 				gloves = /obj/item/clothing/gloves/bandages/weighted
 				H.change_stat(STATKEY_PER, 1)
 				H.change_stat(STATKEY_INT, 1) //Changes statblock from 3/3/3/-2/-1/0 to 3/3/3/-1/-1/1. Note that this comes at the cost of losing the 'critical resistance' trait, and retaining the unarmorable status.
-		var/armors = list("Otavan - Heavyweight, Blacksteel Thorns", "Naledian - Lightweight, Arcyne-Martiality")
+		var/armors = list("Grenzelhoftian - Heavyweight, Blacksteel Thorns", "Naledian - Lightweight, Arcyne-Martiality")
 		var/armor_choice = input(H, "Choose your ARCHETYPE.", "TAKE UP PSYDON'S DUTY.") as anything in armors
 		switch(armor_choice)
-			if("Otavan - Heavyweight, Blacksteel Thorns")
+			if("Grenzelhoftian - Heavyweight, Blacksteel Thorns")
 				head = /obj/item/clothing/head/roguehood/psydon
 				mask = /obj/item/clothing/head/helmet/blacksteel/psythorns
 				wrists = /obj/item/clothing/wrists/bracers/psythorns

@@ -130,5 +130,5 @@
 /obj/item/clothing/armor/cuirass/ornate
 	name = "psydonian cuirass"
 	icon_state = "ornatecuirass"
-	desc = "An ornate steel cuirass with tassets, favored by both the Holy Otavan Inquisition and the Order of the Silver Psycross. \
+	desc = "An ornate steel cuirass with tassets, favored by both the Oratorium Throni Vacui and the Order of the Silver Psycross. \
 			Made to endure."

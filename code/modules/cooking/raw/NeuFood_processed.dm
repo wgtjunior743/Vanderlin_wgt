@@ -65,7 +65,7 @@
 /obj/item/reagent_containers/food/snacks/tallow/red
 	name = "redtallow"
 	desc = "Fatty tissue is harvested from slain creachurs and rendered of its membraneous sinew to produce a hard shelf-stable \
-	grease. It has then been soaked in blood or something blood adjacent to make for an easily sourced and rather grim wax substitute. As they say in Otava, Bon Appetit."
+	grease. It has then been soaked in blood or something blood adjacent to make for an easily sourced and rather grim wax substitute. As they say in Grenzelhoft, one uses what one has."
 	icon_state = "redtallow"
 	tastes = list("grease" = 1, "oil" = 1, "regret" =1, "blood"=1,)
 

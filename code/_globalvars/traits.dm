@@ -170,7 +170,7 @@ GLOBAL_LIST_INIT(traits_by_type, list(
 		"Seed Finder" = TRAIT_SEED_FINDER,
 		"Recruited" = TRAIT_RECRUITED,
 		"Recognized" = TRAIT_RECOGNIZED,
-		"Member of the Otavan Inquisition" = TRAIT_INQUISITION,
+		"Member of the Oratorium Throni Vacui" = TRAIT_INQUISITION,
 	),
 	/obj/item/bodypart = list(
 		"TRAIT_PARALYSIS" = TRAIT_PARALYSIS
@@ -264,7 +264,7 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_TUTELAGE = "I am a capable tutor to those who apprentice under me.",
 	TRAIT_APRICITY = "The warmth of the sun rejuvenates me, allowing me to regain my stamina quicker.",
 	TRAIT_BLACKLEG = "I can cheat by rigging coin and dice, and peek at cards.",
-	TRAIT_INQUISITION = span_info("I am a member of the Otavan Inquisition. I can easily identify others of my cadre at a glance."),
+	TRAIT_INQUISITION = span_info("I am a member of the Oratorium Throni Vacui. I can easily identify others of my cadre at a glance."),
 	TRAIT_SILVER_BLESSED = span_info("I am anointed with holy silver, which preserves me from curses that bite."),
 	TRAIT_MATTHIOS_EYES = span_notice("I have a sense for what the most valuable item someone has is."),
 	TRAIT_CRATEMOVER = "I am able to drag heavy objects without any difficulty.",

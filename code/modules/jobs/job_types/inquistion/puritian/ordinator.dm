@@ -52,7 +52,7 @@
 		/obj/item/paper/inqslip/arrival/inq = 1
 		)
 
-	var/weapons = list("Covenant And Creed (Broadsword + Shield)", "Covenant and Consecratia (Flail + Shield)", "Apocrypha (Greatsword) and a Silver Dagger")
+	var/weapons = list("Covenant And Creed (Broadsword + Shield)", "Covenant and Consecratia (Flail + Shield)", "Crusade (Greatsword) and a Silver Dagger")
 	var/weapon_choice = input(H,"CHOOSE YOUR RELIQUARY PIECE.", "WIELD THEM IN HIS NAME.") as anything in weapons
 	switch(weapon_choice)
 		if("Covenant And Creed (Broadsword + Shield)")
@@ -69,7 +69,7 @@
 			H.equip_to_slot_or_del(new /obj/item/weapon/shield/tower/metal/psy, ITEM_SLOT_BACK_R, TRUE)
 			H.clamped_adjust_skillrank(/datum/skill/combat/whipsflails, 5, 5)
 			H.clamped_adjust_skillrank(/datum/skill/combat/shields, 4, 4)
-		if("Apocrypha (Greatsword) and a Silver Dagger")
+		if("Crusade (Greatsword) and a Silver Dagger")
 			H.put_in_hands(new /obj/item/weapon/sword/long/greatsword/psydon/relic(H), TRUE)
 			H.put_in_hands(new /obj/item/weapon/knife/dagger/silver/psydon(H), TRUE)
 			H.equip_to_slot_or_del(new /obj/item/weapon/scabbard/knife, ITEM_SLOT_BACK_L, TRUE)

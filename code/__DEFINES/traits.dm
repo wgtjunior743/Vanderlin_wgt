@@ -424,7 +424,7 @@ Remember to update _globalvars/traits.dm if you're adding/removing/renaming trai
 #define TRAIT_TUTELAGE					"Tutelage" //Slightly more sleep xp to you and xp to apprentices
 #define TRAIT_APRICITY					"Apricity" //Decreased stamina regen time during "day"
 #define TRAIT_BLACKLEG					"Blackleg" //Rig coin, dice, cards in your favor
-#define TRAIT_INQUISITION 				"Member of the Otavan Inquisition"
+#define TRAIT_INQUISITION 				"Member of the Oratorium Throni Vacui"
 #define TRAIT_PURITAN					"Puritan"
 #define TRAIT_SILVER_BLESSED 			"Silver Blessed"
 

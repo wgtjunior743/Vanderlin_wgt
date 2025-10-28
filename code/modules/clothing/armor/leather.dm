@@ -240,7 +240,7 @@
 
 /obj/item/clothing/armor/leather/jacket/leathercoat/confessor
 	name = "confessional coat"
-	desc = "A sturdy raincoat draped atop of a tightly-fastened boiled leather cuirass. Saint Astratan youths often fashion little pieces of memorabilia and stitch it on the inner pockets of the coat to remind the confessors that their cause is virtuous, and that they mustn't lose sight of what matters."
+	desc = "A sturdy raincoat draped atop of a tightly-fastened boiled leather cuirass. The Ordo Venatari trainees often fashion little pieces of memorabilia and stitch it into the lower pockets of the coat to remind the confessors that their cause is virtuous, and that they mustn’t lose sight of what matters."
 	icon_state = "confessorcoat"
 	item_state = "confessorcoat"
 	icon = 'icons/roguetown/clothing/armor.dmi'
@@ -286,7 +286,7 @@
 
 /obj/item/clothing/armor/leather/studded/psyaltrist
 	name = "cuir-bouilli armor"
-	desc = "Treated, water-boiled and composite-layered leather armor of fine Otavan make."
+	desc = "Treated, water-boiled and composite-layered leather armor of fine Grenzelhoftian make."
 	icon_state = "cuirbouilli"
 	item_state = "cuirbouilli"
 

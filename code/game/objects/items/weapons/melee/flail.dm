@@ -136,7 +136,7 @@
 
 /obj/item/weapon/flail/psydon/relic
 	name = "Consecratia"
-	desc = "The weight of His anguish, His pain, His hope and His love for humenkind - all hanging on the ornamental silver-steel head chained to this arm. <br><br>A declaration of love for all that Psydon lives for, and a crushing reminder to the arch-nemesis that they will not triumph as long as He endures."
+	desc = "The weight of His anguish, His pain, His hope and His love for humenkind - all hanging on this ornamental silver-steel head chained to this arm. A declaration of love for all that Psydon lives for, and a crushing reminder that the Ordo Benetarus will endure anything to defend it."
 	icon_state = "psymorningstar"
 
 

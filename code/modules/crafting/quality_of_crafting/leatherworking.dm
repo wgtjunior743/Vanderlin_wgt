@@ -187,7 +187,7 @@
 	output = /obj/item/clothing/gloves/leather/apothecary
 
 /datum/repeatable_crafting_recipe/leather/gloves/otavan_gloves
-	name = "otavan gloves"
+	name = "grenzelhoftian gloves"
 	requirements = list(
 		/obj/item/natural/hide/cured = 2,
 		/obj/item/natural/fibers = 1
@@ -745,7 +745,7 @@
 	craftdiff = 4
 
 /datum/repeatable_crafting_recipe/leather/standalone/otavan_shoes
-	name = "otavan shoes"
+	name = "grenzelhoftian shoes"
 	output = /obj/item/clothing/shoes/otavan
 	requirements = list(/obj/item/natural/hide/cured = 3,
 				/obj/item/natural/fibers = 1)

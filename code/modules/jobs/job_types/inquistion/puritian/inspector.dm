@@ -65,17 +65,17 @@
 		/obj/item/paper/inqslip/arrival/inq = 1,
 		)
 
-	var/weapons = list("Eucharist (Rapier)", "Daybreak (Whip)", "Stigmata (Halberd)")
+	var/weapons = list("Retribution (Rapier)", "Daybreak (Whip)", "Sanctum (Halberd)")
 	var/weapon_choice = input(H,"CHOOSE YOUR RELIQUARY PIECE.", "WIELD THEM IN HIS NAME.") as anything in weapons
 	switch(weapon_choice)
-		if("Eucharist (Rapier)")
+		if("Retribution (Rapier)")
 			H.put_in_hands(new /obj/item/weapon/sword/rapier/psy/relic(H), TRUE)
 			H.equip_to_slot_or_del(new /obj/item/weapon/scabbard/sword, ITEM_SLOT_BELT_L, TRUE)
 			H.clamped_adjust_skillrank(/datum/skill/combat/swords, 4, 4)
 		if("Daybreak (Whip)")
 			H.put_in_hands(new /obj/item/weapon/whip/antique/psywhip(H), TRUE)
 			H.clamped_adjust_skillrank(/datum/skill/combat/whipsflails, 4, 4)
-		if("Stigmata (Halberd)")
+		if("S (Halberd)")
 			H.put_in_hands(new /obj/item/weapon/polearm/halberd/psydon/relic(H), TRUE)
 			H.clamped_adjust_skillrank(/datum/skill/combat/polearms, 4, 4)
 

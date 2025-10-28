@@ -267,7 +267,7 @@
 
 /obj/item/ingot/silverblessed/bullion
 	name = "blessed silver bullion"
-	desc = "This bar radiates a divine purity. The Psycross and the words casted into the surface denotes the Otavan Inquisition as the point of it's origin."
+	desc = "This bar radiates a divine purity. The Psycross and the words casted into the surface denotes the Oratorium Throni Vacui as the point of it's origin."
 	icon_state = "ingotsilvblessed_psy"
 	melting_material = /datum/material/silver
 	sellprice = 100

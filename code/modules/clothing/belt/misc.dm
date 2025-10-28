@@ -260,8 +260,8 @@
 	)
 
 /obj/item/storage/backpack/satchel/otavan
-	name = "otavan leather satchel"
-	desc = "A made to last leather bag from the Psydonian heart of Otava. It's Otava's finest."
+	name = "grenzelhoftian leather satchel"
+	desc = "A made to last leather bag from the Psydonian heart of Grenzelhoft. It's Grenzelhoft's finest."
 	icon_state = "osatchel"
 	item_state = "osatchel"
 
