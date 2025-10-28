@@ -225,31 +225,39 @@
 		var/mob/living/living = M
 		body += "<li>Strength: [living.STASTR] "
 		body += "<a class='skill-btn' href='?_src_=holder;[HrefToken()];add_stat=[REF(M)];stat=[STATKEY_STR]'>+</a> "
-		body += "<a class='skill-btn' href='?_src_=holder;[HrefToken()];lower_stat=[REF(M)];stat=[STATKEY_STR]'>-</a></li>"
+		body += "<a class='skill-btn' href='?_src_=holder;[HrefToken()];lower_stat=[REF(M)];stat=[STATKEY_STR]'>-</a>"
+		body += "<a class='skill-btn' href='?_src_=holder;[HrefToken()];bulk_change=[REF(M)];stat=[STATKEY_STR]'> Bulk Change</a></li>"
 
 		body += "<li>Perception: [living.STAPER] "
 		body += "<a class='skill-btn' href='?_src_=holder;[HrefToken()];add_stat=[REF(M)];stat=[STATKEY_PER]'>+</a> "
-		body += "<a class='skill-btn' href='?_src_=holder;[HrefToken()];lower_stat=[REF(M)];stat=[STATKEY_PER]'>-</a></li>"
+		body += "<a class='skill-btn' href='?_src_=holder;[HrefToken()];lower_stat=[REF(M)];stat=[STATKEY_PER]'>-</a>"
+		body += "<a class='skill-btn' href='?_src_=holder;[HrefToken()];bulk_change=[REF(M)];stat=[STATKEY_PER]'> Bulk Change</a></li>"
 
 		body += "<li>Endurance: [living.STAEND] "
 		body += "<a class='skill-btn' href='?_src_=holder;[HrefToken()];add_stat=[REF(M)];stat=[STATKEY_END]'>+</a> "
-		body += "<a class='skill-btn' href='?_src_=holder;[HrefToken()];lower_stat=[REF(M)];stat=[STATKEY_END]'>-</a></li>"
+		body += "<a class='skill-btn' href='?_src_=holder;[HrefToken()];lower_stat=[REF(M)];stat=[STATKEY_END]'>-</a>"
+		body += "<a class='skill-btn' href='?_src_=holder;[HrefToken()];bulk_change=[REF(M)];stat=[STATKEY_END]'> Bulk Change</a></li>"
 
 		body += "<li>Constitution: [living.STACON] "
 		body += "<a class='skill-btn' href='?_src_=holder;[HrefToken()];add_stat=[REF(M)];stat=[STATKEY_CON]'>+</a> "
-		body += "<a class='skill-btn' href='?_src_=holder;[HrefToken()];lower_stat=[REF(M)];stat=[STATKEY_CON]'>-</a></li>"
+		body += "<a class='skill-btn' href='?_src_=holder;[HrefToken()];lower_stat=[REF(M)];stat=[STATKEY_CON]'>-</a>"
+		body += "<a class='skill-btn' href='?_src_=holder;[HrefToken()];bulk_change=[REF(M)];stat=[STATKEY_CON]'> Bulk Change</a></li>"
 
 		body += "<li>Intelligence: [living.STAINT] "
 		body += "<a class='skill-btn' href='?_src_=holder;[HrefToken()];add_stat=[REF(M)];stat=[STATKEY_INT]'>+</a> "
-		body += "<a class='skill-btn' href='?_src_=holder;[HrefToken()];lower_stat=[REF(M)];stat=[STATKEY_INT]'>-</a></li>"
+		body += "<a class='skill-btn' href='?_src_=holder;[HrefToken()];lower_stat=[REF(M)];stat=[STATKEY_INT]'>-</a>"
+		body += "<a class='skill-btn' href='?_src_=holder;[HrefToken()];bulk_change=[REF(M)];stat=[STATKEY_INT]'> Bulk Change</a></li>"
 
 		body += "<li>Speed: [living.STASPD] "
 		body += "<a class='skill-btn' href='?_src_=holder;[HrefToken()];add_stat=[REF(M)];stat=[STATKEY_SPD]'>+</a> "
-		body += "<a class='skill-btn' href='?_src_=holder;[HrefToken()];lower_stat=[REF(M)];stat=[STATKEY_SPD]'>-</a></li>"
+		body += "<a class='skill-btn' href='?_src_=holder;[HrefToken()];lower_stat=[REF(M)];stat=[STATKEY_SPD]'>-</a>"
+		body += "<a class='skill-btn' href='?_src_=holder;[HrefToken()];bulk_change=[REF(M)];stat=[STATKEY_SPD]'> Bulk Change</a></li>"
 
 		body += "<li>Luck: [living.STALUC] "
 		body += "<a class='skill-btn' href='?_src_=holder;[HrefToken()];add_stat=[REF(M)];stat=[STATKEY_LCK]'>+</a> "
-		body += "<a class='skill-btn' href='?_src_=holder;[HrefToken()];lower_stat=[REF(M)];stat=[STATKEY_LCK]'>-</a></li>"
+		body += "<a class='skill-btn' href='?_src_=holder;[HrefToken()];lower_stat=[REF(M)];stat=[STATKEY_LCK]'>-</a>"
+		body += "<a class='skill-btn' href='?_src_=holder;[HrefToken()];bulk_change=[REF(M)];stat=[STATKEY_LCK]'> Bulk Change</a></li>"
+
 	body += "</ul></div>"
 
 
