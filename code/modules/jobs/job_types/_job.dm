@@ -215,6 +215,9 @@
 		for(var/X in GLOB.youngfolk_positions)
 			peopleiknow += X
 			peopleknowme += X
+		for(var/X in GLOB.inquisition_positions)
+			peopleiknow += X
+			peopleknowme += X
 
 /datum/job/proc/special_job_check(mob/dead/new_player/player)
 	return TRUE
@@ -271,7 +274,7 @@
 		if(islist(amount_or_list))
 			spawned.clamped_adjust_skillrank(skill, amount_or_list[1], amount_or_list[2], TRUE)
 		else
-			spawned.adjust_skillrank(skill, amount_or_list, TRUE)
+			spawned.clamped_adjust_skillrank(skill, amount_or_list, amount_or_list) //! This was changed because what the fuck.
 
 	for(var/X in peopleknowme)
 		for(var/datum/mind/MF in get_minds(X))
