@@ -821,6 +821,10 @@
 			return
 		M.change_stat(statkey, change_stat)
 
+		log_admin("[key_name_admin(usr)] changed [key_name_admin(M)]'s [statkey] by [change_stat].")
+		message_admins("[key_name_admin(usr)] changed [key_name_admin(M)]'s [statkey] by [change_stat].")
+		show_player_panel_next(M, "stats")
+
 	else if(href_list["sendmob"])
 		if(!check_rights(R_ADMIN))
 			return
