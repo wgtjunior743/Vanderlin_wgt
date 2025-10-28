@@ -55,7 +55,7 @@
 
 // BRONZE ARMOR
 
-/datum/anvil_recipe/armor/bronze/gorget
+/datum/anvil_recipe/armor/bronze/brigandine
 	name = "Abyssal Robe (+Bronze Bar, +Cloth)"
 	recipe_name = "an abyssal robe"
 	req_bar = /obj/item/ingot/bronze
