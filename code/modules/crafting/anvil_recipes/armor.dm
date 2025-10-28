@@ -57,7 +57,7 @@
 
 /datum/anvil_recipe/armor/bronze/gorget
 	name = "Abyssal Robe (+Bronze Bar, +Cloth)"
-	recipe_name = "an abyssal robe
+	recipe_name = "an abyssal robe"
 	req_bar = /obj/item/ingot/bronze
 	additional_items = list(/obj/item/ingot/bronze, /obj/item/natural/cloth)
 	created_item = /obj/item/clothing/armor/brigandine/abyssor
