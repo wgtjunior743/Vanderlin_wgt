@@ -152,6 +152,7 @@
 #define STATS_ORGANS_EATEN "organs_eaten"
 #define STATS_PEOPLE_GIBBED "gibbed"
 #define STATS_ASSASSINATIONS "assassinations"
+#define STATS_HUNTED_PEOPLE "hunted_people"
 #define STATS_ALIVE_HALF_ORCS "alive_half_orcs"
 #define STATS_LIMBS_BITTEN "limbs_bitten"
 
@@ -308,6 +309,7 @@ GLOBAL_LIST_INIT(vanderlin_round_stats, list(
 	STATS_MAMMONS_DEPOSITED = 0,
 	STATS_MAMMONS_WITHDRAWN = 0,
 	STATS_STARTING_TREASURY = 0,
+	STATS_HUNTED_PEOPLE = 0,
 ))
 
 GLOBAL_LIST_EMPTY(patron_follower_counts)

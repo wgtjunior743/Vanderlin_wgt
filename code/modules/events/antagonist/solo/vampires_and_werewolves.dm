@@ -1,6 +1,8 @@
 /datum/round_event_control/antagonist/solo/vampires_and_werewolves
 	name = "Vampires and Verevolves"
 	tags = list(
+		TAG_DENDOR,
+		TAG_GRAGGAR,
 		TAG_COMBAT,
 		TAG_HAUNTED,
 		TAG_VILLIAN,

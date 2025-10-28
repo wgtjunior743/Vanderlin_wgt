@@ -1,6 +1,7 @@
 /datum/round_event_control/antagonist/solo/aspirant
 	name = "Aspirant"
 	tags = list(
+		TAG_ZIZO,
 		TAG_VILLIAN,
 	)
 	antag_datum = /datum/antagonist/aspirant
