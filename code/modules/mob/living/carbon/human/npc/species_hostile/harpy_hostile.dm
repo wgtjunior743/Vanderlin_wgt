@@ -1,4 +1,4 @@
-/mob/living/carbon/human/species/halforc/base
+/mob/living/carbon/human/species/harpy/base
 	ai_controller = /datum/ai_controller/species_hostile
 	faction = list(FACTION_HOSTILE)
 	ambushable = FALSE
@@ -10,13 +10,13 @@
 	d_intent = INTENT_PARRY
 
 
-/mob/living/carbon/human/species/halforc/base/Initialize()
+/mob/living/carbon/human/species/harpy/base/Initialize()
 	. = ..()
 	AddElement(/datum/element/ai_retaliate)
-	set_species(/datum/species/halforc)
+	set_species(/datum/species/harpy)
 	AddComponent(/datum/component/ai_aggro_system)
 	set_patron(/datum/patron/inhumen/graggar, TRUE)
-	job = "Graggarite Half Orc"
+	job = "Graggarite Harpy"
 	ADD_TRAIT(src, TRAIT_NOMOOD, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_NOHUNGER, TRAIT_GENERIC)
 	ai_controller?.blackboard[BB_ARMOR_CLASS] = 0
@@ -24,35 +24,35 @@
 
 // --- Base Variants ---
 
-/mob/living/carbon/human/species/halforc/base/very_skilled
+/mob/living/carbon/human/species/harpy/base/very_skilled
 	dodgetime = 30
 	flee_in_pain = FALSE
 
-/mob/living/carbon/human/species/halforc/base/very_skilled/after_creation()
+/mob/living/carbon/human/species/harpy/base/very_skilled/after_creation()
 	..()
 	ADD_TRAIT(src, TRAIT_CRITICAL_RESISTANCE, TRAIT_GENERIC)
 
-/mob/living/carbon/human/species/halforc/base/skilled
+/mob/living/carbon/human/species/harpy/base/skilled
 	dodgetime = 40
 	flee_in_pain = FALSE
 
-/mob/living/carbon/human/species/halforc/base/unskilled
+/mob/living/carbon/human/species/harpy/base/unskilled
 	dodgetime = 60
 
-/mob/living/carbon/human/species/halforc/base/unskilled/after_creation()
+/mob/living/carbon/human/species/harpy/base/unskilled/after_creation()
 	..()
 	ADD_TRAIT(src, TRAIT_CRITICAL_WEAKNESS, TRAIT_GENERIC)
 
 // --- Naked ---
 
-/mob/living/carbon/human/species/halforc/base/unskilled/naked
+/mob/living/carbon/human/species/harpy/base/unskilled/naked
 	base_strength = 8
 	base_speed = 14
 	base_constitution = 12
 	base_endurance = 12
 	base_fortune = 9
 
-/mob/living/carbon/human/species/halforc/base/unskilled/naked/after_creation()
+/mob/living/carbon/human/species/harpy/base/unskilled/naked/after_creation()
 	..()
 	configure_npc_mind(list(
 		/datum/skill/combat/wrestling = 1,
@@ -60,14 +60,14 @@
 		/datum/skill/misc/athletics = 1
 	))
 
-/mob/living/carbon/human/species/halforc/base/skilled/naked
+/mob/living/carbon/human/species/harpy/base/skilled/naked
 	base_strength = 10
 	base_speed = 14
 	base_constitution = 12
 	base_endurance = 12
 	base_fortune = 9
 
-/mob/living/carbon/human/species/halforc/base/skilled/naked/after_creation()
+/mob/living/carbon/human/species/harpy/base/skilled/naked/after_creation()
 	..()
 	configure_npc_mind(list(
 		/datum/skill/combat/wrestling = 3,
@@ -76,7 +76,7 @@
 	))
 
 
-/mob/living/carbon/human/species/halforc/base/very_skilled/naked
+/mob/living/carbon/human/species/harpy/base/very_skilled/naked
 	base_strength = 13
 	base_speed = 14
 	base_perception = 12
@@ -84,7 +84,7 @@
 	base_endurance = 10
 	base_fortune = 10
 
-/mob/living/carbon/human/species/halforc/base/very_skilled/naked/after_creation()
+/mob/living/carbon/human/species/harpy/base/very_skilled/naked/after_creation()
 	..()
 	configure_npc_mind(list(
 		/datum/skill/combat/wrestling = 5,
@@ -94,7 +94,7 @@
 
 // --- Light Gear ----
 
-/mob/living/carbon/human/species/halforc/base/unskilled/light_gear
+/mob/living/carbon/human/species/harpy/base/unskilled/light_gear
 	base_strength = 10
 	base_speed = 12
 	base_perception = 12
@@ -104,7 +104,7 @@
 	dodgetime = 40
 
 
-/mob/living/carbon/human/species/halforc/base/unskilled/light_gear/after_creation()
+/mob/living/carbon/human/species/harpy/base/unskilled/light_gear/after_creation()
 	..()
 	ADD_TRAIT(src, TRAIT_DODGEEXPERT, TRAIT_GENERIC)
 	configure_npc_mind(list(
@@ -116,7 +116,7 @@
 	ai_controller?.blackboard[BB_ARMOR_CLASS] = 1
 	equipOutfit(new /datum/outfit/npc/light_gear)
 
-/mob/living/carbon/human/species/halforc/base/skilled/light_gear
+/mob/living/carbon/human/species/harpy/base/skilled/light_gear
 	base_strength = 10
 	base_speed = 13
 	base_perception = 14
@@ -126,7 +126,7 @@
 	dodgetime = 20
 
 
-/mob/living/carbon/human/species/halforc/base/skilled/light_gear/after_creation()
+/mob/living/carbon/human/species/harpy/base/skilled/light_gear/after_creation()
 	..()
 	ADD_TRAIT(src, TRAIT_DUALWIELDER, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_DODGEEXPERT, TRAIT_GENERIC)
@@ -140,7 +140,7 @@
 	ai_controller?.blackboard[BB_ARMOR_CLASS] = 1
 	equipOutfit(new /datum/outfit/npc/light_gear)
 
-/mob/living/carbon/human/species/halforc/base/very_skilled/light_gear
+/mob/living/carbon/human/species/harpy/base/very_skilled/light_gear
 	base_strength = 11
 	base_speed = 14
 	base_perception = 15
@@ -149,7 +149,7 @@
 	base_fortune = 10
 	dodgetime = 10
 
-/mob/living/carbon/human/species/halforc/base/very_skilled/light_gear/after_creation()
+/mob/living/carbon/human/species/harpy/base/very_skilled/light_gear/after_creation()
 	..()
 	ADD_TRAIT(src, TRAIT_DUALWIELDER, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_DODGEEXPERT, TRAIT_GENERIC)
@@ -166,7 +166,7 @@
 // --- Medium Gear ----
 
 
-/mob/living/carbon/human/species/halforc/base/unskilled/medium_gear
+/mob/living/carbon/human/species/harpy/base/unskilled/medium_gear
 	base_strength = 11
 	base_speed = 10
 	base_perception = 9
@@ -175,7 +175,7 @@
 	base_fortune = 9
 
 
-/mob/living/carbon/human/species/halforc/base/unskilled/medium_gear/after_creation()
+/mob/living/carbon/human/species/harpy/base/unskilled/medium_gear/after_creation()
 	..()
 	ADD_TRAIT(src, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
 	configure_npc_mind(list(
@@ -191,7 +191,7 @@
 	ai_controller?.blackboard[BB_ARMOR_CLASS] = 2
 	equipOutfit(new /datum/outfit/npc/medium_gear)
 
-/mob/living/carbon/human/species/halforc/base/skilled/medium_gear
+/mob/living/carbon/human/species/harpy/base/skilled/medium_gear
 	base_strength = 13
 	base_speed = 11
 	base_perception = 10
@@ -199,7 +199,7 @@
 	base_endurance = 13
 	base_fortune = 9
 
-/mob/living/carbon/human/species/halforc/base/skilled/medium_gear/after_creation()
+/mob/living/carbon/human/species/harpy/base/skilled/medium_gear/after_creation()
 	..()
 	ADD_TRAIT(src, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
 	configure_npc_mind(list(
@@ -214,7 +214,7 @@
 	ai_controller?.blackboard[BB_ARMOR_CLASS] = 2
 	equipOutfit(new /datum/outfit/npc/medium_gear)
 
-/mob/living/carbon/human/species/halforc/base/very_skilled/medium_gear
+/mob/living/carbon/human/species/harpy/base/very_skilled/medium_gear
 	base_strength = 15
 	base_speed = 12
 	base_perception = 11
@@ -222,7 +222,7 @@
 	base_endurance = 14
 	base_fortune = 10
 
-/mob/living/carbon/human/species/halforc/base/very_skilled/medium_gear/after_creation()
+/mob/living/carbon/human/species/harpy/base/very_skilled/medium_gear/after_creation()
 	..()
 	ADD_TRAIT(src, TRAIT_NOPAINSTUN, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
@@ -241,7 +241,7 @@
 
 // --- Heavy Gear ----
 
-/mob/living/carbon/human/species/halforc/base/unskilled/heavy_gear
+/mob/living/carbon/human/species/harpy/base/unskilled/heavy_gear
 	base_strength = 11
 	base_speed = 8
 	base_perception = 8
@@ -250,7 +250,7 @@
 	base_fortune = 9
 
 
-/mob/living/carbon/human/species/halforc/base/unskilled/heavy_gear/after_creation()
+/mob/living/carbon/human/species/harpy/base/unskilled/heavy_gear/after_creation()
 	..()
 	ADD_TRAIT(src, TRAIT_HEAVYARMOR, TRAIT_GENERIC)
 	configure_npc_mind(list(
@@ -265,7 +265,7 @@
 	ai_controller?.blackboard[BB_ARMOR_CLASS] = 3
 	equipOutfit(new /datum/outfit/npc/heavy_gear)
 
-/mob/living/carbon/human/species/halforc/base/skilled/heavy_gear
+/mob/living/carbon/human/species/harpy/base/skilled/heavy_gear
 	base_strength = 13
 	base_speed = 9
 	base_perception = 9
@@ -274,7 +274,7 @@
 	base_fortune = 9
 
 
-/mob/living/carbon/human/species/halforc/base/skilled/heavy_gear/after_creation()
+/mob/living/carbon/human/species/harpy/base/skilled/heavy_gear/after_creation()
 	..()
 	ADD_TRAIT(src, TRAIT_HEAVYARMOR, TRAIT_GENERIC)
 	configure_npc_mind(list(
@@ -289,7 +289,7 @@
 	ai_controller?.blackboard[BB_ARMOR_CLASS] = 3
 	equipOutfit(new /datum/outfit/npc/heavy_gear)
 
-/mob/living/carbon/human/species/halforc/base/very_skilled/heavy_gear
+/mob/living/carbon/human/species/harpy/base/very_skilled/heavy_gear
 	base_strength = 15
 	base_speed = 8
 	base_perception = 11
@@ -298,7 +298,7 @@
 	base_fortune = 10
 
 
-/mob/living/carbon/human/species/halforc/base/very_skilled/heavy_gear/after_creation()
+/mob/living/carbon/human/species/harpy/base/very_skilled/heavy_gear/after_creation()
 	..()
 	ADD_TRAIT(src, TRAIT_NOPAINSTUN, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_HEAVYARMOR, TRAIT_GENERIC)
