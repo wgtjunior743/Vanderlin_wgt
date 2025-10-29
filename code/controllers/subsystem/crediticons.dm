@@ -5,36 +5,48 @@ SUBSYSTEM_DEF(crediticons)
 	wait = 60
 	flags = SS_NO_INIT
 	priority = 1
-	var/list/processing = list()
-	var/list/currentrun = list()
+	var/list/processing_mob = list()
+	var/list/processing_client = list()
+	var/list/currentrun_mob = list()
+	var/list/currentrun_client = list()
 
 /datum/controller/subsystem/crediticons/fire(resumed = 0)
 	if(!resumed)
-		src.currentrun = processing.Copy()
+		src.currentrun_mob = processing_mob.Copy()
+		src.currentrun_client = processing_client.Copy()
 
-	//cache for sanic speed (lists are references anyways)
-	var/list/currentrun = src.currentrun
+	var/list/currentrun_mob = src.currentrun_mob
+	var/list/currentrun_client = src.currentrun_client
 
-	while(length(currentrun))
-		var/mob/living/carbon/human/thing = currentrun[length(currentrun)]
-		currentrun.len--
+	while(length(currentrun_mob))
+		var/mob/living/carbon/human/thing = currentrun_mob[length(currentrun_mob)]
+		var/client/mob_client = currentrun_client[length(currentrun_client)]
+
+		currentrun_mob.len--
+		currentrun_client.len--
+
 		if(QDELETED(thing))
-			processing -= thing
+			var/index = processing_mob.Find(thing)
+			if(index)
+				processing_mob.Cut(index, index + 1)
+				processing_client.Cut(index, index + 1)
 			if(MC_TICK_CHECK)
 				return
 			continue
-		add_credit(thing)
-		STOP_PROCESSING(SScrediticons, thing)
+
+		add_credit(thing, mob_client)
+		var/index = processing_mob.Find(thing)
+		if(index)
+			processing_mob.Cut(index, index + 1)
+			processing_client.Cut(index, index + 1)
 		if(MC_TICK_CHECK)
 			return
-
-/datum/controller/subsystem/crediticons/proc/add_credit(mob/living/carbon/human/actor)
-	if(!actor.mind || !actor.client)
+/datum/controller/subsystem/crediticons/proc/add_credit(mob/living/carbon/human/actor, client/mob_client)
+	if(!actor.mind || !mob_client)
 		return
 	var/datum/mind/actor_mind = actor.mind
-	var/client/actor_client = actor.client
 	var/datum/job/job = actor_mind.assigned_role
-	var/datum/preferences/preferences = actor_client.prefs
+	var/datum/preferences/preferences = mob_client.prefs
 	if(!preferences)
 		return
 
