@@ -116,6 +116,15 @@
 	output = /obj/item/clothing/gloves/fingerless
 	category = "Gloves"
 
+/datum/repeatable_crafting_recipe/sewing/clothvest
+	name = "cloth vest"
+	output = /obj/item/clothing/shirt/clothvest
+	requirements = list(
+		/obj/item/natural/cloth = 2,
+		/obj/item/natural/fibers = 1,)
+	craftdiff = 1
+	category = "Armor"
+
 /datum/repeatable_crafting_recipe/sewing/shortshirt
 	name = "cloth short shirt"
 	requirements = list(
