@@ -57,8 +57,20 @@
 	configure_npc_mind(list(
 		/datum/skill/combat/wrestling = 1,
 		/datum/skill/combat/unarmed = 1,
+		/datum/skill/misc/athletics = 1,
+		/datum/skill/combat/knives = 1,
+		/datum/skill/combat/swords = 1,
+		/datum/skill/combat/axesmaces = 1,
+		/datum/skill/combat/swords = 1,
+		/datum/skill/combat/whipsflails = 1,
+		/datum/skill/combat/polearms = 1,
+		/datum/skill/combat/knives = 1,
+		/datum/skill/combat/shields = 1,
+		/datum/skill/combat/unarmed = 1,
 		/datum/skill/misc/athletics = 1
 	))
+	ADD_TRAIT(src, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
+	ADD_TRAIT(src, TRAIT_HEAVYARMOR, TRAIT_GENERIC)
 
 /mob/living/carbon/human/species/elf/dark/base/skilled/naked
 	base_strength = 10
@@ -72,8 +84,20 @@
 	configure_npc_mind(list(
 		/datum/skill/combat/wrestling = 3,
 		/datum/skill/combat/unarmed = 3,
+		/datum/skill/misc/athletics = 3,
+		/datum/skill/combat/knives = 3,
+		/datum/skill/combat/swords = 3,
+		/datum/skill/combat/axesmaces = 3,
+		/datum/skill/combat/swords = 3,
+		/datum/skill/combat/whipsflails = 3,
+		/datum/skill/combat/polearms = 3,
+		/datum/skill/combat/knives = 3,
+		/datum/skill/combat/shields = 3,
+		/datum/skill/combat/unarmed = 3,
 		/datum/skill/misc/athletics = 3
 	))
+	ADD_TRAIT(src, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
+	ADD_TRAIT(src, TRAIT_HEAVYARMOR, TRAIT_GENERIC)
 
 
 /mob/living/carbon/human/species/elf/dark/base/very_skilled/naked
@@ -89,8 +113,21 @@
 	configure_npc_mind(list(
 		/datum/skill/combat/wrestling = 5,
 		/datum/skill/combat/unarmed = 5,
+		/datum/skill/misc/athletics = 5,
+		/datum/skill/combat/knives = 5,
+		/datum/skill/combat/swords = 5,
+		/datum/skill/combat/axesmaces = 5,
+		/datum/skill/combat/swords = 5,
+		/datum/skill/combat/whipsflails = 5,
+		/datum/skill/combat/polearms = 5,
+		/datum/skill/combat/knives = 5,
+		/datum/skill/combat/shields = 5,
+		/datum/skill/combat/unarmed = 5,
 		/datum/skill/misc/athletics = 5
 	))
+	ADD_TRAIT(src, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
+	ADD_TRAIT(src, TRAIT_HEAVYARMOR, TRAIT_GENERIC)
+
 
 // --- Light Gear ----
 
