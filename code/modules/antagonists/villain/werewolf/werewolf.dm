@@ -52,6 +52,7 @@
 				return span_boldwarning("A vampire.")
 
 /datum/antagonist/werewolf/on_gain()
+	SSmapping.retainer.werewolves |= owner
 	owner.special_role = name
 	if(increase_votepwr)
 		forge_werewolf_objectives()
