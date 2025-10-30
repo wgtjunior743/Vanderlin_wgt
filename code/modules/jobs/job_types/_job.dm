@@ -338,7 +338,7 @@
 
 	if(job_flags & JOB_SHOW_IN_CREDITS)
 		SScrediticons.processing_mob += spawned
-		SScrediticons.processing_client += player_client
+		START_PROCESSING(SScrediticons, player_client)
 
 /datum/job/proc/adjust_patron(mob/living/carbon/human/spawned)
 	if(!length(allowed_patrons))

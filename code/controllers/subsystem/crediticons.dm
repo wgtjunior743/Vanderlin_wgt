@@ -5,48 +5,38 @@ SUBSYSTEM_DEF(crediticons)
 	wait = 60
 	flags = SS_NO_INIT
 	priority = 1
-	var/list/processing_mob = list()
-	var/list/processing_client = list()
-	var/list/currentrun_mob = list()
-	var/list/currentrun_client = list()
+	var/list/processing = list()
+	var/list/currentrun = list()
 
 /datum/controller/subsystem/crediticons/fire(resumed = 0)
 	if(!resumed)
-		src.currentrun_mob = processing_mob.Copy()
-		src.currentrun_client = processing_client.Copy()
+		src.currentrun = processing.Copy()
 
-	var/list/currentrun_mob = src.currentrun_mob
-	var/list/currentrun_client = src.currentrun_client
+	//cache for sanic speed (lists are references anyways)
+	var/list/currentrun = src.currentrun
 
-	while(length(currentrun_mob))
-		var/mob/living/carbon/human/thing = currentrun_mob[length(currentrun_mob)]
-		var/client/mob_client = currentrun_client[length(currentrun_client)]
-
-		currentrun_mob.len--
-		currentrun_client.len--
-
-		if(QDELETED(thing))
-			var/index = processing_mob.Find(thing)
-			if(index)
-				processing_mob.Cut(index, index + 1)
-				processing_client.Cut(index, index + 1)
+	while(length(currentrun))
+		var/client/client = currentrun[length(currentrun)]
+		currentrun.len--
+		if(QDELETED(client))
+			processing -= client
 			if(MC_TICK_CHECK)
 				return
 			continue
-
-		add_credit(thing, mob_client)
-		var/index = processing_mob.Find(thing)
-		if(index)
-			processing_mob.Cut(index, index + 1)
-			processing_client.Cut(index, index + 1)
+		add_credit(client)
+		STOP_PROCESSING(SScrediticons, client)
 		if(MC_TICK_CHECK)
 			return
-/datum/controller/subsystem/crediticons/proc/add_credit(mob/living/carbon/human/actor, client/mob_client)
-	if(!actor.mind || !mob_client)
+
+/datum/controller/subsystem/crediticons/proc/add_credit(client/actor_client)
+	if(!actor_client)
+		return
+	var/mob/living/carbon/human/actor = actor_client.mob
+	if(!istype(actor) || QDELETED(actor))
 		return
 	var/datum/mind/actor_mind = actor.mind
 	var/datum/job/job = actor_mind.assigned_role
-	var/datum/preferences/preferences = mob_client.prefs
+	var/datum/preferences/preferences = actor_client.prefs
 	if(!preferences)
 		return
 
