@@ -12,10 +12,13 @@ GLOBAL_LIST_EMPTY(custom_waves) // Created waves
 /datum/create_wave
 	var/datum/admins/admin_holder = null
 
-	// Lists for the real time add/removal of those vars
+	// Lists for the real time add/removal of those vars for Job
 	var/list/pending_skills = list()
 	var/list/pending_traits = list()
 	var/list/pending_stats = list()
+
+	// Lists for the real time add/removal of those vars for Wave
+	var/list/pending_jobs = list()
 
 	// Lists used on the Custom Job HTML
 	var/list/factions_list = list("FACTION_NONE","FACTION_TOWN","FACTION_SOME_OTHER")
@@ -30,12 +33,17 @@ GLOBAL_LIST_EMPTY(custom_waves) // Created waves
 	var/list/antag_list = list()
 	var/list/patrons_list = list()
 
+	// Lists used on the Custom Wave HTML
+
+	var/list/potential_jobs = list()
+	var/potential_jobs_options = ""
+
 	// Create HTML options for skills dropdown
 	var/skills_options = ""
 	var/trait_options = ""
 	var/stat_options = ""
 
-	// Temps vars to recreate the browser
+	// Temps vars to recreate the job browser
 	var/temp_job_title
 	var/temp_job_tutorial
 	var/temp_faction
@@ -47,6 +55,12 @@ GLOBAL_LIST_EMPTY(custom_waves) // Created waves
 	var/temp_languages
 	var/temp_patrons
 
+	// Temps vars to recreate the wave browser
+	var/temp_wave_title
+	var/temp_wave_greeting_text
+	var/temp_min_pop
+	var/temp_max_pop
+
 
 /datum/custom_wave
 	abstract_type = /datum/migrant_wave
@@ -57,6 +71,7 @@ GLOBAL_LIST_EMPTY(custom_waves) // Created waves
 	var/max_pop
 
 
+	var/timer
 	var/spawn_landmark
 
 	var/list/candidates = list()
@@ -97,14 +112,36 @@ GLOBAL_LIST_EMPTY(custom_waves) // Created waves
 			continue
 		languages_list += language
 
+
+
 /datum/create_wave/Topic(href, href_list)
 	..()
+	message_admins("Topic trigger")
+	var/client/C = usr?.client
+	if(!C)
+		return
+
+	if(href_list["join_wave"])
+		var/datum/custom_wave/CW = locate(href_list["chosen_wave"]) in GLOB.custom_waves
+		if(!CW)
+			return
+
+		if(!(C in CW.candidates))
+			CW.candidates += C
+			to_chat(usr, "<span class='notice'>You have joined the custom wave.</span>")
+		return
+
+	if(href_list["decline_wave"])
+		to_chat(usr, "<span class='warning'>You ignored the custom wave call.</span>")
+		return
+
+
 	if(usr.client != admin_holder.owner || !check_rights(0))
 		message_admins("[usr.key] has attempted to override the admin panel!")
 		log_admin("[key_name_admin(usr)] tried to use the admin panel without authorization.")
 		return
 
-	message_admins("Topic trigger")
+
 	if(href == "close=1")
 		message_admins("TRIGGER CLOSE PENDING_SKILL LIST EMPTY")
 		pending_skills = list()
@@ -113,7 +150,21 @@ GLOBAL_LIST_EMPTY(custom_waves) // Created waves
 		temp_job_title = null
 
 		return
-	if(href_list["create_job_finalize"])
+
+	// Menu Related Topic
+	if(href_list["job_manager_menu"])
+		if(!check_rights(R_ADMIN))
+			return
+		custom_job_manager(usr)
+	else if(href_list["wave_manager_menu"])
+		if(!check_rights(R_ADMIN))
+			return
+		custom_wave_manager(usr)
+	else if(href_list["outfit_manager_menu"])
+		if(!check_rights(R_ADMIN))
+			return
+	// Job related Topic
+	else if(href_list["create_job_finalize"])
 		if(!check_rights(R_ADMIN))
 			return
 		create_job_finalize(usr, href_list)
@@ -136,6 +187,8 @@ GLOBAL_LIST_EMPTY(custom_waves) // Created waves
 		var/datum/job/custom_job/J = locate(href_list["chosen_job"]) in GLOB.custom_jobs
 		view_job(usr, J)
 	else if(href_list["add_skill"])
+		if(!check_rights(R_ADMIN))
+			return
 		var/skill = href_list["skill"]
 		var/datum/skill/S = new skill
 		var/level = text2num(href_list["level"])
@@ -156,6 +209,8 @@ GLOBAL_LIST_EMPTY(custom_waves) // Created waves
 			to_chat(usr, span_notice("Failed to add [S.name], invalid level inserted [level]."))
 		qdel(S)
 	else if(href_list["add_trait"])
+		if(!check_rights(R_ADMIN))
+			return
 		message_admins("ADD TRAIT")
 		var/trait = href_list["trait"]
 		if(trait in pending_traits)
@@ -166,6 +221,8 @@ GLOBAL_LIST_EMPTY(custom_waves) // Created waves
 			to_chat(usr, span_notice("Added [trait]."))
 			create_job(usr, href_list)
 	else if(href_list["add_stat"])
+		if(!check_rights(R_ADMIN))
+			return
 		var/stat = href_list["stat"]
 		var/modifier = href_list["modifier"]
 		if(stat in pending_stats)
@@ -177,6 +234,8 @@ GLOBAL_LIST_EMPTY(custom_waves) // Created waves
 			create_job(usr)
 	// Export a single job as JSON
 	else if(href_list["export_job"])
+		if(!check_rights(R_ADMIN))
+			return
 		var/datum/job/custom_job/J = locate(href_list["chosen_job"]) in GLOB.custom_jobs
 		if(J)
 			var/list/json_data = list()
@@ -184,9 +243,12 @@ GLOBAL_LIST_EMPTY(custom_waves) // Created waves
 			J.export_to_file(usr)
 	// Import jobs
 	else if(href_list["import_jobs"])
+		if(!check_rights(R_ADMIN))
+			return
 		load_job(usr)
 		custom_job_manager(usr)
 		message_admins("IMPORT JOB TRIGGER")
+
 	// Wave related Topic
 	if(href_list["create_wave_finalize"])
 		if(!check_rights(R_ADMIN))
@@ -199,18 +261,36 @@ GLOBAL_LIST_EMPTY(custom_waves) // Created waves
 	else if(href_list["delete_wave"])
 		if(!check_rights(R_ADMIN))
 			return
-		var/datum/custom_wave/CW = locate(href_list["chosen_job"]) in GLOB.custom_waves
-		delete_wave(usr, J)
+		var/datum/custom_wave/CW = locate(href_list["chosen_wave"]) in GLOB.custom_waves
+		delete_wave(usr, CW)
 	else if(href_list["edit_wave"])
 		if(!check_rights(R_ADMIN))
 			return
-		var/datum/custom_wave/CW = locate(href_list["chosen_job"]) in GLOB.custom_waves
+		var/datum/custom_wave/CW = locate(href_list["chosen_wave"]) in GLOB.custom_waves
 	else if(href_list["view_wave"])
 		if(!check_rights(R_ADMIN))
 			return
-		var/datum/custom_wave/CW = locate(href_list["chosen_job"]) in GLOB.custom_waves
-		view_wave(usr, J)
+		var/datum/custom_wave/CW = locate(href_list["chosen_wave"]) in GLOB.custom_waves
+		view_wave(usr, CW)
+	else if(href_list["add_jobs"])
+		if(!check_rights(R_ADMIN))
+			return
+		var/job = href_list["job"]
+		var/datum/job/J = new job
 
+		temp_wave_title = href_list["name"]
+		if(job in pending_jobs)
+			to_chat(usr, span_warning("[J.title] is already in the job list!"))
+			return
+
+		pending_jobs += job
+		qdel(J)
+		create_wave(usr)
+	else if(href_list["start_wave"])
+		if(!check_rights(R_ADMIN))
+			return
+		var/datum/custom_wave/CW = locate(href_list["chosen_wave"]) in GLOB.custom_waves
+		start_wave(usr, CW)
 
 /client/proc/custom_job_manager()
 	set category = "Debug"
@@ -218,10 +298,22 @@ GLOBAL_LIST_EMPTY(custom_waves) // Created waves
 
 	if(!check_rights(R_DEBUG))
 		return
-	holder.create_wave.custom_job_manager(usr)
+	holder.create_wave.menu(usr)
+
+/datum/create_wave/proc/menu(mob/admin)
+	var/list/dat = list()
+	dat += "<a href='byond://?src=[REF(src)];[HrefToken()];job_manager_menu=1'>Job Manager Menu </a><br>"
+	dat += "<a href='byond://?src=[REF(src)];[HrefToken()];wave_manager_menu=1'>Wave Manager Menu</a><br>"
+	dat += "<a href='byond://?src=[REF(src)];[HrefToken()];outfit_manager_menu=1'>Outfit Manager Menu</a><br>"
+
+	var/datum/browser/popup = new(admin, "menu", "Menu", 500, 500, src)
+	popup.set_content(dat.Join())
+	popup.open(FALSE)
+
 
 // Admin-side proc to show the manager
 /datum/create_wave/proc/custom_job_manager(mob/admin)
+
 	var/list/dat = list("<ul>")
 	for(var/datum/job/custom_job/J in GLOB.custom_jobs)
 		var/vv = FALSE
@@ -231,7 +323,7 @@ GLOBAL_LIST_EMPTY(custom_waves) // Created waves
 		dat += "<a href='byond://?src=[REF(src)];[HrefToken()];export_job=1;chosen_job=[REF(J)]'>Export</a>"
 		dat += "</li>"
 	dat += "</ul>"
-	dat += "<a href='byond://?src=[REF(src)];[HrefToken()];create_job_menu=1'>Create </a><br>"
+	dat += "<a href='byond://?src=[REF(src)];[HrefToken()];create_job_menu=1'>Create Job</a><br>"
 	dat += "<a href='byond://?src=[REF(src)];[HrefToken()];import_jobs=1'>Import Job</a><br>"
 
 
@@ -242,16 +334,26 @@ GLOBAL_LIST_EMPTY(custom_waves) // Created waves
 
 // Admin-side proc to show the manager
 /datum/create_wave/proc/custom_wave_manager(mob/admin)
+	if(!length(potential_jobs))
+		for(var/J in SSjob.joinable_occupations)
+			var/datum/job/job = J
+			potential_jobs += job
+
+	if(potential_jobs_options == "")
+		for(var/job in potential_jobs)
+			potential_jobs_options += "<option value='[(job)]'>[job]</option>"
+
 	var/list/dat = list("<ul>")
 	for(var/datum/custom_wave/CW in GLOB.custom_waves)
 		var/vv = FALSE
-		dat += "<li><a href='byond://?src=[REF(src)];[HrefToken()];view_job=1;chosen_job=[REF(CW)]'>[CW.title]</a>[vv ? " (Custom Fields)" : ""]</li> "
-		dat += "<a href='byond://?src=[REF(src)];[HrefToken()];delete_job=1;chosen_job=[REF(CW)]'>Delete</a> "
-		dat += "<a href='byond://?src=[REF(src)];[HrefToken()];edit_job=1;chosen_job=[REF(CW)]'>Edit</a> "
+		dat += "<li><a href='byond://?src=[REF(src)];[HrefToken()];view_wave=1;chosen_wave=[REF(CW)]'>[CW.name]</a>[vv ? " (Custom Fields)" : ""]</li> "
+		dat += "<a href='byond://?src=[REF(src)];[HrefToken()];delete_wave=1;chosen_wave=[REF(CW)]'>Delete</a> "
+		dat += "<a href='byond://?src=[REF(src)];[HrefToken()];edit_wave=1;chosen_wave=[REF(CW)]'>Edit</a> "
+		dat += "<a href='byond://?src=[REF(src)];[HrefToken()];start_wave=1;chosen_wave=[REF(CW)]'>Start Wave</a> "
 		dat += "</li>"
 	dat += "</ul>"
-	dat += "<a href='byond://?src=[REF(src)];[HrefToken()];create_job_menu=1'>Create </a><br>"
-	dat += "<a href='byond://?src=[REF(src)];[HrefToken()];import_jobs=1'>Import Job</a><br>"
+	dat += "<a href='byond://?src=[REF(src)];[HrefToken()];create_wave_menu=1'>Create Wave</a><br>"
+	dat += "<a href='byond://?src=[REF(src)];[HrefToken()];import_waves=1'>Import Wave</a><br>"
 
 
 	var/datum/browser/popup = new(admin, "customjobmanager", "Custom Job Manager", 670, 650, src)
@@ -673,6 +775,7 @@ GLOBAL_LIST_EMPTY(custom_waves) // Created waves
 
 	GLOB.custom_jobs += J
 	message_admins("[key_name(usr)] created custom job: '[J.title]'")
+	qdel(J)
 	custom_job_manager(admin)
 
 /datum/job/custom_job/proc/export_to_file(mob/admin)
@@ -714,11 +817,153 @@ GLOBAL_LIST_EMPTY(custom_waves) // Created waves
 	to_chat(admin, span_notice("Successfully loaded job '[J.title]'."))
 
 
+/datum/create_wave/proc/create_wave(mob/admin)
+
+    // Generate HTML form
+	var/dat = {"
+	<html><head><title>Create Custom Wave</title></head><body>
+	<form name='wave' action='byond://?src=[REF(src)];[HrefToken()]' method='get'>
+	<input type='hidden' name='src' value='[REF(src)]'>
+	[HrefTokenFormField()]
+	<input type='hidden' name='create_wave_finalize' value='1'>
+	<table>
+		<tr><th>Name:</th><td><input type='text' name='wave_title'  id='wave_t' value='[temp_wave_title ? temp_wave_title : "Custom Wave"]'></td></tr>
+		<tr><th>Tutorial:</th><td><textarea name='wave_greeting_text' style='width:400px'>[temp_wave_greeting_text ? temp_wave_greeting_text : "Wave Tutorial here..."]</textarea></td></tr>
+		"}
+	dat+= "</td></tr>"
+	dat += {"
+		<tr><th>Jobs:</th>
+		<td>
+			<select id='jobs_dropdown'>
+				[potential_jobs_options]
+			</select>
+	"}
+	if(length(pending_jobs))
+		dat+= "<br>"
+		dat += "<h4>Added Jobs:</h4><ul>"
+		for(var/job in pending_jobs)
+			dat += "<li>[job]</li>"
+		dat += "</ul>"
+	else
+		dat += "<i>No jobs added yet.</i>"
+	dat+= {"
+			<button type='button' onclick='
+				var job = document.getElementById("jobs_dropdown").value;
+				var name = document.getElementById("wave_t").value;
+				window.location.href = "?src=[REF(src)];[HrefToken()];add_jobs=1;job=" + encodeURIComponent(job) + ";name=" + encodeURIComponent(name);
+			'>Add Job</button>
+	"}
+	dat+= "</td></tr>"
+	dat += {"
+	</table>
+	<br><input type='submit' value='Save'>
+	</form></body></html>
+	"}
+	var/datum/browser/popup = new(admin, "customwave_create", "Create Wave Job", 600, 700, src)
+	popup.set_content(dat)
+	popup.open(FALSE)
+
+
+
+// View Wave
+/datum/create_wave/proc/view_wave(mob/admin, datum/custom_wave/CW)
+	if(!CW)
+		return
+
+	var/list/dat = list("<html><body>")
+	dat += "<h2>Job Preview: [CW.name]</h2>"
+	dat += "<b>Tutorial</b><br><pre style='white-space:pre-wrap;'>[CW.greeting_text]</pre>"
+	dat += "<h3>Jobs:</h3><ul>"
+	if(length(CW.wave_jobs))
+		for(var/job_path in CW.wave_jobs)
+			dat += "<li>[job_path]</li>"
+	dat += "</body></html>"
+
+	var/datum/browser/popup = new(admin, "customwave_view", "Custom Wave Preview", 600, 520, src)
+	popup.set_content(dat.Join())
+	popup.open(FALSE)
+
+// Delete a Wave
+/datum/create_wave/proc/delete_wave(mob/admin, datum/custom_wave/CW)
+	if(!CW)
+		return
+	GLOB.custom_waves -= CW
+	qdel(CW)
+	to_chat(admin, "<span class='notice'>Custom wave deleted.</span>")
+	custom_wave_manager(admin)
+
+
 /datum/create_wave/proc/create_wave_finalize(mob/admin, list/href_list)
 	var/datum/custom_wave/CW = new
 
-	CW.title = href_list["wave_title"]
+	CW.name = href_list["wave_title"]
+	CW.greeting_text = href_list["wave_greeting_text"]
+
+	CW.wave_jobs = list()
+	if(pending_jobs)
+		CW.wave_jobs = pending_jobs.Copy()
+
+
+	pending_jobs = list()
+	temp_wave_title = null
 
 	GLOB.custom_waves += CW
-	message_admins("[key_name(usr)] created custom job: '[CW.title]'")
+	message_admins("[key_name(usr)] created custom job: '[CW.name]'")
+	qdel(CW)
 	custom_wave_manager(admin)
+
+
+/datum/create_wave/proc/start_wave(mob/admin, datum/custom_wave/CW)
+	if(!CW)
+		return
+
+	CW.spawn_landmark = admin.loc
+
+	for(var/client/C in GLOB.clients)
+		var/mob/dead_mob = C.mob
+		if(!dead_mob || !isdead(dead_mob))
+			continue
+
+		// Send ghost/lobby popup
+		var/list/dat = list("<html><body>")
+		dat += "<center><b>An admin is forming a custom wave.</b><br>Join it?</b><br><br>"
+		dat += "<a href='byond://?src=[REF(src)];join_wave=1;chosen_wave=[REF(CW)]'>Join</a>"
+		dat += "<a href='byond://?src=[REF(src)];decline_wave=1'>Decline</a></center>"
+		dat += "</body></html>"
+
+		var/datum/browser/popup = new(dead_mob, "wave_call", "Join Custom Wave", 400, 200)
+		popup.set_content(dat.Join())
+		popup.open(FALSE)
+
+	to_chat(admin, span_notice("Wave call sent to all ghosts.</span>"))
+
+	CW.timer = addtimer(CALLBACK(src, PROC_REF(finalize_wave), admin, CW), 60 SECONDS)
+
+
+
+/datum/create_wave/proc/finalize_wave(mob/admin, datum/custom_wave/CW)
+	if(!CW)
+		return
+
+	if(!length(CW.candidates))
+		message_admins("No one accepted the wave call.")
+		return
+
+	to_chat(admin, span_notice("Deploying [length(CW.candidates)] participants...</span>"))
+
+	for(var/client/C in CW.candidates)
+		if(!C || !C.mob || !isdead(C.mob))
+			continue
+
+		// Just the skeleton for now
+		var/mob/dead_mob = C.mob
+		var/spawn_loc = CW.spawn_landmark
+		var/mob/living/carbon/human/H = new /mob/living/carbon/human(spawn_loc)
+		H.key = C.key
+		to_chat(H, span_notice("You awaken as part of the wave...</span>"))
+
+	CW.candidates.Cut()
+	if(CW.timer)
+		//deltimer(CW.timer)
+		CW.timer = null
+
