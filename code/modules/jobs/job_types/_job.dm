@@ -661,18 +661,26 @@
 	job_bitflag = data["job_bitflag"]
 
 	if(data["trainable_skills"])
-		trainable_skills = data["trainable_skills"].Copy()
+		var/list/tmp = data["trainable_skills"]
+		trainable_skills = tmp.Copy()
 	if(data["advclass_cat_rolls"])
-		advclass_cat_rolls = data["advclass_cat_rolls"].Copy()
+		var/list/tmp = data["advclass_cat_rolls"]
+		advclass_cat_rolls = tmp.Copy()
 	if(data["mind_traits"])
-		mind_traits = data["mind_traits"].Copy()
+		var/list/tmp = data["mind_traits"]
+		mind_traits = tmp.Copy()
 	if(data["traits"])
-		traits = data["traits"].Copy()
+		var/list/tmp = data["traits"]
+		traits = tmp.Copy()
 	if(data["languages"])
-		languages = data["languages"].Copy()
+		var/list/tmp = data["languages"]
+		languages = tmp.Copy()
 	if(data["jobstats"])
-		jobstats = data["jobstats"].Copy()
+		var/list/tmp = data["jobstats"]
+		jobstats = tmp.Copy()
 	if(data["skills"])
-		skills = data["skills"].Copy()
+		var/list/tmp = data["skills"]
+		skills = tmp.Copy()
 	if(data["spells"])
-		spells = data["spells"].Copy()
+		var/list/tmp = data["spells"]
+		spells = tmp.Copy()

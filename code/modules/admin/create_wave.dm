@@ -488,7 +488,7 @@ GLOBAL_LIST_EMPTY(custom_waves) // Created waves
 		else
 			v_display_name = "[opt]"
 
-		html += "<input type='checkbox' name='[name]' value='[opt]'[opt in list_selected ? " checked" : ""]> [v_display_name]<br>"
+		html += "<input type='checkbox' name='[name]' value='[opt]'[(opt in list_selected) ? " checked" : ""]> [v_display_name]<br>"
 	return html
 
 
