@@ -272,7 +272,7 @@
 
 /obj/item/weapon/katar/psydon
 	name = "psydonian katar"
-	desc = "An exotic weapon taken from the hands of wandering monks, an esoteric design to the Otavan Holy See. Special care was taken into account towards the user's knuckles: silver-tipped steel from tip to edges, and His holy cross reinforcing the heart of the weapon, with curved shoulders to allow its user to deflect incoming blows - provided they lead it in with the blade."
+	desc = "An exotic weapon taken from the hands of wandering monks, an esoteric design to the Grenzelhoftian nation. Special care was taken into account towards the user's knuckles: silver-tipped steel from tip to edges, and His holy cross reinforcing the heart of the weapon, with curved shoulders to allow its user to deflect incoming blows - provided they lead it in with the blade."
 	icon_state = "psykatar"
 
 /obj/item/weapon/katar/psydon/Initialize(mapload)

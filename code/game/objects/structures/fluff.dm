@@ -1127,7 +1127,7 @@
 
 /obj/structure/fluff/psycross/psycrucifix
 	name = "wooden psydonic crucifix"
-	desc = "A rarely seen symbol of absolute and devoted certainty, more common in Otava: HE yet lyves. HE yet breathes."
+	desc = "A rarely seen symbol of absolute and devoted certainty, more common in Grenzelhoft: HE yet lyves. HE yet breathes."
 	icon_state = "psycruci"
 	max_integrity = 80
 

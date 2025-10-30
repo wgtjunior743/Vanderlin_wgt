@@ -145,7 +145,7 @@
 	sellprice = 20
 
 /obj/item/clothing/shoes/otavan
-	name = "otavan leather boots"
+	name = "grenzelhoftian leather boots"
 	desc = "Boots of outstanding craft, your fragile feet has never felt so protected and comfortable before."
 	body_parts_covered = FEET
 	icon_state = "fencerboots"

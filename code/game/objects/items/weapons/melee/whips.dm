@@ -83,7 +83,7 @@
 
 /obj/item/weapon/whip/antique/psywhip
 	name = "Daybreak"
-	desc = "Holding the blessed silver evokes a memory of the Grand Otavan Cathedral, a testament to humenity's faith. There, upon the ceiling, was painted a scene-most-beautiful: of a robed Psydon standing before the Archdevil, parting the nite's sky with a crack from His fiery whip. Just as He had done prior, so too must you bring daelight to the darkness."
+	desc = "Holding this blessed silver evokes memories of the grand cathedrals, testaments to humanity’s faith. There, upon the ceiling, was painted a scene-most-beautiful: of Psydon, robed, in battle against the archdevils. Bring daelight to the faithful."
 	icon_state = "psywhip"
 
 /obj/item/weapon/whip/antique/psywhip/Initialize(mapload)

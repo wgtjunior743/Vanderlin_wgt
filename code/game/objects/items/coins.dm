@@ -414,12 +414,12 @@
 #undef MAX_COIN_STACK_SIZE
 
 /obj/item/coin/inqcoin
-	name = "otavan marque"
-	desc = "A blessed silver coin finished with a unique wash of black dye, bearing the post-kingdom Psycross. Kingsfield has denied the existence of such a coin when queried, as such coinage is rumoured to be used internally by the Otavan Inquisition."
+	name = "oratorium marque"
+	desc = "A blessed silver coin finished with a unique wash of black dye, bearing the post-kingdom Psycross. Kingsfield has denied the existence of such a coin when queried, as such coinage is rumoured to be used internally by the Oratorium Throni Vacui."
 	icon_state = "i1"
 	sellprice = 0
 	base_type = "i"
-	plural_name = "otavan marques"
+	plural_name = "oratorium marques"
 
 /obj/item/coin/inqcoin/pile/Initialize()
 	. = ..()

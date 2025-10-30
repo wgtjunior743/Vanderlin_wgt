@@ -281,7 +281,7 @@
 
 /obj/item/weapon/shield/tower/metal/psy
 	name = "Covenant"
-	desc = "A Psydonian endures. A Psydonian preserves themselves. A Psydonian preserves His flock."
+	desc = "The Ordo Benetarus holds a mantra: A Psydonian endures. A Psydonian preserves themselves. A Psydonian preserves His flock. Protect them."
 	icon_state = "psyshield"
 	force = 20
 	throwforce = 10
