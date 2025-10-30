@@ -554,3 +554,125 @@
 
 /datum/job/proc/get_total_positions(latejoin)
 	return latejoin ? total_positions : spawn_positions
+
+/datum/job/proc/get_json_data()
+	var/list/data = list()
+
+	data["title"] = title
+	data["f_title"] = f_title
+	data["enabled"] = enabled
+	data["spawn_positions"] = spawn_positions
+	data["cmode_music"] = cmode_music
+	data["allowed_ages"] = allowed_ages
+	data["allowed_patrons"] = allowed_patrons
+	data["outfit"] = outfit
+	data["antag_role"] = antag_role
+	data["faction"] = faction
+
+	data["total_positions"] = total_positions
+	data["tutorial"] = tutorial
+	data["selection_color"] = selection_color
+	data["minimal_player_age"] = minimal_player_age
+	data["exp_requirements"] = exp_requirements
+	data["exp_type"] = exp_type
+	data["paycheck"] = paycheck
+	data["paycheck_department"] = paycheck_department
+	data["display_order"] = display_order
+	data["job_flags"] = job_flags
+	data["allowed_sexes"] = allowed_sexes
+	data["allowed_races"] = allowed_races
+	data["min_pq"] = min_pq
+	data["give_bank_account"] = give_bank_account
+	data["can_random"] = can_random
+	data["always_show_on_latechoices"] = always_show_on_latechoices
+	data["same_job_respawn_delay"] = same_job_respawn_delay
+	data["job_reopens_slots_on_death"] = job_reopens_slots_on_death
+	data["is_foreigner"] = is_foreigner
+	data["is_recognized"] = is_recognized
+	data["shows_in_list"] = shows_in_list
+	data["can_have_apprentices"] = can_have_apprentices
+	data["max_apprentices"] = max_apprentices
+	data["apprentice_name"] = apprentice_name
+	data["magic_user"] = magic_user
+	data["noble_income"] = noble_income
+	data["job_bitflag"] = job_bitflag
+
+	if(length(trainable_skills))
+		data["trainable_skills"] = trainable_skills.Copy()
+	if(length(advclass_cat_rolls))
+		data["advclass_cat_rolls"] = advclass_cat_rolls.Copy()
+	if(length(mind_traits))
+		data["mind_traits"] = mind_traits.Copy()
+	if(length(traits))
+		data["traits"] = traits.Copy()
+	if(length(languages))
+		data["languages"] = languages.Copy()
+	if(length(jobstats))
+		data["jobstats"] = jobstats.Copy()
+	if(length(skills))
+		data["skills"] = skills.Copy()
+	if(length(spells))
+		data["spells"] = spells.Copy()
+
+	return data
+
+/datum/job/proc/load_from_json(list/data)
+	if(!islist(data))
+		message_admins("LOAD JSON RETURN")
+		return
+
+	title = data["title"]
+	f_title = data["f_title"]
+	enabled = data["enabled"]
+	spawn_positions = data["spawn_positions"]
+	cmode_music = data["cmode_music"]
+	allowed_ages = data["allowed_ages"]
+	allowed_patrons = data["allowed_patrons"]
+	outfit = data["outfit"]
+	antag_role = data["antag_role"]
+	faction = data["faction"]
+
+	total_positions = data["total_positions"]
+	tutorial = data["tutorial"]
+	selection_color = data["selection_color"]
+	minimal_player_age = data["minimal_player_age"]
+	exp_requirements = data["exp_requirements"]
+	exp_type = data["exp_type"]
+	paycheck = data["paycheck"]
+	paycheck_department = data["paycheck_department"]
+	display_order = data["display_order"]
+	job_flags = data["job_flags"]
+	allowed_sexes = data["allowed_sexes"]
+	allowed_races = data["allowed_races"]
+	min_pq = data["min_pq"]
+	give_bank_account = data["give_bank_account"]
+	can_random = data["can_random"]
+	always_show_on_latechoices = data["always_show_on_latechoices"]
+	same_job_respawn_delay = data["same_job_respawn_delay"]
+	job_reopens_slots_on_death = data["job_reopens_slots_on_death"]
+	is_foreigner = data["is_foreigner"]
+	is_recognized = data["is_recognized"]
+	shows_in_list = data["shows_in_list"]
+	can_have_apprentices = data["can_have_apprentices"]
+	max_apprentices = data["max_apprentices"]
+	apprentice_name = data["apprentice_name"]
+	magic_user = data["magic_user"]
+	noble_income = data["noble_income"]
+	job_bitflag = data["job_bitflag"]
+
+	if(data["trainable_skills"])
+		trainable_skills = data["trainable_skills"].Copy()
+	if(data["advclass_cat_rolls"])
+		advclass_cat_rolls = data["advclass_cat_rolls"].Copy()
+	if(data["mind_traits"])
+		mind_traits = data["mind_traits"].Copy()
+	if(data["traits"])
+		traits = data["traits"].Copy()
+	if(data["languages"])
+		languages = data["languages"].Copy()
+	if(data["jobstats"])
+		jobstats = data["jobstats"].Copy()
+	if(data["skills"])
+		skills = data["skills"].Copy()
+	if(data["spells"])
+		spells = data["spells"].Copy()

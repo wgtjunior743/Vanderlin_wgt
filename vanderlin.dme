@@ -1842,6 +1842,7 @@
 #include "code\modules\admin\create_mob.dm"
 #include "code\modules\admin\create_object.dm"
 #include "code\modules\admin\create_turf.dm"
+#include "code\modules\admin\create_wave.dm"
 #include "code\modules\admin\fun_balloon.dm"
 #include "code\modules\admin\greyscale_modifiy_menu.dm"
 #include "code\modules\admin\holder2.dm"
