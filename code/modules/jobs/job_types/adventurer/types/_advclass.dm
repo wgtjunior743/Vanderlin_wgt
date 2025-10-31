@@ -12,6 +12,8 @@
 	var/roll_chance = 100
 	/// What categories we are going to sort it in, handles selection
 	var/list/category_tags = null
+	/// Bypass the class_cat_alloc_attempts limits and always be rolled
+	var/bypass_class_cat_limits = FALSE
 
 
 
