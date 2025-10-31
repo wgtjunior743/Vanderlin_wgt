@@ -303,3 +303,57 @@
 			r_hand = /obj/item/weapon/polearm/halberd
 			H.adjust_skillrank(/datum/skill/combat/axesmaces, 1, TRUE) // SO, fun fact. The description of the grenzel halbardier says they specialize in axes, but they get no axe skill. Maybe this guy is where that rumor came from.
 			H.adjust_skillrank(/datum/skill/combat/polearms, 1, TRUE)
+
+/datum/job/advclass/veteran/fist
+	title = "Faded Brawler"
+	tutorial = "You needed no sword, no spear, no bow to slay your foes, your fists were enough. \
+	Enemy after enemy, beast after beast, all fell to your unrelenting might. The tales once called you a walking tempest, the one who could shatter stone and silence monsters. \
+	But time, the cruelest opponent, has weathered your body. The hands that once broke boulders now tremble to lift themselves. Still, deep within those aching bones, the old fire stirs... waiting for one last fight."
+	outfit = /datum/outfit/vet/fist
+	category_tags = list(CTAG_VETERAN)
+
+/datum/outfit/vet/fist/pre_equip(mob/living/carbon/human/H)
+	head = /obj/item/clothing/head/helmet/leather/volfhelm
+	neck = /obj/item/clothing/neck/bevor
+	shoes = /obj/item/clothing/shoes/boots/armor/light
+	armor = /obj/item/clothing/armor/gambeson/heavy
+	shirt = /obj/item/clothing/armor/chainmail
+	wrists = /obj/item/clothing/wrists/bracers/jackchain
+	belt = /obj/item/storage/belt/leather/black
+	beltr = /obj/item/storage/keyring/veteran
+	beltl = /obj/item/flashlight/flare/torch/lantern
+	gloves = /obj/item/clothing/gloves/bandages/pugilist
+	backr = /obj/item/storage/backpack/satchel/black
+	pants = /obj/item/clothing/pants/chainlegs
+	cloak = /obj/item/clothing/cloak/half/vet
+	H.cmode_music = 'sound/music/cmode/adventurer/CombatMonk.ogg'
+	backpack_contents = list(/obj/item/weapon/knife/dagger/steel/special = 1)
+	H.adjust_skillrank(/datum/skill/combat/wrestling, 5, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/unarmed, 5, TRUE)
+	H.adjust_skillrank(/datum/skill/misc/swimming, 3, TRUE)
+	H.adjust_skillrank(/datum/skill/misc/climbing, 4, TRUE)
+	H.adjust_skillrank(/datum/skill/misc/athletics, 3, TRUE)
+	H.adjust_skillrank(/datum/skill/misc/reading, 1, TRUE)
+	H.adjust_skillrank(/datum/skill/misc/medicine, 3, TRUE)
+	H.change_stat(STATKEY_END, 2)
+	H.change_stat(STATKEY_CON, 2)
+	H.change_stat(STATKEY_SPD, -1)
+	H.change_stat(STATKEY_STR, 2)
+
+	if(H.age == AGE_OLD)
+		H.adjust_skillrank(/datum/skill/combat/wrestling, 1, TRUE)
+		H.adjust_skillrank(/datum/skill/combat/unarmed, 1, TRUE)
+	H.verbs |= /mob/proc/haltyell
+	ADD_TRAIT(H, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
+	ADD_TRAIT(H, TRAIT_STEELHEARTED, TRAIT_GENERIC)
+
+	H.adjust_blindness(-3)
+	H.select_equippable(H, list( \
+		"Knuckles" = /obj/item/weapon/knuckles, \
+
+		"Katar" = /obj/item/weapon/katar, \
+		),
+		message = "Choose your way.",
+		title = "MY FIST IS READY."
+		)
+	H.set_blindness(0)
