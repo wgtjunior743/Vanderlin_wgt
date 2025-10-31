@@ -327,7 +327,6 @@
 	pants = /obj/item/clothing/pants/chainlegs
 	cloak = /obj/item/clothing/cloak/half/vet
 	H.cmode_music = 'sound/music/cmode/adventurer/CombatMonk.ogg'
-	backpack_contents = list(/obj/item/weapon/knife/dagger/steel/special = 1)
 	H.adjust_skillrank(/datum/skill/combat/wrestling, 5, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/unarmed, 5, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/swimming, 3, TRUE)
