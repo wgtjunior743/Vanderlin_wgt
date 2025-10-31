@@ -85,17 +85,11 @@
 		if(user == src)
 			self_inspect = TRUE
 		var/used_title = get_role_title()
-		var/is_returning = FALSE
-		if(islatejoin)
-			is_returning = TRUE
 
 		// building the examine identity
 		statement_of_identity += "<EM>[used_name]</EM>"
 
 		var/appendage_to_name
-		if(is_returning && race_name && !HAS_TRAIT(src, TRAIT_FOREIGNER)) // latejoined? Foreigners can never be returning because they never lived here in the first place
-			appendage_to_name += " returning"
-
 		if(race_name) // race name
 			appendage_to_name += " [race_name]"
 // job name, don't show job of foreigners.
@@ -220,8 +214,33 @@
 			if((HAS_TRAIT(src, TRAIT_CABAL) && HAS_TRAIT(user, TRAIT_CABAL)) || (src.patron?.type == /datum/patron/inhumen/zizo && HAS_TRAIT(user, TRAIT_CABAL)))
 				. += span_purple("A fellow seeker of Her ascension.")
 
+			var/inquisition_text =get_inquisition_text(user)
+			if(inquisition_text)
+				. +=span_notice(inquisition_text)
+
 		if(HAS_TRAIT(src, TRAIT_LEPROSY))
 			. += span_necrosis("A LEPER...")
+
+		if(HAS_TRAIT(user, TRAIT_ROYALSERVANT))
+			if(length(culinary_preferences) && family_datum == SSfamilytree.ruling_family)
+				var/obj/item/reagent_containers/food/snacks/fav_food = src.culinary_preferences[CULINARY_FAVOURITE_FOOD]
+				var/datum/reagent/consumable/fav_drink = src.culinary_preferences[CULINARY_FAVOURITE_DRINK]
+				if(fav_food)
+					if(fav_drink)
+						. += span_notice("Their favourites are [fav_food.name] and [fav_drink.name].")
+					else
+						. += span_notice("Their favourite is [fav_food.name].")
+				else if(fav_drink)
+					. += span_notice("Their favourite is [fav_drink.name].")
+				var/obj/item/reagent_containers/food/snacks/hated_food = src.culinary_preferences[CULINARY_HATED_FOOD]
+				var/datum/reagent/consumable/hated_drink = src.culinary_preferences[CULINARY_HATED_DRINK]
+				if(hated_food)
+					if(hated_drink)
+						. += span_notice("They hate [hated_food.name] and [hated_drink.name].")
+					else
+						. += span_notice("They hate [hated_food.name].")
+				else if(hated_drink)
+					. += span_notice("They hate [hated_drink.name].")
 
 	if(HAS_TRAIT(src, TRAIT_MANIAC_AWOKEN))
 		. += span_userdanger("MANIAC!")
@@ -330,6 +349,10 @@
 
 	if(legcuffed)
 		. += "<A href='byond://?src=[REF(src)];item=[ITEM_SLOT_LEGCUFFED]'><span class='warning'>[m3] \a [legcuffed] around [m2] legs!</span></A>"
+
+	var/datum/status_effect/bugged/effect = has_status_effect(/datum/status_effect/bugged)
+	if(effect && HAS_TRAIT(user, TRAIT_INQUISITION))
+		. += "<A href='?src=[REF(src)];item=[effect.device]'><span class='warning'>[m3] \a [effect.device] implanted.</span></A>"
 
 	//Gets encapsulated with a warning span
 	var/list/msg = list()
@@ -687,3 +710,16 @@
 			dat += "[new_text]" //dat.Join("\n") doesn't work here, for some reason
 	if(dat.len)
 		return dat.Join("\n")
+
+/mob/living/proc/get_inquisition_text(mob/examiner)
+	var/inquisition_text
+	if(HAS_TRAIT(src, TRAIT_INQUISITION) && HAS_TRAIT(examiner, TRAIT_INQUISITION))
+		inquisition_text = "A Practical of our Psydonic Inquisitorial Sect."
+	if(HAS_TRAIT(src, TRAIT_PURITAN) && HAS_TRAIT(examiner, TRAIT_INQUISITION))
+		inquisition_text = "The Lorde-Inquisitor of our Psydonic Inquisitorial Sect."
+	if(HAS_TRAIT(src, TRAIT_INQUISITION) && HAS_TRAIT(examiner, TRAIT_PURITAN))
+		inquisition_text = "Subordinate to me in the Psydonic Inquisitorial Sect."
+	if(HAS_TRAIT(src, TRAIT_PURITAN) && HAS_TRAIT(examiner, TRAIT_PURITAN))
+		inquisition_text = "The Lorde-Inquisitor of the Sect sent here. That's me."
+
+	return inquisition_text

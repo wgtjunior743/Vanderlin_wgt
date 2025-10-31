@@ -15,9 +15,10 @@
 	/// Bypass the class_cat_alloc_attempts limits and always be rolled
 	var/bypass_class_cat_limits = FALSE
 
+
+
 /datum/job/advclass/after_spawn(mob/living/carbon/human/spawned, client/player_client)
 	. = ..()
-
 	// Remove the stun first, then grant us the torch.
 	for(var/datum/status_effect/incapacitating/stun/S in spawned.status_effects)
 		spawned.remove_status_effect(S)

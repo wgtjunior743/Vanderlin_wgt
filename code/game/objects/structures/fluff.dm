@@ -296,6 +296,18 @@
 		obj_flags = CAN_BE_HIT | BLOCK_Z_OUT_DOWN | BLOCK_Z_IN_UP
 
 
+/obj/structure/plank
+	name = "plank"
+	desc = ""
+	icon = 'icons/turf/floors.dmi'
+	icon_state = "plank2"
+	density = FALSE
+	layer = TABLE_LAYER
+	plane = GAME_PLANE
+	damage_deflection = 5
+	blade_dulling = DULLING_BASHCHOP
+	obj_flags = CAN_BE_HIT | BLOCK_Z_OUT_DOWN | BLOCK_Z_IN_UP
+
 /obj/structure/bars/pipe
 	name = "bronze pipe"
 	desc = ""
@@ -1113,6 +1125,25 @@
 	desc = "The life force of a Troll has consecrated this holy place. \n First present two troll horns to craft a purple sacrifice. \n Then offer a piece of strange meat and two sinews to craft an indigo sacrifice."
 	icon_state = "shrine_dendor_troll"
 
+/obj/structure/fluff/psycross/psycrucifix
+	name = "wooden psydonic crucifix"
+	desc = "A rarely seen symbol of absolute and devoted certainty, more common in Grenzelhoft: HE yet lyves. HE yet breathes."
+	icon_state = "psycruci"
+	max_integrity = 80
+
+/obj/structure/fluff/psycross/psycrucifix/stone
+	name = "stone psydonic crucifix"
+	desc = "Formed of stone, this great Psycross symbolises that HE is forever ENDURING. Considered a rare sight upon the Peaks."
+	icon_state = "psycruci_r"
+	max_integrity = 120
+
+/obj/structure/fluff/psycross/psycrucifix/silver
+	name = "silver psydonic crucifix"
+	icon_state = "psycruci_s"
+	desc = "Constructed of Blessed Silver, this crucifix symbolises absolute faith in the ONE - For PSYDON WEEPS, for all mortal ilk. PSYDON WEEPS, for all who walk upon the soil. PSYDON WEEPS..."
+	attacked_sound = list("sound/combat/hits/onmetal/metalimpact (1).ogg", "sound/combat/hits/onmetal/metalimpact (2).ogg")
+	max_integrity = 450
+
 /obj/structure/fluff/psycross/attackby(obj/item/W, mob/living/carbon/human/user, params)
 	if(!user.mind)
 		return ..()
@@ -1252,8 +1283,6 @@
 		var/announcement_message = "Eora [groom.gender == bride.gender ? "begrudgingly accepts" : "proudly embraces"] the marriage between [groom.real_name] and [bride_first_name]!"
 		priority_announce(announcement_message, title = "Holy Union!", sound = 'sound/misc/bell.ogg')
 
-	groom.remove_stress(/datum/stress_event/eora_matchmaking)
-	bride.remove_stress(/datum/stress_event/eora_matchmaking)
 	SEND_GLOBAL_SIGNAL(COMSIG_GLOBAL_MARRIAGE, groom, bride)
 	record_round_statistic(STATS_MARRIAGES)
 	qdel(apple)
