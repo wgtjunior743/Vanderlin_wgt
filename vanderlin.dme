@@ -1820,6 +1820,7 @@
 #include "code\game\turfs\closed\wall\mineral_walls.dm"
 #include "code\game\turfs\closed\wall\walls.dm"
 #include "code\game\turfs\open\_open.dm"
+#include "code\game\turfs\open\dungeon_trap.dm"
 #include "code\game\turfs\open\floor.dm"
 #include "code\game\turfs\open\lava.dm"
 #include "code\game\turfs\open\openspace.dm"
