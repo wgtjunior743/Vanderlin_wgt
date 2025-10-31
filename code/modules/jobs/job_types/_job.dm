@@ -351,7 +351,7 @@
 		spawned.hugboxify_for_class_selection()
 
 	if(job_flags & JOB_SHOW_IN_CREDITS)
-		SScrediticons.processing += spawned
+		START_PROCESSING(SScrediticons, player_client)
 
 /datum/job/proc/adjust_patron(mob/living/carbon/human/spawned)
 	if(!length(allowed_patrons))
