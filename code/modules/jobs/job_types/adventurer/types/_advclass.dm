@@ -33,7 +33,8 @@
 	if(length(local_allowed_sexes) && !(to_check.gender in local_allowed_sexes))
 		return FALSE
 
-	if(length(allowed_races) && !(to_check.dna.species.id in allowed_races))
+	if((length(allowed_races) && !(to_check.dna.species.id in allowed_races)) || \
+		(length(blacklisted_species) && (to_check.dna.species.id in blacklisted_species)))
 		if(!(to_check.client.has_triumph_buy(TRIUMPH_BUY_RACE_ALL)))
 			return FALSE
 
