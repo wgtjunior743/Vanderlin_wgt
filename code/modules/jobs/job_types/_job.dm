@@ -84,6 +84,8 @@
 	var/list/allowed_sexes = list(MALE, FEMALE)
 	/// Species allowed to be this job
 	var/list/allowed_races = RACES_PLAYER_ALL
+	/// Species blacklisted from this job
+	var/list/blacklisted_species = list()
 	/// Ages allowed to be this job
 	var/list/allowed_ages = ALL_AGES_LIST
 
@@ -188,6 +190,11 @@
 		/datum/job/pilgrim,
 	)
 
+	///list of job packs we select from during job setup
+	var/list/job_packs
+	var/pack_title = "JOB PACKS"
+	var/pack_message = "Choose a job pack"
+
 /datum/job/New()
 	. = ..()
 	if(give_bank_account)
@@ -274,7 +281,7 @@
 		if(islist(amount_or_list))
 			spawned.clamped_adjust_skillrank(skill, amount_or_list[1], amount_or_list[2], TRUE)
 		else
-			spawned.clamped_adjust_skillrank(skill, amount_or_list, amount_or_list) //! This was changed because what the fuck.
+			spawned.clamped_adjust_skillrank(skill, amount_or_list, amount_or_list, TRUE) //! This was changed because what the fuck.
 
 	for(var/X in peopleknowme)
 		for(var/datum/mind/MF in get_minds(X))
@@ -283,6 +290,15 @@
 	for(var/X in peopleiknow)
 		for(var/datum/mind/MF in get_minds(X))
 			spawned.mind.i_know_person(MF)
+
+	// Ready up bonus
+	if(!spawned.islatejoin)
+		spawned.adjust_triumphs(1)
+		spawned.apply_status_effect(/datum/status_effect/buff/foodbuff)
+		spawned.hydration = 800 // Set higher hydration
+		spawned.nutrition = 800
+		to_chat(spawned, span_notice("Rising early, you made sure to eat a hearty meal before starting your dae. A true TRIUMPH!"))
+
 
 	var/used_title = get_informed_title(spawned)
 	if(spawned.islatejoin && (job_flags & JOB_ANNOUNCE_ARRIVAL)) //to be moved somewhere more appropriate
@@ -337,7 +353,7 @@
 		spawned.hugboxify_for_class_selection()
 
 	if(job_flags & JOB_SHOW_IN_CREDITS)
-		SScrediticons.processing += spawned
+		START_PROCESSING(SScrediticons, player_client)
 
 /datum/job/proc/adjust_patron(mob/living/carbon/human/spawned)
 	if(!length(allowed_patrons))
@@ -381,6 +397,36 @@
 
 /mob/living/carbon/human/on_job_equipping(datum/job/equipping)
 	dress_up_as_job(equipping)
+	pick_job_packs(equipping)
+
+/mob/living/carbon/human/proc/pick_job_packs(datum/job/equipping)
+	if(!length(equipping.job_packs))
+		return
+	var/for_length = 1
+	if(islist(equipping.job_packs[1]))
+		for_length = length(equipping.job_packs)
+
+	var/list/previous_picked_types = list()
+
+	for(var/i = 1 to for_length)
+		var/list/job_packs = equipping.job_packs
+		if(islist(equipping.job_packs[i]))
+			job_packs = equipping.job_packs[i]
+		var/datum/job_pack/picked_pack
+		var/list/reals = list()
+		for(var/pack as anything in job_packs)
+			var/datum/job_pack/real_pack = GLOB.job_pack_singletons[pack]
+			if(!real_pack.can_pick_pack(src, previous_picked_types))
+				continue
+			reals |= real_pack
+		if(!length(reals))
+			return
+		if(!client)
+			picked_pack = GLOB.job_pack_singletons[pick(reals)]
+		else
+			picked_pack = browser_input_list(src, equipping.pack_title, equipping.pack_message, reals, timeout = 20 SECONDS)
+		previous_picked_types |= picked_pack.type
+		picked_pack.pick_pack(src)
 
 /mob/living/proc/dress_up_as_job(datum/job/equipping, visual_only = FALSE)
 	return

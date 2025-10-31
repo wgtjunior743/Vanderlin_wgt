@@ -14,7 +14,7 @@
 	var/open_wear = FALSE
 
 /obj/item/clothing/cloak/psydontabard/alt
-	name = "open otavan tabard"
+	name = "open grenzelhoftian tabard"
 	desc = "Used by more radical followers of the Inquisition"
 	body_parts_covered = null
 	icon_state = "psydontabardalt"

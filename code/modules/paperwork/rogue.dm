@@ -239,7 +239,7 @@
 
 /obj/item/paper/inqslip/accusation
 	name = "accusation"
-	desc = "A writ of religious suspicion, printed on Otavan parchment: one signed not in ink, but blood. Press the accusation against your own bleeding wound in order to obtain a signature. Then pair it with an INDEXER full of the accused's blood. Once done, it is ready to be mailed back to Otava. Fold and seal it, it's only proper."
+	desc = "A writ of religious suspicion, printed on Grenzelhoftian parchment: one signed not in ink, but blood. Press the accusation against your own bleeding wound in order to obtain a signature. Then pair it with an INDEXER full of the accused's blood. Once done, it is ready to be mailed back to the Oratorium. Fold and seal it, it's only proper."
 	marquevalue = 4
 	sliptype = 0
 
@@ -247,7 +247,7 @@
 	name = "confession"
 	base_icon_state = "confession"
 	marquevalue = 6
-	desc = "A writ of religious guilt, printed on Otavan parchment: one signed not in ink, but blood. Press the confession against a suspect's bleeding wound, in order to obtain their signature. Once done, it is ready to be mailed back to Otava. Fold and seal it, it's only proper."
+	desc = "A writ of religious guilt, printed on Grenzelhoftian parchment: one signed not in ink, but blood. Press the confession against a suspect's bleeding wound, in order to obtain their signature. Once done, it is ready to be mailed back to the Oratorium. Fold and seal it, it's only proper."
 	sliptype = 2
 	var/bad_type // Type of crime confessed to
 	var/antag // Specific antagonist type
@@ -280,7 +280,7 @@
 
 /obj/item/paper/inqslip/arrival
 	name = "arrival slip"
-	desc = "A writ of arrival, printed on Otavan parchment: one signed not in ink, but blood. Intended for one person and one person only. Press the slip against one's own weeping wounds in order to obtain a fitting signature. Once done, it is ready to be mailed back to Otava."
+	desc = "A writ of arrival, printed on Grenzelhoftian parchment: one signed not in ink, but blood. Intended for one person and one person only. Press the slip against one's own weeping wounds in order to obtain a fitting signature. Once done, it is ready to be mailed back to the Oratorium."
 
 /obj/item/paper/inqslip/arrival/ortho
 	marquevalue = 4
@@ -330,7 +330,7 @@
 		to_chat(user, span_warning("It hasn't been signed yet. Why would I seal it?"))
 		return
 	if(waxed)
-		to_chat(user, span_notice("It's been sealed. It's ready to send back to Otava."))
+		to_chat(user, span_notice("It's been sealed. It's ready to send back to the Oratorium."))
 		return
 	else if(!sealed)
 		sealed = TRUE

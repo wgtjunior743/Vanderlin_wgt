@@ -796,7 +796,7 @@ GLOBAL_LIST_EMPTY(letters_sent)
 
 /obj/structure/fake_machine/mail/proc/display_marquette(mob/user)
 	var/contents
-	contents = "<center>✤ ── L'INQUISITION MARQUETTE D'OTAVA ── ✤<BR>"
+	contents = "<center>✤ ── L'INQUISITION MARQUETTE D'ORATORIUM ── ✤<BR>"
 	contents += "POUR L'ÉRADICATION DE L'HÉRÉSIE, TANT QUE PSYDON ENDURE.<BR>"
 	if(HAS_TRAIT(user, TRAIT_PURITAN))
 		contents += "✤ ── <a href='?src=[REF(src)];locktoggle=1]'> PURITAN'S LOCK: [inqonly ? "OUI":"NON"]</a> ── ✤<BR>"

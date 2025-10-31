@@ -46,6 +46,44 @@
 	created_item = /obj/item/clothing/head/helmet/coppercap
 
 //////////////////////////////////////////////////////////////////////////////////////////////
+// --------- BRONZE -----------
+/datum/anvil_recipe/armor/bronze
+	req_bar = /obj/item/ingot/bronze
+	craftdiff = 1
+	abstract_type = /datum/anvil_recipe/armor/bronze
+///////////////////////////////////////////////
+
+// BRONZE ARMOR
+
+/datum/anvil_recipe/armor/bronze/brigandine
+	name = "Abyssal Robe (+Bronze Bar, +Cloth)"
+	recipe_name = "an abyssal robe"
+	req_bar = /obj/item/ingot/bronze
+	additional_items = list(/obj/item/ingot/bronze, /obj/item/natural/cloth)
+	created_item = /obj/item/clothing/armor/brigandine/abyssor
+	craftdiff = 3
+
+// BRONZE NECK ARMOR
+
+/datum/anvil_recipe/armor/bronze/gorget
+	name = "Bronze Gorget"
+	recipe_name = "a bronze gorget"
+	req_bar = /obj/item/ingot/bronze
+	created_item = /obj/item/clothing/neck/gorget/hoplite
+	craftdiff = 0
+
+
+// BRONZE HELMET
+
+/datum/anvil_recipe/armor/bronze/helmet
+	name = "Abyssor Helmet (+Bronze Bar)"
+	recipe_name = "an abyssor helmet"
+	req_bar = /obj/item/ingot/bronze
+	additional_items = list(/obj/item/ingot/bronze)
+	created_item = /obj/item/clothing/head/helmet/heavy/necked/abyssor
+	craftdiff = 3
+
+//////////////////////////////////////////////////////////////////////////////////////////////
 // --------- IRON -----------
 /datum/anvil_recipe/armor/iron
 	req_bar = /obj/item/ingot/iron
@@ -366,14 +404,6 @@
 	additional_items = list(/obj/item/ingot/iron)
 	created_item = /obj/item/clothing/head/helmet/heavy/ironplate
 	craftdiff = 2
-
-/datum/anvil_recipe/armor/bronze/gorget
-	name = "Bronze Gorget"
-	recipe_name = "a bronze gorget"
-	req_bar = /obj/item/ingot/bronze
-	created_item = /obj/item/clothing/neck/gorget/hoplite
-	craftdiff = 0
-
 /datum/anvil_recipe/armor/iron/bevor
 	name = "Iron Bevor"
 	recipe_name = "a Bevor"
@@ -436,6 +466,16 @@
 	name = "Steel Mask"
 	recipe_name = "a Face Mask"
 	created_item = /obj/item/clothing/face/facemask/steel
+
+/datum/anvil_recipe/armor/steel/steppemask
+	name = "Steppe War Mask"
+	recipe_name = "a Face Mask"
+	created_item = /obj/item/clothing/face/facemask/steel/steppe
+
+/datum/anvil_recipe/armor/steel/maskbeast
+	name = "Steppe Beast Mask"
+	recipe_name = "a Face Mask"
+	created_item = /obj/item/clothing/face/facemask/steel/steppebeast
 
 /datum/anvil_recipe/armor/steel/cuirass
 	name = "Steel Cuirass"
@@ -569,6 +609,13 @@
 	created_item = /obj/item/clothing/armor/medium/scale
 	craftdiff = 3
 
+/datum/anvil_recipe/armor/steel/scalemail/steppe
+	name = "Lamellar (+Bar, +cured hide)"
+	recipe_name = "Steel Lamellar"
+	additional_items = list(/obj/item/ingot/steel,/obj/item/natural/hide/cured)
+	created_item = /obj/item/clothing/armor/medium/scale/steppe
+	craftdiff = 3
+
 /datum/anvil_recipe/armor/steel/surcoat
 	name = "Armored Surcoat (+Bar)"
 	recipe_name = "an Armored Surcoat"
@@ -655,6 +702,11 @@
 	name = "Bascinet"
 	recipe_name = "a bascinet"
 	created_item = /obj/item/clothing/head/helmet/bascinet
+
+/datum/anvil_recipe/armor/steel/bascinet/steppe
+	name = "Steppe Bascinet"
+	recipe_name = "a bascinet"
+	created_item = /obj/item/clothing/head/helmet/bascinet/steppe
 
 /datum/anvil_recipe/armor/steel/spangenhelm
 	name = "Spangenhelm"

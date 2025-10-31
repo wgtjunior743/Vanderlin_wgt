@@ -26,7 +26,7 @@
 	name = "inquisitorial equipment crate"
 
 /obj/structure/closet/crate/chest/inqcrate/wardrobe/
-	name = "otava's finest wardrobe crate"
+	name = "grenzelhoft's finest wardrobe crate"
 
 /// ✤ SUPPLIES ✤ START HERE! WOW!
 
@@ -143,6 +143,19 @@
 	new /obj/item/smokebomb(src)
 	new /obj/item/smokebomb(src)
 
+/datum/inqports/supplies/canister_bomb
+	name = "4 Fragmentation Grenades"
+	item_type = /obj/structure/closet/crate/chest/inqcrate/supplies/canister_bomb
+	maximum = 1
+	marquescost = 8
+
+/obj/structure/closet/crate/chest/inqcrate/supplies/canister_bomb/Initialize()
+	. = ..()
+	new /obj/item/explosive/canister_bomb(src)
+	new /obj/item/explosive/canister_bomb(src)
+	new /obj/item/explosive/canister_bomb(src)
+	new /obj/item/explosive/canister_bomb(src)
+
 /obj/item/reagent_containers/glass/bottle/alchemical/blessedwater
 	list_reagents = list(/datum/reagent/water/blessed = 30)
 
@@ -150,7 +163,7 @@
 	list_reagents = list(/datum/reagent/medicine/stronghealth = 30)
 
 /datum/inqports/supplies/psybuns
-	name = "The Otavan Bakery Special"
+	name = "The Grenzelhoftian Bakery Special"
 	item_type = /obj/structure/closet/crate/chest/inqcrate/supplies/psybuns
 	marquescost = 6
 
@@ -289,7 +302,7 @@
 	marquescost = 10
 
 /datum/inqports/equipment/otavansatchel
-	name = "1 Otavan Leather Satchel"
+	name = "1 Grenzelhoftian Leather Satchel"
 	item_type = /obj/item/storage/backpack/satchel/otavan
 	marquescost = 8
 
@@ -370,7 +383,7 @@
 	detail_color = "#99b2b1"
 
 /datum/inqports/wardrobe/fencerset
-	name = "The Otavan Fencer's Finest Set Crate"
+	name = "The Grenzelhoftian Fencer's Finest Set Crate"
 	item_type = /obj/structure/closet/crate/chest/inqcrate/wardrobe/fencerset
 	marquescost = 14
 

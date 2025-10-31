@@ -116,6 +116,15 @@
 	output = /obj/item/clothing/gloves/fingerless
 	category = "Gloves"
 
+/datum/repeatable_crafting_recipe/sewing/clothvest
+	name = "cloth vest"
+	output = /obj/item/clothing/shirt/clothvest
+	requirements = list(
+		/obj/item/natural/cloth = 2,
+		/obj/item/natural/fibers = 1,)
+	craftdiff = 1
+	category = "Armor"
+
 /datum/repeatable_crafting_recipe/sewing/shortshirt
 	name = "cloth short shirt"
 	requirements = list(
@@ -168,11 +177,25 @@
 	category = "Pants"
 	craftdiff = 3
 
+/datum/repeatable_crafting_recipe/sewing/patkilt
+	name = "patterned kilt"
+	output = /obj/item/clothing/pants/skirt/patkilt
+	requirements = list(/obj/item/natural/cloth = 4,
+				/obj/item/natural/fibers = 2)
+	category = "Pants"
+	craftdiff = 3
+
 /datum/repeatable_crafting_recipe/sewing/headband
 	name = "headband"
 	output = /obj/item/clothing/head/headband
 	requirements = list(/obj/item/natural/cloth = 2,
 				/obj/item/natural/fibers = 1)
+	category = "Hat"
+
+/datum/repeatable_crafting_recipe/sewing/turban
+	name = "turban"
+	output = /obj/item/clothing/head/turban
+	requirements = list(/obj/item/natural/cloth = 2,)
 	category = "Hat"
 
 /datum/repeatable_crafting_recipe/sewing/headband_naledi
@@ -188,6 +211,12 @@
 	output = /obj/item/clothing/head/strawhat
 	requirements = list(/obj/item/natural/fibers = 3)
 	category = "Hat"
+
+/datum/repeatable_crafting_recipe/sewing/sash
+	name = "cloth sash"
+	output = /obj/item/clothing/shirt/undershirt/sash
+	requirements = list(/obj/item/natural/cloth = 2,)
+	category = "Cloak"
 
 /datum/repeatable_crafting_recipe/sewing/knitcap
 	name = "knit cap"
@@ -374,6 +403,14 @@
 /datum/repeatable_crafting_recipe/sewing/lgambeson
 	name = "light gambeson"
 	output = /obj/item/clothing/armor/gambeson/light
+	requirements = list(/obj/item/natural/cloth = 2,
+				/obj/item/natural/fibers = 1)
+	craftdiff = 1
+	category = "Armor"
+
+/datum/repeatable_crafting_recipe/sewing/stepperobe
+	name = "steppe robes"
+	output = /obj/item/clothing/armor/gambeson/light/steppe
 	requirements = list(/obj/item/natural/cloth = 2,
 				/obj/item/natural/fibers = 1)
 	craftdiff = 1
@@ -881,6 +918,14 @@
 /datum/repeatable_crafting_recipe/sewing/abyssortemplar
 	name = "abyssal surcoat"
 	output = /obj/item/clothing/cloak/stabard/templar/abyssor
+	requirements = list(/obj/item/natural/cloth = 3,
+				/obj/item/natural/fibers = 1)
+	craftdiff = 3
+	category = "Cloak"
+
+/datum/repeatable_crafting_recipe/sewing/abyssortemplar/alt
+	name = "abyssal surcoat(alt)"
+	output = /obj/item/clothing/cloak/stabard/templar/abyssor/alt
 	requirements = list(/obj/item/natural/cloth = 3,
 				/obj/item/natural/fibers = 1)
 	craftdiff = 3

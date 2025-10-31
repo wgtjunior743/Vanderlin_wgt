@@ -25,7 +25,7 @@
 	melt_amount = 50
 
 /obj/item/clothing/gloves/chain/psydon
-	name = "otavan chain gauntlets"
+	name = "grenzelhoftian chain gauntlets"
 	icon_state = "psydongloveschain"
 	item_state = "psydongloveschains"
 	melting_material = /datum/material/silver
