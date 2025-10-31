@@ -1623,6 +1623,8 @@
 #include "code\game\objects\items\devices\flashlight.dm"
 #include "code\game\objects\items\explosives\_base.dm"
 #include "code\game\objects\items\explosives\bottle_bomb.dm"
+#include "code\game\objects\items\explosives\canister.dm"
+#include "code\game\objects\items\explosives\deathshell.dm"
 #include "code\game\objects\items\melee\misc.dm"
 #include "code\game\objects\items\melee\transforming.dm"
 #include "code\game\objects\items\natural\animals.dm"
