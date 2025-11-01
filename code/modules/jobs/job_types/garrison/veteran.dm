@@ -335,7 +335,6 @@
 	cmode_music = 'sound/music/cmode/adventurer/CombatMonk.ogg'
 	outfit = /datum/outfit/vet/fist
 
-
 /datum/outfit/vet/fist
 	head = /obj/item/clothing/head/helmet/leather/volfhelm
 	neck = /obj/item/clothing/neck/bevor
