@@ -336,6 +336,7 @@
 	outfit = /datum/outfit/vet/fist
 
 /datum/outfit/vet/fist
+	name = "Faded Brawler"
 	head = /obj/item/clothing/head/helmet/leather/volfhelm
 	neck = /obj/item/clothing/neck/bevor
 	shoes = /obj/item/clothing/shoes/boots/armor/light
