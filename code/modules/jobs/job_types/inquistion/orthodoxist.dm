@@ -4,7 +4,7 @@
 	faction = "Station"
 	total_positions = 2 // TWO GOONS!!
 	spawn_positions = 2
-	allowed_races = list(SPEC_ID_HUMEN, SPEC_ID_DWARF)
+	allowed_races = RACES_PLAYER_GRENZ
 	bypass_lastclass = TRUE
 
 	allowed_patrons = list(

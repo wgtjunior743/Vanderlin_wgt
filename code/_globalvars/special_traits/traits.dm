@@ -901,3 +901,13 @@
 	character.add_spell(/datum/action/cooldown/spell/undirected/howl/call_of_the_moon, silent = TRUE)
 	ADD_TRAIT(character, TRAIT_NASTY_EATER, "[type]") // eat the raw meat
 
+/datum/special_trait/musical
+	name = "Musical Legend"
+	greet_text = span_notice("I am very good with instruments! though my previous one got stolen..")
+	weight = 50
+
+/datum/special_trait/musical/on_apply(mob/living/carbon/human/character, silent)
+	ADD_TRAIT(character, TRAIT_BARDIC_TRAINING, TRAIT_GENERIC)
+	var/datum/inspiration/I = new /datum/inspiration(character)
+	I.grant_inspiration(character, bard_tier = BARD_T2)
+	character.adjust_skillrank(/datum/skill/misc/music, 4, TRUE)

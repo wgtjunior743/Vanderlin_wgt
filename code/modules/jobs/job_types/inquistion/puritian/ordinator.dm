@@ -29,7 +29,6 @@
 		TRAIT_STEELHEARTED,
 		TRAIT_HEAVYARMOR,
 		TRAIT_INQUISITION,
-
 	)
 
 /datum/outfit/job/inquisitor/ordinator/pre_equip(mob/living/carbon/human/H)
