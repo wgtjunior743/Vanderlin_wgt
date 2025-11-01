@@ -357,7 +357,6 @@
 		spawned.adjust_skillrank(/datum/skill/combat/wrestling, 1, TRUE)
 		spawned.adjust_skillrank(/datum/skill/combat/unarmed, 1, TRUE)
 
-	spawned.adjust_blindness(-3)
 	spawned.select_equippable(spawned, list( \
 		"Knuckles" = /obj/item/weapon/knuckles, \
 		"Katar" = /obj/item/weapon/katar, \
@@ -365,4 +364,3 @@
 		message = "Choose your way.",
 		title = "MY FIST IS READY."
 		)
-	spawned.set_blindness(0)
