@@ -48,6 +48,7 @@
 		/datum/skill/labor/fishing = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/swimming = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/craft/crafting = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/magic/holy = SKILL_LEVEL_APPRENTICE, // they need this so Psydon's Grace works
 	)
 
 
@@ -59,6 +60,9 @@
 		var/mob/living/carbon/human/H = L
 		H.grant_language(/datum/language/oldpsydonic)
 		H.verbs |= /mob/living/carbon/human/proc/view_inquisition
+		if(H.dna?.species.id == SPEC_ID_HUMEN)
+			H.dna.species.native_language = "Old Psydonic"
+			H.dna.species.accent_language = H.dna.species.get_accent(H.dna.species.native_language)
 
 /datum/outfit/job/absolver/pre_equip(mob/living/carbon/human/H)
 	..()
