@@ -13,7 +13,7 @@
 		{"Down": true, "Turf Weather Effects": true}
 	],
 	"other_z": [
-		"_maps/map_files/vanderlin/vanderlin_forest.json",
+		"_maps/map_files/vanderlin/Vforest.json",
 		"_maps/map_files/vanderlin/vanderlin_mountain.json",
 		"_maps/map_files/vanderlin/vanderlin_bog.json"
 	],
