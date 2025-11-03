@@ -11,7 +11,10 @@
 	var/datum/job/parent_job
 	/// When joining the round, this text will be shown to the player.
 	var/tutorial = null
-
+	/// Id for the Job.
+	var/id
+	/// If the job is a custom job made by an admin.
+	var/custom_job = FALSE
 	//Bitflags for the job
 	var/flag = NONE
 	var/department_flag = NONE
@@ -563,12 +566,9 @@
 	data["enabled"] = enabled
 	data["spawn_positions"] = spawn_positions
 	data["cmode_music"] = cmode_music
-	data["allowed_ages"] = allowed_ages
-	data["allowed_patrons"] = allowed_patrons
 	data["outfit"] = outfit
 	data["antag_role"] = antag_role
 	data["faction"] = faction
-
 	data["total_positions"] = total_positions
 	data["tutorial"] = tutorial
 	data["selection_color"] = selection_color
@@ -596,7 +596,14 @@
 	data["magic_user"] = magic_user
 	data["noble_income"] = noble_income
 	data["job_bitflag"] = job_bitflag
+	data["id"] = id
 
+	if(length(skills))
+		var/list/skill_map = list()
+		for(var/skill_path in skills)
+			var/level = skills[skill_path]
+			skill_map[skill_path] = level
+		data["skills"] = skill_map
 	if(length(trainable_skills))
 		data["trainable_skills"] = trainable_skills.Copy()
 	if(length(advclass_cat_rolls))
@@ -609,10 +616,14 @@
 		data["languages"] = languages.Copy()
 	if(length(jobstats))
 		data["jobstats"] = jobstats.Copy()
-	if(length(skills))
-		data["skills"] = skills.Copy()
 	if(length(spells))
 		data["spells"] = spells.Copy()
+	if(length(allowed_ages))
+		data["allowed_ages"] = allowed_ages.Copy()
+	if(length(allowed_patrons))
+		data["allowed_patrons"] = allowed_patrons.Copy()
+
+
 
 	return data
 
@@ -626,10 +637,8 @@
 	enabled = data["enabled"]
 	spawn_positions = data["spawn_positions"]
 	cmode_music = data["cmode_music"]
-	allowed_ages = data["allowed_ages"]
-	allowed_patrons = data["allowed_patrons"]
-	outfit = data["outfit"]
-	antag_role = data["antag_role"]
+	outfit = text2path(data["outfit"])
+	antag_role = text2path(data["antag_role"])
 	faction = data["faction"]
 
 	total_positions = data["total_positions"]
@@ -659,7 +668,25 @@
 	magic_user = data["magic_user"]
 	noble_income = data["noble_income"]
 	job_bitflag = data["job_bitflag"]
+	id = data["id"]
 
+
+	if(data["skills"])
+		skills = list()
+		for(var/skill_path_text in data["skills"])
+			var/skill_path = text2path(skill_path_text)
+			if(skill_path)
+				var/level = data["skills"][skill_path_text]
+				skills[skill_path] = level
+	if(data["allowed_ages"])
+		var/list/tmp = data["allowed_ages"]
+		allowed_ages = tmp.Copy()
+	if(data["allowed_patrons"])
+		allowed_patrons = list()
+		for(var/allowed_patrons_text in data["allowed_patrons"])
+			var/allowed_patrons_path = text2path(allowed_patrons_text)
+			if(allowed_patrons_path) // valid path
+				allowed_patrons += allowed_patrons_path
 	if(data["trainable_skills"])
 		var/list/tmp = data["trainable_skills"]
 		trainable_skills = tmp.Copy()
@@ -678,9 +705,6 @@
 	if(data["jobstats"])
 		var/list/tmp = data["jobstats"]
 		jobstats = tmp.Copy()
-	if(data["skills"])
-		var/list/tmp = data["skills"]
-		skills = tmp.Copy()
 	if(data["spells"])
 		var/list/tmp = data["spells"]
 		spells = tmp.Copy()
