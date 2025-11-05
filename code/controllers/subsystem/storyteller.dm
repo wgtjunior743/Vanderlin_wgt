@@ -215,6 +215,22 @@ SUBSYSTEM_DEF(gamemode)
 			CHRONICLE_STATS_LUCKIEST_PERSON,
 			CHRONICLE_STATS_UNLUCKIEST_PERSON,
 		),
+		"Perception" = list(
+			CHRONICLE_STATS_MOST_PERCEPTIVE_PERSON,
+			CHRONICLE_STATS_LEAST_PERCEPTIVE_PERSON,
+		),
+		"Constitution" = list(
+			CHRONICLE_STATS_MOST_RESILIENT_PERSON,
+			CHRONICLE_STATS_LEAST_RESILIENT_PERSON,
+		),
+		"Endurance" = list(
+			CHRONICLE_STATS_MOST_ENDURANT_PERSON,
+			CHRONICLE_STATS_LEAST_ENDURANT_PERSON,
+		),
+		"Beauty" = list(
+			CHRONICLE_STATS_MOST_BEAUTIFUL_PERSON,
+			CHRONICLE_STATS_UGLIEST_PERSON,
+		),
 	)
 
 	/// Chosen chronicle stats of the notable people, which show at the end round panel
@@ -440,6 +456,8 @@ SUBSYSTEM_DEF(gamemode)
 
 	check_roundstart_gods_rankings()
 
+	initialize_culinary_globals()
+
 	pick_chronicle_stats()
 
 	. = ..()
@@ -490,6 +508,10 @@ SUBSYSTEM_DEF(gamemode)
 		update_crew_infos()
 		next_storyteller_process = world.time + STORYTELLER_WAIT_TIME
 		current_storyteller.process(STORYTELLER_WAIT_TIME * 0.1)
+
+/datum/controller/subsystem/gamemode/proc/initialize_culinary_globals()
+	GLOB.selectable_foods = get_global_selectable_foods()
+	GLOB.selectable_drinks = get_global_selectable_drinks()
 
 /// Gets the number of antagonists the antagonist injection events will stop rolling after.
 /datum/controller/subsystem/gamemode/proc/get_antag_cap()
@@ -777,9 +799,9 @@ SUBSYSTEM_DEF(gamemode)
 			delay = (4 MINUTES) //default to 4 minutes if the delay isn't defined.
 		addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(reopen_roundstart_suicide_roles)), delay)
 
-	refresh_alive_stats()
 	handle_post_setup_roundstart_events()
 	handle_post_setup_points()
+	refresh_alive_stats()
 	roundstart_event_view = FALSE
 	return TRUE
 
@@ -1080,20 +1102,20 @@ SUBSYSTEM_DEF(gamemode)
 	var/list/dat = list()
 	if(current_storyteller)
 		dat += "Storyteller: [current_storyteller.name]"
-		dat += "<BR>Repetition penalty multiplier: [current_storyteller.event_repetition_multiplier]"
-		dat += "<BR>Cost variance: [current_storyteller.cost_variance]"
+		dat += "<BR>Repetition Penalty Multiplier: [current_storyteller.event_repetition_multiplier]"
+		dat += "<BR>Cost Variance: [current_storyteller.cost_variance]"
 		if(current_storyteller.tag_multipliers)
-			dat += "<BR>Tag multipliers:"
+			dat += "<BR>Tag Multipliers: "
 			for(var/tag in current_storyteller.tag_multipliers)
-				dat += "[tag]:[current_storyteller.tag_multipliers[tag]] | "
+				dat += "[tag]: [current_storyteller.tag_multipliers[tag]] | "
 		current_storyteller.calculate_weights(statistics_track_page)
 	else
 		dat += "Storyteller: None<BR>Weight and chance statistics will be inaccurate due to the present lack of a storyteller."
-	dat += "<BR><a href='byond://?src=[REF(src)];panel=stats;action=set_roundstart'[roundstart_event_view ? "class='linkOn'" : ""]>Roundstart Events</a> Forced Roundstart events will use rolled points, and are guaranteed to trigger (even if the used points are not enough)"
-	dat += "<BR>Avg. event intervals: "
+	dat += "<BR><a href='byond://?src=[REF(src)];panel=stats;action=set_roundstart'[roundstart_event_view ? "class='linkOn'" : ""]>Show Roundstart Events</a> Forced Roundstart events will use rolled points, and are guaranteed to trigger (even if the used points are not enough)"
+	dat += "<BR>Average Event Intervals: "
 	for(var/track in event_tracks)
 		if(last_point_gains[track])
-			var/est_time = round(point_thresholds[track] / last_point_gains[track] / STORYTELLER_WAIT_TIME * 40 / 6) / 10
+			var/est_time = round((point_thresholds[track] / last_point_gains[track]) * (STORYTELLER_WAIT_TIME / (1 MINUTES)), 1)
 			dat += "[track]: ~[est_time] m. | "
 	dat += "<HR>"
 	for(var/track in EVENT_PANEL_TRACKS)
@@ -1153,7 +1175,7 @@ SUBSYSTEM_DEF(gamemode)
 		dat += "<td>[event.earliest_start / (1 MINUTES)] m.</td>" //Minimum time
 		dat += "<td>[assoc_spawn_weight[event] ? "Yes" : "No"]</td>" //Can happen?
 		dat += "<td>[event.return_failure_string(active_players)]</td>" //Why can't happen?
-		var/weight_string = "(new.[event.calculated_weight] /raw.[event.weight])"
+		var/weight_string = "(New: [event.calculated_weight] / Raw: [event.weight])"
 		if(assoc_spawn_weight[event])
 			var/percent = round((event.calculated_weight / total_weight) * 100)
 			weight_string = "[percent]% - [weight_string]"
@@ -1179,7 +1201,7 @@ SUBSYSTEM_DEF(gamemode)
 					for(var/storyteller_type in storytellers)
 						var/datum/storyteller/storyboy = storytellers[storyteller_type]
 						name_list[storyboy.name] = storyboy.type
-					var/new_storyteller_name = input(usr, "Choose new storyteller (circumvents voted one):", "Storyteller")  as null|anything in name_list
+					var/new_storyteller_name = input(usr, "Choose a new Storyteller (Circumvents voted one):", "Storyteller")  as null|anything in name_list
 					if(!new_storyteller_name)
 						message_admins("[key_name_admin(usr)] has cancelled picking a Storyteller.")
 						return
@@ -1202,7 +1224,7 @@ SUBSYSTEM_DEF(gamemode)
 							var/new_value = input(usr, "New value:", "Set new value") as num|null
 							if(isnull(new_value) || new_value < 0)
 								return
-							message_admins("[key_name_admin(usr)] set roundstart pts multiplier for [track] track to [new_value].")
+							message_admins("[key_name_admin(usr)] set roundstart point multiplier for [track] track to [new_value].")
 							roundstart_point_multipliers[track] = new_value
 						if("min_pop")
 							var/new_value = input(usr, "New value:", "Set new value") as num|null
@@ -1316,7 +1338,7 @@ SUBSYSTEM_DEF(gamemode)
 			if(!(set_data[1] in chosen_chronicle_stats) && !(set_data[2] in chosen_chronicle_stats))
 				available_complete_sets[set_name] = set_data
 
-	var/slots_needed = 8 - length(chosen_chronicle_stats)
+	var/slots_needed = MAX_CHRONICLE_STATS - length(chosen_chronicle_stats)
 	var/sets_to_pick = FLOOR(slots_needed / 2, 1)
 
 	for(var/i in 1 to sets_to_pick)
@@ -1331,7 +1353,7 @@ SUBSYSTEM_DEF(gamemode)
 
 		available_complete_sets -= picked_set_name
 
-	if(length(chosen_chronicle_stats) < 8)
+	if(length(chosen_chronicle_stats) < MAX_CHRONICLE_STATS)
 		var/list/all_stats = list()
 		for(var/set_name in chronicle_sets)
 			var/list/set_data = chronicle_sets[set_name]
@@ -1341,17 +1363,17 @@ SUBSYSTEM_DEF(gamemode)
 
 		shuffle_inplace(all_stats)
 		for(var/stat in all_stats)
-			if(length(chosen_chronicle_stats) >= 8)
+			if(length(chosen_chronicle_stats) >= MAX_CHRONICLE_STATS)
 				break
 			chosen_chronicle_stats += stat
 
-	if(length(chosen_chronicle_stats) < 8)
+	if(length(chosen_chronicle_stats) < MAX_CHRONICLE_STATS)
 		for(var/set_name in chronicle_sets)
-			if(length(chosen_chronicle_stats) >= 8)
+			if(length(chosen_chronicle_stats) >= MAX_CHRONICLE_STATS)
 				break
 			var/list/set_data = chronicle_sets[set_name]
 			for(var/stat in set_data)
-				if(length(chosen_chronicle_stats) >= 8)
+				if(length(chosen_chronicle_stats) >= MAX_CHRONICLE_STATS)
 					break
 				if(!(stat in chosen_chronicle_stats))
 					chosen_chronicle_stats += stat
@@ -1465,6 +1487,8 @@ SUBSYSTEM_DEF(gamemode)
 		STATS_ALIVE_HARPIES,
 		STATS_ALIVE_TRITONS,
 		STATS_ALIVE_MEDICATORS,
+		STATS_ALIVE_HALFLINGS,
+		STATS_FOREIGNERS,
 	)
 
 	for(var/stat_name in statistics_to_clear)
@@ -1482,6 +1506,9 @@ SUBSYSTEM_DEF(gamemode)
 	var/highest_wealth = -1
 	var/highest_luck = -1
 	var/highest_speed = -1
+	var/highest_perception = -1
+	var/highest_constitution = -1
+	var/highest_endurance = -1
 
 	var/lowest_total_stats
 	var/lowest_strength
@@ -1489,10 +1516,16 @@ SUBSYSTEM_DEF(gamemode)
 	var/lowest_wealth
 	var/lowest_luck
 	var/lowest_speed
+	var/lowest_perception
+	var/lowest_constitution
+	var/lowest_endurance
 
 	for(var/client/client in GLOB.clients)
-		if(roundstart)
-			GLOB.patron_follower_counts[client.prefs.selected_patron.name]++
+		if(roundstart && istype(client?.mob, /mob/dead/new_player))
+			var/mob/dead/new_player/player = client.mob
+			if(player.ready == PLAYER_READY_TO_PLAY)
+				GLOB.patron_follower_counts[client.prefs.selected_patron.name]++
+
 		var/mob/living/living = client.mob
 		if(!istype(living))
 			continue
@@ -1550,6 +1583,8 @@ SUBSYSTEM_DEF(gamemode)
 				record_round_statistic(STATS_ALIVE_TRADESMEN)
 			if(!human_mob.is_literate())
 				record_round_statistic(STATS_ILLITERATES)
+			if(HAS_TRAIT(human_mob, TRAIT_FOREIGNER))
+				record_round_statistic(STATS_FOREIGNERS)
 			if(human_mob.has_flaw(/datum/charflaw/clingy))
 				record_round_statistic(STATS_CLINGY_PEOPLE)
 			if(human_mob.has_flaw(/datum/charflaw/addiction/alcoholic))
@@ -1573,7 +1608,7 @@ SUBSYSTEM_DEF(gamemode)
 				if(human_mob.IsWedded() || member.children.len > 0)
 					record_round_statistic(STATS_MARRIED)
 
-			// species
+			// Species
 			if(istiefling(human_mob))
 				record_round_statistic(STATS_ALIVE_TIEFLINGS)
 			if(ishumannorthern(human_mob))
@@ -1604,6 +1639,8 @@ SUBSYSTEM_DEF(gamemode)
 				record_round_statistic(STATS_ALIVE_TRITONS)
 			if(ismedicator(human_mob))
 				record_round_statistic(STATS_ALIVE_MEDICATORS)
+			if(ishalfling(human_mob))
+				record_round_statistic(STATS_ALIVE_HALFLINGS)
 
 			// Chronicle statistics
 
@@ -1630,6 +1667,18 @@ SUBSYSTEM_DEF(gamemode)
 			if(human_mob.STASPD > highest_speed)
 				highest_speed = human_mob.STASPD
 				set_chronicle_stat(CHRONICLE_STATS_FASTEST_PERSON, human_mob, "SPEEDSTER", "#54d6c2", "[human_mob.STASPD] speed")
+
+			if(human_mob.STAPER > highest_perception)
+				highest_perception = human_mob.STAPER
+				set_chronicle_stat(CHRONICLE_STATS_MOST_PERCEPTIVE_PERSON, human_mob, "EAGLE-EYED", "#a8d654", "[human_mob.STAPER] perception")
+
+			if(human_mob.STACON > highest_constitution)
+				highest_constitution = human_mob.STACON
+				set_chronicle_stat(CHRONICLE_STATS_MOST_RESILIENT_PERSON, human_mob, "THE ROCK", "#d67c54", "[human_mob.STACON] constitution")
+
+			if(human_mob.STAEND > highest_endurance)
+				highest_endurance = human_mob.STAEND
+				set_chronicle_stat(CHRONICLE_STATS_MOST_ENDURANT_PERSON, human_mob, "WORKHORSE", "#dbb169", "[human_mob.STAEND] endurance")
 
 			var/wealth = get_mammons_in_atom(human_mob)
 			total_wealth += wealth
@@ -1679,13 +1728,54 @@ SUBSYSTEM_DEF(gamemode)
 				lowest_wealth = wealth
 				set_chronicle_stat(CHRONICLE_STATS_POOREST_PERSON, human_mob, "PAUPER", "#909c63", "[wealth] mammons")
 
+			if(isnull(lowest_perception))
+				lowest_perception = human_mob.STAPER
+				set_chronicle_stat(CHRONICLE_STATS_LEAST_PERCEPTIVE_PERSON, human_mob, "CLUELESS", "#9fb9b9", "[human_mob.STAPER] perception")
+			else if(human_mob.STAPER < lowest_perception)
+				lowest_perception = human_mob.STAPER
+				set_chronicle_stat(CHRONICLE_STATS_LEAST_PERCEPTIVE_PERSON, human_mob, "CLUELESS", "#9fb9b9", "[human_mob.STAPER] perception")
+
+			if(isnull(lowest_constitution))
+				lowest_constitution = human_mob.STACON
+				set_chronicle_stat(CHRONICLE_STATS_LEAST_RESILIENT_PERSON, human_mob, "FRAGILE", "#a8917d", "[human_mob.STACON] constitution")
+			else if(human_mob.STACON < lowest_constitution)
+				lowest_constitution = human_mob.STACON
+				set_chronicle_stat(CHRONICLE_STATS_LEAST_RESILIENT_PERSON, human_mob, "FRAGILE", "#a8917d", "[human_mob.STACON] constitution")
+
+			if(isnull(lowest_endurance))
+				lowest_endurance = human_mob.STAEND
+				set_chronicle_stat(CHRONICLE_STATS_LEAST_ENDURANT_PERSON, human_mob, "TIRED", "#a8a0a0", "[human_mob.STAEND] endurance")
+			else if(human_mob.STAEND < lowest_endurance)
+				lowest_endurance = human_mob.STAEND
+				set_chronicle_stat(CHRONICLE_STATS_LEAST_ENDURANT_PERSON, human_mob, "TIRED", "#a8a0a0", "[human_mob.STAEND] endurance")
+
 	force_set_round_statistic(STATS_MAMMONS_HELD, total_wealth)
+
+	var/total_bank_wealth = 0
+	for(var/account_name in SStreasury.bank_accounts)
+		total_bank_wealth += SStreasury.bank_accounts[account_name]
+	force_set_round_statistic(STATS_MAMMONS_IN_BANK, total_bank_wealth)
+
+	var/list/potential_passers = current_valid_humans.Copy()
+	var/list/beautiful_candidates = list()
+	var/list/ugly_candidates = list()
+
+	for(var/mob/living/carbon/human/human_mob in current_valid_humans)
+		if(HAS_TRAIT(human_mob, TRAIT_BEAUTIFUL))
+			beautiful_candidates += human_mob
+		if(HAS_TRAIT(human_mob, TRAIT_UGLY))
+			ugly_candidates += human_mob
+
+	if(length(beautiful_candidates) > 0)
+		var/mob/living/carbon/human/selected_beautiful = pick(beautiful_candidates)
+		set_chronicle_stat(CHRONICLE_STATS_MOST_BEAUTIFUL_PERSON, selected_beautiful, "BEAUTIFUL", "#f5a2ee", "their beauty")
+
+	if(length(ugly_candidates) > 0)
+		var/mob/living/carbon/human/selected_ugly = pick(ugly_candidates)
+		set_chronicle_stat(CHRONICLE_STATS_UGLIEST_PERSON, selected_ugly, "EYESORE", "#9e6033", "their ugliness")
 
 	if(valid_psydon_favourite)
 		set_chronicle_stat(CHRONICLE_STATS_PSYDON_FAVOURITE, valid_psydon_favourite, "PSYDON'S FAVOURITE", "#e6e6e6", "buying their way in")
-
-	var/list/potential_passers = current_valid_humans.Copy()
-	if(valid_psydon_favourite)
 		potential_passers -= valid_psydon_favourite
 
 	if(length(potential_passers) > 0)
