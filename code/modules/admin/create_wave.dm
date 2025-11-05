@@ -1,6 +1,7 @@
 GLOBAL_LIST_EMPTY(custom_jobs) // Admin created jobs
 GLOBAL_LIST_EMPTY(custom_waves) // Created waves
 
+
 // Minimal custom job datum
 /datum/job/custom_job
 	title = "Unnamed Job"
@@ -24,7 +25,7 @@ GLOBAL_LIST_EMPTY(custom_waves) // Created waves
 	var/list/pending_jobs = list()
 
 	// Lists used on the Custom Job HTML
-	var/list/factions_list = list("FACTION_NONE","FACTION_TOWN","FACTION_SOME_OTHER")
+	var/list/factions_list = ALL_FACTIONS
 	var/list/outfits_list = list(/datum/outfit/apothecary,/datum/outfit/inquisition_crusader)
 	var/list/sexes_list = list(MALE,FEMALE)
 	var/list/races_list = RACES_PLAYER_ALL
@@ -52,11 +53,19 @@ GLOBAL_LIST_EMPTY(custom_waves) // Created waves
 	var/temp_faction
 	var/temp_outfit
 	var/temp_antag
+	var/temp_custom_combat_song
 	var/temp_allowed_sexes
 	var/temp_allowed_races
 	var/temp_allowed_ages
 	var/temp_languages
 	var/temp_patrons
+
+	// Temp booleans
+	var/temp_antag_bool
+	var/temp_foreigner_bool
+	var/temp_recognized_bool
+	var/temp_custom_combat_song_bool
+	var/temp_magick_user_bool
 
 	// Temps vars to recreate the wave browser
 	var/temp_wave_title
@@ -131,7 +140,6 @@ GLOBAL_LIST_EMPTY(custom_waves) // Created waves
 			return
 
 		if(!CW.can_be_roles(C))
-			message_admins("can be roles returning")
 			return
 		if(!(C in CW.candidates))
 			CW.candidates += C
@@ -150,11 +158,26 @@ GLOBAL_LIST_EMPTY(custom_waves) // Created waves
 
 
 	if(href == "close=1")
-		message_admins("TRIGGER CLOSE PENDING_SKILL LIST EMPTY")
 		pending_skills = list()
 		pending_traits = list()
 		pending_stats = list()
 		temp_job_title = null
+		temp_job_tutorial = null
+		temp_faction = null
+		temp_outfit = null
+		temp_antag = null
+		temp_allowed_sexes = null
+		temp_allowed_races = null
+		temp_allowed_ages = null
+		temp_languages = null
+		temp_patrons = null
+		temp_custom_combat_song = null
+		temp_custom_combat_song_bool = null
+		temp_antag_bool = null
+		temp_foreigner_bool = null
+		temp_recognized_bool = null
+		temp_custom_combat_song_bool = null
+		temp_magick_user_bool = null
 
 		return
 
@@ -175,6 +198,7 @@ GLOBAL_LIST_EMPTY(custom_waves) // Created waves
 		if(!check_rights(R_ADMIN))
 			return
 		create_job_finalize(usr, href_list)
+		create_job(usr)
 	else if(href_list["create_job_menu"])
 		if(!check_rights(R_ADMIN))
 			return
@@ -205,6 +229,43 @@ GLOBAL_LIST_EMPTY(custom_waves) // Created waves
 		var/datum/skill/S = new skill
 		var/level = text2num(href_list["level"])
 		temp_job_title = href_list["title"]
+		temp_job_tutorial = href_list["tutorial"]
+		temp_faction = href_list["faction"]
+		temp_outfit = text2path(href_list["outfit"])
+		var/sexes_string = href_list["allowed_sexes"]
+		var/list/sexes_list = splittext(sexes_string, ",")
+		temp_allowed_sexes = sexes_list
+		var/races_string = href_list["allowed_races"]
+		var/list/races_list = splittext(races_string, ",")
+		temp_allowed_races = races_list
+		var/allowed_ages_string = href_list["allowed_ages"]
+		var/list/allowed_ages_list = splittext(allowed_ages_string, ",")
+		temp_allowed_ages = allowed_ages_list
+		var/languages_string = href_list["languages"]
+		var/list/languages_list = list()
+		for(var/entry in splittext(languages_string, ","))
+			var/path = text2path(entry)
+			if(path)
+				languages_list += path
+		temp_languages = languages_list
+
+		var/patrons_string = href_list["patrons"]
+		var/list/patrons_list = list()
+		for(var/entry in splittext(patrons_string, ","))
+			var/path = text2path(entry)
+			if(path)
+				patrons_list += path
+		temp_patrons = patrons_list
+
+		temp_antag_bool = text2num(href_list["antag_bool"])
+		if(temp_antag_bool && temp_antag_bool == 1)
+			temp_antag = text2path(href_list["antag"])
+		temp_foreigner_bool = text2num(href_list["foreigner_bool"])
+		temp_recognized_bool = text2num(href_list["recognized_bool"])
+		temp_custom_combat_song_bool = text2num(href_list["combat_song_bool"])
+		if(temp_custom_combat_song_bool && temp_custom_combat_song_bool == 1)
+			temp_custom_combat_song = href_list["combat_song"]
+		temp_magick_user_bool = text2num(href_list["magick_user_bool"])
 
 		if(skill in pending_skills)
 			to_chat(usr, span_warning("[S.name] is already in the job skill list!"))
@@ -218,11 +279,102 @@ GLOBAL_LIST_EMPTY(custom_waves) // Created waves
 		else
 			to_chat(usr, span_notice("Failed to add [S.name], invalid level inserted [level]."))
 		qdel(S)
+	else if(href_list["remove_skill"])
+		if(!check_rights(R_ADMIN))
+			return
+		temp_job_title = href_list["title"]
+		temp_job_tutorial = href_list["tutorial"]
+		temp_faction = href_list["faction"]
+		temp_outfit = text2path(href_list["outfit"])
+		var/sexes_string = href_list["allowed_sexes"]
+		var/list/sexes_list = splittext(sexes_string, ",")
+		temp_allowed_sexes = sexes_list
+		var/races_string = href_list["allowed_races"]
+		var/list/races_list = splittext(races_string, ",")
+		temp_allowed_races = races_list
+		var/allowed_ages_string = href_list["allowed_ages"]
+		var/list/allowed_ages_list = splittext(allowed_ages_string, ",")
+		temp_allowed_ages = allowed_ages_list
+		var/languages_string = href_list["languages"]
+		var/list/languages_list = list()
+		for(var/entry in splittext(languages_string, ","))
+			var/path = text2path(entry)
+			if(path)
+				languages_list += path
+		temp_languages = languages_list
+
+		var/patrons_string = href_list["patrons"]
+		var/list/patrons_list = list()
+		for(var/entry in splittext(patrons_string, ","))
+			var/path = text2path(entry)
+			if(path)
+				patrons_list += path
+		temp_patrons = patrons_list
+
+		temp_antag_bool = text2num(href_list["antag_bool"])
+		if(temp_antag_bool && temp_antag_bool == 1)
+			temp_antag = text2path(href_list["antag"])
+		temp_foreigner_bool = text2num(href_list["foreigner_bool"])
+		temp_recognized_bool = text2num(href_list["recognized_bool"])
+		temp_custom_combat_song_bool = text2num(href_list["combat_song_bool"])
+		if(temp_custom_combat_song_bool && temp_custom_combat_song_bool == 1)
+			temp_custom_combat_song = href_list["combat_song"]
+		temp_magick_user_bool = text2num(href_list["magick_user_bool"])
+
+		var/skill_to_remove = text2path(href_list["skill"])
+		var/datum/skill/S_R = new skill_to_remove
+		if(skill_to_remove in pending_skills)
+			pending_skills -= skill_to_remove
+
+			to_chat(usr, span_notice("Removed [S_R.name] from the skill list."))
+		else
+			to_chat(usr, span_warning("[S_R.name] not found in skill list."))
+		qdel(S_R)
+		create_job(usr)
 	else if(href_list["add_trait"])
 		if(!check_rights(R_ADMIN))
 			return
-		message_admins("ADD TRAIT")
 		var/trait = href_list["trait"]
+
+		temp_job_title = href_list["title"]
+		temp_job_tutorial = href_list["tutorial"]
+		temp_faction = href_list["faction"]
+		temp_outfit = text2path(href_list["outfit"])
+		var/sexes_string = href_list["allowed_sexes"]
+		var/list/sexes_list = splittext(sexes_string, ",")
+		temp_allowed_sexes = sexes_list
+		var/races_string = href_list["allowed_races"]
+		var/list/races_list = splittext(races_string, ",")
+		temp_allowed_races = races_list
+		var/allowed_ages_string = href_list["allowed_ages"]
+		var/list/allowed_ages_list = splittext(allowed_ages_string, ",")
+		temp_allowed_ages = allowed_ages_list
+		var/languages_string = href_list["languages"]
+		var/list/languages_list = list()
+		for(var/entry in splittext(languages_string, ","))
+			var/path = text2path(entry)
+			if(path)
+				languages_list += path
+		temp_languages = languages_list
+
+		var/patrons_string = href_list["patrons"]
+		var/list/patrons_list = list()
+		for(var/entry in splittext(patrons_string, ","))
+			var/path = text2path(entry)
+			if(path)
+				patrons_list += path
+		temp_patrons = patrons_list
+
+		temp_antag_bool = text2num(href_list["antag_bool"])
+		if(temp_antag_bool && temp_antag_bool == 1)
+			temp_antag = text2path(href_list["antag"])
+		temp_foreigner_bool = text2num(href_list["foreigner_bool"])
+		temp_recognized_bool = text2num(href_list["recognized_bool"])
+		temp_custom_combat_song_bool = text2num(href_list["combat_song_bool"])
+		if(temp_custom_combat_song_bool && temp_custom_combat_song_bool == 1)
+			temp_custom_combat_song = href_list["combat_song"]
+		temp_magick_user_bool = text2num(href_list["magick_user_bool"])
+
 		if(trait in pending_traits)
 			to_chat(usr, span_warning("[trait] is already in the job trait list!"))
 			return
@@ -230,11 +382,102 @@ GLOBAL_LIST_EMPTY(custom_waves) // Created waves
 			pending_traits += trait
 			to_chat(usr, span_notice("Added the trait: [trait]."))
 			create_job(usr, href_list)
+	else if(href_list["remove_trait"])
+		if(!check_rights(R_ADMIN))
+			return
+		temp_job_title = href_list["title"]
+		temp_job_tutorial = href_list["tutorial"]
+		temp_faction = href_list["faction"]
+		temp_outfit = text2path(href_list["outfit"])
+		var/sexes_string = href_list["allowed_sexes"]
+		var/list/sexes_list = splittext(sexes_string, ",")
+		temp_allowed_sexes = sexes_list
+		var/races_string = href_list["allowed_races"]
+		var/list/races_list = splittext(races_string, ",")
+		temp_allowed_races = races_list
+		var/allowed_ages_string = href_list["allowed_ages"]
+		var/list/allowed_ages_list = splittext(allowed_ages_string, ",")
+		temp_allowed_ages = allowed_ages_list
+		var/languages_string = href_list["languages"]
+		var/list/languages_list = list()
+		for(var/entry in splittext(languages_string, ","))
+			var/path = text2path(entry)
+			if(path)
+				languages_list += path
+		temp_languages = languages_list
+
+		var/patrons_string = href_list["patrons"]
+		var/list/patrons_list = list()
+		for(var/entry in splittext(patrons_string, ","))
+			var/path = text2path(entry)
+			if(path)
+				patrons_list += path
+		temp_patrons = patrons_list
+
+		temp_antag_bool = text2num(href_list["antag_bool"])
+		if(temp_antag_bool && temp_antag_bool == 1)
+			temp_antag = text2path(href_list["antag"])
+		temp_foreigner_bool = text2num(href_list["foreigner_bool"])
+		temp_recognized_bool = text2num(href_list["recognized_bool"])
+		temp_custom_combat_song_bool = text2num(href_list["combat_song_bool"])
+		if(temp_custom_combat_song_bool && temp_custom_combat_song_bool == 1)
+			temp_custom_combat_song = href_list["combat_song"]
+		temp_magick_user_bool = text2num(href_list["magick_user_bool"])
+
+		var/trait_to_remove = href_list["trait"]
+		if(trait_to_remove in pending_traits)
+			pending_traits -= trait_to_remove
+			to_chat(usr, span_notice("Removed [trait_to_remove] from the trait list."))
+		else
+			to_chat(usr, span_warning("[trait_to_remove] not found in trait list."))
+
+		create_job(usr)
 	else if(href_list["add_stat"])
 		if(!check_rights(R_ADMIN))
 			return
 		var/stat = href_list["stat"]
 		var/modifier = href_list["modifier"]
+
+		temp_job_title = href_list["title"]
+		temp_job_tutorial = href_list["tutorial"]
+		temp_faction = href_list["faction"]
+		temp_outfit = text2path(href_list["outfit"])
+		var/sexes_string = href_list["allowed_sexes"]
+		var/list/sexes_list = splittext(sexes_string, ",")
+		temp_allowed_sexes = sexes_list
+		var/races_string = href_list["allowed_races"]
+		var/list/races_list = splittext(races_string, ",")
+		temp_allowed_races = races_list
+		var/allowed_ages_string = href_list["allowed_ages"]
+		var/list/allowed_ages_list = splittext(allowed_ages_string, ",")
+		temp_allowed_ages = allowed_ages_list
+		var/languages_string = href_list["languages"]
+		var/list/languages_list = list()
+		for(var/entry in splittext(languages_string, ","))
+			var/path = text2path(entry)
+			if(path)
+				languages_list += path
+		temp_languages = languages_list
+
+		var/patrons_string = href_list["patrons"]
+		var/list/patrons_list = list()
+		for(var/entry in splittext(patrons_string, ","))
+			var/path = text2path(entry)
+			if(path)
+				patrons_list += path
+		temp_patrons = patrons_list
+
+		temp_antag_bool = text2num(href_list["antag_bool"])
+		if(temp_antag_bool && temp_antag_bool == 1)
+			temp_antag = text2path(href_list["antag"])
+		temp_foreigner_bool = text2num(href_list["foreigner_bool"])
+		temp_recognized_bool = text2num(href_list["recognized_bool"])
+		temp_custom_combat_song_bool = text2num(href_list["combat_song_bool"])
+		if(temp_custom_combat_song_bool && temp_custom_combat_song_bool == 1)
+			temp_custom_combat_song = href_list["combat_song"]
+		temp_magick_user_bool = text2num(href_list["magick_user_bool"])
+
+
 		if(stat in pending_stats)
 			to_chat(usr, span_warning("[stat] is already in the job stat list!"))
 			return
@@ -242,6 +485,56 @@ GLOBAL_LIST_EMPTY(custom_waves) // Created waves
 			pending_stats[stat] = text2num(modifier)
 			to_chat(usr, span_notice("Added [stat] with a modifier of [modifier]"))
 			create_job(usr)
+	else if(href_list["remove_stat"])
+		if(!check_rights(R_ADMIN))
+			return
+		temp_job_title = href_list["title"]
+		temp_job_tutorial = href_list["tutorial"]
+		temp_faction = href_list["faction"]
+		temp_outfit = text2path(href_list["outfit"])
+		var/sexes_string = href_list["allowed_sexes"]
+		var/list/sexes_list = splittext(sexes_string, ",")
+		temp_allowed_sexes = sexes_list
+		var/races_string = href_list["allowed_races"]
+		var/list/races_list = splittext(races_string, ",")
+		temp_allowed_races = races_list
+		var/allowed_ages_string = href_list["allowed_ages"]
+		var/list/allowed_ages_list = splittext(allowed_ages_string, ",")
+		temp_allowed_ages = allowed_ages_list
+		var/languages_string = href_list["languages"]
+		var/list/languages_list = list()
+		for(var/entry in splittext(languages_string, ","))
+			var/path = text2path(entry)
+			if(path)
+				languages_list += path
+		temp_languages = languages_list
+
+		var/patrons_string = href_list["patrons"]
+		var/list/patrons_list = list()
+		for(var/entry in splittext(patrons_string, ","))
+			var/path = text2path(entry)
+			if(path)
+				patrons_list += path
+		temp_patrons = patrons_list
+
+		temp_antag_bool = text2num(href_list["antag_bool"])
+		if(temp_antag_bool && temp_antag_bool == 1)
+			temp_antag = text2path(href_list["antag"])
+		temp_foreigner_bool = text2num(href_list["foreigner_bool"])
+		temp_recognized_bool = text2num(href_list["recognized_bool"])
+		temp_custom_combat_song_bool = text2num(href_list["combat_song_bool"])
+		if(temp_custom_combat_song_bool && temp_custom_combat_song_bool == 1)
+			temp_custom_combat_song = href_list["combat_song"]
+		temp_magick_user_bool = text2num(href_list["magick_user_bool"])
+
+		var/stat_to_remove = href_list["stats"]
+		if(stat_to_remove in pending_stats)
+			pending_stats -= stat_to_remove
+
+			to_chat(usr, span_notice("Removed [stat_to_remove] from the stat list."))
+		else
+			to_chat(usr, span_warning("[stat_to_remove] not found in stat list."))
+		create_job(usr)
 	// Export a single job as JSON
 	else if(href_list["export_job"])
 		if(!check_rights(R_ADMIN))
@@ -265,6 +558,7 @@ GLOBAL_LIST_EMPTY(custom_waves) // Created waves
 		if(!check_rights(R_ADMIN))
 			return
 		create_wave_finalize(usr, href_list)
+		create_wave(usr)
 	else if(href_list["create_wave_menu"])
 		if(!check_rights(R_ADMIN))
 			return
@@ -278,14 +572,36 @@ GLOBAL_LIST_EMPTY(custom_waves) // Created waves
 		if(!check_rights(R_ADMIN))
 			return
 		var/datum/custom_wave/CW = locate(href_list["chosen_wave"]) in GLOB.custom_waves
+		edit_wave(usr, CW)
 	else if(href_list["view_wave"])
 		if(!check_rights(R_ADMIN))
 			return
 		var/datum/custom_wave/CW = locate(href_list["chosen_wave"]) in GLOB.custom_waves
 		view_wave(usr, CW)
+	else if(href_list["announce_wave"])
+		if(!check_rights(R_ADMIN))
+			return
+		var/message = browser_input_text(usr, "Only those at the lobby or dead will see this:", "Wave Announcement")
+		if(message)
+			var/admin_name = span_adminannounce_big("[usr.client.holder.fakekey ? "Administrator" : usr.key] Announces:")
+			var/message_to_announce = ("[span_adminannounce(message)]")
+			for(var/client/GC in GLOB.clients)
+				var/mob/dead_mob = GC.mob
+				if(!dead_mob || !isdead(dead_mob))
+					continue
+				to_chat(GC, announcement_block("[admin_name] \n \n [message_to_announce]"))
+			log_admin("Wave Announce: [key_name(usr)] : [message]")
+			message_admins("Wave Announce : [key_name(usr)] : [message]")
+			SSblackbox.record_feedback("tally", "admin_verb_announce_wave", 1, "Announce")
 	else if(href_list["add_jobs"])
 		if(!check_rights(R_ADMIN))
 			return
+		var/edit_see = locate(href_list["wave_ref"])
+		var/edit = FALSE
+		var/datum/custom_wave/CW
+		if(edit_see)
+			edit = TRUE
+			CW = locate(href_list["wave_ref"])
 		var/job = href_list["job"]
 		var/slots = text2num(href_list["slots"])
 		var/datum/job/J
@@ -308,25 +624,78 @@ GLOBAL_LIST_EMPTY(custom_waves) // Created waves
 			to_chat(usr, span_warning("[J.title] is already in the job list!"))
 			return
 
-		pending_jobs[job] = slots
-		to_chat(usr, span_notice("Added [slots] slot(s) for [job]."))
-		qdel(J)
-		create_wave(usr)
+		if(edit)
+			CW.wave_jobs[job] = slots
+			to_chat(usr, span_notice("Added [slots] slot(s) for [job] in the [CW.name]."))
+			edit_wave(usr, CW)
+		else
+			pending_jobs[job] = slots
+			to_chat(usr, span_notice("Added [slots] slot(s) for [job]."))
+			create_wave(usr)
+	else if(href_list["remove_job"])
+		if(!check_rights(R_ADMIN))
+			return
+		var/job_to_remove = href_list["job"]
+		var/edit_see = locate(href_list["wave_ref"])
+		var/edit = FALSE
+		var/datum/custom_wave/CW
+		if(edit_see)
+			edit = TRUE
+			CW = locate(href_list["wave_ref"])
+
+		temp_wave_title = href_list["name"]
+		temp_wave_greeting_text = href_list["name_g"]
+		temp_min_pop = href_list["name_mc"]
+
+		if(edit)
+			if(job_to_remove in CW.wave_jobs)
+				CW.wave_jobs -= job_to_remove
+				to_chat(usr, span_notice("Removed [job_to_remove] from the [CW.name] job list."))
+			else
+				to_chat(usr, span_warning("[job_to_remove] not found in [CW.name] job list."))
+			edit_wave(usr, CW)
+		else
+			if(job_to_remove in pending_jobs)
+				pending_jobs -= job_to_remove
+				to_chat(usr, span_notice("Removed [job_to_remove] from the job list."))
+			else
+				to_chat(usr, span_warning("[job_to_remove] not found in job list."))
+			create_wave(usr)
+	else if(href_list["update_wave_name"])
+		var/datum/custom_wave/CW = locate(href_list["wave_ref"])
+		if(CW)
+			CW.name = href_list["new_name"]
+		custom_wave_manager(usr)
+	else if(href_list["update_wave_greeting"])
+		var/datum/custom_wave/CW = locate(href_list["wave_ref"])
+		if(CW)
+			CW.greeting_text = href_list["new_g"]
+	else if(href_list["update_wave_min_pop"])
+		var/datum/custom_wave/CW = locate(href_list["wave_ref"])
+		if(CW)
+			CW.min_pop = text2num(href_list["new_mc"])
+
+
 	else if(href_list["start_wave"])
 		if(!check_rights(R_ADMIN))
 			return
 		var/datum/custom_wave/CW = locate(href_list["chosen_wave"]) in GLOB.custom_waves
 		start_wave(usr, CW)
 
-/client/proc/custom_job_manager()
+
+/client/proc/wave_creation_tools()
 	set category = "Debug"
-	set name = "Custom Job Manager"
+	set name = "Wave Creation Tools"
 
 	if(!check_rights(R_DEBUG))
 		return
 	holder.create_wave.menu(usr)
 
 /datum/create_wave/proc/menu(mob/admin)
+	if(SSticker.current_state == GAME_STATE_STARTUP)
+		to_chat(admin, span_notice("Wait until the game set up is completed!"))
+		return
+
 	var/list/dat = list()
 	dat += "<a href='byond://?src=[REF(src)];[HrefToken()];job_manager_menu=1'>Job Manager Menu </a><br>"
 	dat += "<a href='byond://?src=[REF(src)];[HrefToken()];wave_manager_menu=1'>Wave Manager Menu</a><br>"
@@ -344,9 +713,9 @@ GLOBAL_LIST_EMPTY(custom_waves) // Created waves
 	for(var/id in GLOB.custom_jobs)
 		var/datum/job/custom_job/J = GLOB.custom_jobs[id]
 		var/vv = FALSE
-		dat += "<li><a href='byond://?src=[REF(src)];[HrefToken()];view_job=1;chosen_job=[J.id]'>[J.title]</a>[vv ? " (Custom Fields)" : ""]</li> "
-		dat += "<a href='byond://?src=[REF(src)];[HrefToken()];delete_job=1;chosen_job=[J.id]'>Delete</a> "
-		dat += "<a href='byond://?src=[REF(src)];[HrefToken()];edit_job=1;chosen_job=[J.id]'>Edit</a> "
+		dat += "<li><a href='byond://?src=[REF(src)];[HrefToken()];view_job=1;chosen_job=[J.id]'>[J.title]</a>[vv ? " (Custom Fields)" : ""]</li>"
+		dat += "<a href='byond://?src=[REF(src)];[HrefToken()];delete_job=1;chosen_job=[J.id]'>Delete</a>"
+		dat += "<a href='byond://?src=[REF(src)];[HrefToken()];edit_job=1;chosen_job=[J.id]'>Edit</a>"
 		dat += "<a href='byond://?src=[REF(src)];[HrefToken()];export_job=1;chosen_job=[J.id]'>Export</a>"
 		dat += "</li>"
 	dat += "</ul>"
@@ -381,10 +750,11 @@ GLOBAL_LIST_EMPTY(custom_waves) // Created waves
 	var/list/dat = list("<ul>")
 	for(var/datum/custom_wave/CW in GLOB.custom_waves)
 		var/vv = FALSE
-		dat += "<li><a href='byond://?src=[REF(src)];[HrefToken()];view_wave=1;chosen_wave=[REF(CW)]'>[CW.name]</a>[vv ? " (Custom Fields)" : ""]</li> "
-		dat += "<a href='byond://?src=[REF(src)];[HrefToken()];delete_wave=1;chosen_wave=[REF(CW)]'>Delete</a> "
-		dat += "<a href='byond://?src=[REF(src)];[HrefToken()];edit_wave=1;chosen_wave=[REF(CW)]'>Edit</a> "
-		dat += "<a href='byond://?src=[REF(src)];[HrefToken()];start_wave=1;chosen_wave=[REF(CW)]'>Start Wave</a> "
+		dat += "<li><a href='byond://?src=[REF(src)];[HrefToken()];view_wave=1;chosen_wave=[REF(CW)]'>[CW.name]</a>[vv ? " (Custom Fields)" : ""]</li>"
+		dat += "<a href='byond://?src=[REF(src)];[HrefToken()];delete_wave=1;chosen_wave=[REF(CW)]'>Delete</a>"
+		dat += "<a href='byond://?src=[REF(src)];[HrefToken()];edit_wave=1;chosen_wave=[REF(CW)]'>Edit</a>"
+		dat += "<a href='byond://?src=[REF(src)];[HrefToken()];start_wave=1;chosen_wave=[REF(CW)]'>Start Wave</a>"
+		dat += "<a href='byond://?src=[REF(src)];[HrefToken()];announce_wave=1;chosen_wave=[REF(CW)]'>Announce Wave</a>"
 		dat += "</li>"
 	dat += "</ul>"
 	dat += "<a href='byond://?src=[REF(src)];[HrefToken()];create_wave_menu=1'>Create Wave</a><br>"
@@ -434,20 +804,22 @@ GLOBAL_LIST_EMPTY(custom_waves) // Created waves
 		dat += "No.<br>"
 	dat += "<h3>Allowed sexes:</h3> "
 	for(var/sex in J.allowed_sexes)
-		dat += "[sex]"
+		dat += "[sex] "
 	dat += "<h3>Allowed ages:</h3> "
 	for(var/age in J.allowed_ages)
-		dat += "[age]"
+		dat += "[age] "
 	dat += "<br>"
 	dat += "<h3>Allowed races:</h3> "
 	for(var/race in J.allowed_races)
-		dat += "[race]"
+		dat += "[race] "
 	dat += "<h3>Languages:</h3> "
 	if(length(J.languages))
 		for(var/language in J.languages)
 			var/datum/language/L = new language
 			dat += "[L.name] "
 			qdel(L)
+	else
+		dat += "Imperial (Default)"
 	dat += "<h3>Allowed Patrons:</h3><br>"
 	if(length(J.allowed_patrons))
 		for(var/patrons in J.allowed_patrons)
@@ -463,14 +835,23 @@ GLOBAL_LIST_EMPTY(custom_waves) // Created waves
 			var/datum/skill/S = new skill_path
 			dat += "<li>[S.name] (Level [level])</li>"
 			qdel(S)
+	else
+		dat += "None"
+	dat += "</ul>"
 	dat += "<h3>Traits:</h3><ul>"
-	for(var/trait in J.traits)
-		dat += "<li>[trait]</li>"
+	if(length(J.traits))
+		for(var/trait in J.traits)
+			dat += "<li>[trait]</li>"
+		dat += "</ul>"
+	else
+		dat += "None"
 	dat += "<h3>Stats:</h3><ul>"
 	if(length(J.jobstats))
 		for(var/stats_path in J.jobstats)
 			var/modifier = J.jobstats[stats_path]
 			dat += "<li>[stats_path] Modifier [modifier]</li>"
+	else
+		dat += "None"
 	dat += "</ul>"
 	dat += "<br>"
 	dat += "<br>"
@@ -487,28 +868,33 @@ GLOBAL_LIST_EMPTY(custom_waves) // Created waves
 		return
 	if(J.id in GLOB.custom_jobs)
 		GLOB.custom_jobs -= J.id
+	if(J.id in already_added_custom_jobs)
+		already_added_custom_jobs -= J.id
 	to_chat(admin, span_notice("Custom job [J.title] deleted."))
+	message_admins("[key_name(usr)] deleted the custom job: '[J.title]' with the id of [J.id]")
+
 	qdel(J)
 	custom_job_manager(admin)
 
 // Helper function to generate <option> HTML for a true/false (boolean) selector
-/datum/create_wave/proc/generate_boolean_option(current_value)
+/datum/create_wave/proc/generate_boolean_option(current_value, temp_bool)
 	var/html = ""
 	var/list/bool_options = list("TRUE" = TRUE, "FALSE" = FALSE)
 	for(var/label in bool_options)
 		var/value = bool_options[label]
-		html += "<option value='[value]'[(current_value == value) ? " selected" : ""]>[label]</option>"
+		html += "<option value='[value]'[(temp_bool ? (value == TRUE) : (value == FALSE)) ? " selected" : ""]>[label]</option>"
+
 	return html
 
 // Helper function to generate <option> HTML for a single select
 /datum/create_wave/proc/generate_options(list/options, text_selected = "")
 	var/opts = ""
 	for(var/opt in options)
-		opts += "<option value='[opt]'[opt == text_selected ? " text_selected" : ""]>[opt]</option>"
+		opts += "<option value='[opt]'[opt == text_selected ? " selected" : ""]>[opt]</option>"
 	return opts
 
 // Helper function to generate checkboxes for multi-select
-/datum/create_wave/proc/generate_checkboxes(list/options, name, list_selected = list())
+/datum/create_wave/proc/generate_checkboxes(list/options, name, list/list_selected)
 	var/html = ""
 	for(var/opt in options)
 		var/v_display_name = ""
@@ -524,37 +910,16 @@ GLOBAL_LIST_EMPTY(custom_waves) // Created waves
 		else
 			v_display_name = "[opt]"
 
-		html += "<input type='checkbox' name='[name]' value='[opt]'[(opt in list_selected) ? " checked" : ""]> [v_display_name]<br>"
+		// Use unique IDs per checkbox to prevent conflicts
+		var/unique_id = "[name]_[opt]"
+
+		html += "<label for='[unique_id]'>"
+		html += "<input type='checkbox' id='[unique_id]' name='[name]' value='[opt]'[(opt in list_selected) ? " checked" : ""]>"
+		html += " [v_display_name]</label><br>"
 	return html
 
 
 /datum/create_wave/proc/create_job(mob/admin)
-
-
-
-	message_admins("TEMP TITLE [temp_job_title]")
-
-	/*
-	temp_allowed_sexes = href_list["job_allowed_sexes"]
-	if(temp_allowed_sexes && !istype(temp_allowed_sexes,/list))
-		temp_allowed_sexes = list(temp_allowed_sexes)
-
-	temp_allowed_races = href_list["job_allowed_races"]
-	if(temp_allowed_races && !istype(temp_allowed_races,/list))
-		temp_allowed_races = list(temp_allowed_races)
-
-	temp_allowed_ages = href_list["job_allowed_ages"]
-	if(temp_allowed_ages && !istype(temp_allowed_ages,/list))
-		temp_allowed_ages = list(temp_allowed_ages)
-
-	temp_languages = href_list["job_languages"]
-	if(temp_languages && !istype(temp_languages,/list))
-		temp_languages = list(temp_languages)
-
-	temp_patrons = href_list["job_allowed_patrons"]
-	if(temp_patrons && !istype(temp_patrons,/list))
-		temp_patrons = list(temp_patrons)
-	*/
 
     // Generate HTML form
 	var/dat = {"
@@ -564,74 +929,75 @@ GLOBAL_LIST_EMPTY(custom_waves) // Created waves
 	[HrefTokenFormField()]
 	<input type='hidden' name='create_job_finalize' value='1'>
 	<table>
-		<tr><th>Name:</th><td><input type='text' name='job_title'  id='job_t' value='[temp_job_title ? temp_job_title : "Custom Job"]'></td></tr>
-		<tr><th>Tutorial:</th><td><textarea name='job_tutorial' style='width:400px'>[temp_job_tutorial ? temp_job_tutorial : "Describe the job here..."]</textarea></td></tr>
+		<tr><th>Name:</th><td><input type='text' name='job_title'  id='job_title' value='[temp_job_title ? temp_job_title : "Custom Job"]'></td></tr>
+		<tr><th>Tutorial:</th><td><textarea name='job_tutorial' id='job_tutorial' style='width:400px'>[temp_job_tutorial ? temp_job_tutorial : "Describe the job here..."]</textarea></td></tr>
 		<tr><th>Faction:</th><td>
-			<select name='job_faction'>
-				[generate_options(factions_list,temp_faction)]
+			<select name='job_faction' id='job_faction'>
+				[generate_options(factions_list, temp_faction)]
 			</select>
 		</td></tr>
 		<tr><th>Outfit:</th><td>
-			<select name='job_outfit'>
-				[generate_options(outfits_list)]
+			<select name='job_outfit' id='job_outfit'>
+				[generate_options(outfits_list, temp_outfit)]
 			</select>
 		</td></tr>
 		<tr><th>Custom Combat Music</th><td>
 			<select name='job_custom_music' id='job_custom_music' onchange='
 				document.getElementById("music_row").style.display = (this.value == "1") ? "table-row" : "none";
 			'>
-				[generate_boolean_option(FALSE)]
+				[generate_boolean_option(FALSE, temp_custom_combat_song_bool)]
 			</select>
 			<br>
 		</td></tr>
-		<tr id='music_row' style='display:none'>
+		<tr id='music_row' style='display:[temp_custom_combat_song_bool ? "block" : "none"];'>
 			<th>Music Path (Example: sound/music/cmode/church/CombatInquisitor.ogg)</th>
-			<td><input type='text' name='job_song' id='job_song' value='Write here.'></td>
+			<td><input id='music_path' type='text' name='job_song' id='job_song' value='[temp_custom_combat_song ? temp_custom_combat_song : "Write here"]'></td>
 		</tr>
 		<tr><th>Antag</th><td>
-			<select name='job_enabled_antag' id='job_custom_music' onchange='
+			<select name='job_enabled_antag' id='job_enabled_antag' onchange='
 				document.getElementById("antag_options").style.display = (this.value == "1") ? "block" : "none";
 			'>
-				[generate_boolean_option(FALSE)]
+				[generate_boolean_option(FALSE, temp_antag_bool)]
 			</select>
 			<br>
-			<div id='antag_options' style='display:none'>
-				<select name='job_antag'>
-					[generate_options(antag_list)]
+			<div id='antag_options'  style='display:[temp_antag_bool ? "block" : "none"];'>
+				<select id='job_antag' name='job_antag'>
+					[generate_options(antag_list, temp_antag)]
 				</select>
 			</div>
 		</td></tr>
 		<tr><th>Foreigner</th><td>
-			<select name='job_foreigner' onchange='
+			<select name='job_foreigner' id='job_foreigner' onchange='
 				document.getElementById("recognized_row").style.display = (this.value == "1") ? "table-row" : "none";
 			'>
-				[generate_boolean_option(FALSE)]
+				[generate_boolean_option(FALSE, temp_foreigner_bool)]
 			</select>
 		</td></tr>
-		<tr id='recognized_row' style='display:none'><th>Recognized</th><td>
-			<select name='job_recognized'>
-				[generate_boolean_option(FALSE)]
+		<tr id='recognized_row' style='display:[temp_recognized_bool ? "block" : "none"];'><th>Recognized</th><td>
+			<select id='job_recognized' name='job_recognized'>
+				[generate_boolean_option(FALSE, temp_recognized_bool)]
 			</select>
 		</td></tr>
 		<tr ><th>Magick User</th><td>
-			<select name='job_magick_user'>
-				[generate_boolean_option(FALSE)]
+			<select name='job_magick_user' id='job_magick_user'>
+				[generate_boolean_option(FALSE, temp_magick_user_bool)]
 			</select>
 		</td></tr>
-		<tr><th>Allowed Sexes:</th><td>
-			[generate_checkboxes(sexes_list,"job_allowed_sexes", temp_allowed_sexes)]
+		<tr><th>Allowed Sexes (Leave everything unchecked to allow all sexes):</th><td>
+			[generate_checkboxes(sexes_list,"job_allowed_sexes",temp_allowed_sexes)]
 		</td></tr>
-		<tr><th>Allowed Races:</th><td>
-			[generate_checkboxes(races_list,"job_allowed_races")]
+		<tr><th>Allowed Races (Leave everything unchecked to allow all races):</th><td>
+			[generate_checkboxes(races_list,"job_allowed_races", temp_allowed_races)]
 		</td></tr>
-		<tr><th>Allowed Ages:</th><td>
-			[generate_checkboxes(ages_list,"job_allowed_ages")]
+		<tr><th>Allowed Ages (Leave everything unchecked to allow all besides youngling):</th><td>
+			[generate_checkboxes(ages_list,"job_allowed_ages", temp_allowed_ages)]
 		</td></tr>
+		<br>
 		<tr><th>Languages:</th><td>
-			[generate_checkboxes(languages_list,"job_languages")]
+			[generate_checkboxes(languages_list,"job_languages", temp_languages)]
 		</td></tr>
 		<tr><th>Patrons (Leave everything unchecked to allow all patrons):</th><td>
-			[generate_checkboxes(patrons_list,"job_allowed_patrons")]
+			[generate_checkboxes(patrons_list,"job_allowed_patrons", temp_patrons )]
 		</td></tr>
 		<tr><th>Skills:</th>
 		<td>
@@ -646,20 +1012,133 @@ GLOBAL_LIST_EMPTY(custom_waves) // Created waves
 		for(var/skill_path in pending_skills)
 			var/level = pending_skills[skill_path]
 			var/datum/skill/S = new skill_path
-			dat += "<li>[S.name] (Level [level])</li>"
+			dat += "<li>[S.name] (Level [level])"
 			qdel(S)
+			dat += {"<button type='button' onclick='
+				var title = document.getElementById(\"job_title\").value;
+				var tutorial = document.getElementById(\"job_tutorial\").value;
+				var faction = document.getElementById(\"job_faction\").value;
+				var outfit = document.getElementById(\"job_outfit\").value;
+				var antag = document.getElementById(\"job_antag\").value;
+				var antag_bool = document.getElementById(\"job_enabled_antag\").value;
+				var combat_song = document.getElementById(\"music_path\").value;
+				var combat_song_bool = document.getElementById(\"job_custom_music\").value;
+				var magick_user_bool = document.getElementById(\"job_magick_user\").value;
+				var foreigner_bool = document.getElementById(\"job_foreigner\").value;
+				var recognized_bool = document.getElementById(\"job_recognized\").value;
+
+				var allowed_sexes = \[\];
+				document.querySelectorAll(\"input\[name=job_allowed_sexes\]:checked\").forEach(function(cb) {
+					allowed_sexes.push(cb.value);
+				});
+
+				var allowed_races = \[\];
+				document.querySelectorAll(\"input\[name=job_allowed_races\]:checked\").forEach(function(cb) {
+					allowed_races.push(cb.value);
+				});
+
+				var allowed_ages = \[\];
+				document.querySelectorAll(\"input\[name=job_allowed_ages\]:checked\").forEach(function(cb) {
+					allowed_ages.push(cb.value);
+				});
+
+				var languages = \[\];
+				document.querySelectorAll(\"input\[name=job_languages\]:checked\").forEach(function(cb) {
+					languages.push(cb.value);
+				});
+
+				var patrons = \[\];
+				document.querySelectorAll(\"input\[name=job_allowed_patrons\]:checked\").forEach(function(cb) {
+					patrons.push(cb.value);
+				});
+				window.location.href = \"?src=[REF(src)];[HrefToken()];remove_skill=1;skill=" + encodeURIComponent(\"[skill_path]\") +
+					\";title=\" + encodeURIComponent(title) +
+					\";tutorial=\" + encodeURIComponent(tutorial) +
+					\";faction=\" + encodeURIComponent(faction) +
+					\";outfit=\" + encodeURIComponent(outfit) +
+					\";antag=\" + encodeURIComponent(antag) +
+					\";combat_song=\" + encodeURIComponent(combat_song) +
+					\";combat_song_bool=\" + encodeURIComponent(combat_song_bool) +
+					\";antag_bool=\" + encodeURIComponent(antag_bool) +
+					\";foreigner_bool=\" + encodeURIComponent(foreigner_bool) +
+					\";recognized_bool=\" + encodeURIComponent(recognized_bool) +
+					\";magick_user_bool=\" + encodeURIComponent(magick_user_bool) +
+					\";allowed_races=\" + encodeURIComponent(allowed_races.join(\",\")) +
+					\";allowed_ages=\" + encodeURIComponent(allowed_ages.join(\",\")) +
+					\";languages=\" + encodeURIComponent(languages.join(\",\")) +
+					\";patrons=\" + encodeURIComponent(patrons.join(\",\")) +
+					\";allowed_sexes=\" + encodeURIComponent(allowed_sexes.join(\",\"));' '>
+				Remove</button></li>
+			"}
 		dat += "</ul>"
 	else
 		dat += "<i>No skills added yet.</i>"
-	dat += {"
-		<button type='button' onclick='
-			var skill = document.getElementById("skills_dropdown").value;
-			var level = document.getElementById("skills_level").value;
-			var title = document.getElementById("job_t").value;
-			window.location.href = "?src=[REF(src)];[HrefToken()];add_skill=1;skill=" + encodeURIComponent(skill) + ";level=" + encodeURIComponent(level) +";title=" + encodeURIComponent(title);
-		'>Add Skill</button>
+// temp_job_title
 
+	dat += {"
+	<button type='button' onclick='
+		var skill = document.getElementById(\"skills_dropdown\").value;
+		var level = document.getElementById(\"skills_level\").value;
+		var title = document.getElementById(\"job_title\").value;
+		var tutorial = document.getElementById(\"job_tutorial\").value;
+		var faction = document.getElementById(\"job_faction\").value;
+		var outfit = document.getElementById(\"job_outfit\").value;
+		var antag = document.getElementById(\"job_antag\").value;
+		var antag_bool = document.getElementById(\"job_enabled_antag\").value;
+		var combat_song = document.getElementById(\"music_path\").value;
+		var combat_song_bool = document.getElementById(\"job_custom_music\").value;
+		var magick_user_bool = document.getElementById(\"job_magick_user\").value;
+		var foreigner_bool = document.getElementById(\"job_foreigner\").value;
+		var recognized_bool = document.getElementById(\"job_recognized\").value;
+
+		var allowed_sexes = \[\];
+		document.querySelectorAll(\"input\[name=job_allowed_sexes\]:checked\").forEach(function(cb) {
+			allowed_sexes.push(cb.value);
+		});
+
+		var allowed_races = \[\];
+		document.querySelectorAll(\"input\[name=job_allowed_races\]:checked\").forEach(function(cb) {
+			allowed_races.push(cb.value);
+		});
+
+		var allowed_ages = \[\];
+		document.querySelectorAll(\"input\[name=job_allowed_ages\]:checked\").forEach(function(cb) {
+			allowed_ages.push(cb.value);
+		});
+
+		var languages = \[\];
+		document.querySelectorAll(\"input\[name=job_languages\]:checked\").forEach(function(cb) {
+			languages.push(cb.value);
+		});
+
+		var patrons = \[\];
+		document.querySelectorAll(\"input\[name=job_allowed_patrons\]:checked\").forEach(function(cb) {
+			patrons.push(cb.value);
+		});
+
+
+		window.location.href = \"?src=[REF(src)];[HrefToken()];add_skill=1;\" +
+			\";skill=\" + encodeURIComponent(skill) +
+			\";level=\" + encodeURIComponent(level) +
+			\";title=\" + encodeURIComponent(title) +
+			\";tutorial=\" + encodeURIComponent(tutorial) +
+			\";faction=\" + encodeURIComponent(faction) +
+			\";outfit=\" + encodeURIComponent(outfit) +
+			\";antag=\" + encodeURIComponent(antag) +
+			\";combat_song=\" + encodeURIComponent(combat_song) +
+			\";combat_song_bool=\" + encodeURIComponent(combat_song_bool) +
+			\";antag_bool=\" + encodeURIComponent(antag_bool) +
+			\";foreigner_bool=\" + encodeURIComponent(foreigner_bool) +
+			\";recognized_bool=\" + encodeURIComponent(recognized_bool) +
+			\";magick_user_bool=\" + encodeURIComponent(magick_user_bool) +
+			\";allowed_races=\" + encodeURIComponent(allowed_races.join(\",\")) +
+			\";allowed_ages=\" + encodeURIComponent(allowed_ages.join(\",\")) +
+			\";languages=\" + encodeURIComponent(languages.join(\",\")) +
+			\";patrons=\" + encodeURIComponent(patrons.join(\",\")) +
+			\";allowed_sexes=\" + encodeURIComponent(allowed_sexes.join(\",\"));' '>
+		Add Skill</button>
 	"}
+
 	dat+= "</td></tr>"
 	dat += {"
 		<tr><th>Traits:</th>
@@ -672,15 +1151,126 @@ GLOBAL_LIST_EMPTY(custom_waves) // Created waves
 		dat+= "<br>"
 		dat += "<h4>Added Traits:</h4><ul>"
 		for(var/trait in pending_traits)
-			dat += "<li>[trait]</li>"
+			dat += "<li>[trait] "
+			dat += {"<button type='button' onclick='
+				var title = document.getElementById(\"job_title\").value;
+				var tutorial = document.getElementById(\"job_tutorial\").value;
+				var faction = document.getElementById(\"job_faction\").value;
+				var outfit = document.getElementById(\"job_outfit\").value;
+				var antag = document.getElementById(\"job_antag\").value;
+				var antag_bool = document.getElementById(\"job_enabled_antag\").value;
+				var combat_song = document.getElementById(\"music_path\").value;
+				var combat_song_bool = document.getElementById(\"job_custom_music\").value;
+				var magick_user_bool = document.getElementById(\"job_magick_user\").value;
+				var foreigner_bool = document.getElementById(\"job_foreigner\").value;
+				var recognized_bool = document.getElementById(\"job_recognized\").value;
+
+				var allowed_sexes = \[\];
+				document.querySelectorAll(\"input\[name=job_allowed_sexes\]:checked\").forEach(function(cb) {
+					allowed_sexes.push(cb.value);
+				});
+
+				var allowed_races = \[\];
+				document.querySelectorAll(\"input\[name=job_allowed_races\]:checked\").forEach(function(cb) {
+					allowed_races.push(cb.value);
+				});
+
+				var allowed_ages = \[\];
+				document.querySelectorAll(\"input\[name=job_allowed_ages\]:checked\").forEach(function(cb) {
+					allowed_ages.push(cb.value);
+				});
+
+				var languages = \[\];
+				document.querySelectorAll(\"input\[name=job_languages\]:checked\").forEach(function(cb) {
+					languages.push(cb.value);
+				});
+
+				var patrons = \[\];
+				document.querySelectorAll(\"input\[name=job_allowed_patrons\]:checked\").forEach(function(cb) {
+					patrons.push(cb.value);
+				});
+				window.location.href = \"?src=[REF(src)];[HrefToken()];remove_trait=1;trait=" + encodeURIComponent(\"[trait]\") +
+					\";title=\" + encodeURIComponent(title) +
+					\";tutorial=\" + encodeURIComponent(tutorial) +
+					\";faction=\" + encodeURIComponent(faction) +
+					\";outfit=\" + encodeURIComponent(outfit) +
+					\";antag=\" + encodeURIComponent(antag) +
+					\";combat_song=\" + encodeURIComponent(combat_song) +
+					\";combat_song_bool=\" + encodeURIComponent(combat_song_bool) +
+					\";antag_bool=\" + encodeURIComponent(antag_bool) +
+					\";foreigner_bool=\" + encodeURIComponent(foreigner_bool) +
+					\";recognized_bool=\" + encodeURIComponent(recognized_bool) +
+					\";magick_user_bool=\" + encodeURIComponent(magick_user_bool) +
+					\";allowed_races=\" + encodeURIComponent(allowed_races.join(\",\")) +
+					\";allowed_ages=\" + encodeURIComponent(allowed_ages.join(\",\")) +
+					\";languages=\" + encodeURIComponent(languages.join(\",\")) +
+					\";patrons=\" + encodeURIComponent(patrons.join(\",\")) +
+					\";allowed_sexes=\" + encodeURIComponent(allowed_sexes.join(\",\"));' '>
+				Remove</button></li>
+			"}
 		dat += "</ul>"
 	else
 		dat += "<i>No traits added yet.</i>"
-	dat+= {"
-			<button type='button' onclick='
-				var trait = document.getElementById("traits_dropdown").value;
-				window.location.href = "?src=[REF(src)];[HrefToken()];add_trait=1;trait=" + encodeURIComponent(trait);
-			'>Add Trait</button>
+	dat += {"
+	<button type='button' onclick='
+		var trait = document.getElementById("traits_dropdown").value;
+		var title = document.getElementById(\"job_title\").value;
+		var tutorial = document.getElementById(\"job_tutorial\").value;
+		var faction = document.getElementById(\"job_faction\").value;
+		var outfit = document.getElementById(\"job_outfit\").value;
+		var antag = document.getElementById(\"job_antag\").value;
+		var antag_bool = document.getElementById(\"job_enabled_antag\").value;
+		var combat_song = document.getElementById(\"music_path\").value;
+		var combat_song_bool = document.getElementById(\"job_custom_music\").value;
+		var magick_user_bool = document.getElementById(\"job_magick_user\").value;
+		var foreigner_bool = document.getElementById(\"job_foreigner\").value;
+		var recognized_bool = document.getElementById(\"job_recognized\").value;
+
+		var allowed_sexes = \[\];
+		document.querySelectorAll(\"input\[name=job_allowed_sexes\]:checked\").forEach(function(cb) {
+			allowed_sexes.push(cb.value);
+		});
+
+		var allowed_races = \[\];
+		document.querySelectorAll(\"input\[name=job_allowed_races\]:checked\").forEach(function(cb) {
+			allowed_races.push(cb.value);
+		});
+
+		var allowed_ages = \[\];
+		document.querySelectorAll(\"input\[name=job_allowed_ages\]:checked\").forEach(function(cb) {
+			allowed_ages.push(cb.value);
+		});
+
+		var languages = \[\];
+		document.querySelectorAll(\"input\[name=job_languages\]:checked\").forEach(function(cb) {
+			languages.push(cb.value);
+		});
+
+		var patrons = \[\];
+		document.querySelectorAll(\"input\[name=job_allowed_patrons\]:checked\").forEach(function(cb) {
+			patrons.push(cb.value);
+		});
+
+
+		window.location.href = \"?src=[REF(src)];[HrefToken()];add_trait=1;\" +
+			\";trait=\" + encodeURIComponent(trait) +
+			\";title=\" + encodeURIComponent(title) +
+			\";tutorial=\" + encodeURIComponent(tutorial) +
+			\";faction=\" + encodeURIComponent(faction) +
+			\";outfit=\" + encodeURIComponent(outfit) +
+			\";antag=\" + encodeURIComponent(antag) +
+			\";combat_song=\" + encodeURIComponent(combat_song) +
+			\";combat_song_bool=\" + encodeURIComponent(combat_song_bool) +
+			\";antag_bool=\" + encodeURIComponent(antag_bool) +
+			\";foreigner_bool=\" + encodeURIComponent(foreigner_bool) +
+			\";recognized_bool=\" + encodeURIComponent(recognized_bool) +
+			\";magick_user_bool=\" + encodeURIComponent(magick_user_bool) +
+			\";allowed_races=\" + encodeURIComponent(allowed_races.join(\",\")) +
+			\";allowed_ages=\" + encodeURIComponent(allowed_ages.join(\",\")) +
+			\";languages=\" + encodeURIComponent(languages.join(\",\")) +
+			\";patrons=\" + encodeURIComponent(patrons.join(\",\")) +
+			\";allowed_sexes=\" + encodeURIComponent(allowed_sexes.join(\",\"));' '>
+		Add Trait</button>
 	"}
 	dat+= "</td></tr>"
 	dat += {"
@@ -696,16 +1286,128 @@ GLOBAL_LIST_EMPTY(custom_waves) // Created waves
 		dat += "<h4>Stats Modifiers:</h4><ul>"
 		for(var/stats in pending_stats)
 			var/modifier = pending_stats[stats]
-			dat += "<li>[stats] Modifier: [modifier]</li>"
+			dat += "<li>[stats] Modifier: [modifier]"
+			dat += {"<button type='button' onclick='
+				var title = document.getElementById(\"job_title\").value;
+				var tutorial = document.getElementById(\"job_tutorial\").value;
+				var faction = document.getElementById(\"job_faction\").value;
+				var outfit = document.getElementById(\"job_outfit\").value;
+				var antag = document.getElementById(\"job_antag\").value;
+				var antag_bool = document.getElementById(\"job_enabled_antag\").value;
+				var combat_song = document.getElementById(\"music_path\").value;
+				var combat_song_bool = document.getElementById(\"job_custom_music\").value;
+				var magick_user_bool = document.getElementById(\"job_magick_user\").value;
+				var foreigner_bool = document.getElementById(\"job_foreigner\").value;
+				var recognized_bool = document.getElementById(\"job_recognized\").value;
+
+				var allowed_sexes = \[\];
+				document.querySelectorAll(\"input\[name=job_allowed_sexes\]:checked\").forEach(function(cb) {
+					allowed_sexes.push(cb.value);
+				});
+
+				var allowed_races = \[\];
+				document.querySelectorAll(\"input\[name=job_allowed_races\]:checked\").forEach(function(cb) {
+					allowed_races.push(cb.value);
+				});
+
+				var allowed_ages = \[\];
+				document.querySelectorAll(\"input\[name=job_allowed_ages\]:checked\").forEach(function(cb) {
+					allowed_ages.push(cb.value);
+				});
+
+				var languages = \[\];
+				document.querySelectorAll(\"input\[name=job_languages\]:checked\").forEach(function(cb) {
+					languages.push(cb.value);
+				});
+
+				var patrons = \[\];
+				document.querySelectorAll(\"input\[name=job_allowed_patrons\]:checked\").forEach(function(cb) {
+					patrons.push(cb.value);
+				});
+				window.location.href = \"?src=[REF(src)];[HrefToken()];remove_stat=1;stats=" + encodeURIComponent(\"[stats]\") +
+					\";title=\" + encodeURIComponent(title) +
+					\";tutorial=\" + encodeURIComponent(tutorial) +
+					\";faction=\" + encodeURIComponent(faction) +
+					\";outfit=\" + encodeURIComponent(outfit) +
+					\";antag=\" + encodeURIComponent(antag) +
+					\";combat_song=\" + encodeURIComponent(combat_song) +
+					\";combat_song_bool=\" + encodeURIComponent(combat_song_bool) +
+					\";antag_bool=\" + encodeURIComponent(antag_bool) +
+					\";foreigner_bool=\" + encodeURIComponent(foreigner_bool) +
+					\";recognized_bool=\" + encodeURIComponent(recognized_bool) +
+					\";magick_user_bool=\" + encodeURIComponent(magick_user_bool) +
+					\";allowed_races=\" + encodeURIComponent(allowed_races.join(\",\")) +
+					\";allowed_ages=\" + encodeURIComponent(allowed_ages.join(\",\")) +
+					\";languages=\" + encodeURIComponent(languages.join(\",\")) +
+					\";patrons=\" + encodeURIComponent(patrons.join(\",\")) +
+					\";allowed_sexes=\" + encodeURIComponent(allowed_sexes.join(\",\"));' '>
+				Remove</button></li>
+			"}
 		dat += "</ul>"
 	else
 		dat += "<i>No Stats Modifiers added yet.</i>"
 	dat += {"
-		<button type='button' onclick='
-			var stat = document.getElementById("stats_dropdown").value;
-			var modifier = document.getElementById("stats_level").value;
-			window.location.href = "?src=[REF(src)];[HrefToken()];add_stat=1;stat=" + encodeURIComponent(stat) + ";modifier=" + encodeURIComponent(modifier);
-		'>Add Stat</button>
+	<button type='button' onclick='
+		var stat = document.getElementById("stats_dropdown").value;
+		var modifier = document.getElementById("stats_level").value;
+		var title = document.getElementById(\"job_title\").value;
+		var tutorial = document.getElementById(\"job_tutorial\").value;
+		var faction = document.getElementById(\"job_faction\").value;
+		var outfit = document.getElementById(\"job_outfit\").value;
+		var antag = document.getElementById(\"job_antag\").value;
+		var antag_bool = document.getElementById(\"job_enabled_antag\").value;
+		var combat_song = document.getElementById(\"music_path\").value;
+		var combat_song_bool = document.getElementById(\"job_custom_music\").value;
+		var magick_user_bool = document.getElementById(\"job_magick_user\").value;
+		var foreigner_bool = document.getElementById(\"job_foreigner\").value;
+		var recognized_bool = document.getElementById(\"job_recognized\").value;
+
+		var allowed_sexes = \[\];
+		document.querySelectorAll(\"input\[name=job_allowed_sexes\]:checked\").forEach(function(cb) {
+			allowed_sexes.push(cb.value);
+		});
+
+		var allowed_races = \[\];
+		document.querySelectorAll(\"input\[name=job_allowed_races\]:checked\").forEach(function(cb) {
+			allowed_races.push(cb.value);
+		});
+
+		var allowed_ages = \[\];
+		document.querySelectorAll(\"input\[name=job_allowed_ages\]:checked\").forEach(function(cb) {
+			allowed_ages.push(cb.value);
+		});
+
+		var languages = \[\];
+		document.querySelectorAll(\"input\[name=job_languages\]:checked\").forEach(function(cb) {
+			languages.push(cb.value);
+		});
+
+		var patrons = \[\];
+		document.querySelectorAll(\"input\[name=job_allowed_patrons\]:checked\").forEach(function(cb) {
+			patrons.push(cb.value);
+		});
+
+
+		window.location.href = \"?src=[REF(src)];[HrefToken()];add_stat=1;\" +
+			\";stat=\" + encodeURIComponent(stat) +
+			\";modifier=\" + encodeURIComponent(modifier) +
+			\";title=\" + encodeURIComponent(title) +
+			\";tutorial=\" + encodeURIComponent(tutorial) +
+			\";faction=\" + encodeURIComponent(faction) +
+			\";outfit=\" + encodeURIComponent(outfit) +
+			\";antag=\" + encodeURIComponent(antag) +
+			\";combat_song=\" + encodeURIComponent(combat_song) +
+			\";combat_song_bool=\" + encodeURIComponent(combat_song_bool) +
+			\";antag_bool=\" + encodeURIComponent(antag_bool) +
+			\";foreigner_bool=\" + encodeURIComponent(foreigner_bool) +
+			\";recognized_bool=\" + encodeURIComponent(recognized_bool) +
+			\";magick_user_bool=\" + encodeURIComponent(magick_user_bool) +
+			\";allowed_races=\" + encodeURIComponent(allowed_races.join(\",\")) +
+			\";allowed_ages=\" + encodeURIComponent(allowed_ages.join(\",\")) +
+			\";languages=\" + encodeURIComponent(languages.join(\",\")) +
+			\";patrons=\" + encodeURIComponent(patrons.join(\",\")) +
+			\";allowed_sexes=\" + encodeURIComponent(allowed_sexes.join(\",\"));' '>
+		Add Stat</button>
 	"}
 	dat+= "</td></tr>"
 	dat += {"
@@ -750,26 +1452,26 @@ GLOBAL_LIST_EMPTY(custom_waves) // Created waves
 
 	J.outfit = text2path(href_list["job_outfit"])
 
-
-	J.allowed_sexes = list()
 	var/sexes = href_list["job_allowed_sexes"]
 	if(sexes)
+		J.allowed_sexes = list()
 		if(!istype(sexes, /list))
 			sexes = list(sexes)
 		for(var/sex in sexes)
 			J.allowed_sexes += sex
 
-	J.allowed_races = list()
 	var/races = href_list["job_allowed_races"]
 	if(races)
+		J.allowed_races = list()
 		if(!istype(races, /list))
 			races = list(races)
 		for(var/r in races)
 			J.allowed_races += r
 
-	J.allowed_ages = list()
+
 	var/ages = href_list["job_allowed_ages"]
 	if(ages)
+		J.allowed_ages = list()
 		if(!istype(ages, /list))
 			ages = list(ages)
 		for(var/a in ages)
@@ -810,12 +1512,27 @@ GLOBAL_LIST_EMPTY(custom_waves) // Created waves
 	pending_traits = list()
 	pending_stats = list()
 	temp_job_title = null
+	temp_job_tutorial = null
+	temp_faction = null
+	temp_outfit = null
+	temp_antag = null
+	temp_allowed_sexes = null
+	temp_allowed_races = null
+	temp_allowed_ages = null
+	temp_languages = null
+	temp_patrons = null
+	temp_custom_combat_song = null
+	temp_custom_combat_song_bool = null
+	temp_antag_bool = null
+	temp_foreigner_bool = null
+	temp_recognized_bool = null
+	temp_custom_combat_song_bool = null
+	temp_magick_user_bool = null
 
 	GLOB.custom_jobs[J.id] = J
 
 
-	message_admins("[key_name(usr)] created custom job: '[J.title]' with id of [J.id]")
-	qdel(J)
+	message_admins("[key_name(usr)] created custom job: '[J.title]' with the id of [J.id]")
 	custom_job_manager(admin)
 
 /datum/job/custom_job/proc/export_to_file(mob/admin)
@@ -855,7 +1572,6 @@ GLOBAL_LIST_EMPTY(custom_waves) // Created waves
 
 	message_admins("[key_name(admin)] loaded a custom job! Name: \"[J.title]\"")
 	to_chat(admin, span_notice("Successfully loaded job '[J.title]'."))
-	qdel(J)
 
 
 /datum/create_wave/proc/create_wave(mob/admin)
@@ -870,7 +1586,7 @@ GLOBAL_LIST_EMPTY(custom_waves) // Created waves
 	<table>
 		<tr><th>Name:</th><td><input type='text' name='wave_title'  id='wave_t' value='[temp_wave_title ? temp_wave_title : "Custom Wave"]'></td></tr>
 		<tr><th>Greeting Text:</th><td><textarea name='wave_greeting_text' id='wave_g' style='width:400px'>[temp_wave_greeting_text ? temp_wave_greeting_text : "Wave Tutorial here..."]</textarea></td></tr>
-		<tr><th>Minimum Of Candidates:</th><td><input type='number' id='wave_mc'name='wave_min_pop' style='width:80px' value='[temp_min_pop ? temp_min_pop : "1"]'></td></tr>
+		<tr><th>Minimum Of Candidates:</th><td><input type='number' id='wave_mc'name='wave_min_pop' style='width:40px' value='[temp_min_pop ? temp_min_pop : "1"]'></td></tr>
 		"}
 	dat+= "</td></tr>"
 	dat += {"
@@ -881,11 +1597,21 @@ GLOBAL_LIST_EMPTY(custom_waves) // Created waves
 			</select>
 	"}
 	if(length(pending_jobs))
-		dat+= "<br>"
-		dat += "<h4>Added Jobs:</h4><ul>"
+		dat += "<br><h4>Added Jobs:</h4><ul>"
 		for(var/job in pending_jobs)
 			var/slots = pending_jobs[job]
-			dat += "<li>[job] ([slots] slots)</li>"
+			dat += "<li>[job] ([slots] slots) "
+			dat += {"<button type='button' onclick='
+				var name = document.getElementById(\"wave_t\").value;
+				var name_g = document.getElementById(\"wave_g\").value;
+				var name_mc = document.getElementById(\"wave_mc\").value;
+				window.location.href = \"?src=[REF(src)];[HrefToken()];remove_job=1;job=" + encodeURIComponent(\"[job]\") +
+					\";name=\" + encodeURIComponent(name) +
+					\";name_g=\" + encodeURIComponent(name_g) +
+					\";name_mc=\" + encodeURIComponent(name_mc);
+			'>Remove</button></li>
+			"}
+
 		dat += "</ul>"
 	else
 		dat += "<i>No jobs added yet.</i>"
@@ -895,14 +1621,11 @@ GLOBAL_LIST_EMPTY(custom_waves) // Created waves
 				var job = document.getElementById("jobs_dropdown").value;
 				var slots=document.getElementById("job_slots").value;
 				var name = document.getElementById("wave_t").value;
-				var name_g = document.getElementById("wave_t").value;
+				var name_g = document.getElementById("wave_g").value;
 				var name_mc = document.getElementById("wave_mc").value;
 				window.location.href = "?src=[REF(src)];[HrefToken()];add_jobs=1;job=" + encodeURIComponent(job) + ";name=" + encodeURIComponent(name) + ";name_g=" + encodeURIComponent(name_g) + ";name_mc=" + encodeURIComponent(name_mc) + ";slots=" + encodeURIComponent(slots);
 			'>Add Job</button>
 	"}
-
-
-
 	dat+= "</td></tr>"
 	dat += {"
 	</table>
@@ -921,32 +1644,35 @@ GLOBAL_LIST_EMPTY(custom_waves) // Created waves
 		return
 
 	var/list/dat = list("<html><body>")
-	dat += "<h2>Job Preview: [CW.name]</h2>"
+	dat += "<h2>Wave Preview: [CW.name]</h2>"
 	dat += "<b>Tutorial</b><br><pre style='white-space:pre-wrap;'>[CW.greeting_text]</pre>"
 	dat += "<h3>Jobs:</h3><ul>"
 	if(length(CW.wave_jobs))
-		for(var/job_path in CW.wave_jobs)
-			var/slots = CW.wave_jobs[job_path]
-			dat += "<li>[job_path] ([slots] slots)</li>"
+		for (var/job in CW.wave_jobs)
+			var/datum/job/J
+			if (ispath(text2path(job), /datum/job))
+				J = new job
+			else
+				J = GLOB.custom_jobs[job]
+			var/slots = CW.wave_jobs[job]
+			dat += "<li>[J.title] ([slots] slots)</li>"
+		dat += "</ul>"
 	else
 		dat += "<li><i>No jobs added.</i></li>"
 	dat += "</ul>"
 	dat += "<h3>Minimum Of Candidates: [CW.min_pop]</h3><ul>"
+	dat += "</ul>"
+	var/total_slots = 0
+	for (var/job in CW.wave_jobs)
+		var/slots = CW.wave_jobs[job]
+		if (isnum(slots))
+			total_slots += slots
+	dat += "<h3>Maximum Candidates: [total_slots]</h3><ul>"
 	dat += "</body></html>"
 
 	var/datum/browser/popup = new(admin, "customwave_view", "Custom Wave Preview", 600, 520, src)
 	popup.set_content(dat.Join())
 	popup.open(FALSE)
-
-// Delete a Wave
-/datum/create_wave/proc/delete_wave(mob/admin, datum/custom_wave/CW)
-	if(!CW)
-		return
-	GLOB.custom_waves -= CW
-	qdel(CW)
-	to_chat(admin, span_notice("The custom wave [CW.name] was deleted."))
-	custom_wave_manager(admin)
-
 
 /datum/create_wave/proc/create_wave_finalize(mob/admin, list/href_list)
 	var/datum/custom_wave/CW = new
@@ -966,8 +1692,118 @@ GLOBAL_LIST_EMPTY(custom_waves) // Created waves
 	temp_min_pop = null
 	GLOB.custom_waves += CW
 	message_admins("[key_name(usr)] created custom job: '[CW.name]'")
-	qdel(CW)
 	custom_wave_manager(admin)
+
+
+// Delete a Wave
+/datum/create_wave/proc/delete_wave(mob/admin, datum/custom_wave/CW)
+	if(!CW)
+		return
+	GLOB.custom_waves -= CW
+	to_chat(admin, span_notice("The custom wave [CW.name] was deleted."))
+	message_admins("[key_name(usr)] deleted custom wave: '[CW.name]'")
+	custom_wave_manager(admin)
+
+/datum/create_wave/proc/edit_wave(mob/admin, datum/custom_wave/CW)
+	if(!CW)
+		return
+
+	pending_jobs = CW.wave_jobs.Copy()  // copy current jobs
+
+    // Generate HTML form (mostly like create_wave)
+	var/dat = {"
+	<html><head><title>Edit Custom Wave</title></head><body>
+	<form name='wave' action='byond://?src=[REF(src)];[HrefToken()]' method='get'>
+	<input type='hidden' name='src' value='[REF(src)]'>
+	[HrefTokenFormField()]
+	<input type='hidden' name='edit_wave_finalize' value='1'>
+	<input type="hidden" id='wave_ref' name='wave_ref' value="[REF(CW)]">
+	<table>
+		<tr><th>Name:</th>
+		<td>
+			<input type='text' id='wave_t' value='[CW.name]'
+				oninput='
+					var new_name = this.value;
+					window.location.href = "?src=[REF(src)];[HrefToken()];update_wave_name=1;wave_ref=[REF(CW)];new_name=" + encodeURIComponent(new_name);
+				'>
+		</td></tr>
+		<tr>
+			<th>Greeting Text:</th>
+			<td>
+				<textarea id='wave_g' style='width:400px'
+					oninput='
+						var new_g = this.value;
+						window.location.href = "?src=[REF(src)];[HrefToken()];update_wave_greeting=1;wave_ref=[REF(CW)];new_g=" + encodeURIComponent(new_g);
+					'>[CW.greeting_text]</textarea>
+			</td>
+		</tr>
+		<tr>
+			<th>Minimum Of Candidates:</th>
+			<td>
+				<input type='number' id='wave_mc' style='width:40px' value='[CW.min_pop]'
+					oninput='
+						var new_mc = this.value;
+						window.location.href = "?src=[REF(src)];[HrefToken()];update_wave_min_pop=1;wave_ref=[REF(CW)];new_mc=" + encodeURIComponent(new_mc);
+					'>
+			</td>
+		</tr>
+	"}
+	dat+= "</td></tr>"
+
+	dat += {"
+		<tr><th>Jobs:</th>
+		<td>
+			<select id='jobs_dropdown'>
+				[potential_jobs_options]
+			</select>
+	"}
+	// Existing jobs
+	if(length(pending_jobs))
+		dat += "<br><h4>Added Jobs:</h4><ul>"
+		for(var/job in pending_jobs)
+			var/slots = pending_jobs[job]
+			dat += "<li>[job] ([slots] slots) "
+			dat += {"<button type='button' onclick='
+				var name = document.getElementById(\"wave_t\").value;
+				var name_g = document.getElementById(\"wave_g\").value;
+				var name_mc = document.getElementById(\"wave_mc\").value;
+				var wave_ref = document.getElementById(\"wave_ref\").value;
+				window.location.href = \"?src=[REF(src)];[HrefToken()];remove_job=1;job=" + encodeURIComponent(\"[job]\") +
+					\";name=\" + encodeURIComponent(name) +
+					\";name_g=\" + encodeURIComponent(name_g) +
+					\";wave_ref=\" + encodeURIComponent(wave_ref) +
+					\";name_mc=\" + encodeURIComponent(name_mc);
+				'>Remove</button></li>
+			"}
+		dat += "</ul>"
+	else
+		dat += "<i>No jobs added yet.</i>"
+
+	// Add job input
+	dat += "Slots: <input type='number' id='job_slots' value='1' min='1' style='width:50px;'> "
+	dat += {"<button type='button' onclick='
+		var job = document.getElementById(\"jobs_dropdown\").value;
+		var slots = document.getElementById(\"job_slots\").value;
+		var name = document.getElementById(\"wave_t\").value;
+		var name_g = document.getElementById(\"wave_g\").value;
+		var name_mc = document.getElementById(\"wave_mc\").value;
+		var wave_ref = document.getElementById(\"wave_ref\").value;
+		window.location.href = \"?src=[REF(src)];[HrefToken()];add_jobs=1;job=\" + encodeURIComponent(job) +
+			\";name=\" + encodeURIComponent(name) +
+			\";name_g=\" + encodeURIComponent(name_g) +
+			\";wave_ref=\" + encodeURIComponent(wave_ref) +
+			\";name_mc=\" + encodeURIComponent(name_mc) +
+			\";slots=\" + encodeURIComponent(slots);
+		'>Add Job</button>
+	"}
+
+	dat += "</td></tr>"
+	dat += "</table>"
+	dat += "</form></body></html>"
+
+	var/datum/browser/popup = new(admin, "customwave_edit", "Edit Custom Wave", 600, 700, src)
+	popup.set_content(dat)
+	popup.open(FALSE)
 
 
 /datum/create_wave/proc/start_wave(mob/admin, datum/custom_wave/CW)
@@ -982,15 +1818,22 @@ GLOBAL_LIST_EMPTY(custom_waves) // Created waves
 
 	// Prepare the list of jobs for the popup
 	var/job_list_html = "<ul>"
-	for(var/job in CW.wave_jobs)
+	for (var/job in CW.wave_jobs)
+		var/slots = CW.wave_jobs[job]
 		var/datum/job/J
-		if(ispath(text2path(job), /datum/job))
+
+		if (ispath(text2path(job), /datum/job))
 			J = new job
 		else
 			J = GLOB.custom_jobs[job]
-		job_list_html += "<li>[J.title]</li>"
-		qdel(J)
+
+		if(J)
+			job_list_html += "<li>[J.title] ([slots])</li>"
+		else
+			job_list_html += "<li>[J.title] ([slots])</li>"
+
 	job_list_html += "</ul>"
+
 
 	for(var/client/C in GLOB.clients)
 		var/mob/dead_mob = C.mob
@@ -1009,7 +1852,7 @@ GLOBAL_LIST_EMPTY(custom_waves) // Created waves
 		popup.set_content(dat.Join())
 		popup.open(FALSE)
 
-	to_chat(admin, span_notice("Wave call sent to all ghosts."))
+	to_chat(admin, span_notice("Wave call sent to ghosts and players at the lobby."))
 
 	CW.timer = addtimer(CALLBACK(src, PROC_REF(finalize_wave), admin, CW), 10 SECONDS)
 
@@ -1019,21 +1862,76 @@ GLOBAL_LIST_EMPTY(custom_waves) // Created waves
 		return
 
 	if(!length(CW.candidates))
-		message_admins("No one accepted the wave call.")
-		qdel(CW)
+		message_admins("No one accepted the call for the [CW.name] wave.")
+		CW.candidates = list()
+		return
+
+	if(length(CW.candidates) < CW.min_pop)
+		message_admins("Only [length(CW.candidates)] player(s) accepted the [CW.name] wave call. Minimum required: [CW.min_pop]")
+		for(var/client/C in CW.candidates)
+			if(!C || !C.mob || !isdead(C.mob))
+				continue
+				to_chat(C, span_notice("The amount of player didn't reach the minimum needed to run the wave."))
+		CW.candidates = list()
 		return
 
 	to_chat(admin, span_notice("Deploying [length(CW.candidates)] participants..."))
+
+	var/list/job_order = CW.wave_jobs.Copy() // keep order and slot counts
+
+	// Track how many slots remain for each job
+	var/list/remaining_slots = list()
+	for (var/job in job_order)
+		remaining_slots[job] = CW.wave_jobs[job]
 
 	for(var/client/C in CW.candidates)
 		if(!C || !C.mob || !isdead(C.mob))
 			continue
 
-		var/mob/dead/new_player/dead_mob = C.mob
+		var/mob/dead/dead_mob = C.mob
 		if(!dead_mob)
-			return
+			continue
 
 		var/spawn_loc = CW.spawn_landmark
+
+		var/datum/preferences/prefs = C.prefs
+		var/datum/job/assigned_job
+
+		// Try to find the next available job in order
+		for(var/job_key in job_order)
+			if(remaining_slots[job_key] <= 0)
+				continue // No more slots for this job
+			var/datum/job/job_check
+			if(ispath(text2path(job_key), /datum/job))
+				job_check = new job_key
+			else
+				job_check = GLOB.custom_jobs[job_key]
+
+			if(!job_check)
+				continue
+
+			if(is_role_banned(C.ckey, job_check.title))
+				continue
+			if(job_check.banned_leprosy && is_misc_banned(C.ckey, BAN_MISC_LEPROSY))
+				continue
+			if(job_check.banned_lunatic && is_misc_banned(C.ckey, BAN_MISC_LUNATIC))
+				continue
+
+			if(length(job_check.allowed_races) && !(prefs.pref_species.id in job_check.allowed_races))
+				continue
+			if(length(job_check.allowed_sexes) && !(prefs.gender in job_check.allowed_sexes))
+				continue
+			if(length(job_check.allowed_ages) && !(prefs.age in job_check.allowed_ages))
+				continue
+
+			// Valid assign this job
+			assigned_job = job_check
+			remaining_slots[job_key]--
+			break
+
+		if(!assigned_job)
+			to_chat(C, span_notice("You didn't manage to join the wave..."))
+			continue
 
 		var/mob/living/character = dead_mob.create_character(spawn_loc)
 		if(!character)
@@ -1042,45 +1940,38 @@ GLOBAL_LIST_EMPTY(custom_waves) // Created waves
 		character.islatejoin = TRUE
 		dead_mob.transfer_character()
 
-		var/allowed_jobs = list()
-		var/datum/preferences/prefs = C.prefs
-		for(var/job in CW.wave_jobs)
-			var/datum/job/job_check
-			if(ispath(text2path(job), /datum/job))
-				job_check = new job
-			else
-				job_check = GLOB.custom_jobs[job]
-
-			if(!is_role_banned(C.ckey, job_check.title) && !(job_check.banned_leprosy && is_misc_banned(C.ckey, BAN_MISC_LEPROSY)) && !(job_check.banned_lunatic && is_misc_banned(C.ckey, BAN_MISC_LUNATIC)) && (!length(job_check.allowed_races) || (prefs.pref_species.id in job_check.allowed_races)) && (!length(job_check.allowed_sexes) || (prefs.gender in job_check.allowed_sexes)) && (!length(job_check.allowed_ages) || (prefs.age in job_check.allowed_ages)))
-				allowed_jobs += job_check
-
-		var/datum/job/job_test = pick(allowed_jobs)
-		SSjob.EquipRank(character, job_test, character.client)
+		// Equip and finalize
+		SSjob.EquipRank(character, assigned_job, character.client)
 		apply_loadouts(character, character.client)
 		SSticker.minds += character.mind
 
 		GLOB.joined_player_list += character.ckey
 		GLOB.respawncounts[character.ckey] += 1
 
-		to_chat(character, span_notice("You awaken as part of the wave..."))
+		var/datum/antagonist/antag_role = assigned_job?.antag_role
+		if(antag_role)
+			character.mind.add_antag_datum(antag_role)
+
 
 		var/mob/living/carbon/human/human_character = character
-
 		var/fakekey = get_display_ckey(human_character.ckey)
-		GLOB.character_list[human_character.mobid] = "[fakekey] was [human_character.real_name] ([job_test.title])<BR>"
+		GLOB.character_list[human_character.mobid] = "[fakekey] was [human_character.real_name] ([assigned_job.title])<BR>"
 		GLOB.character_ckey_list[human_character.real_name] = human_character.ckey
-		log_character("[human_character.ckey] ([fakekey]) - [human_character.real_name] - [job_test.title]")
+		log_character("[human_character.ckey] ([fakekey]) - [human_character.real_name] - [assigned_job.title]")
+		to_chat(character, span_notice("You are part of the [CW.name].</b>"))
+		to_chat(character, span_notice("*-----------------*"))
+		to_chat(character, span_notice("[CW.greeting_text]"))
 
 		spawn(5 SECONDS)
-			job_test.greet(character)
-			qdel(job_test)
+			if(assigned_job.custom_job)
+				assigned_job.greet(character)
 
-	CW.candidates.Cut()
+	message_admins("The [CW.name] was deployed successfully!")
+
 	if(CW.timer)
 		//deltimer(CW.timer)
 		CW.timer = null
-	qdel(CW)
-
+	CW.candidates = list()
 
 /datum/custom_wave/proc/can_be_roles(client/player)
 	if(!player || !player.prefs)
@@ -1116,26 +2007,23 @@ GLOBAL_LIST_EMPTY(custom_waves) // Created waves
 
 		// Check allowed sexes
 		if(length(job_check.allowed_sexes) && !(prefs.gender in job_check.allowed_sexes))
-			job_fail += "Wrong gender (allowed: [job_check.allowed_sexes.Join(", ")])"
+			job_fail += "Wrong sex (allowed: [job_check.allowed_sexes.Join(", ")])"
 
 		// Check allowed ages
 		if(length(job_check.allowed_ages) && !(prefs.age in job_check.allowed_ages))
 			job_fail += "Wrong age (allowed: [job_check.allowed_ages.Join(", ")])"
 
-		// If no fails, player can join this job
+		// If no fails, player can join this wave
 		if(!length(job_fail))
 			can_join_any = TRUE
 		else
 			failed_reasons[job_check.title] = job_fail
-		qdel(job_check)
 
 	for(var/job_title in failed_reasons)
 		var/list/reasons = failed_reasons[job_title]
 		to_chat(player, span_warning("Cannot join [job_title]: [reasons.Join(", ")]"))
 
 	return can_join_any
-
-
 
 /datum/custom_wave/proc/export_to_file(mob/admin)
 	var/stored_data = get_json_data()
