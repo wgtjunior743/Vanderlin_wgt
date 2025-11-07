@@ -2309,7 +2309,7 @@ GLOBAL_LIST_EMPTY(custom_outfits) //Admin created outfits
 		to_chat(admin, span_warning("Malformed/Outdated file, failed to load from json."))
 		return
 
-	GLOB.custom_outfits.[O.id] = O
+	GLOB.custom_outfits[O.id] = O
 	message_admins("[key_name(usr)] loaded an outfit! Name: \"[O.name]\"")
 	outfit_manager(admin)
 
