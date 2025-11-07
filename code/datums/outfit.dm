@@ -326,6 +326,13 @@
 	.["beltr"] = beltr
 	.["shoes"] = shoes
 	.["scabbards"] = scabbards
+	if(length(scabbards))
+		var/list/scabbard_text = list()
+		for(var/path in scabbards)
+			scabbard_text += "[path]"
+		.["scabbards"] = scabbard_text
+	else
+		.["scabbards"] = list()
 
 /// Prompt the passed in mob client to download this outfit as a json blob
 /datum/outfit/proc/save_to_file(mob/admin)
@@ -358,10 +365,11 @@
 	beltl = text2path(outfit_data["beltl"])
 	beltr = text2path(outfit_data["beltr"])
 	shoes = text2path(outfit_data["shoes"])
-	var/scabbard_data1 = outfit_data["scabbards"][1]
-	if(scabbard_data1)
-		LAZYADD(scabbards, scabbard_data1)
-	var/scabbard_data2 = outfit_data["scabbards"][2]
-	if(scabbard_data2)
-		LAZYADD(scabbards, scabbard_data2)
+	var/list/scabbard_list = outfit_data["scabbards"]
+	if(islist(scabbard_list))
+		for(var/scabbard_path in scabbard_list)
+			var/path = text2path(scabbard_path)
+			if(path)
+				LAZYADD(scabbards, path)
+
 	return TRUE

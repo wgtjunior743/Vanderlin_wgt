@@ -215,6 +215,7 @@
 
 /datum/save_file/proc/save_to_file()
 	if(!file_path || !save_data)
+		stack_trace("save_to_file() called with invalid state! file_path=[file_path], save_data=[save_data]")
 		return FALSE
 
 	var/savefile/S = new /savefile(file_path)

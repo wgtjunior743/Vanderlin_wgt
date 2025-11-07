@@ -597,6 +597,7 @@
 	data["noble_income"] = noble_income
 	data["job_bitflag"] = job_bitflag
 	data["id"] = id
+	data["custom_job"] = custom_job
 
 	if(length(skills))
 		var/list/skill_map = list()
@@ -629,7 +630,6 @@
 
 /datum/job/proc/load_from_json(list/data)
 	if(!islist(data))
-		message_admins("LOAD JSON RETURN")
 		return
 
 	title = data["title"]
@@ -669,6 +669,7 @@
 	noble_income = data["noble_income"]
 	job_bitflag = data["job_bitflag"]
 	id = data["id"]
+	custom_job = data["custom_job"]
 
 
 	if(data["skills"])
