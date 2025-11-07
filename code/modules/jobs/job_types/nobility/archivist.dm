@@ -13,6 +13,7 @@
 	bypass_lastclass = TRUE
 
 	allowed_races = RACES_PLAYER_NONDISCRIMINATED
+	blacklisted_species = list(SPEC_ID_HALFLING)
 
 	outfit = /datum/outfit/archivist
 	spells = list(
@@ -23,6 +24,13 @@
 
 	job_bitflag = BITFLAG_ROYALTY
 	allowed_patrons = list(/datum/patron/divine/noc, /datum/patron/inhumen/zizo)
+
+/datum/job/archivist/after_spawn(mob/living/carbon/spawned, client/player_client)
+	. = ..()
+	var/mob/living/carbon/human/H = spawned
+	if(GLOB.keep_doors.len > 0)
+		addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(know_keep_door_password), H), 5 SECONDS)
+	ADD_TRAIT(H, TRAIT_KNOWKEEPPLANS, TRAIT_GENERIC)
 
 /datum/outfit/archivist/pre_equip(mob/living/carbon/human/H)
 	..()
