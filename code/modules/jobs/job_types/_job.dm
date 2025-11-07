@@ -449,7 +449,14 @@
 
 /mob/living/carbon/human/dress_up_as_job(datum/job/equipping, visual_only = FALSE)
 	dna.species.pre_equip_species_outfit(equipping, src, visual_only)
-	var/datum/outfit/chosen_outfit = (gender == FEMALE && equipping.outfit_female) ? equipping.outfit_female : equipping.outfit
+
+	var/datum/outfit/chosen_outfit
+	var/datum/outfit/outfit_check = (gender == FEMALE && equipping.outfit_female) ? equipping.outfit_female : equipping.outfit
+	if(ispath(outfit_check, /datum/outfit))
+		chosen_outfit = outfit_check
+	else
+		chosen_outfit = GLOB.custom_outfits[outfit_check]
+
 	equipOutfit(chosen_outfit, visual_only)
 
 //If the configuration option is set to require players to be logged as old enough to play certain jobs, then this proc checks that they are, otherwise it just returns 1
@@ -576,12 +583,12 @@
 /datum/job/proc/get_json_data()
 	var/list/data = list()
 
+	data["job_type"] = type
 	data["title"] = title
 	data["f_title"] = f_title
 	data["enabled"] = enabled
 	data["spawn_positions"] = spawn_positions
 	data["cmode_music"] = cmode_music
-	data["outfit"] = outfit
 	data["antag_role"] = antag_role
 	data["faction"] = faction
 	data["total_positions"] = total_positions
@@ -640,10 +647,26 @@
 		data["allowed_patrons"] = allowed_patrons.Copy()
 
 
+	if(outfit)
+		var/outfit_key = outfit
+		var/list/outfit_data
+
+		// If this is a custom outfit, include its full JSON
+		if(istext(outfit_key) && (outfit_key in GLOB.custom_outfits))
+			var/datum/outfit/O = GLOB.custom_outfits[outfit_key]
+			if(O)
+				outfit_data = O.get_json_data()
+
+		data["outfit"] = list(
+			"id" = outfit_key,
+			"custom_outfit_data" = outfit_data
+		)
+
+
 
 	return data
 
-/datum/job/proc/load_from_json(list/data)
+/datum/job/proc/load_from_json(list/data, mob/admin)
 	if(!islist(data))
 		return
 
@@ -652,10 +675,9 @@
 	enabled = data["enabled"]
 	spawn_positions = data["spawn_positions"]
 	cmode_music = data["cmode_music"]
-	outfit = text2path(data["outfit"])
+	outfit = data["outfit"]
 	antag_role = text2path(data["antag_role"])
 	faction = data["faction"]
-
 	total_positions = data["total_positions"]
 	tutorial = data["tutorial"]
 	selection_color = data["selection_color"]
@@ -724,3 +746,28 @@
 	if(data["spells"])
 		var/list/tmp = data["spells"]
 		spells = tmp.Copy()
+
+
+	if(data["outfit"])
+		var/list/outfit_entry = data["outfit"]
+		if(islist(outfit_entry))
+			var/outfit_id = outfit_entry["id"]
+			var/custom_outfit_data = outfit_entry["custom_outfit_data"]
+
+			if(custom_outfit_data)
+				var/datum/outfit/O = new
+				O.load_from(custom_outfit_data)
+				if(O.id in GLOB.custom_outfits)
+					outfit = O.id
+					return
+				GLOB.custom_outfits[O.id] = O
+				outfit = O.id
+				message_admins("[key_name(usr)]from the job [title] it was loaded a custom outfit: [O.name]")
+				to_chat(admin, span_notice("Successfully loaded outfit [O.name]."))
+			else
+				outfit = outfit_id
+		else
+			outfit = outfit_entry
+
+
+	return TRUE

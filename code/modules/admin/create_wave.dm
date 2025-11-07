@@ -9,6 +9,7 @@ GLOBAL_LIST_EMPTY(custom_outfits) //Admin created outfits
 	tutorial = "No description provided."
 	enabled = FALSE
 	can_random = FALSE
+	can_have_apprentices = FALSE
 	custom_job = TRUE
 	job_flags = (JOB_EQUIP_RANK)
 
@@ -16,6 +17,9 @@ GLOBAL_LIST_EMPTY(custom_outfits) //Admin created outfits
 	var/datum/admins/admin_holder = null
 
 	var/list/already_added_custom_jobs = list()
+	var/list/already_added_custom_outfits = list()
+	var/potential_custom_outfits_options = ""
+
 
 	// Lists for the real time add/removal of those vars for Job
 	var/list/pending_skills = list()
@@ -27,7 +31,7 @@ GLOBAL_LIST_EMPTY(custom_outfits) //Admin created outfits
 
 	// Lists used on the Custom Job HTML
 	var/list/factions_list = ALL_FACTIONS
-	var/list/outfits_list = list(/datum/outfit/apothecary,/datum/outfit/inquisition_crusader)
+	var/list/outfits_list = list()
 	var/list/sexes_list = list(MALE,FEMALE)
 	var/list/races_list = RACES_PLAYER_ALL
 	var/list/ages_list = list(AGE_CHILD,AGE_ADULT,AGE_MIDDLEAGED, AGE_OLD, AGE_IMMORTAL)
@@ -42,6 +46,7 @@ GLOBAL_LIST_EMPTY(custom_outfits) //Admin created outfits
 
 	var/list/potential_jobs = list()
 	var/potential_jobs_options = ""
+	var/potential_custom_jobs_options = ""
 
 	// Create HTML options for skills dropdown
 	var/skills_options = ""
@@ -205,7 +210,6 @@ GLOBAL_LIST_EMPTY(custom_outfits) //Admin created outfits
 
 /datum/create_wave/Topic(href, href_list)
 	..()
-	message_admins("Topic trigger")
 	var/client/C = usr?.client
 	if(!C)
 		return
@@ -220,9 +224,15 @@ GLOBAL_LIST_EMPTY(custom_outfits) //Admin created outfits
 		if(!(C in CW.candidates))
 			CW.candidates += C
 			to_chat(usr, span_notice("You have joined the [CW.name]."))
+			var/datum/browser/B = locate(href_list["popup"])
+			if(B)
+				B.close()
 		return
 
 	if(href_list["decline_wave"])
+		var/datum/browser/B = locate(href_list["popup"])
+		if(B)
+			B.close()
 		to_chat(usr, span_warning("You ignored the wave call."))
 		return
 
@@ -257,7 +267,6 @@ GLOBAL_LIST_EMPTY(custom_outfits) //Admin created outfits
 	var/editing_job = FALSE
 	if(edit_job_see)
 		editing_job = TRUE
-		message_admins("EDIT JOB SEE TRUE")
 
 	// Menu Related Topic
 	if(href_list["job_manager_menu"])
@@ -488,9 +497,9 @@ GLOBAL_LIST_EMPTY(custom_outfits) //Admin created outfits
 		var/id = href_list["chosen_job_edit"]
 		var/datum/job/custom_job/J = GLOB.custom_jobs[id]
 		if(J)
-			var/new_path = text2path(href_list["new_outfit"])
-			if(new_path)
-				J.outfit = new_path
+			var/new_out = href_list["new_outfit"]
+			if(new_out)
+				J.outfit = new_out
 			edit_job(usr, J)
 	else if(href_list["update_job_antag"])
 		var/id = href_list["chosen_job_edit"]
@@ -732,17 +741,20 @@ GLOBAL_LIST_EMPTY(custom_outfits) //Admin created outfits
 	else if(href_list["delete_outfit"])
 		if(!check_rights(R_ADMIN))
 			return
-		var/datum/outfit/O = locate(href_list["chosen_outfit"]) in GLOB.custom_outfits
+		var/id = href_list["chosen_outfit"]
+		var/datum/outfit/O =  GLOB.custom_outfits[id]
 		delete_outfit(usr,O)
 	else if(href_list["save_outfit"])
 		if(!check_rights(R_ADMIN))
 			return
-		var/datum/outfit/O = locate(href_list["chosen_outfit"]) in GLOB.custom_outfits
+		var/id = href_list["chosen_outfit"]
+		var/datum/outfit/O =  GLOB.custom_outfits[id]
 		save_outfit(usr,O)
 	else if(href_list["view_outfit"])
 		if(!check_rights(R_ADMIN))
 			return
-		var/datum/outfit/O = locate(href_list["chosen_outfit"]) in GLOB.custom_outfits
+		var/id = href_list["chosen_outfit"]
+		var/datum/outfit/O =  GLOB.custom_outfits[id]
 		view_outfit(usr, O)
 
 /client/proc/wave_creation_tools()
@@ -770,6 +782,19 @@ GLOBAL_LIST_EMPTY(custom_outfits) //Admin created outfits
 // Admin-side proc to show the manager
 /datum/create_wave/proc/custom_job_manager(mob/admin)
 
+	if(length(GLOB.custom_outfits))
+		for(var/id in GLOB.custom_outfits)
+			var/datum/outfit/O = GLOB.custom_outfits[id]
+
+			if(!O ||!O.id)
+				continue
+			if(O.id in already_added_custom_jobs)
+				continue
+
+			outfits_list += O.id
+			already_added_custom_outfits += O.id
+
+
 	var/list/dat = list("<ul>")
 	for(var/id in GLOB.custom_jobs)
 		var/datum/job/custom_job/J = GLOB.custom_jobs[id]
@@ -790,6 +815,7 @@ GLOBAL_LIST_EMPTY(custom_outfits) //Admin created outfits
 
 // Admin-side proc to show the manager
 /datum/create_wave/proc/custom_wave_manager(mob/admin)
+
 	if(!length(potential_jobs))
 		for(var/J in SSjob.joinable_occupations)
 			var/datum/job/job = J
@@ -803,19 +829,14 @@ GLOBAL_LIST_EMPTY(custom_outfits) //Admin created outfits
 		for(var/id in GLOB.custom_jobs)
 			var/datum/job/custom_job/J = GLOB.custom_jobs[id]
 
-			if(!J || QDELETED(J))
-				GLOB.custom_jobs -= id
+			if(!J ||!J.id)
 				continue
-
-			if(!J.id || J.id != id)
-				GLOB.custom_jobs -= id
-				continue
-
 			if(J.id in already_added_custom_jobs)
 				continue
 
-			potential_jobs_options += "<option value='[(J.id)]'>[J.title]</option>"
+			potential_custom_jobs_options += "<option value='[(J.id)]'>[J.title]</option>"
 			already_added_custom_jobs += J.id
+
 
 	var/list/dat = list("<ul>")
 	for(var/datum/custom_wave/CW in GLOB.custom_waves)
@@ -831,18 +852,19 @@ GLOBAL_LIST_EMPTY(custom_outfits) //Admin created outfits
 	dat += "<a href='byond://?src=[REF(src)];[HrefToken()];import_wave=1'>Import Wave</a><br>"
 	dat += "<a href='byond://?src=[REF(src)];[HrefToken()];announce_wave=1'>Announce Wave</a>"
 
-	var/datum/browser/popup = new(admin, "customjobmanager", "Custom Job Manager", 670, 650, src)
+	var/datum/browser/popup = new(admin, "customwavemanager", "Custom Wave Manager", 670, 650, src)
 	popup.set_content(dat.Join())
 	popup.open(FALSE)
 
 /datum/create_wave/proc/outfit_manager(mob/admin)
 	var/list/dat = list("<ul>")
-	for(var/datum/outfit/O in GLOB.custom_outfits)
+	for(var/id in GLOB.custom_outfits)
 		var/vv = FALSE
-		var/datum/outfit/varedit/VO = O
+		var/datum/outfit/varedit/VO = GLOB.custom_outfits[id]
+		var/datum/outfit/O = GLOB.custom_outfits[id]
 		if(istype(VO))
 			vv = length(VO.vv_values)
-		dat += "<li><a href='byond://?src=[REF(src)];[HrefToken()];view_outfit=1;chosen_outfit=[REF(O)]'>[O.name]</a>[vv ? "(VV)" : ""]</li> <a href='byond://?src=[REF(src)];[HrefToken()];save_outfit=1;chosen_outfit=[REF(O)]'>Save</a> <a href='byond://?src=[REF(src)];[HrefToken()];delete_outfit=1;chosen_outfit=[REF(O)]'>Delete</a>"
+		dat += "<li><a href='byond://?src=[REF(src)];[HrefToken()];view_outfit=1;chosen_outfit=[O.id]'>[O.name]</a>[vv ? "(VV)" : ""]</li> <a href='byond://?src=[REF(src)];[HrefToken()];save_outfit=1;chosen_outfit=[O.id]'>Save</a> <a href='byond://?src=[REF(src)];[HrefToken()];delete_outfit=1;chosen_outfit=[O.id]'>Delete</a>"
 	dat += "</ul>"
 	dat += "<a href='byond://?src=[REF(src)];[HrefToken()];create_outfit_menu=1'>Create</a><br>"
 	dat += "<a href='byond://?src=[REF(src)];[HrefToken()];load_outfit=1'>Load from file</a>"
@@ -858,7 +880,7 @@ GLOBAL_LIST_EMPTY(custom_outfits) //Admin created outfits
 		return
 
 	var/list/dat = list("<html><body>")
-	dat += "<h2>Job Preview: [J.title]</h2>"
+	dat += "<h2>Job Title: [J.title]</h2>"
 	dat += "<b>Tutorial</b><br><pre style='white-space:pre-wrap;'>[J.tutorial]</pre>"
 	dat += "<h3>Faction:</h3> [J.faction]<br>"
 	dat += "<h3>Outfit:</h3> [J.outfit]<br>"
@@ -955,6 +977,8 @@ GLOBAL_LIST_EMPTY(custom_outfits) //Admin created outfits
 		GLOB.custom_jobs -= J.id
 	if(J.id in already_added_custom_jobs)
 		already_added_custom_jobs -= J.id
+		potential_custom_jobs_options = ""
+		already_added_custom_jobs = list()
 	to_chat(admin, span_notice("Custom job [J.title] deleted."))
 	message_admins("[key_name(usr)] deleted the custom job: '[J.title]' with the id of [J.id]")
 
@@ -1247,7 +1271,7 @@ GLOBAL_LIST_EMPTY(custom_outfits) //Admin created outfits
 	if(magick_user == 1)
 		J.magic_user = TRUE
 
-	J.outfit = text2path(href_list["job_outfit"])
+	J.outfit = href_list["job_outfit"]
 
 	var/sexes = href_list["job_allowed_sexes"]
 	if(sexes)
@@ -1643,6 +1667,10 @@ GLOBAL_LIST_EMPTY(custom_outfits) //Admin created outfits
 		to_chat(admin, span_warning("JSON decode error."))
 		return
 
+	var/j_type = text2path(json["job_type"])
+	if(!ispath(j_type,/datum/job/custom_job))
+		to_chat(admin, span_warning("Malformed/Outdated file, the files does not have a job type."))
+		return
 	// Ensure this is a single JSON object
 	if(!islist(json))
 		to_chat(admin, span_warning("Invalid file format (expected a single JSON job object)."))
@@ -1652,7 +1680,9 @@ GLOBAL_LIST_EMPTY(custom_outfits) //Admin created outfits
 	var/datum/job/custom_job/J = new
 
 	// Let loader handle the fields
-	J.load_from_json(json)
+	if(!J.load_from_json(json, admin))
+		to_chat(admin, span_warning("Malformed/Outdated file, failed to load from json."))
+		return
 
 	// Add it to the global job list
 	GLOB.custom_jobs[J.id] = J
@@ -1679,7 +1709,7 @@ GLOBAL_LIST_EMPTY(custom_outfits) //Admin created outfits
 		<tr><th>Jobs:</th>
 		<td>
 			<select id='jobs_dropdown'>
-				[potential_jobs_options]
+				[potential_custom_jobs_options + potential_jobs_options]
 			</select>
 	"}
 	if(length(pending_jobs))
@@ -1843,7 +1873,7 @@ GLOBAL_LIST_EMPTY(custom_outfits) //Admin created outfits
 		<tr><th>Jobs:</th>
 		<td>
 			<select id='jobs_dropdown'>
-				[potential_jobs_options]
+				[potential_custom_jobs_options + potential_jobs_options]
 			</select>
 	"}
 	// Existing jobs
@@ -1938,21 +1968,21 @@ GLOBAL_LIST_EMPTY(custom_outfits) //Admin created outfits
 			continue
 
 		// Send ghost/lobby popup
+		var/datum/browser/popup = new(dead_mob, "wave_call", "Join Custom Wave", 400, 300)
 		var/list/dat = list("<html><body>")
 		dat += "<center><b>An admin is forming a custom wave named: [CW.name].</b><br>Join it?</b><br><br>"
 		dat += "<b>Available roles in this wave:</b>" + job_list_html + "<br>"
-		dat += "<a href='byond://?src=[REF(src)];join_wave=1;chosen_wave=[REF(CW)]'>Join</a> "
-		dat += "<a href='byond://?src=[REF(src)];decline_wave=1'>Decline</a></center>"
+		dat += "<a href='byond://?src=[REF(src)];join_wave=1;chosen_wave=[REF(CW)];popup=[REF(popup)]'>Join</a> "
+		dat += "<a href='byond://?src=[REF(src)];decline_wave=1;popup=[REF(popup)]'>Decline</a>"
 		dat += "</body></html>"
 
-		var/datum/browser/popup = new(dead_mob, "wave_call", "Join Custom Wave", 400, 300)
 		popup.set_content(dat.Join())
 		popup.open(FALSE)
 
 	to_chat(admin, span_notice("Wave call sent to ghosts and players at the lobby."))
 	message_admins("The [CW.name] was started by [ADMIN_FLW(admin)] [key_name_admin(admin)]  at [admin.loc] and it is going to finalize the deployment in 60 seconds.")
 
-	CW.timer = addtimer(CALLBACK(src, PROC_REF(finalize_wave), admin, CW), 10 SECONDS)
+	CW.timer = addtimer(CALLBACK(src, PROC_REF(finalize_wave), admin, CW), 60 SECONDS)
 
 
 /datum/create_wave/proc/finalize_wave(mob/admin, datum/custom_wave/CW)
@@ -1970,7 +2000,7 @@ GLOBAL_LIST_EMPTY(custom_outfits) //Admin created outfits
 		for(var/client/C in CW.candidates)
 			if(!C || !C.mob || !isdead(C.mob))
 				continue
-				to_chat(C, span_notice("The amount of player didn't reach the minimum needed to run the wave."))
+				to_chat(C, span_notice("The amount of player(s) didn't reach the minimum amount needed to deploy the wave."))
 		CW.candidates = list()
 		CW.spawn_landmark = null
 		return
@@ -2039,6 +2069,7 @@ GLOBAL_LIST_EMPTY(custom_outfits) //Admin created outfits
 
 		character.islatejoin = TRUE
 		dead_mob.transfer_character()
+		character.purge_combat_knowledge()
 
 		// Equip and finalize
 		SSjob.EquipRank(character, assigned_job, character.client)
@@ -2058,7 +2089,7 @@ GLOBAL_LIST_EMPTY(custom_outfits) //Admin created outfits
 		GLOB.character_list[human_character.mobid] = "[fakekey] was [human_character.real_name] ([assigned_job.title])<BR>"
 		GLOB.character_ckey_list[human_character.real_name] = human_character.ckey
 		log_character("[human_character.ckey] ([fakekey]) - [human_character.real_name] - [assigned_job.title]")
-		to_chat(character, span_notice("You are part of the [CW.name].</b>"))
+		to_chat(character, span_notice("You are part of the [CW.name]."))
 		to_chat(character, span_notice("*-----------------*"))
 		to_chat(character, span_notice("[CW.greeting_text]"))
 
@@ -2153,13 +2184,20 @@ GLOBAL_LIST_EMPTY(custom_outfits) //Admin created outfits
 		to_chat(admin, span_warning("Invalid file format (expected a single JSON job object)."))
 		return
 
+	var/wave_type = text2path(json["custom_wave_type"])
+	if(!ispath(wave_type, /datum/custom_wave))
+		to_chat(admin, span_warning("Malformed/Outdated file, the files does not have a wave type."))
+		return
+
 	// Create the wave
 	var/datum/custom_wave/CW = new
 
 	// Let loader handle the fields
-	CW.load_from_json(json, admin)
+	if(!CW.load_from_json(json))
+		to_chat(admin, span_warning("Malformed/Outdated file, failed to load from json."))
+		return
 
-	// Add it to the global job list
+	// Add it to the global wave list
 	GLOB.custom_waves += CW
 
 	message_admins("[key_name(admin)] loaded a custom wave! Name: [CW.name]")
@@ -2169,6 +2207,7 @@ GLOBAL_LIST_EMPTY(custom_outfits) //Admin created outfits
 /datum/custom_wave/proc/get_json_data()
 	var/list/data = list()
 
+	data["custom_wave_type"] = type
 	data["name"] = name
 	data["greeting_text"] = greeting_text
 	data["min_pop"] = min_pop
@@ -2218,15 +2257,19 @@ GLOBAL_LIST_EMPTY(custom_outfits) //Admin created outfits
 				if(custom_job_data)
 					var/datum/job/custom_job/J = new
 					J.load_from_json(custom_job_data)
+					if(J.id in GLOB.custom_jobs)
+						wave_jobs[J.id] = slots
+						continue
 					GLOB.custom_jobs[J.id] = J
 					wave_jobs[J.id] = slots
-					message_admins("[key_name(admin)] loaded a custom job! Name: [J.title] ")
+					message_admins("[key_name(usr)] loaded a custom job through the [name] wave! Name: [J.title] ")
 					to_chat(admin, span_notice("Successfully loaded job [J.title]."))
 				else
 					wave_jobs[job_text] = slots
 			else
 				// Regular typepath job
 				wave_jobs[job_text] = job_entry
+	return TRUE
 
 // Outfit Procs
 
@@ -2235,9 +2278,17 @@ GLOBAL_LIST_EMPTY(custom_outfits) //Admin created outfits
 	outfit_manager(admin)
 
 /datum/create_wave/proc/delete_outfit(mob/admin, datum/outfit/O)
-	GLOB.custom_outfits -= O
+	if(!O)
+		return
+
+	if(O.id in GLOB.custom_outfits)
+		GLOB.custom_outfits -= O.id
+	if(O.id in already_added_custom_outfits)
+		already_added_custom_outfits -= O.id
+		outfits_list = list()
+
 	qdel(O)
-	to_chat(admin,"<span class='notice'>Outfit deleted.</span>")
+	to_chat(admin,span_notice("The [O.name] outfit was deleted."))
 	outfit_manager(admin)
 
 /datum/create_wave/proc/load_outfit(mob/admin)
@@ -2247,28 +2298,29 @@ GLOBAL_LIST_EMPTY(custom_outfits) //Admin created outfits
 	var/filedata = file2text(outfit_file)
 	var/json = json_decode(filedata)
 	if(!json)
-		to_chat(admin,"<span class='warning'>JSON decode error.</span>")
+		to_chat(admin, span_warning("JSON decode error."))
 		return
 	var/otype = text2path(json["outfit_type"])
 	if(!ispath(otype,/datum/outfit))
-		to_chat(admin,"<span class='warning'>Malformed/Outdated file.</span>")
+		to_chat(admin,span_warning("Malformed/Outdated file, this file does not have the outfit type."))
 		return
 	var/datum/outfit/O = new otype
 	if(!O.load_from(json))
-		to_chat(admin,"<span class='warning'>Malformed/Outdated file.</span>")
+		to_chat(admin, span_warning("Malformed/Outdated file, failed to load from json."))
 		return
-	GLOB.custom_outfits += O
+
+	GLOB.custom_outfits.[O.id] = O
 	message_admins("[key_name(usr)] loaded an outfit! Name: \"[O.name]\"")
 	outfit_manager(admin)
 
 /datum/create_wave/proc/export_outfit(mob/admin, datum/outfit/O)
 	if(!O)
-		to_chat(admin, "<span class='warning'>No outfit selected for export.</span>")
+		to_chat(admin, span_warning("No outfit selected for export."))
 		return
 
 	var/json_data = O.get_json_data()
 	if(!islist(json_data))
-		to_chat(admin, "<span class='warning'>Failed to get outfit data.</span>")
+		to_chat(admin, span_warning("Failed to get outfit data."))
 		return
 
 	var/json = json_encode(json_data)
@@ -2278,7 +2330,7 @@ GLOBAL_LIST_EMPTY(custom_outfits) //Admin created outfits
 	WRITE_FILE(f, json)
 
 	admin << ftp(f, "[O.name].json")
-	to_chat(admin, "<span class='notice'>Exported outfit: [O.name]</span>")
+	to_chat(admin, span_notice("Exported outfit: [O.name]"))
 
 	outfit_manager(admin)
 
@@ -2574,10 +2626,10 @@ GLOBAL_LIST_EMPTY(custom_outfits) //Admin created outfits
 			<br>
 			<div id='scabbard_option'  style='display:[temp_antag_bool ? "block" : "none"];'>
 				<select name='outfit_scabbard1'>
-					[o_scabbards_options]
+					[add_none_option(o_scabbards_options)]
 				</select>
 				<select name='outfit_scabbard2'>
-					[o_scabbards_options]
+					[add_none_option(o_scabbards_options)]
 				</select>
 			</div>
 		</td></tr>
@@ -2662,7 +2714,6 @@ GLOBAL_LIST_EMPTY(custom_outfits) //Admin created outfits
 	popup.open(FALSE)
 
 
-
 /datum/create_wave/proc/create_outfit_finalize(mob/admin, list/href_list)
 	var/datum/outfit/O = new
 
@@ -2695,7 +2746,9 @@ GLOBAL_LIST_EMPTY(custom_outfits) //Admin created outfits
 		if(loaded_scabbard2)
 			LAZYADD(O.scabbards, loaded_scabbard2)
 
-	GLOB.custom_outfits.Add(O)
+	O.id = "[O.name]_[world.time]"
+
+	GLOB.custom_outfits[O.id] = O
 	message_admins("[key_name(usr)] created \"[O.name]\" outfit!")
 
 	outfit_manager(admin)

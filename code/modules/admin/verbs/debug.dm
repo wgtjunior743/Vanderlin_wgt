@@ -271,6 +271,7 @@ But you can call procs that are of type /mob/living/carbon/human/proc/ for that 
 	message_admins(span_adminnotice("[key_name_admin(usr)] changed the outfit of [ADMIN_LOOKUPFLW(H)] to [dresscode]."))
 
 /client/proc/job_selector(mob/to_dress)
+	var/list/basejobs = list("Custom")
 	var/list/jobs = subtypesof(/datum/job)
 	var/list/selection = list()
 	for(var/datum/job/job as anything in jobs)
@@ -278,12 +279,24 @@ But you can call procs that are of type /mob/living/carbon/human/proc/ for that 
 			continue
 		selection[job.title] = job
 
-	var/datum/job/selected = browser_input_list(src, "Select Job", "Job selection", selection)
+	var/datum/job/selected = browser_input_list(src, "Select Job", "Job selection", basejobs + selection)
 	if(!selected || QDELETED(src))
 		return
-	selected = SSjob.GetJobType(selection[selected])
-	if(!istype(selected))
-		return
+
+	var/datum/job/custom_job/selected_J
+	if(selected == "Custom")
+		var/list/custom_jobs = list()
+		for(var/id in GLOB.custom_jobs)
+			var/datum/job/custom_job/J = GLOB.custom_jobs[id]
+			custom_jobs[J.id] = J
+		var/selected_name = browser_input_list(src, "Select Job", "Custom Job Selector", sortList(custom_jobs))
+		if(!selected_name)
+			return
+		selected_J = GLOB.custom_jobs[selected_name]
+	else
+		selected = SSjob.GetJobType(selection[selected])
+		if(!istype(selected))
+			return
 
 	var/mob/living/carbon/human/dressed_human
 	if(!ishuman(to_dress))
@@ -294,10 +307,16 @@ But you can call procs that are of type /mob/living/carbon/human/proc/ for that 
 	for(var/obj/item/I in dressed_human.get_all_gear())
 		qdel(I)
 
-	SSjob.EquipRank(dressed_human, selected, dressed_human.client)
+	if(selected_J)
+		SSjob.EquipRank(dressed_human, selected_J, dressed_human.client)
+		log_admin("[key_name(src)] changed the job of [key_name(dressed_human)] to [selected_J].")
+		message_admins(span_adminnotice("[key_name_admin(src)] changed the job of [ADMIN_LOOKUPFLW(dressed_human)] to [selected_J]."))
+	else
+		SSjob.EquipRank(dressed_human, selected, dressed_human.client)
+		log_admin("[key_name(src)] changed the job of [key_name(dressed_human)] to [selected].")
+		message_admins(span_adminnotice("[key_name_admin(src)] changed the job of [ADMIN_LOOKUPFLW(dressed_human)] to [selected]."))
 
-	log_admin("[key_name(src)] changed the job of [key_name(dressed_human)] to [selected].")
-	message_admins(span_adminnotice("[key_name_admin(src)] changed the job of [ADMIN_LOOKUPFLW(dressed_human)] to [selected]."))
+
 
 /client/proc/robust_dress_shop()
 	var/list/baseoutfits = list("Naked", "Custom")
@@ -319,7 +338,10 @@ But you can call procs that are of type /mob/living/carbon/human/proc/ for that 
 
 	if(dresscode == "Custom")
 		var/list/custom_names = list()
-		for(var/datum/outfit/D in GLOB.custom_outfits)
+		for(var/id in GLOB.custom_outfits)
+			var/datum/outfit/D = GLOB.custom_outfits[id]
+			if(!D)
+				continue
 			custom_names[D.name] = D
 		var/selected_name = browser_input_list(src, "Select outfit", "Robust quick dress shop", sortList(custom_names))
 		dresscode = custom_names[selected_name]

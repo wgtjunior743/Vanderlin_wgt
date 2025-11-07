@@ -17,6 +17,9 @@
 	///Name of the outfit (shows up in the equip admin verb)
 	var/name = "Naked"
 
+	/// Id for outfits,it is used with the Custom Outfits Glob.
+	var/id
+
 	/// Type path of item to go in suit slot
 	var/suit = null
 
@@ -326,6 +329,7 @@
 	.["beltr"] = beltr
 	.["shoes"] = shoes
 	.["scabbards"] = scabbards
+	.["id"] = id
 	if(length(scabbards))
 		var/list/scabbard_text = list()
 		for(var/path in scabbards)
@@ -365,6 +369,7 @@
 	beltl = text2path(outfit_data["beltl"])
 	beltr = text2path(outfit_data["beltr"])
 	shoes = text2path(outfit_data["shoes"])
+	id = outfit_data["id"]
 	var/list/scabbard_list = outfit_data["scabbards"]
 	if(islist(scabbard_list))
 		for(var/scabbard_path in scabbard_list)
