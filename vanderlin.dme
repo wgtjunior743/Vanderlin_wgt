@@ -2776,6 +2776,7 @@
 #include "code\modules\language\dwarf.dm"
 #include "code\modules\language\elf.dm"
 #include "code\modules\language\fae.dm"
+#include "code\modules\language\halfspeak.dm"
 #include "code\modules\language\hellspeak.dm"
 #include "code\modules\language\language.dm"
 #include "code\modules\language\language_holder.dm"
