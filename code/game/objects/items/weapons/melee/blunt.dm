@@ -84,6 +84,16 @@
 				return list("shrink" = 0.3,"sx" = -2,"sy" = -6,"nx" = 4,"ny" = -5,"wx" = 0,"wy" = -5,"ex" = 2,"ey" = -5,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = 0,"sturn" = 0,"wturn" = 0,"eturn" = 0,"nflip" = 0,"sflip" = 0,"wflip" = 0,"eflip" = 0)
 	return ..()
 
+/obj/item/weapon/mace/shishpar/iron
+	name = "iron shishpar"
+	desc = "A heavy foreign mace with a sword-like handle. It's weight makes it a little hard to wield, but its capable of delivering devastating blows."
+	force = DAMAGE_MACE+1
+	force_wielded = DAMAGE_MACE_WIELD+2
+	icon_state = "shishpar_iron"
+	wbalance = EASY_TO_DODGE
+	wdefense = GOOD_PARRY
+	sellprice = 35
+
 /*--------------\
 | Strike intent |	moderate AP
 \--------------*/
@@ -269,6 +279,15 @@
 	sellprice = 60
 	wdefense = GOOD_PARRY
 
+/obj/item/weapon/mace/steel/shishpar
+	name = "steel shishpar"
+	desc = "A heavy foreign mace with a sword-like handle. It's weight makes it a little hard to wield, but its capable of delivering devastating blows."
+	force = DAMAGE_MACE+2
+	force_wielded = DAMAGE_MACE_WIELD+3
+	icon_state = "shishpar_steel"
+	wbalance = EASY_TO_DODGE
+	wdefense = GREAT_PARRY
+	sellprice = 75
 
 //................ Spiked club ............... //
 /obj/item/weapon/mace/spiked
@@ -715,5 +734,19 @@
 	wdefense = GOOD_PARRY
 
 /obj/item/weapon/mace/silver/rungu/Initialize(mapload)
+	. = ..()
+	enchant(/datum/enchantment/silver)
+
+/obj/item/weapon/mace/silver/gada
+	name = "regal gada"
+	icon_state = "gada"
+	desc = "A luxurious silver mace of Savannah Elf origin thats been reinforced and embellished with gold. It's considerably heavier compared to other maces."
+	minstr = 8
+	force = DAMAGE_MACE+2
+	wbalance = DODGE_CHANCE_NORMAL
+	wdefense = AVERAGE_PARRY
+	sellprice = 150 // It's silver and gold.
+
+/obj/item/weapon/mace/silver/gada/Initialize(mapload)
 	. = ..()
 	enchant(/datum/enchantment/silver)

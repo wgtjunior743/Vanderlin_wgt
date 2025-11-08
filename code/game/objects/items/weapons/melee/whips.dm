@@ -53,6 +53,20 @@
 	canparry = FALSE //Has reach and can't be parried, but needs to be charged and punishes misses.
 	item_damage_type = "slash"
 
+/datum/intent/whip/cut
+	name = "cut"
+	blade_class = BCLASS_CUT
+	attack_verb = list("slashes", "lacerates")
+	hitsound = list('sound/combat/hits/bladed/genslash (1).ogg', 'sound/combat/hits/bladed/genslash (2).ogg', 'sound/combat/hits/bladed/genslash (3).ogg')
+	chargetime = 5
+	recovery = 5
+	penfactor = 5
+	reach = 2
+	misscost = 7
+	icon_state = "incut"
+	canparry = FALSE
+	item_damage_type = "slash"
+
 /*-------------\
 | Crack intent |
 \-------------*/
@@ -211,11 +225,52 @@
 	desc = "The chimes of this whip are said to sound as the trickster's laughter itself."
 	icon = 'icons/roguetown/weapons/32/patron.dmi'
 	icon_state = "xylixwhip"
-
+	anvilrepair = /datum/skill/craft/weaponsmithing
 /obj/item/weapon/whip/nagaika
 	name = "nagaika whip"
 	desc = "A short but heavy leather whip, sporting a blunt reinforced tip and a longer handle."
 	icon_state = "nagaika"
 	force = 25		//Same as a cudgel/sword for intent purposes. Basically a 2 range cudgel while one-handing.
 	possible_item_intents = list(/datum/intent/whip/crack/metal, /datum/intent/whip/lash, /datum/intent/sword/strike)
-	wdefense = 1	//Akin to a cudgel, still terrible at parrying though. Better than nothing I guess; thing is used irl as a counter-weapon to knives.
+	wdefense = BAD_PARRY	//Akin to a cudgel, still terrible at parrying though. Better than nothing I guess; thing is used irl as a counter-weapon to knives.
+
+//................ Urumi ............... //
+
+/obj/item/weapon/whip/urumi
+	name = "steel urumi"
+	desc = "A long, flexible whip-like sword originally developed by the Savannah Elves. While an effective weapon, it requires more maintenance compared to other swords."
+	icon_state = "urumi_steel"
+	force = DAMAGE_WHIP+3
+	possible_item_intents = list(/datum/intent/whip/crack/metal, /datum/intent/whip/lash, /datum/intent/whip/cut,)
+	anvilrepair = /datum/skill/craft/weaponsmithing
+	smeltresult = /obj/item/ingot/steel
+	resistance_flags = FIRE_PROOF
+	minstr = 5
+	sharpness = IS_SHARP
+	max_blade_int = 175
+	max_integrity = INTEGRITY_STANDARD
+	blade_dulling = DULLING_BASH
+	wdefense = BAD_PARRY // Parrying with a whip sword is inherently badass, plus its a small benefit for it since its supposed to have less durability.
+	can_parry = TRUE
+
+/obj/item/weapon/whip/urumi/iron
+	name = "iron urumi"
+	icon_state = "urumi_iron"
+	force = DAMAGE_WHIP+2
+	smeltresult = /obj/item/ingot/iron
+	max_blade_int = 150
+	wdefense = BAD_PARRY
+	can_parry = TRUE
+
+/obj/item/weapon/whip/urumi/silver
+	name = "silver urumi"
+	icon_state = "urumi_silver"
+	force = DAMAGE_WHIP+2
+	smeltresult = /obj/item/ingot/silver
+	max_blade_int= 130
+	wdefense = BAD_PARRY
+	can_parry = TRUE
+
+/obj/item/weapon/whip/urumi/silver/Initialize(mapload)
+	. = ..()
+	enchant(/datum/enchantment/silver)
