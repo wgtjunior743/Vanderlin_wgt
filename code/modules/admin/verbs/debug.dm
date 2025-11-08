@@ -624,7 +624,7 @@ But you can call procs that are of type /mob/living/carbon/human/proc/ for that 
 
 /client/proc/test_select()
 	set category = "Debug"
-	set name = "Select"
+	set name = "Select Jobpack"
 
 	if(!check_rights(R_DEBUG))
 		return
