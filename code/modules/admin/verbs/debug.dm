@@ -625,6 +625,9 @@ But you can call procs that are of type /mob/living/carbon/human/proc/ for that 
 	set category = "Debug"
 	set name = "Select Jobpack"
 
+	if(!check_rights(R_DEBUG))
+		return
+
 	var/pack = browser_input_list(usr, "Select a pack", "Job Packs", GLOB.job_pack_singletons)
 	if(!pack)
 		return
