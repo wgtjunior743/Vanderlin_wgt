@@ -283,7 +283,6 @@ But you can call procs that are of type /mob/living/carbon/human/proc/ for that 
 	if(!selected || QDELETED(src))
 		return
 
-	var/datum/job/custom_job/selected_J
 	if(selected == "Custom")
 		var/list/custom_jobs = list()
 		for(var/id in GLOB.custom_jobs)
@@ -292,7 +291,7 @@ But you can call procs that are of type /mob/living/carbon/human/proc/ for that 
 		var/selected_name = browser_input_list(src, "Select Job", "Custom Job Selector", sortList(custom_jobs))
 		if(!selected_name)
 			return
-		selected_J = GLOB.custom_jobs[selected_name]
+		selected = GLOB.custom_jobs[selected_name]
 	else
 		selected = SSjob.GetJobType(selection[selected])
 		if(!istype(selected))
@@ -307,14 +306,9 @@ But you can call procs that are of type /mob/living/carbon/human/proc/ for that 
 	for(var/obj/item/I in dressed_human.get_all_gear())
 		qdel(I)
 
-	if(selected_J)
-		SSjob.EquipRank(dressed_human, selected_J, dressed_human.client)
-		log_admin("[key_name(src)] changed the job of [key_name(dressed_human)] to [selected_J].")
-		message_admins(span_adminnotice("[key_name_admin(src)] changed the job of [ADMIN_LOOKUPFLW(dressed_human)] to [selected_J]."))
-	else
-		SSjob.EquipRank(dressed_human, selected, dressed_human.client)
-		log_admin("[key_name(src)] changed the job of [key_name(dressed_human)] to [selected].")
-		message_admins(span_adminnotice("[key_name_admin(src)] changed the job of [ADMIN_LOOKUPFLW(dressed_human)] to [selected]."))
+	SSjob.EquipRank(dressed_human, selected, dressed_human.client)
+	log_admin("[key_name(src)] changed the job of [key_name(dressed_human)] to [selected].")
+	message_admins(span_adminnotice("[key_name_admin(src)] changed the job of [ADMIN_LOOKUPFLW(dressed_human)] to [selected]."))
 
 
 

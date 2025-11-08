@@ -10,7 +10,6 @@ GLOBAL_LIST_EMPTY(custom_outfits) //Admin created outfits
 	enabled = FALSE
 	can_random = FALSE
 	can_have_apprentices = FALSE
-	custom_job = TRUE
 	job_flags = (JOB_EQUIP_RANK)
 
 /datum/create_wave
@@ -112,11 +111,8 @@ GLOBAL_LIST_EMPTY(custom_outfits) //Admin created outfits
 	var/o_items_options = ""
 
 
-
-
-
 /datum/custom_wave
-	abstract_type = /datum/migrant_wave
+	abstract_type = /datum/custom_wave
 	var/name = "Custom Wave"
 	var/greeting_text = "Hello Hello"
 
@@ -221,13 +217,14 @@ GLOBAL_LIST_EMPTY(custom_outfits) //Admin created outfits
 			return
 		if(length(CW.candidates) >= CW.max_pop)
 			to_chat(usr, span_notice("The [CW.name] has reached their maximum capacity."))
+			return
 		if(!(C in CW.candidates))
 			CW.candidates += C
 			to_chat(usr, span_notice("You have joined the [CW.name]."))
 			var/datum/browser/B = locate(href_list["popup"])
 			if(B)
 				B.close()
-		return
+			return
 
 	if(href_list["decline_wave"])
 		var/datum/browser/B = locate(href_list["popup"])
@@ -820,6 +817,10 @@ GLOBAL_LIST_EMPTY(custom_outfits) //Admin created outfits
 		for(var/J in SSjob.joinable_occupations)
 			var/datum/job/job = J
 			potential_jobs += job
+		for(var/datum/job/migrant as anything in subtypesof(/datum/job/migrant))
+			if(is_abstract(migrant))
+				continue
+			potential_jobs += new migrant
 
 	if(potential_jobs_options == "")
 		for(var/datum/job/job in potential_jobs)
@@ -2005,7 +2006,7 @@ GLOBAL_LIST_EMPTY(custom_outfits) //Admin created outfits
 		CW.spawn_landmark = null
 		return
 
-	to_chat(admin, span_notice("Deploying [length(CW.candidates)] participants..."))
+	message_admins("Deploying [length(CW.candidates)] participants from the [CW.name] wave.")
 
 	var/list/job_order = CW.wave_jobs.Copy() // keep order and slot counts
 
@@ -2093,11 +2094,7 @@ GLOBAL_LIST_EMPTY(custom_outfits) //Admin created outfits
 		to_chat(character, span_notice("*-----------------*"))
 		to_chat(character, span_notice("[CW.greeting_text]"))
 
-		spawn(5 SECONDS)
-			if(assigned_job.custom_job)
-				assigned_job.greet(character)
-
-	message_admins("The [CW.name] was deployed successfully!")
+	message_admins("The [CW.name] was deployed successfully with [length(CW.candidates)] participants!")
 
 	if(CW.timer)
 		//deltimer(CW.timer)
@@ -2153,7 +2150,7 @@ GLOBAL_LIST_EMPTY(custom_outfits) //Admin created outfits
 
 	for(var/job_title in failed_reasons)
 		var/list/reasons = failed_reasons[job_title]
-		to_chat(player, span_warning("Cannot join [job_title]: [reasons.Join(", ")]"))
+		to_chat(player, span_warning("Cannot be [job_title]: [reasons.Join(", ")]"))
 
 	return can_join_any
 

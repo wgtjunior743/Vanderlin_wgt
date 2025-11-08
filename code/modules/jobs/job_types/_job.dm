@@ -13,8 +13,6 @@
 	var/tutorial = null
 	/// Id for the Job.
 	var/id
-	/// If the job is a custom job made by an admin.
-	var/custom_job = FALSE
 	//Bitflags for the job
 	var/flag = NONE
 	var/department_flag = NONE
@@ -619,7 +617,6 @@
 	data["noble_income"] = noble_income
 	data["job_bitflag"] = job_bitflag
 	data["id"] = id
-	data["custom_job"] = custom_job
 
 	if(length(skills))
 		var/list/skill_map = list()
@@ -706,7 +703,6 @@
 	noble_income = data["noble_income"]
 	job_bitflag = data["job_bitflag"]
 	id = data["id"]
-	custom_job = data["custom_job"]
 
 
 	if(data["skills"])
