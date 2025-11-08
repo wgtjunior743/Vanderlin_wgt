@@ -352,13 +352,15 @@
 /obj/item/weapon/pitchfork
 	name = "pitchfork"
 	desc = "Compost, chaff, hay, it matters not."
+	icon = 'icons/roguetown/weapons/tools.dmi'
 	icon_state = "pitchfork"
-	icon = 'icons/roguetown/weapons/64/polearms.dmi'
-	SET_BASE_PIXEL(-16, -16)
-	inhand_x_dimension = 64
-	inhand_y_dimension = 64
-	bigboy = TRUE
-	gripsprite = TRUE
+	mob_overlay_icon = 'icons/roguetown/onmob/onmob.dmi'
+	lefthand_file = 'icons/roguetown/onmob/lefthand.dmi'
+	righthand_file = 'icons/roguetown/onmob/righthand.dmi'
+	experimental_inhand = FALSE
+	experimental_onback = FALSE
+	experimental_onhip = FALSE
+	gripspriteonmob = TRUE
 	w_class = WEIGHT_CLASS_BULKY
 	slot_flags = ITEM_SLOT_BACK
 	blade_dulling = DULLING_BASHCHOP
