@@ -621,7 +621,7 @@ But you can call procs that are of type /mob/living/carbon/human/proc/ for that 
 		cleared++
 	to_chat(usr, "<span class='notice'>Cleared [cleared] asset\s.</span>")
 
-/client/verb/test_select()
+/client/proc/select_job_pack_debug()
 	set category = "Debug"
 	set name = "Select Jobpack"
 
