@@ -52,6 +52,11 @@
 	base_state = "stumpfireb"
 	bulb_colour = "#6cfdff"
 
+/obj/machinery/light/fueled/firebowl/stumpg
+	icon_state = "stumpfireg1"
+	base_state = "stumpfireg"
+	bulb_colour = "#23b25a"
+
 /obj/machinery/light/fueled/firebowl/blackfire
 	desc = "A fire, black as death."
 	icon_state = "blackfire1"
