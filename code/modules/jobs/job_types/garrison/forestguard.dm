@@ -244,7 +244,7 @@
 
 /datum/outfit/forestguard/ruffian/pre_equip(mob/living/carbon/human/H)
 	..()
-	head = /obj/item/clothing/head/helmet/medium/decorated/skullmet //placeholder, I have to sprite something new for the Brats, like a gator skull
+	head = /obj/item/clothing/head/helmet/medium/decorated/rousskullmet //placeholder, I have to sprite something new for the Brats, like a gator skull
 	neck = /obj/item/clothing/neck/highcollier
 	shirt = /obj/item/clothing/shirt/undershirt/colored/black
 	beltl = /obj/item/weapon/knife/dagger //just a normal iron dagger
