@@ -55,60 +55,23 @@ GLOBAL_PROTECT(exp_to_update)
 		play_records = prefs.exp
 		if(!play_records.len)
 			return "[key] has no records."
-	var/return_text = list()
-	return_text += "<UL>"
-	var/list/exp_data = list()
-	for(var/category in SSjob.name_occupations)
-		if(play_records[category])
-			exp_data[category] = text2num(play_records[category])
-		else
-			exp_data[category] = 0
-	for(var/category in GLOB.exp_specialmap)
-		if(category == EXP_TYPE_ANTAG)
-			if(GLOB.exp_specialmap[category])
-				for(var/innercat in GLOB.exp_specialmap[category])
-					if(play_records[innercat])
-						exp_data[innercat] = text2num(play_records[innercat])
-					else
-						exp_data[innercat] = 0
-		else
-			if(play_records[category])
-				exp_data[category] = text2num(play_records[category])
-			else
-				exp_data[category] = 0
-	if(prefs.db_flags & DB_FLAG_EXEMPT)
-		return_text += "<LI>Exempt (all jobs auto-unlocked)</LI>"
 
-	for(var/dep in exp_data)
-		if(exp_data[dep] > 0)
-			if(exp_data[EXP_TYPE_LIVING] > 0)
-				var/percentage = num2text(round(exp_data[dep]/exp_data[EXP_TYPE_LIVING]*100))
-				return_text += "<LI>[dep] [get_exp_format(exp_data[dep])] ([percentage]%)</LI>"
-			else
-				return_text += "<LI>[dep] [get_exp_format(exp_data[dep])] </LI>"
-	if(CONFIG_GET(flag/use_exp_restrictions_admin_bypass) && check_rights_for(src,R_ADMIN))
-		return_text += "<LI>Admin (all jobs auto-unlocked)</LI>"
-	return_text += "</UL>"
-	var/list/jobs_locked = list()
-	var/list/jobs_unlocked = list()
-	for(var/datum/job/job in SSjob.joinable_occupations)
-		if(job.exp_requirements && job.exp_type)
-			if(!job_is_xp_locked(job.title))
-				continue
-			else if(!job.required_playtime_remaining(mob.client))
-				jobs_unlocked += job.title
-			else
-				var/xp_req = job.get_exp_req_amount()
-				jobs_locked += "[job.title] [get_exp_format(text2num(calc_exp_type(job.get_exp_req_type())))] / [get_exp_format(xp_req)] as [job.get_exp_req_type()])"
-	if(jobs_unlocked.len)
-		return_text += "<BR><BR>Jobs Unlocked:<UL><LI>"
-		return_text += jobs_unlocked.Join("</LI><LI>")
-		return_text += "</LI></UL>"
-	if(jobs_locked.len)
-		return_text += "<BR><BR>Jobs Not Unlocked:<UL><LI>"
-		return_text += jobs_locked.Join("</LI><LI>")
-		return_text += "</LI></UL>"
-	return return_text
+	var/return_text = list()
+	return_text += "<ul>"
+
+	if(play_records[EXP_TYPE_LIVING])
+		return_text += "<li>Living time: [get_exp_format(text2num(play_records[EXP_TYPE_LIVING]))]</li>"
+	if(play_records[EXP_TYPE_GHOST])
+		return_text += "<li>Ghost time: [get_exp_format(text2num(play_records[EXP_TYPE_GHOST]))]</li>"
+
+	for(var/job_name in SSjob.name_occupations)
+		var/playtime = play_records[job_name] ? text2num(play_records[job_name]) : 0
+		if(playtime > 0)
+			return_text += "<li>[job_name]: [get_exp_format(playtime)]</li>"
+
+	return_text += "</ul>"
+
+	return jointext(return_text, "")
 
 
 /client/proc/get_exp_living()
