@@ -50,11 +50,18 @@ GLOBAL_PROTECT(exp_to_update)
 	if(!CONFIG_GET(flag/use_exp_tracking))
 		return "Tracking is disabled in the server configuration file."
 	var/list/play_records = prefs.exp
-	if(!play_records.len)
+	if(!length(play_records))
 		set_exp_from_db()
 		play_records = prefs.exp
-		if(!play_records.len)
-			return "[key] has no records."
+	
+	var/has_playtime = FALSE
+	for(var/job_name in play_records)
+		if(text2num(play_records[job_name]) > 0)
+			has_playtime = TRUE
+			break
+	
+	if(!has_playtime)
+		return "[key] has no records."
 
 	var/return_text = list()
 	return_text += "<ul>"
