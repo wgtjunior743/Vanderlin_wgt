@@ -55,32 +55,6 @@ GLOBAL_PROTECT(exp_to_update)
 		set_exp_from_db()
 		play_records = prefs.exp
 
-	// Sanitize to remove the ' from the prefs.exp.
-	var/list/cleaned = list()
-	for(var/raw_key in play_records)
-
-		var/str_key = "[raw_key]"
-		if(isnull(str_key) || !length(str_key))
-			continue
-		if(copytext(str_key, 1, 2) == "'")
-			str_key = copytext(str_key, 2)
-		if(copytext(str_key, length(str_key)) == "'")
-			str_key = copytext(str_key, 1, length(str_key))
-		var/key = str_key
-		if(!length(key))
-			continue
-		var/minutes = text2num(play_records[raw_key])
-		if(cleaned[key])
-			cleaned[key] = text2num(cleaned[key]) + minutes
-		else
-			cleaned[key] = minutes
-
-	for(var/possible in prefs.exp)
-		if(isnum(possible))
-			cleaned[possible] = text2num(prefs.exp[possible])
-
-	// Replace play_records with cleaned version for the rest of the proc
-	play_records = cleaned
 	var/has_playtime = FALSE
 	for(var/k in play_records)
 		if (text2num(play_records[k]) > 0)
@@ -88,21 +62,21 @@ GLOBAL_PROTECT(exp_to_update)
 			break
 	if(!has_playtime)
 		return "[key] has no records."
-	
+
 	var/list/return_text = list()
 	return_text += "<ul>"
-	
+
 	if(play_records[EXP_TYPE_LIVING])
 		return_text += "<li>Living time: [get_exp_format(text2num(play_records[EXP_TYPE_LIVING]))]</li>"
 	if(play_records[EXP_TYPE_GHOST])
 		return_text += "<li>Ghost time: [get_exp_format(text2num(play_records[EXP_TYPE_GHOST]))]</li>"
-	
+
 	var/list/job_playtimes = list()
-	for (var/job_name in SSjob.name_occupations)
+	for(var/job_name in SSjob.name_occupations)
 		var/playtime = play_records[job_name] ? text2num(play_records[job_name]) : 0
-		if (playtime > 0)
+		if(playtime > 0)
 			job_playtimes[job_name] = playtime
-	
+
 	var/list/sorted_jobs = list()
 	for(var/i in 1 to length(job_playtimes))
 		var/highest_key
@@ -115,11 +89,11 @@ GLOBAL_PROTECT(exp_to_update)
 					highest_key = job_name
 		if(highest_key)
 			sorted_jobs += highest_key
-	
+
 	for(var/job_name in sorted_jobs)
 		var/playtime = job_playtimes[job_name]
 		return_text += "<li>[job_name]: [get_exp_format(playtime)]</li>"
-	
+
 	return_text += "</ul>"
 	return jointext(return_text, "")
 
@@ -169,7 +143,17 @@ GLOBAL_PROTECT(exp_to_update)
 		return -1
 	var/list/play_records = list()
 	while(exp_read.NextRow())
-		play_records[exp_read.item[1]] = text2num(exp_read.item[2])
+		var/raw_key = exp_read.item[1]
+		var/mins = text2num(exp_read.item[2])
+
+		var/str_key = "[raw_key]"
+		if(copytext(str_key, 1, 2) == "'")
+			str_key = copytext(str_key, 2)
+		if(copytext(str_key, length(str_key)) == "'")
+			str_key = copytext(str_key, 1, length(str_key))
+
+		play_records[str_key] = mins
+
 	qdel(exp_read)
 
 	for(var/rtype in SSjob.name_occupations)
