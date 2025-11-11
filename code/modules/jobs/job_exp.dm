@@ -55,7 +55,7 @@ GLOBAL_PROTECT(exp_to_update)
 		set_exp_from_db()
 		play_records = prefs.exp
 
-	// Sanitze to remove the ' from the strings.
+	// Sanitize to remove the ' from the prefs.exp.
 	var/list/cleaned = list()
 	for(var/raw_key in play_records)
 
