@@ -28,7 +28,10 @@
 	if(owner.cmode && ishuman(owner))
 		var/mob/living/carbon/human/H = owner
 		if(H.dna?.species)
-			message = pick_list_replacements("bard.json", "[H.dna.species.id]_mockery")
+			if(check_strings("bard.json", "[H.dna.species.id]_mockery"))
+				message = pick_list_replacements("bard.json", "[H.dna.species.id]_mockery")
+			else
+				message = pick_list_replacements("bard.json", "default_mockery")
 	else
 		message = browser_input_text(owner, "How will I mock this fool?", "XYLIX")
 		if(QDELETED(src) || QDELETED(owner) || QDELETED(cast_on) || !can_cast_spell())
