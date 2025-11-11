@@ -53,17 +53,51 @@ GLOBAL_PROTECT(exp_to_update)
 	if(!length(play_records))
 		set_exp_from_db()
 		play_records = prefs.exp
-	
+
+	// Sanitize to remove the ' from the prefs.exp.
+	var/list/cleaned = list()
+	for (var/raw_key in play_records)
+
+		var/str_key = "[raw_key]"
+
+		if(isnull(str_key) || !length(str_key))
+			continue
+
+		if(copytext(str_key, 1, 2) == "'")
+			str_key = copytext(str_key, 2)
+		if(copytext(str_key, length(str_key)) == "'")
+			str_key = copytext(str_key, 1, length(str_key))
+
+		var/key = str_key
+
+		if(!length(key))
+			continue
+
+		var/minutes = text2num(play_records[raw_key])
+
+		if(cleaned[key])
+			cleaned[key] = text2num(cleaned[key]) + minutes
+		else
+			cleaned[key] = minutes
+
+
+	for(var/possible in prefs.exp)
+		if(isnum(possible))
+			cleaned[possible] = text2num(prefs.exp[possible])
+
+
+	// Replace play_records with cleaned version for the rest of the proc
+	play_records = cleaned
+
 	var/has_playtime = FALSE
-	for(var/job_name in play_records)
-		if(text2num(play_records[job_name]) > 0)
+	for (var/k in play_records)
+		if (text2num(play_records[k]) > 0)
 			has_playtime = TRUE
 			break
-	
-	if(!has_playtime)
+	if (!has_playtime)
 		return "[key] has no records."
 
-	var/return_text = list()
+	var/list/return_text = list()
 	return_text += "<ul>"
 
 	if(play_records[EXP_TYPE_LIVING])
@@ -115,9 +149,12 @@ GLOBAL_PROTECT(exp_to_update)
 		return -1
 	if(!SSdbcore.Connect())
 		return -1
+	// compensate for DB storing quoted ckeys like `'john_vanderlin'`
+	var/quoted_ckey = "'[ckey]'"
+
 	var/datum/DBQuery/exp_read = SSdbcore.NewQuery(
 		"SELECT job, minutes FROM [format_table_name("role_time")] WHERE ckey = :ckey",
-		list("ckey" = ckey)
+		list("ckey" = quoted_ckey)
 	)
 	if(!exp_read.Execute(async = TRUE))
 		qdel(exp_read)
