@@ -37,6 +37,15 @@
 	)
 
 
+//Adventurer's belt start with a needle, cloth and just that, good luck buddy
+
+/obj/item/storage/belt/leather/adventurer
+	populate_contents = list(
+		/obj/item/needle/thorn,
+		/obj/item/natural/cloth,
+	)
+
+
 //Garrison's belt starts with a simple needle, and a key to their hideout.
 
 /obj/item/storage/belt/leather/fgarrison
