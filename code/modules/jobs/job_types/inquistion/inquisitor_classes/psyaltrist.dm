@@ -66,5 +66,6 @@
 	ring = /obj/item/clothing/ring/signet/silver
 	backpack_contents = list(
 		/obj/item/key/inquisition = 1,
-		/obj/item/paper/inqslip/arrival/ortho = 1
+		/obj/item/paper/inqslip/arrival/ortho = 1,
+		/obj/item/collar_detonator = 1,
 	)
