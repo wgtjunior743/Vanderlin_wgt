@@ -727,7 +727,7 @@
 		playsound_local(src, 'sound/misc/click.ogg', 50, TRUE)
 		if(hud_used)
 			if(hud_used.zone_select)
-				hud_used.zone_select.update_appearance()
+				hud_used.zone_select.update_appearance(UPDATE_OVERLAYS)
 
 /mob/proc/select_organ_slot(choice)
 	organ_slot_selected = choice

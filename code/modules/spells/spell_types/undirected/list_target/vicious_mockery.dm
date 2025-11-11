@@ -13,6 +13,9 @@
 	has_visual_effects = FALSE
 
 /datum/action/cooldown/spell/vicious_mockery/is_valid_target(atom/cast_on)
+	. = ..()
+	if(!.)
+		return
 	return isliving(cast_on)
 
 /datum/action/cooldown/spell/vicious_mockery/before_cast(mob/living/cast_on)

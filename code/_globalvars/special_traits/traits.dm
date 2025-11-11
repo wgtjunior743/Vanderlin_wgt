@@ -664,9 +664,10 @@
 	character.adjust_skillrank(/datum/skill/combat/wrestling, 6, TRUE)
 	character.adjust_skillrank(/datum/skill/combat/unarmed, 6, TRUE)
 	character.adjust_skillrank(/datum/skill/misc/reading, 3, TRUE)
-	character.set_stat_modifier("[type]", STATKEY_STR, 20)
-	character.set_stat_modifier("[type]", STATKEY_CON, 20)
-	character.set_stat_modifier("[type]", STATKEY_END, 20)
+	character.base_constitution = 20
+	character.base_strength = 20
+	character.base_endurance = 20
+	character.recalculate_stats()
 
 /datum/special_trait/my_precious
 	name = "My Precious"

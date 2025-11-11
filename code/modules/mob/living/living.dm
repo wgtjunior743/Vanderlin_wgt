@@ -544,7 +544,7 @@
 		var/mob/living/living = AM
 		for(var/hand in living.hud_used?.hand_slots)
 			var/atom/movable/screen/inventory/hand/H = living.hud_used.hand_slots[hand]
-			H?.update_appearance()
+			H?.update_appearance(UPDATE_OVERLAYS)
 
 /mob/living/proc/is_limb_covered(obj/item/bodypart/limb)
 	if(!limb)
@@ -2642,7 +2642,7 @@
 
 	for(var/hand in hud_used?.hand_slots)
 		var/atom/movable/screen/inventory/hand/H = hud_used.hand_slots[hand]
-		H?.update_appearance()
+		H?.update_appearance(UPDATE_OVERLAYS)
 
 	if(isnull(new_pulledby))
 		reset_pull_offsets()

@@ -583,7 +583,7 @@ w/**
 			m_intent = MOVE_INTENT_RUN
 	if(hud_used && hud_used.static_inventory)
 		for(var/atom/movable/screen/rogmove/selector in hud_used.static_inventory)
-			selector.update_appearance()
+			selector.update_appearance(UPDATE_ICON_STATE)
 	if(!silent)
 		playsound_local(src, 'sound/misc/click.ogg', 100)
 

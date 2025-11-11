@@ -143,7 +143,7 @@
 				return
 			set_connection(get_dir(src, pipe))
 			pipe.set_connection(get_dir(pipe, src))
-			pipe.update_appearance()
+			pipe.update_appearance(UPDATE_ICON)
 
 	for(var/direction in GLOB.cardinals)
 		var/turf/turf = get_step(src, direction)
