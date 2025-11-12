@@ -835,6 +835,8 @@
 		return time
 
 /datum/job/proc/can_play_role(client/client)
+	if(check_rights_for(client, R_ADMIN))
+		return TRUE
 	if(get_job_playtime(client, title) > minimum_playtime_as_job)
 		return TRUE
 	if(parent_job)
