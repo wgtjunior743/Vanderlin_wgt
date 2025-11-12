@@ -2518,6 +2518,7 @@
 #include "code\modules\farming\plant_def\alchemical.dm"
 #include "code\modules\farming\plant_def\allium.dm"
 #include "code\modules\farming\plant_def\brassica.dm"
+#include "code\modules\farming\plant_def\dikarya.dm"
 #include "code\modules\farming\plant_def\flowers.dm"
 #include "code\modules\farming\plant_def\fruit.dm"
 #include "code\modules\farming\plant_def\grain.dm"
