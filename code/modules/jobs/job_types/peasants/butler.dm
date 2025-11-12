@@ -25,11 +25,10 @@ AddTimelock(/datum/job/butler, list(
 	JOB_LIVING_ROLES = 10 HOURS,
 ))
 
-/datum/job/butler/after_spawn(mob/living/H, mob/M, latejoin)
+/datum/job/butler/after_spawn(mob/living/carbon/human/spawned, client/player_client)
 	. = ..()
-	if(ishuman(H) && GLOB.keep_doors.len > 0)
-		addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(know_keep_door_password), H), 50)
-
+	if(length(GLOB.keep_doors) > 0)
+		addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(know_keep_door_password), spawned), 5 SECONDS)
 
 /datum/outfit/butler/pre_equip(mob/living/carbon/human/H)
 	..()

@@ -30,6 +30,16 @@ AddTimelock(/datum/job/forestwarden, list(
 	JOB_GARRISON_ROLES = 15 HOURS,
 ))
 
+/datum/job/forestwarden/after_spawn(mob/living/carbon/human/spawned, client/player_client)
+	. = ..()
+	var/prev_real_name = spawned.real_name
+	var/prev_name = spawned.name
+	var/honorary = "Sir"
+	if(spawned.gender == FEMALE)
+		honorary = "Dame"
+	spawned.real_name = "[honorary] [prev_real_name]"
+	spawned.name = "[honorary] [prev_name]"
+
 /datum/outfit/forestwarden/pre_equip(mob/living/carbon/human/H)
 	..()
 	cloak = /obj/item/clothing/cloak/wardencloak
