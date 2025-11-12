@@ -20,8 +20,10 @@
 	werewolf_untransform(null, TRUE, gibbed)
 
 /mob/living/carbon/human/proc/werewolf_transform()
-	if(HAS_TRAIT(src, TRAIT_SILVER_BLESSED)) return
-
+	if(SSticker.current_state == GAME_STATE_FINISHED)
+		return
+	if(HAS_TRAIT(src, TRAIT_SILVER_BLESSED))
+		return
 	if(HAS_TRAIT(src, TRAIT_WEREWOLF_RAGE))
 		return
 	if(is_species(src, /datum/species/werewolf))
@@ -109,6 +111,8 @@
 	invisibility = oldinv
 
 /mob/living/carbon/human/proc/werewolf_untransform(mob/bleh, dead,gibbed)
+	if(SSticker.current_state == GAME_STATE_FINISHED)
+		return
 	if(!stored_mob)
 		var/mob/living/carbon/human/species/werewolf/wolf = loc
 		if(istype(wolf))
