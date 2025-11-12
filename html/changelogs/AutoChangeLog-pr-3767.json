@@ -1,1 +1,0 @@
-{"author":"Dorodomki","delete-after":true,"changes":[{"rscadd":"Added cleric & fighter weapon choices"},{"rscdel":"Removed old cleric god specific weaponry\\n:cl:\\n## Pre-Merge Checklist\\n- [x] You tested this on a local server.\\n- [x] This code did not runtime during testing.\\n- [x] You documented all of your changes."}]}
