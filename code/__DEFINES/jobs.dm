@@ -194,9 +194,9 @@
 #define JOB_MAGICK_ROLES_LIST	list(/datum/job/advclass/mercenary/sellmage, /datum/job/advclass/mercenary/spellsword, /datum/job/magician, /datum/job/mageapprentice, /datum/job/advclass/combat/mage, /datum/job/advclass/wretch/hedgemage, /datum/job/migrant/heartfelt_magos)
 #define JOB_ARTIFICER_ROLES_LIST	list(/datum/job/artificer, /datum/job/migrant/heartfelt_artificer)
 #define JOB_ADVENTURER_ROLES_LIST	list(/datum/job/adventurer, /datum/job/advclass/combat/amazon, /datum/job/advclass/combat/barbarian, /datum/job/advclass/combat/cleric, /datum/job/advclass/combat/inhumencleric, /datum/job/advclass/combat/dbomb, /datum/job/advclass/combat/dredge, /datum/job/advclass/combat/dranger, /datum/job/advclass/combat/hollowranger, /datum/job/advclass/combat/mage, /datum/job/advclass/combat/monk, /datum/job/advclass/combat/ranger, /datum/job/advclass/combat/rogue, /datum/job/advclass/combat/vikingr, /datum/job/advclass/combat/sfighter, /datum/job/advclass/combat/bladesinger, /datum/job/advclass/combat/hoplite, /datum/job/advclass/combat/longbeard, /datum/job/advclass/combat/paladin, /datum/job/advclass/combat/profanepaladin, /datum/job/advclass/combat/swordmaster, /datum/job/advclass/combat/vaquero, /datum/job/advclass/combat/lancer, /datum/job/advclass/combat/lakkariancleric, /datum/job/advclass/adventurer/qatil, /datum/job/advclass/combat/rare/sentinel, /datum/job/advclass/combat/swashbuckler, /datum/job/advclass/combat/gravedigger, /datum/job/advclass/combat/puritan)
-#define JOB_THIEF_ROLES_LIST	list(/datum/job/advclass/combat/rogue, /datum/job/advclass/knave)
-#define JOB_BARD_ROLES_LIST	list(/datum/job/advclass/pilgrim/bard, /datum/job/bard)
-#define JOB_RANGER_ROLES_LIST	list(/datum/job/advclass/combat/ranger, /datum/job/advclass/combat/hollowranger, /datum/job/advclass/combat/dranger)
+#define JOB_THIEF_ROLES_LIST	list(/datum/job/advclass/combat/rogue, /datum/job/advclass/knave, /datum/job/matron)
+#define JOB_BARD_ROLES_LIST	list(/datum/job/advclass/pilgrim/bard, /datum/job/bard, /datum/job/town_elder)
+#define JOB_RANGER_ROLES_LIST	list(/datum/job/advclass/combat/ranger, /datum/job/advclass/combat/hollowranger, /datum/job/advclass/combat/dranger, /datum/job/gaffer)
 
 
 #define TIMELOCK_JOB(role_id, hours) new/datum/timelock(role_id, hours, role_id)
