@@ -603,8 +603,8 @@ GLOBAL_LIST_INIT(name_adjustments, list())
 						</td>
 						<td>
 							<div class='tutorialhover'>
-								<font color=#a36c63>\[RACE LOCK\]</font>
-								<span class='tutorial'><b>Races Needed:</b><br>[races_text]</span>
+								<font color=#a36c63>\[SPECIES LOCK\]</font>
+								<span class='tutorial'><b>Species Needed:</b><br>[races_text]</span>
 							</div>
 						</td>
 						</tr>
