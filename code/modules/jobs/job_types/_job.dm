@@ -462,7 +462,14 @@
 
 /mob/living/carbon/human/dress_up_as_job(datum/job/equipping, visual_only = FALSE)
 	dna.species.pre_equip_species_outfit(equipping, src, visual_only)
-	var/datum/outfit/chosen_outfit = (gender == FEMALE && equipping.outfit_female) ? equipping.outfit_female : equipping.outfit
+
+	var/datum/outfit/chosen_outfit
+	var/datum/outfit/outfit_check = (gender == FEMALE && equipping.outfit_female) ? equipping.outfit_female : equipping.outfit
+	if(ispath(outfit_check, /datum/outfit))
+		chosen_outfit = outfit_check
+	else
+		chosen_outfit = GLOB.custom_outfits[outfit_check]
+
 	equipOutfit(chosen_outfit, visual_only)
 
 //If the configuration option is set to require players to be logged as old enough to play certain jobs, then this proc checks that they are, otherwise it just returns 1
