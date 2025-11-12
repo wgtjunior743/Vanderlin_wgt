@@ -97,6 +97,47 @@ GLOBAL_PROTECT(exp_to_update)
 	return_text += "</ul>"
 	return jointext(return_text, "")
 
+	var/has_playtime = FALSE
+	for(var/k in play_records)
+		if (text2num(play_records[k]) > 0)
+			has_playtime = TRUE
+			break
+	if(!has_playtime)
+		return "[key] has no records."
+
+	var/list/return_text = list()
+	return_text += "<ul>"
+
+	if(play_records[EXP_TYPE_LIVING])
+		return_text += "<li>Living time: [get_exp_format(text2num(play_records[EXP_TYPE_LIVING]))]</li>"
+	if(play_records[EXP_TYPE_GHOST])
+		return_text += "<li>Ghost time: [get_exp_format(text2num(play_records[EXP_TYPE_GHOST]))]</li>"
+
+	var/list/job_playtimes = list()
+	for(var/job_name in SSjob.name_occupations)
+		var/playtime = play_records[job_name] ? text2num(play_records[job_name]) : 0
+		if(playtime > 0)
+			job_playtimes[job_name] = playtime
+
+	var/list/sorted_jobs = list()
+	for(var/i in 1 to length(job_playtimes))
+		var/highest_key
+		var/highest_value = -1
+		for(var/job_name in job_playtimes)
+			if(!(job_name in sorted_jobs))
+				var/value = job_playtimes[job_name]
+				if(value > highest_value)
+					highest_value = value
+					highest_key = job_name
+		if(highest_key)
+			sorted_jobs += highest_key
+
+	for(var/job_name in sorted_jobs)
+		var/playtime = job_playtimes[job_name]
+		return_text += "<li>[job_name]: [get_exp_format(playtime)]</li>"
+
+	return_text += "</ul>"
+	return jointext(return_text, "")
 
 /client/proc/get_exp_living()
 	if(!prefs.exp)
