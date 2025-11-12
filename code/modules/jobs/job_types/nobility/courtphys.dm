@@ -9,7 +9,6 @@
 	faction = FACTION_TOWN
 	total_positions = 1
 	spawn_positions = 1
-	min_pq = 6
 
 	allowed_races = RACES_PLAYER_NONHERETICAL
 
@@ -22,6 +21,12 @@
 	)
 
 	job_bitflag = BITFLAG_ROYALTY
+
+AddTimelock(/datum/job/courtphys, list(
+	JOB_LIVING_ROLES = 10 HOURS,
+	JOB_MEDICAL_ROLES = 10 HOURS,
+))
+
 
 /datum/outfit/courtphys/pre_equip(mob/living/carbon/human/H)
 	. = ..()

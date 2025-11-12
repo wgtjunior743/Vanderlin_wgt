@@ -10,7 +10,6 @@
 	faction = FACTION_TOWN
 	total_positions = 1
 	spawn_positions = 1
-	min_pq = 6
 	bypass_lastclass = TRUE
 
 	allowed_races = RACES_PLAYER_NONDISCRIMINATED
@@ -36,6 +35,12 @@
 	job_bitflag = BITFLAG_ROYALTY
 
 	allowed_patrons = list(/datum/patron/divine/noc, /datum/patron/inhumen/zizo) //intentional. This means it's a gamble between Noc or Zizo if your not one already. Don't fucking change this.
+
+AddTimelock(/datum/job/magician, list(
+	JOB_LIVING_ROLES = 20 HOURS,
+	JOB_ADVENTURER_ROLES = 5 HOURS,
+	JOB_MAGICK_ROLES = 5 HOURS,
+))
 
 /datum/job/magician/after_spawn(mob/living/carbon/human/spawned, client/player_client)
 	. = ..()

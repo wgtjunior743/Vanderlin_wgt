@@ -22,11 +22,16 @@
 	cmode_music = 'sound/music/cmode/towner/CombatGaffer.ogg'
 	outfit = /datum/outfit/gaffer
 	give_bank_account = 20
-	min_pq = 8
 	bypass_lastclass = TRUE
 	selection_color = "#3b150e"
 
 	spells = list(/datum/action/cooldown/spell/undirected/list_target/convert_role/mercenary)
+
+AddTimelock(/datum/job/gaffer, list(
+	JOB_LIVING_ROLES = 20 HOURS,
+	JOB_ADVENTURER_ROLES = 5 HOURS,
+	JOB_RANGER_ROLES = 5 HOURS,
+))
 
 /datum/outfit/gaffer/pre_equip(mob/living/carbon/human/H, visuals_only)
 	..()

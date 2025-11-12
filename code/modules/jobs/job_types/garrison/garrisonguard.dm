@@ -9,7 +9,6 @@
 	faction = FACTION_TOWN
 	total_positions = 8
 	spawn_positions = 8
-	min_pq = 4
 	bypass_lastclass = TRUE
 
 	allowed_ages = list(AGE_ADULT, AGE_MIDDLEAGED, AGE_IMMORTAL)
@@ -19,6 +18,10 @@
 	advclass_cat_rolls = list(CTAG_GARRISON = 20)	//Handles class selection.
 	give_bank_account = 30
 	cmode_music = 'sound/music/cmode/garrison/CombatGarrison.ogg'
+
+AddTimelock(/datum/job/guardsman, list(
+	JOB_LIVING_ROLES = 5 HOURS,
+))
 
 //................. City Watchmen Base .............. //
 /datum/outfit/guardsman/pre_equip(mob/living/carbon/human/H)

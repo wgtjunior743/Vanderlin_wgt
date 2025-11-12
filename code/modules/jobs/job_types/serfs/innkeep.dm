@@ -20,6 +20,10 @@
 
 	job_bitflag = BITFLAG_CONSTRUCTOR
 
+AddTimelock(/datum/job/innkeep, list(
+	JOB_LIVING_ROLES = 5 HOURS,
+))
+
 /datum/outfit/innkeep/pre_equip(mob/living/carbon/human/H)
 	..()
 	H.adjust_skillrank(/datum/skill/combat/wrestling, 3, TRUE)

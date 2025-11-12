@@ -11,7 +11,6 @@
 	faction = FACTION_TOWN
 	total_positions = 1
 	spawn_positions = 1
-	min_pq = 2
 	bypass_lastclass = TRUE
 
 	trainable_skills = list(/datum/skill/misc/medicine)
@@ -55,6 +54,11 @@
 	)
 
 	job_bitflag = BITFLAG_CONSTRUCTOR
+
+AddTimelock(/datum/job/feldsher, list(
+	JOB_LIVING_ROLES = 5 HOURS,
+	JOB_MEDICAL_ROLES = 5 HOURS,
+))
 
 /datum/job/feldsher/after_spawn(mob/living/carbon/human/spawned, client/player_client)
 	. = ..()

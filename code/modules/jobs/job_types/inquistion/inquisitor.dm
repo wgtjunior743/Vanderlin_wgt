@@ -20,9 +20,13 @@
 	display_order = JDO_PURITAN
 	advclass_cat_rolls = list(CTAG_PURITAN = 20)
 	give_bank_account = 30
-	min_pq = 10
 	bypass_lastclass = TRUE
 	antag_role = /datum/antagonist/purishep
+
+AddTimelock(/datum/job/inquisitor, list(
+	JOB_LIVING_ROLES = 15 HOURS,
+	JOB_INQUISITION_ROLES = 15 HOURS,
+))
 
 /datum/outfit/job/inquisitor
 	name = "Inquisitor"

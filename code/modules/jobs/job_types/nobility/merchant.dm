@@ -9,7 +9,6 @@
 	faction = FACTION_TOWN
 	total_positions = 1
 	spawn_positions = 1
-	min_pq = 1
 	bypass_lastclass = TRUE
 	selection_color = "#192bc2"
 	cmode_music = 'sound/music/cmode/towner/CombatTowner2.ogg'
@@ -18,6 +17,12 @@
 
 	outfit = /datum/outfit/merchant
 	give_bank_account = 200
+
+AddTimelock(/datum/job/merchant, list(
+	JOB_LIVING_ROLES = 10 HOURS,
+	JOB_MERCHANT_COMPANY_ROLES = 5 HOURS,
+))
+
 
 /datum/outfit/merchant/pre_equip(mob/living/carbon/human/H)
 	..()

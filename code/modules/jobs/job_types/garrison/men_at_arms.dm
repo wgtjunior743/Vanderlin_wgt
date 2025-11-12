@@ -13,7 +13,6 @@
 	faction = FACTION_TOWN
 	total_positions = 4
 	spawn_positions = 4
-	min_pq = 6
 	bypass_lastclass = TRUE
 
 	allowed_races = RACES_PLAYER_NONDISCRIMINATED
@@ -22,11 +21,15 @@
 	outfit = /datum/outfit/watchman
 	advclass_cat_rolls = list(CTAG_MENATARMS = 20)
 	cmode_music = 'sound/music/cmode/garrison/CombatManAtArms.ogg'
-	give_bank_account = 15
-	min_pq = 6
 	give_bank_account = 30
 
 	job_bitflag = BITFLAG_GARRISON
+
+AddTimelock(/datum/job/men_at_arms, list(
+	JOB_LIVING_ROLES = 5 HOURS,
+	JOB_GARRISON_ROLES = 10 HOURS,
+))
+
 
 /datum/outfit/watchman/pre_equip(mob/living/carbon/human/H)
 	. = ..()

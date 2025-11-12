@@ -15,7 +15,6 @@
 	faction = FACTION_TOWN
 	total_positions = 1
 	spawn_positions = 1
-	min_pq = 10
 	bypass_lastclass = TRUE
 
 	allowed_ages = list(AGE_ADULT, AGE_MIDDLEAGED, AGE_IMMORTAL)
@@ -25,6 +24,12 @@
 	outfit = /datum/outfit/lieutenant	//Default outfit.
 	give_bank_account = 50
 	cmode_music = 'sound/music/cmode/garrison/CombatGarrison.ogg'
+
+AddTimelock(/datum/job/lieutenant, list(
+	JOB_LIVING_ROLES = 10 HOURS,
+	JOB_GARRISON_ROLES = 10 HOURS,
+))
+
 
 //................. Base Gear .............. //
 /datum/outfit/lieutenant/pre_equip(mob/living/carbon/human/H)

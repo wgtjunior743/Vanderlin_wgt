@@ -9,7 +9,6 @@
 	faction = FACTION_TOWN
 	total_positions = 0
 	spawn_positions = 1
-	min_pq = 6
 	bypass_lastclass = TRUE
 
 	spells = list(/datum/action/cooldown/spell/undirected/list_target/convert_role/servant)
@@ -22,6 +21,11 @@
 	noble_income = 22
 
 	job_bitflag = BITFLAG_ROYALTY
+
+AddTimelock(/datum/job/consort, list(
+	JOB_LIVING_ROLES = 10 HOURS,
+	JOB_NOBLE_ROLES = 5 HOURS,
+))
 
 /datum/job/consort/after_spawn(mob/living/spawned, client/player_client)
 	. = ..()

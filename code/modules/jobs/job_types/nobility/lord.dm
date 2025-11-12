@@ -15,7 +15,6 @@ GLOBAL_LIST_EMPTY(lord_titles)
 	faction = FACTION_TOWN
 	total_positions = 0
 	spawn_positions = 1
-	min_pq = 25
 
 	spells = list(
 		/datum/action/cooldown/spell/undirected/list_target/grant_title,
@@ -32,6 +31,12 @@ GLOBAL_LIST_EMPTY(lord_titles)
 	can_have_apprentices = FALSE
 
 	job_bitflag = BITFLAG_ROYALTY
+
+AddTimelock(/datum/job/lord, list(
+	JOB_LIVING_ROLES = 20 HOURS,
+	JOB_NOBLE_ROLES = 15 HOURS,
+	JOB_LEADERSHIP_ROLES = 5 HOURS,
+))
 
 /datum/job/lord/get_informed_title(mob/mob, change_title = FALSE, new_title)
 	if(change_title)

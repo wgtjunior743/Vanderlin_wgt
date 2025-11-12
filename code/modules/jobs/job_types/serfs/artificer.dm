@@ -20,6 +20,10 @@
 
 	job_bitflag = BITFLAG_CONSTRUCTOR
 
+AddTimelock(/datum/job/artificer, list(
+	JOB_LIVING_ROLES = 10 HOURS,
+))
+
 /datum/outfit/artificer/pre_equip(mob/living/carbon/human/H)
 	..()
 	H.adjust_skillrank(/datum/skill/combat/axesmaces, 2, TRUE)

@@ -17,6 +17,9 @@
 	///Name of the outfit (shows up in the equip admin verb)
 	var/name = "Naked"
 
+	/// Id for outfits,it is used with the Custom Outfits Glob.
+	var/id
+
 	/// Type path of item to go in suit slot
 	var/suit = null
 

@@ -11,7 +11,6 @@
 	faction = FACTION_TOWN
 	total_positions = 1
 	spawn_positions = 1
-	min_pq = 10 // Requires knowledge and good rp for the classes.
 	bypass_lastclass = TRUE
 	spells = list(/datum/action/cooldown/spell/undirected/list_target/convert_role/militia)
 	allowed_ages = list(AGE_MIDDLEAGED, AGE_OLD, AGE_IMMORTAL)
@@ -21,6 +20,13 @@
 	advclass_cat_rolls = list(CTAG_TOWN_ELDER = 20)
 	give_bank_account = 50
 	can_have_apprentices = FALSE
+
+AddTimelock(/datum/job/town_elder, list(
+	JOB_LIVING_ROLES = 20 HOURS,
+	JOB_ADVENTURER_ROLES = 5 HOURS,
+	JOB_BARD_ROLES = 5 HOURS,
+))
+
 
 
 /mob/living/carbon/human/proc/townannouncement()

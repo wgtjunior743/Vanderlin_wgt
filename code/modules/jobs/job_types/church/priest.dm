@@ -11,7 +11,6 @@
 	faction = FACTION_TOWN
 	total_positions = 1
 	spawn_positions = 1
-	min_pq = 20
 	bypass_lastclass = TRUE
 	selection_color = "#c2a45d"
 	cmode_music = 'sound/music/cmode/church/CombatAstrata.ogg'
@@ -26,6 +25,12 @@
 		/datum/action/cooldown/spell/undirected/list_target/convert_role/churchling,
 		/datum/action/cooldown/spell/undirected/call_bird/priest,
 	)
+
+
+AddTimelock(/datum/job/priest, list(
+	JOB_LIVING_ROLES = 15 HOURS,
+	JOB_CHURCH_ROLES = 15 HOURS,
+))
 
 /datum/outfit/priest/pre_equip(mob/living/carbon/human/H)
 	..()

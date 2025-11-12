@@ -4,7 +4,6 @@
 	allowed_races = RACES_PLAYER_ALL
 	outfit = /datum/outfit/adventurer/profanepaladin
 	total_positions = 1
-	min_pq = 2
 	roll_chance = 15
 	category_tags = list(CTAG_ADVENTURER)
 	allowed_patrons = ALL_PROFANE_PATRONS

@@ -4,7 +4,6 @@
 	allowed_races = RACES_PLAYER_ELF
 	outfit = /datum/outfit/adventurer/lakkariancleric
 	category_tags = list(CTAG_ADVENTURER)
-	min_pq = 0
 	roll_chance = 25
 	total_positions = 2
 

@@ -11,8 +11,6 @@
 	faction = FACTION_TOWN
 	total_positions = 1
 	spawn_positions = 1
-	//Should...probably actually be a veteran of at least a few weeks before trying to teach others
-	min_pq = 10
 
 	spells = list(/datum/action/cooldown/spell/undirected/list_target/convert_role/militia)
 	allowed_sexes = list(MALE, FEMALE) //same as town guard
@@ -24,6 +22,11 @@
 	give_bank_account = 35
 	can_have_apprentices = FALSE
 	job_bitflag = BITFLAG_GARRISON
+
+AddTimelock(/datum/job/veteran, list(
+	JOB_LIVING_ROLES = 20 HOURS,
+	JOB_ADVENTURER_ROLES = 15 HOURS,
+))
 
 /datum/job/veteran/after_spawn(mob/living/spawned, client/player_client)
 	. = ..()

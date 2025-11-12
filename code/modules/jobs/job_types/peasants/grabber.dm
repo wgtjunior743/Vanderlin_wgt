@@ -18,6 +18,11 @@
 	give_bank_account = TRUE
 	cmode_music = 'sound/music/cmode/towner/CombatTowner2.ogg'
 
+AddTimelock(/datum/job/grabber, list(
+	JOB_LIVING_ROLES = 2 HOURS,
+))
+
+
 /datum/outfit/grabber/pre_equip(mob/living/carbon/human/H)
 	..()
 

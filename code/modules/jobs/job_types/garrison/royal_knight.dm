@@ -10,7 +10,6 @@
 	faction = FACTION_TOWN
 	total_positions = 2
 	spawn_positions = 2
-	min_pq = 8
 	bypass_lastclass = TRUE
 	selection_color = "#920909"
 
@@ -25,6 +24,12 @@
 
 /datum/job/advclass/royalknight
 	inherit_parent_title = TRUE
+
+AddTimelock(/datum/job/royalknight, list(
+	JOB_LIVING_ROLES = 10 HOURS,
+	JOB_GARRISON_ROLES = 15 HOURS,
+))
+
 
 /datum/job/advclass/royalknight/knight
 	title = "Royal Knight"

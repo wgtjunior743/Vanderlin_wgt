@@ -9,7 +9,6 @@
 	faction = FACTION_TOWN
 	total_positions = 1
 	spawn_positions = 1
-	min_pq = 4
 	bypass_lastclass = TRUE
 
 	allowed_races = RACES_PLAYER_NONDISCRIMINATED
@@ -26,6 +25,10 @@
 
 	job_bitflag = BITFLAG_ROYALTY
 	allowed_patrons = list(/datum/patron/divine/noc, /datum/patron/inhumen/zizo)
+
+AddTimelock(/datum/job/archivist, list(
+	JOB_LIVING_ROLES = 5 HOURS,
+))
 
 /datum/job/archivist/after_spawn(mob/living/carbon/spawned, client/player_client)
 	. = ..()

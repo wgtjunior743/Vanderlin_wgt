@@ -10,7 +10,6 @@
 	faction = FACTION_TOWN
 	total_positions = 1
 	spawn_positions = 1
-	min_pq = 10
 
 	allowed_sexes = list(FEMALE)
 	allowed_ages = list(AGE_MIDDLEAGED, AGE_OLD, AGE_IMMORTAL)
@@ -26,6 +25,13 @@
 		/datum/action/cooldown/spell/undirected/hag_call,
 		/datum/action/cooldown/spell/undirected/seek_orphan,
 	)
+
+AddTimelock(/datum/job/matron, list(
+	JOB_LIVING_ROLES = 20 HOURS,
+	JOB_ADVENTURER_ROLES = 5 HOURS,
+	JOB_THIEF_ROLES = 5 HOURS,
+))
+
 
 /datum/outfit/matron/pre_equip(mob/living/carbon/human/H)
 	..()

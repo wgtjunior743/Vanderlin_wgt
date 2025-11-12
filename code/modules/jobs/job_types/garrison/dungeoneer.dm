@@ -12,7 +12,6 @@
 	faction = FACTION_TOWN
 	total_positions = 1
 	spawn_positions = 1
-	min_pq = 10
 
 	allowed_races = RACES_PLAYER_NONEXOTIC
 	blacklisted_species = list(SPEC_ID_HALFLING)
@@ -23,6 +22,11 @@
 	cmode_music = 'sound/music/cmode/nobility/CombatDungeoneer.ogg'
 
 	job_bitflag = BITFLAG_GARRISON
+
+AddTimelock(/datum/job/dungeoneer, list(
+	JOB_LIVING_ROLES = 5 HOURS,
+	JOB_GARRISON_ROLES = 10 HOURS,
+))
 
 /datum/outfit/dungeoneer/pre_equip(mob/living/carbon/human/H)
 	..()

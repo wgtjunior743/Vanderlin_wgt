@@ -519,7 +519,7 @@ GLOBAL_LIST_INIT(name_adjustments, list())
 	popup.open(FALSE)
 	onclose(user, "capturekeypress", src)
 
-/datum/preferences/proc/SetChoices(mob/user, limit = 15, list/splitJobs = list("Captain", "Priest", "Merchant", "Butler", "Village Elder"), widthPerColumn = 295, height = 620) //295 620
+/datum/preferences/proc/SetChoices(mob/user, limit = 15, list/splitJobs = list("Captain", "Priest", "Merchant", "Butler", "Village Elder"), widthPerColumn = 400, height = 620) //295 620
 	if(!SSjob)
 		return
 
@@ -586,10 +586,6 @@ GLOBAL_LIST_INIT(name_adjustments, list())
 			if(is_role_banned(user.ckey, job.title))
 				HTML += "[used_name]</td> <td><a href='?_src_=prefs;bancheck=[rank]'> BANNED</a></td></tr>"
 				continue
-			var/required_playtime_remaining = job.required_playtime_remaining(user.client)
-			if(required_playtime_remaining)
-				HTML += "[used_name]</td> <td><font color=red> \[ [get_exp_format(required_playtime_remaining)] as [job.get_exp_req_type()] \] </font></td></tr>"
-				continue
 			if(!job.player_old_enough(user.client))
 				var/available_in_days = job.available_in_days(user.client)
 				HTML += "[used_name]</td> <td><font color=red> \[IN [(available_in_days)] DAYS\]</font></td></tr>"
@@ -598,28 +594,94 @@ GLOBAL_LIST_INIT(name_adjustments, list())
 				if(job.whitelist_req && (!user.client.whitelisted()))
 					HTML += "<font color=#6183a5>[used_name]</font></td> <td> </td></tr>"
 					continue
-
-			if(get_playerquality(user.ckey) < job.min_pq)
-				HTML += "<font color=#a36c63>[used_name] (Min PQ: [job.min_pq])</font></td> <td> </td></tr>"
-				continue
-			if(length(job.allowed_ages) && !(user.client.prefs.age in job.allowed_ages))
-				HTML += "<font color=#a36c63>[used_name]</font></td> <td> </td></tr>"
-				continue
 			if((length(job.allowed_races) && !(user.client.prefs.pref_species.id in job.allowed_races)) || \
 				(length(job.blacklisted_species) && (user.client.prefs.pref_species.id in job.blacklisted_species)))
 				if(!(user.client.has_triumph_buy(TRIUMPH_BUY_RACE_ALL)))
-					HTML += "<font color=#a36c63>[used_name]</font></td> <td> </td></tr>"
+					var/races_text = jointext(job.allowed_races, ", ")
+					HTML += {"
+							[used_name]
+						</td>
+						<td>
+							<div class='tutorialhover'>
+								<font color=#a36c63>\[RACE LOCK\]</font>
+								<span class='tutorial'><b>Races Needed:</b><br>[races_text]</span>
+							</div>
+						</td>
+						</tr>
+					"}
 					continue
-			if(length(job.allowed_patrons) && !(user.client.prefs.selected_patron.type in job.allowed_patrons))
-				HTML += "<font color=#a36c63>[used_name]</font></td> <td> </td></tr>"
+			if(length(job.allowed_ages) && !(user.client.prefs.age in job.allowed_ages))
+				var/ages_text = jointext(job.allowed_ages, ", ")
+				HTML += {"
+						[used_name]
+					</td>
+					<td>
+						<div class='tutorialhover'>
+							<font color=#a36c63>\[AGE LOCK\]</font>
+							<span class='tutorial'><b>Ages Needed:</b><br>[ages_text]</span>
+						</div>
+					</td>
+					</tr>
+				"}
 				continue
 			if(length(job.allowed_sexes) && !(user.client.prefs.gender in job.allowed_sexes))
-				HTML += "<font color=#a36c63>[used_name]</font></td> <td> </td></tr>"
+				var/sexes_text = jointext(job.allowed_sexes, ", ")
+				HTML += {"
+						[used_name]
+					</td>
+					<td>
+						<div class='tutorialhover'>
+							<font color=#a36c63>\[SEX LOCK\]</font>
+							<span class='tutorial'><b>Sexes Needed:</b><br>[sexes_text]</span>
+						</div>
+					</td>
+					</tr>
+				"}
 				continue
+			if(length(job.allowed_patrons) && !(user.client.prefs.selected_patron.type in job.allowed_patrons))
+				var/list/patron_list = list()
+				for(var/mult_patron in job.allowed_patrons)
+					var/datum/patron/P = new mult_patron
+					patron_list += (P.display_name ? P.display_name : P.name)
+					qdel(P)
+				var/patron_text = jointext(patron_list, ", ")
+				HTML += {"
+						[used_name]
+					</td>
+					<td>
+						<div class='tutorialhover'>
+							<font color=#a36c63>\[PATRON LOCK\]</font>
+							<span class='tutorial'><b>Patron Needed:</b><br>[patron_text]</span>
+						</div>
+					</td>
+					</tr>
+				"}
+				continue
+
+			if(!job.can_play_role(user.client))
+				var/list/missing_requirements = job.get_role_requirements(user.client)
+				var/list/req_lines = list()
+				for(var/r in missing_requirements)
+					var/datum/timelock/T = r
+					req_lines += "[T.name]: [duration2text_custom(missing_requirements[r])]"
+				var/req_text = jointext(req_lines, "<br>")
+				HTML += {"
+						[used_name]
+					</td>
+					<td>
+						<div class='tutorialhover'>
+							<font color=#a36c63>\[TIME LOCK\]</font>
+							<span class='tutorial'><b>Requirements:</b><br>[req_text]</span>
+						</div>
+					</td>
+					</tr>
+				"}
+				continue
+
+
 
 			HTML += {"
 				<style>
-
 					.tutorialhover {
 						position: relative;
 						display: inline-block;

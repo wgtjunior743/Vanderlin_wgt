@@ -171,6 +171,18 @@ GLOBAL_VAR_INIT(rollovercheck_last_timeofday, 0)
 	return "[day] day[(day != 1)? "s":""][hourT][minuteT][secondT]"
 
 
+/proc/deciseconds_to_time_text(deciseconds)
+	var/total_seconds = round(deciseconds / 10)
+	var/total_minutes = total_seconds / 60
+	var/hours = total_minutes / 60
+	var/minutes = total_minutes % 60
+
+	return "[round(hours)]:[minutes < 10 ? "0[minutes]" : minutes] Hours"
+
+/proc/duration2text_custom(deciseconds)
+	return deciseconds_to_time_text(deciseconds)
+
+
 /proc/daysSince(realtimev)
 	return round((world.realtime - realtimev) / (24 HOURS))
 

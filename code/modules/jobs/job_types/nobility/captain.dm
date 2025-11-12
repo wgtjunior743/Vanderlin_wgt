@@ -9,7 +9,6 @@
 	faction = FACTION_TOWN
 	total_positions = 1
 	spawn_positions = 1
-	min_pq = 15
 	bypass_lastclass = TRUE
 
 	allowed_races = RACES_PLAYER_NONDISCRIMINATED
@@ -22,6 +21,11 @@
 	noble_income = 11
 
 	job_bitflag = BITFLAG_ROYALTY | BITFLAG_GARRISON
+
+AddTimelock(/datum/job/captain, list(
+	JOB_LIVING_ROLES = 15 HOURS,
+	JOB_GARRISON_ROLES = 20 HOURS,
+))
 
 /datum/job/captain/after_spawn(mob/living/spawned, client/player_client)
 	..()

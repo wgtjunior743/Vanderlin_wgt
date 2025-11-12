@@ -20,11 +20,14 @@
 
 	job_flags = (JOB_ANNOUNCE_ARRIVAL | JOB_SHOW_IN_CREDITS | JOB_EQUIP_RANK | JOB_NEW_PLAYER_JOINABLE)
 	display_order = JDO_ORTHODOXIST
-	min_pq = 0 // We need you to be atleast kinda competent to do this. This is a soft antaggy sorta role. Also needs to know wtf a PSYDON is
 
 	advclass_cat_rolls = list(CTAG_INQUISITION = 20)
 	same_job_respawn_delay = 30 MINUTES
 	antag_role = /datum/antagonist/purishep
+
+AddTimelock(/datum/job/orthodoxist, list(
+	JOB_LIVING_ROLES = 5 HOURS,
+))
 
 /datum/job/orthodoxist/after_spawn(mob/living/L, mob/M, latejoin = TRUE)
 	..()

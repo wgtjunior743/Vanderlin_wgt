@@ -15,7 +15,6 @@
 	spells = list(
 		/datum/action/cooldown/spell/undirected/list_target/grant_title,
 	)
-	min_pq = 10
 	bypass_lastclass = TRUE
 
 	allowed_races = RACES_PLAYER_ROYALTY
@@ -25,6 +24,11 @@
 	give_bank_account = 120
 	noble_income = 22
 	job_bitflag = BITFLAG_ROYALTY
+
+AddTimelock(/datum/job/hand, list(
+	JOB_LIVING_ROLES = 10 HOURS,
+	JOB_NOBLE_ROLES = 5 HOURS,
+))
 
 /datum/outfit/hand
 	shoes = /obj/item/clothing/shoes/nobleboot/thighboots

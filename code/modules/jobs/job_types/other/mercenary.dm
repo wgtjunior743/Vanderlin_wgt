@@ -24,6 +24,10 @@
 	is_foreigner = TRUE
 	is_recognized = TRUE
 
+AddTimelock(/datum/job/mercenary, list(
+	JOB_LIVING_ROLES = 10 HOURS,
+))
+
 /datum/job/mercenary/after_spawn(mob/living/carbon/human/spawned, client/player_client)
 	. = ..()
 	to_chat(spawned, "<br><br><font color='#855b14'><span class='bold'>The Gaffer, who feeds and houses you may have work for you todae, go see him at the office outside your lodgings.</span></font><br><br>")

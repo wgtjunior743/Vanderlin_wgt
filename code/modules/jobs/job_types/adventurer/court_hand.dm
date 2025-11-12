@@ -8,7 +8,6 @@
 	job_flags = (JOB_EQUIP_RANK | JOB_NEW_PLAYER_JOINABLE)
 	total_positions = 0
 	spawn_positions = 2
-	min_pq = 10
 
 	outfit = null
 	outfit_female = null
@@ -18,6 +17,10 @@
 	shows_in_list = FALSE
 	can_have_apprentices = FALSE
 	scales = FALSE
+
+AddTimelock(/datum/job/adventurer/courtagent, list(
+	JOB_LIVING_ROLES = 5 HOURS,
+))
 
 //Hooking in here does not mess with their equipment procs
 /datum/job/adventurer/courtagent/after_spawn(mob/living/spawned, client/player_client)

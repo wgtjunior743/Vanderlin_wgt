@@ -9,7 +9,6 @@
 	faction = FACTION_NEUTRAL
 	total_positions = 6
 	spawn_positions = 4
-	min_pq = 4
 	antag_job = TRUE
 
 	advclass_cat_rolls = list(CTAG_BANDIT = 20)
@@ -25,3 +24,7 @@
 	traits = list(TRAIT_NOAMBUSH)
 
 	antag_role = /datum/antagonist/bandit
+
+AddTimelock(/datum/job/bandit, list(
+	JOB_LIVING_ROLES = 5 HOURS,
+))

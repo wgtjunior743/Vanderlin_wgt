@@ -10,7 +10,6 @@
 	faction = FACTION_TOWN
 	total_positions = 1
 	spawn_positions = 1
-	min_pq = 10
 	bypass_lastclass = TRUE
 
 	allowed_races = RACES_PLAYER_NONDISCRIMINATED
@@ -22,6 +21,11 @@
 	give_bank_account = 15
 
 	job_bitflag = BITFLAG_GARRISON
+
+AddTimelock(/datum/job/gatemaster, list(
+	JOB_LIVING_ROLES = 5 HOURS,
+	JOB_GARRISON_ROLES = 10 HOURS,
+))
 
 /datum/outfit/gatemaster/pre_equip(mob/living/carbon/human/H)
 	. = ..()

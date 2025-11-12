@@ -216,8 +216,8 @@ GLOBAL_LIST_INIT(roleplay_readme, world.file2list("strings/rt/Lore_Primer.txt"))
 			return "You are currently banned from [jobtitle]."
 		if(JOB_UNAVAILABLE_RACE_BANNED)
 			return "You are currently banned from playing that species."
-		if(JOB_UNAVAILABLE_PLAYTIME)
-			return "You do not have enough relevant playtime for [jobtitle]."
+		if(JOB_UNAVAILABLE_TIME_LOCK)
+			return "You do not have enough hours in some roles for [jobtitle]."
 		if(JOB_UNAVAILABLE_SLOTFULL)
 			return "[jobtitle] is already filled to capacity."
 		if(JOB_UNAVAILABLE_AGE)
@@ -300,19 +300,14 @@ GLOBAL_LIST_INIT(roleplay_readme, world.file2list("strings/rt/Lore_Primer.txt"))
 		return JOB_UNAVAILABLE_GENERIC
 	if(!job.player_old_enough(client))
 		return JOB_UNAVAILABLE_ACCOUNTAGE
-	if(job.required_playtime_remaining(client))
-		return JOB_UNAVAILABLE_PLAYTIME
+	if(!job.can_play_role(client))
+		return JOB_UNAVAILABLE_TIME_LOCK
 	if(latejoin && !job.special_check_latejoin(client))
 		return JOB_UNAVAILABLE_GENERIC
 	if((length(job.allowed_races) && !(client.prefs.pref_species.id in job.allowed_races)) || \
 		(length(job.blacklisted_species) && (client.prefs.pref_species.id in job.blacklisted_species)))
 		if(!client.has_triumph_buy(TRIUMPH_BUY_RACE_ALL))
 			return JOB_UNAVAILABLE_RACE
-
-	#ifdef USES_PQ
-	if(!isnull(job.min_pq) && (get_playerquality(ckey) < job.min_pq))
-		return JOB_UNAVAILABLE_QUALITY
-	#endif
 	if(length(job.allowed_sexes) && !(client.prefs.gender in job.allowed_sexes))
 		return JOB_UNAVAILABLE_SEX
 	if(length(job.allowed_ages) && !(client.prefs.age in job.allowed_ages))

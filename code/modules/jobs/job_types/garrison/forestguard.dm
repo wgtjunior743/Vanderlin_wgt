@@ -14,7 +14,6 @@
 	faction = FACTION_TOWN
 	total_positions = 4
 	spawn_positions = 4
-	min_pq = 5
 	bypass_lastclass = TRUE
 	selection_color = "#0d6929"
 
@@ -29,6 +28,11 @@
 	advclass_cat_rolls = list(CTAG_FORGARRISON = 20)
 
 	job_bitflag = BITFLAG_GARRISON
+
+AddTimelock(/datum/job/forestguard, list(
+	JOB_LIVING_ROLES = 5 HOURS,
+	JOB_GARRISON_ROLES = 10 HOURS,
+))
 
 /datum/outfit/forestguard/pre_equip(mob/living/carbon/human/H)
 	..()

@@ -11,7 +11,6 @@
 	total_positions = 1
 	spawn_positions = 1
 	display_order = JDO_FORWARDEN
-	min_pq = 8
 	bypass_lastclass = TRUE
 	selection_color = "#0d6929"
 
@@ -25,6 +24,11 @@
 	cmode_music = 'sound/music/cmode/garrison/CombatForestGarrison.ogg'
 
 	job_bitflag = BITFLAG_GARRISON
+
+AddTimelock(/datum/job/forestwarden, list(
+	JOB_LIVING_ROLES = 5 HOURS,
+	JOB_GARRISON_ROLES = 15 HOURS,
+))
 
 /datum/outfit/forestwarden/pre_equip(mob/living/carbon/human/H)
 	..()

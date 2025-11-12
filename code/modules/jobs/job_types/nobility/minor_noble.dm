@@ -9,7 +9,6 @@
 	faction = FACTION_TOWN
 	total_positions = 2
 	spawn_positions = 2
-	min_pq = 1
 
 	allowed_races = RACES_PLAYER_NONDISCRIMINATED
 
