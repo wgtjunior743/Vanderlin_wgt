@@ -840,7 +840,7 @@
 	if(get_job_playtime(client, title) > minimum_playtime_as_job)
 		return TRUE
 	if(parent_job)
-		if(get_job_playtime(client, parent_job.title) > minimum_playtime_as_job))
+		if(get_job_playtime(client, parent_job.title) > minimum_playtime_as_job)
 			return TRUE
 
 	for(var/prereq in minimum_playtimes)
