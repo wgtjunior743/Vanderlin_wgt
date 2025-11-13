@@ -31,6 +31,7 @@ AddTimelock(/datum/job/gaffer, list(
 	JOB_LIVING_ROLES = 20 HOURS,
 	JOB_ADVENTURER_ROLES = 5 HOURS,
 	JOB_RANGER_ROLES = 5 HOURS,
+	JOB_MERCENARY_ROLES = 2 HOURS,
 ))
 
 /datum/outfit/gaffer/pre_equip(mob/living/carbon/human/H, visuals_only)

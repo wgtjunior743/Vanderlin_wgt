@@ -193,11 +193,10 @@
 #define JOB_MEDICAL_ROLES	/datum/timelock/medical
 #define JOB_MAGICK_ROLES	/datum/timelock/magick
 #define JOB_ARTIFICER_ROLES	/datum/timelock/artificer
-
 #define JOB_THIEF_ROLES	/datum/timelock/thief
 #define JOB_BARD_ROLES	/datum/timelock/bard
 #define JOB_RANGER_ROLES	/datum/timelock/ranger
-
+#define JOB_MERCENARY_ROLES	/datum/timelock/mercenary
 
 /// The only reason some jobs with advclasses also have their job datum is because in the past advclass were not jobs and it didn't saved in the DB, for the NEW jobs that got advclasses, ONLY put the advclasses datums.
 
@@ -214,6 +213,7 @@
 #define JOB_THIEF_ROLES_LIST	list(/datum/job/advclass/combat/rogue, /datum/job/advclass/knave, /datum/job/matron)
 #define JOB_BARD_ROLES_LIST	list(/datum/job/advclass/pilgrim/bard, /datum/job/bard, /datum/job/town_elder, /datum/job/advclass/town_elder/mayor, /datum/job/advclass/town_elder/master_of_crafts_and_labor, /datum/job/advclass/town_elder/hearth_acolyte, /datum/job/advclass/town_elder/lorekeeper, /datum/job/advclass/town_elder/dreamwatcher)
 #define JOB_RANGER_ROLES_LIST	list(/datum/job/advclass/combat/ranger, /datum/job/advclass/combat/hollowranger, /datum/job/advclass/combat/dranger, /datum/job/gaffer)
+#define JOB_MERCENARY_ROLES_LIST	list(/datum/job/gaffer, /datum/job/mercenary, /datum/job/advclass/mercenary/abyssal, /datum/job/advclass/mercenary/anthrax, /datum/job/advclass/mercenary/blackoak, /datum/job/advclass/mercenary/bogwalker, /datum/job/advclass/mercenary/boltslinger, /datum/job/advclass/mercenary/corsair, /datum/job/advclass/mercenary/duelist, /datum/job/advclass/mercenary/exiled, /datum/job/advclass/mercenary/expegasusknight, /datum/job/advclass/mercenary/gallowglass, /datum/job/advclass/mercenary/grenzelhoft, /datum/job/advclass/mercenary/hollowdragoon, /datum/job/advclass/mercenary/ironmaiden, /datum/job/advclass/mercenary/kern, /datum/job/advclass/mercenary/sellmage, /datum/job/advclass/mercenary/desert_pirate, /datum/job/advclass/mercenary/porter, /datum/job/advclass/mercenary/spellsword, /datum/job/advclass/mercenary/steppesman, /datum/job/advclass/mercenary/sworddancer, /datum/job/advclass/mercenary/underdweller, /datum/job/advclass/mercenary/valkyrie, /datum/job/advclass/mercenary/zalad, /datum/job/advclass/mercenary/verderer)
 
 
 #define TIMELOCK_JOB(role_id, hours) new/datum/timelock(role_id, hours, role_id)

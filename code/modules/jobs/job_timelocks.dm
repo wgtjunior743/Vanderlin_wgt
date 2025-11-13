@@ -99,6 +99,13 @@
 	. = ..()
 	src.roles = JOB_RANGER_ROLES_LIST
 
+/datum/timelock/mercenary
+	name = "Mercenary Roles"
+
+/datum/timelock/mercenary/New(name, time_required, list/roles)
+	. = ..()
+	src.roles = JOB_MERCENARY_ROLES_LIST
+
 
 
 
