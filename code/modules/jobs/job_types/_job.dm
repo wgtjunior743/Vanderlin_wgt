@@ -843,8 +843,7 @@
 		if(get_job_playtime(client, parent_job.title) > minimum_playtime_as_job)
 			return TRUE
 
-	for(var/prereq in minimum_playtimes)
-		var/datum/timelock/T = prereq
+	for(var/datum/timelock/T as anything in minimum_playtimes)
 		if(!T.can_play(client))
 			return FALSE
 
