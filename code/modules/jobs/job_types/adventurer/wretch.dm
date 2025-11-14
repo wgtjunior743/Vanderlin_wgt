@@ -21,7 +21,7 @@
 	cmode_music = 'sound/music/cmode/antag/combat_bandit2.ogg'
 
 AddTimelock(/datum/job/wretch, list(
-	JOB_LIVING_ROLES = 10 HOURS,
+	JOB_LIVING_ROLES = 20 HOURS,
 ))
 
 /datum/job/wretch/after_spawn(mob/living/carbon/human/spawned, client/player_client)
