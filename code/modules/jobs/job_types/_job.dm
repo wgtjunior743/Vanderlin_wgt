@@ -854,8 +854,7 @@
 
 /datum/job/proc/get_role_requirements(client/C)
 	var/list/return_requirements = list()
-	for(var/prereq in minimum_playtimes)
-		var/datum/timelock/T = prereq
+	for(var/datum/timelock/T as anything in minimum_playtimes)
 		var/time_required = T.get_role_requirement(C)
 		if(time_required > 0)
 			return_requirements[T] = time_required
