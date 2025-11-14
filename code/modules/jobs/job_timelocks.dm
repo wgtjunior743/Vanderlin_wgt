@@ -106,13 +106,3 @@
 	. = ..()
 	src.roles = JOB_MERCENARY_ROLES_LIST
 
-
-
-
-
-
-
-
-
-
-
