@@ -24,7 +24,7 @@
 
 AddTimelock(/datum/job/gatemaster, list(
 	JOB_LIVING_ROLES = 5 HOURS,
-	JOB_GARRISON_ROLES = 10 HOURS,
+	JOB_GARRISON_ROLES = 5 HOURS,
 ))
 
 /datum/outfit/gatemaster/pre_equip(mob/living/carbon/human/H)
