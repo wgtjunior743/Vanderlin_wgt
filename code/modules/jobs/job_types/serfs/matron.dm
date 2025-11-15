@@ -26,11 +26,13 @@
 		/datum/action/cooldown/spell/undirected/seek_orphan,
 	)
 
-AddTimelock(/datum/job/matron, list(
-	JOB_LIVING_ROLES = 20 HOURS,
-	JOB_ADVENTURER_ROLES = 5 HOURS,
-	JOB_THIEF_ROLES = 5 HOURS,
-))
+	exp_type = list(EXP_TYPE_LIVING, EXP_TYPE_ADVENTURER, EXP_TYPE_THIEF)
+	exp_types_granted = list(EXP_TYPE_ADVENTURER, EXP_TYPE_THIEF)
+	exp_requirements = list(
+		EXP_TYPE_LIVING = 1200,
+		EXP_TYPE_ADVENTURER = 300,
+		EXP_TYPE_THIEF = 300
+	)
 
 
 /datum/outfit/matron/pre_equip(mob/living/carbon/human/H)

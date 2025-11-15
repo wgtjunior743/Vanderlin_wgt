@@ -22,10 +22,13 @@
 
 	job_bitflag = BITFLAG_ROYALTY
 
-AddTimelock(/datum/job/consort, list(
-	JOB_LIVING_ROLES = 10 HOURS,
-	JOB_NOBLE_ROLES = 5 HOURS,
-))
+	exp_type = list(EXP_TYPE_LIVING, EXP_TYPE_NOBLE)
+	exp_types_granted  = list(EXP_TYPE_NOBLE)
+	exp_requirements = list(
+		EXP_TYPE_LIVING = 600,
+		EXP_TYPE_NOBLE = 300
+	)
+
 
 /datum/job/consort/after_spawn(mob/living/spawned, client/player_client)
 	. = ..()
@@ -50,6 +53,7 @@ AddTimelock(/datum/job/consort, list(
 */
 /datum/job/advclass/consort
 	inherit_parent_title = TRUE
+	exp_types_granted  = list(EXP_TYPE_NOBLE)
 
 /datum/job/advclass/consort/highborn
 	title = "Highborn Consort"

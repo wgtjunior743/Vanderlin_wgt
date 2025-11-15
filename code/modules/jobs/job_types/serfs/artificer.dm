@@ -20,9 +20,10 @@
 
 	job_bitflag = BITFLAG_CONSTRUCTOR
 
-AddTimelock(/datum/job/artificer, list(
-	JOB_LIVING_ROLES = 10 HOURS,
-))
+	exp_type = list(EXP_TYPE_LIVING)
+	exp_requirements = list(
+		EXP_TYPE_LIVING = 600
+	)
 
 /datum/outfit/artificer/pre_equip(mob/living/carbon/human/H)
 	..()

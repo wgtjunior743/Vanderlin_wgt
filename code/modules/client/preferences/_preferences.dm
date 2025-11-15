@@ -657,24 +657,24 @@ GLOBAL_LIST_INIT(name_adjustments, list())
 					</tr>
 				"}
 				continue
+			if(job.required_playtime_remaining(user.client))
+				var/list/lines = list()
+				for(var/t in job.exp_requirements)
+					var/needed = job.exp_requirements[t]
+					var/have = user.client.calc_exp_type(t)
+					lines += "[t]: [get_exp_format(have)] / [get_exp_format(needed)]"
 
-			if(!job.can_play_role(user.client))
-				var/list/missing_requirements = job.get_role_requirements(user.client)
-				var/list/req_lines = list()
-				for(var/r in missing_requirements)
-					var/datum/timelock/T = r
-					req_lines += "[T.name]: [duration2text_custom(missing_requirements[r])]"
-				var/req_text = jointext(req_lines, "<br>")
+				var/text = jointext(lines, "<br>")
 				HTML += {"
-						[used_name]
-					</td>
-					<td>
-						<div class='tutorialhover'>
-							<font color=#a36c63>\[TIME LOCK\]</font>
-							<span class='tutorial'><b>Requirements:</b><br>[req_text]</span>
-						</div>
-					</td>
-					</tr>
+					[used_name]
+				</td>
+				<td>
+					<div class='tutorialhover'>
+						<font color=#a36c63>\[TIME LOCK\]</font>
+						<span class='tutorial'><b>Requirements:</b><br>[text]</span>
+					</div>
+				</td>
+				</tr>
 				"}
 				continue
 

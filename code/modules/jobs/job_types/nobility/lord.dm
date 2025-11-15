@@ -32,11 +32,14 @@ GLOBAL_LIST_EMPTY(lord_titles)
 
 	job_bitflag = BITFLAG_ROYALTY
 
-AddTimelock(/datum/job/lord, list(
-	JOB_LIVING_ROLES = 20 HOURS,
-	JOB_NOBLE_ROLES = 15 HOURS,
-	JOB_LEADERSHIP_ROLES = 5 HOURS,
-))
+	exp_type = list(EXP_TYPE_NOBLE, EXP_TYPE_LIVING, EXP_TYPE_LEADERSHIP)
+	exp_types_granted  = list(EXP_TYPE_NOBLE, EXP_TYPE_LEADERSHIP)
+	exp_requirements = list(
+		EXP_TYPE_LIVING = 1200,
+		EXP_TYPE_NOBLE = 900,
+		EXP_TYPE_LEADERSHIP = 300
+	)
+
 
 /datum/job/lord/get_informed_title(mob/mob, change_title = FALSE, new_title)
 	if(change_title)

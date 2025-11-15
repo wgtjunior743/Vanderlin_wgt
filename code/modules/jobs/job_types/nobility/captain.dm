@@ -20,12 +20,15 @@
 	cmode_music = 'sound/music/cmode/antag/CombatSausageMaker.ogg'
 	noble_income = 11
 
-	job_bitflag = BITFLAG_ROYALTY | BITFLAG_GARRISON
+	exp_type = list(EXP_TYPE_GARRISON)
+	exp_types_granted  = list(EXP_TYPE_GARRISON, EXP_TYPE_NOBLE, EXP_TYPE_LEADERSHIP)
+	exp_requirements = list(
+		EXP_TYPE_GARRISON = 1500
+	)
 
-AddTimelock(/datum/job/captain, list(
-	JOB_LIVING_ROLES = 15 HOURS,
-	JOB_GARRISON_ROLES = 20 HOURS,
-))
+
+
+	job_bitflag = BITFLAG_ROYALTY | BITFLAG_GARRISON
 
 /datum/job/captain/after_spawn(mob/living/spawned, client/player_client)
 	..()

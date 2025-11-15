@@ -1,4 +1,4 @@
-/datum/job/advclass/psyaltrist
+/datum/job/advclass/sacrestant/psyaltrist
 	title = "Psyaltrist"
 	tutorial = "Every inquisitor has their second. You aim to keep spirits and faith high, while handling the needs of the inquisitor. Not a glamorous role, but a vital one. “Maybe his lordship would prefer the lute, today, over the viola?”"
 	category_tags = list(CTAG_INQUISITION)

@@ -55,10 +55,14 @@
 
 	job_bitflag = BITFLAG_CONSTRUCTOR
 
-AddTimelock(/datum/job/feldsher, list(
-	JOB_LIVING_ROLES = 5 HOURS,
-	JOB_MEDICAL_ROLES = 5 HOURS,
-))
+	exp_type = list(EXP_TYPE_LIVING, EXP_TYPE_MEDICAL)
+	exp_types_granted = list(EXP_TYPE_MEDICAL)
+	exp_requirements = list(
+		EXP_TYPE_LIVING = 600,
+		EXP_TYPE_MEDICAL = 300
+
+	)
+
 
 /datum/job/feldsher/after_spawn(mob/living/carbon/human/spawned, client/player_client)
 	. = ..()

@@ -54,10 +54,14 @@
 	var/outfit = null
 	var/outfit_female = null
 
-	var/exp_requirements = 0
+	/// Associated List of Exp Types and time required, 60 means 1 Hour.
+	var/list/exp_requirements = list()
 
-	var/exp_type = ""
-	var/exp_type_department = ""
+	/// Exp types required to UNLOCK this job
+	var/list/exp_type = list()
+
+	/// Exp types this job awards when played
+	var/list/exp_types_granted = list()
 
 	//The amount of good boy points playing this role will earn you towards a higher chance to roll antagonist next round
 	//can be overridden by antag_rep.txt config
@@ -196,12 +200,6 @@
 	var/pack_title = "JOB PACKS"
 	var/pack_message = "Choose a job pack"
 
-	/// Used on the timelock
-	var/list/minimum_playtimes
-
-	/// Used on the timelock
-	var/minimum_playtime_as_job = 1 HOURS
-
 /datum/job/New()
 	. = ..()
 	if(give_bank_account)
@@ -232,8 +230,13 @@
 		for(var/X in GLOB.inquisition_positions)
 			peopleiknow += X
 			peopleknowme += X
+/*
+	if(exp_type && !length(exp_type))
+		exp_type = list(exp_type)
 
-	minimum_playtimes = setup_requirements(list())
+	if(exp_types_granted && !length(exp_types_granted))
+		exp_types_granted = list(exp_types_granted)
+*/
 
 /datum/job/proc/special_job_check(mob/dead/new_player/player)
 	return TRUE
@@ -782,81 +785,3 @@
 
 	return TRUE
 
-/datum/timelock
-	var/name
-	var/time_required
-	var/roles
-
-/datum/timelock/New(name, time_required, list/roles)
-	. = ..()
-	if(name)
-		src.name = name
-	if(time_required)
-		src.time_required = time_required
-	if(roles)
-		src.roles = roles
-
-/datum/job/proc/setup_requirements(list/L)
-	var/list/to_return = list()
-	for(var/PT in L)
-		if(ispath(PT))
-			LAZYADD(to_return, new PT(time_required = L[PT]))
-		else
-			LAZYADD(to_return, TIMELOCK_JOB(PT, L[PT]))
-
-	return to_return
-
-/datum/timelock/proc/can_play(client/C)
-	if(islist(roles))
-		var/total = 0
-		for(var/role_required in roles)
-			var/datum/job/role_job = new role_required
-			total += get_job_playtime(C, role_job.title)
-			qdel(role_job)
-
-		return total >= time_required
-	else
-		var/datum/job/role_job = new roles
-		var/time = get_job_playtime(C, role_job.title) >= time_required
-		qdel(role_job)
-		return time
-
-/datum/timelock/proc/get_role_requirement(client/C)
-	if(islist(roles))
-		var/total = 0
-		for(var/role_required in roles)
-			var/datum/job/role_job = new role_required
-			total += get_job_playtime(C, role_job.title)
-			qdel(role_job)
-
-		return time_required - total
-	else
-		message_admins("ROLES [roles] TIMELOCK [name], time required [time_required]")
-		var/datum/job/role_job = new roles
-		var/time = time_required - get_job_playtime(C, role_job.title)
-		qdel(role_job)
-		return time
-
-/datum/job/proc/can_play_role(client/client)
-	if(check_rights_for(client, R_ADMIN))
-		return TRUE
-	if(get_job_playtime(client, title) > minimum_playtime_as_job)
-		return TRUE
-	if(parent_job)
-		if(get_job_playtime(client, parent_job.title) > minimum_playtime_as_job)
-			return TRUE
-
-	for(var/datum/timelock/T as anything in minimum_playtimes)
-		if(!T.can_play(client))
-			return FALSE
-
-	return TRUE
-
-/datum/job/proc/get_role_requirements(client/C)
-	var/list/return_requirements = list()
-	for(var/datum/timelock/T as anything in minimum_playtimes)
-		var/time_required = T.get_role_requirement(C)
-		if(time_required > 0)
-			return_requirements[T] = time_required
-
-	return return_requirements

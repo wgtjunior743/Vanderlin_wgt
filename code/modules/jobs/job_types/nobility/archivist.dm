@@ -26,9 +26,12 @@
 	job_bitflag = BITFLAG_ROYALTY
 	allowed_patrons = list(/datum/patron/divine/noc, /datum/patron/inhumen/zizo)
 
-AddTimelock(/datum/job/archivist, list(
-	JOB_LIVING_ROLES = 5 HOURS,
-))
+	exp_type = list(EXP_TYPE_LIVING)
+	exp_types_granted  = list(EXP_TYPE_MAGICK, EXP_TYPE_NOBLE)
+	exp_requirements = list(
+		EXP_TYPE_LIVING = 300
+	)
+
 
 /datum/job/archivist/after_spawn(mob/living/carbon/spawned, client/player_client)
 	. = ..()

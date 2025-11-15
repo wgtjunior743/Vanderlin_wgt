@@ -20,6 +20,8 @@ SUBSYSTEM_DEF(job)
 	var/list/latejoin_trackers = list()
 
 	var/list/level_order = list(JP_HIGH,JP_MEDIUM,JP_LOW)
+	/// Dictionary of jobs indexed by the experience type they grant.
+	var/list/experience_jobs_map = list()
 
 /datum/controller/subsystem/job/Initialize(timeofday)
 	if(!length(all_occupations))
@@ -43,6 +45,10 @@ SUBSYSTEM_DEF(job)
 		if(job.job_flags & JOB_NEW_PLAYER_JOINABLE)
 			joinable_occupations += job
 
+		for(var/t in job.exp_types_granted)
+			if(!(t in experience_jobs_map))
+				experience_jobs_map[t] = list()
+			experience_jobs_map[t] += job
 	if(SSmapping.map_adjustment)
 		SSmapping.map_adjustment.job_change()
 	return TRUE
@@ -66,8 +72,9 @@ SUBSYSTEM_DEF(job)
 		return FALSE
 	if(!job.player_old_enough(player.client))
 		return FALSE
-	if(!job.can_play_role(player.client))
+	if(job.required_playtime_remaining(player.client))
 		return FALSE
+		continue
 	var/position_limit = job.total_positions
 	if(!latejoin)
 		position_limit = job.spawn_positions
@@ -119,9 +126,8 @@ SUBSYSTEM_DEF(job)
 		if(!job.player_old_enough(player.client))
 			JobDebug("GRJ player not old enough, Player: [player]")
 			continue
-
-		if(!job.can_play_role(player.client))
-			JobDebug("GRJ player not enough role time, Player: [player]")
+		if(job.required_playtime_remaining(player.client))
+			JobDebug("GRJ player not enough playtime, Player: [player], Job: [job.title]")
 			continue
 
 		if(player.mind && (job.title in player.mind.restricted_roles))
@@ -270,8 +276,8 @@ SUBSYSTEM_DEF(job)
 					JobDebug("DO player not old enough, Player: [player], Job:[job.title]")
 					continue
 
-				if(!job.can_play_role(player.client))
-					JobDebug("DO player not enough role time, Player: [player], Job:[job.title]")
+				if(job.required_playtime_remaining(player.client))
+					JobDebug("DO player not enough playtime, Player: [player], Job: [job.title]")
 					continue
 
 				if(player.mind && (job.title in player.mind.restricted_roles))
@@ -484,7 +490,7 @@ SUBSYSTEM_DEF(job)
 			if(!job.player_old_enough(player.client))
 				continue
 
-			if(!job.can_play_role(player.client))
+			if(job.required_playtime_remaining(player.client))
 				continue
 
 			if(player.mind && (job.title in player.mind.restricted_roles))
@@ -640,7 +646,7 @@ SUBSYSTEM_DEF(job)
 			if(!job.player_old_enough(player.client))
 				young++
 				continue
-			if(!job.can_play_role(player.client))
+			if(job.required_playtime_remaining(player.client))
 				never++
 				continue
 			switch(player.client.prefs.job_preferences[job.title])
@@ -749,7 +755,7 @@ SUBSYSTEM_DEF(job)
 	if(!job.player_old_enough(player.client))
 		return
 
-	if(!job.can_play_role(player.client))
+	if(job.required_playtime_remaining(player.client))
 		return
 
 	if(player.mind && (job.title in player.mind.restricted_roles))

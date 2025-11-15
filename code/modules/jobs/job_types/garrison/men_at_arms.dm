@@ -25,11 +25,11 @@
 
 	job_bitflag = BITFLAG_GARRISON
 
-AddTimelock(/datum/job/men_at_arms, list(
-	JOB_LIVING_ROLES = 5 HOURS,
-	JOB_GARRISON_ROLES = 10 HOURS,
-))
-
+	exp_type = list(EXP_TYPE_GARRISON)
+	exp_types_granted  = list(EXP_TYPE_GARRISON, EXP_TYPE_COMBAT)
+	exp_requirements = list(
+		EXP_TYPE_GARRISON = 600
+	)
 
 /datum/outfit/watchman/pre_equip(mob/living/carbon/human/H)
 	. = ..()
@@ -48,6 +48,10 @@ AddTimelock(/datum/job/men_at_arms, list(
 
 /datum/job/men_at_arms/after_spawn(mob/living/carbon/spawned, client/player_client)
 	..()
+
+/datum/job/advclass/menatarms
+	exp_type = list(EXP_TYPE_GARRISON, EXP_TYPE_COMBAT)
+	exp_types_granted  = list(EXP_TYPE_GARRISON, EXP_TYPE_COMBAT)
 
 /datum/job/advclass/menatarms/watchman_pikeman
 	title = "Pikeman Men-At-Arms"

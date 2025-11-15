@@ -22,11 +22,13 @@
 	give_bank_account = 35
 	can_have_apprentices = FALSE
 	job_bitflag = BITFLAG_GARRISON
+	exp_type = list(EXP_TYPE_ADVENTURER, EXP_TYPE_COMBAT)
+	exp_types_granted  = list(EXP_TYPE_ADVENTURER, EXP_TYPE_COMBAT)
+	exp_requirements = list(
+		EXP_TYPE_ADVENTURER = 300,
+		EXP_TYPE_COMBAT = 1500
+	)
 
-AddTimelock(/datum/job/veteran, list(
-	JOB_LIVING_ROLES = 20 HOURS,
-	JOB_ADVENTURER_ROLES = 15 HOURS,
-))
 
 /datum/job/veteran/after_spawn(mob/living/spawned, client/player_client)
 	. = ..()
@@ -43,6 +45,7 @@ AddTimelock(/datum/job/veteran, list(
 
 /datum/job/advclass/veteran
 	inherit_parent_title = TRUE
+	exp_types_granted  = list(EXP_TYPE_ADVENTURER, EXP_TYPE_COMBAT)
 
 /datum/job/advclass/veteran/battlemaster
 	title = "Veteran Battlemaster"

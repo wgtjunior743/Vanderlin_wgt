@@ -18,17 +18,19 @@
 	allowed_races = RACES_PLAYER_NONDISCRIMINATED
 	blacklisted_species = list(SPEC_ID_HALFLING)
 
+
+	exp_type = list(EXP_TYPE_GARRISON)
+	exp_types_granted  = list(EXP_TYPE_GARRISON, EXP_TYPE_COMBAT, EXP_TYPE_LEADERSHIP)
+	exp_requirements = list(
+		EXP_TYPE_GARRISON = 900
+	)
+
 	outfit = /datum/outfit/forestwarden
 	spells = list(/datum/action/cooldown/spell/undirected/list_target/convert_role/guard/forest)
 	give_bank_account = 45
 	cmode_music = 'sound/music/cmode/garrison/CombatForestGarrison.ogg'
 
 	job_bitflag = BITFLAG_GARRISON
-
-AddTimelock(/datum/job/forestwarden, list(
-	JOB_LIVING_ROLES = 5 HOURS,
-	JOB_GARRISON_ROLES = 15 HOURS,
-))
 
 /datum/job/forestwarden/after_spawn(mob/living/carbon/human/spawned, client/player_client)
 	. = ..()

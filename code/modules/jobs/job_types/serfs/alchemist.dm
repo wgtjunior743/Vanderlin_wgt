@@ -14,10 +14,6 @@
 	outfit = /datum/outfit/alchemist
 	give_bank_account = 12
 
-AddTimelock(/datum/job/alchemist, list(
-	JOB_LIVING_ROLES = 10 HOURS,
-))
-
 /datum/outfit/alchemist
 	name = "Alchemist"
 

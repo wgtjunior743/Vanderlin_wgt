@@ -23,10 +23,11 @@
 
 	job_bitflag = BITFLAG_GARRISON
 
-AddTimelock(/datum/job/dungeoneer, list(
-	JOB_LIVING_ROLES = 5 HOURS,
-	JOB_GARRISON_ROLES = 10 HOURS,
-))
+	exp_type = list(EXP_TYPE_GARRISON)
+	exp_types_granted  = list(EXP_TYPE_GARRISON, EXP_TYPE_COMBAT)
+	exp_requirements = list(
+		EXP_TYPE_GARRISON = 300
+	)
 
 /datum/outfit/dungeoneer/pre_equip(mob/living/carbon/human/H)
 	..()

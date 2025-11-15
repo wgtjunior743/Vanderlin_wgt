@@ -21,9 +21,11 @@
 
 	job_bitflag = BITFLAG_ROYALTY
 
-AddTimelock(/datum/job/steward, list(
-	JOB_LIVING_ROLES = 10 HOURS,
-))
+	exp_type = list(EXP_TYPE_LIVING)
+	exp_types_granted  = list(EXP_TYPE_NOBLE)
+	exp_requirements = list(
+		EXP_TYPE_LIVING = 300
+	)
 
 /datum/outfit/steward/pre_equip(mob/living/carbon/human/H)
 	..()

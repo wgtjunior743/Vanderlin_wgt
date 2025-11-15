@@ -21,6 +21,7 @@
 	is_foreigner = TRUE
 
 	job_bitflag = BITFLAG_CHURCH
+	exp_types_granted  = list(EXP_TYPE_INQUISITION, EXP_TYPE_COMBAT)
 
 /datum/outfit/adept // Base outfit for Adepts, before loadouts
 	name = "Adept"
@@ -47,3 +48,6 @@
 			H.grant_language(/datum/language/oldpsydonic)
 			to_chat(H, span_info("I can speak Old Psydonic with ,m before my speech."))
 		H.mind.teach_crafting_recipe(/datum/repeatable_crafting_recipe/reading/confessional)
+
+/datum/job/advclass/adept
+	exp_types_granted  = list(EXP_TYPE_INQUISITION, EXP_TYPE_COMBAT)

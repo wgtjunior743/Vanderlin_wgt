@@ -23,10 +23,13 @@
 	allowed_patrons = ALL_TEMPLAR_PATRONS
 	job_bitflag = BITFLAG_CHURCH
 
-AddTimelock(/datum/job/templar, list(
-	JOB_LIVING_ROLES = 10 HOURS,
-	JOB_CHURCH_ROLES = 10 HOURS,
-))
+	exp_type = list(EXP_TYPE_CHURCH, EXP_TYPE_COMBAT)
+	exp_types_granted  = list(EXP_TYPE_CHURCH, EXP_TYPE_COMBAT, EXP_TYPE_CLERIC)
+	exp_requirements = list(
+		EXP_TYPE_CHURCH = 900,
+		EXP_TYPE_COMBAT = 900
+	)
+
 
 /datum/outfit/templar
 	name = "Templar"

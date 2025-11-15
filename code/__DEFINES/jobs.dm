@@ -1,4 +1,3 @@
-#define get_job_playtime(client, job) ((client.prefs.exp[job]) ? client.prefs.exp[job] MINUTES_TO_DECISECOND : 0)
 
 #define JOB_AVAILABLE 0
 #define JOB_UNAVAILABLE_GENERIC 1
@@ -15,7 +14,6 @@
 #define JOB_UNAVAILABLE_ACCOUNTAGE 12
 #define JOB_UNAVAILABLE_JOB_COOLDOWN 13
 #define JOB_UNAVAILABLE_RACE_BANNED 14
-#define JOB_UNAVAILABLE_TIME_LOCK 15
 
 /* Job datum job_flags */
 /// Whether the mob is announced on arrival.
@@ -179,55 +177,3 @@
 #define BITFLAG_CONSTRUCTOR (1<<2)
 #define BITFLAG_GARRISON (1<<3)
 
-
-// Timelock Defines
-
-#define JOB_LIVING_ROLES	/datum/timelock/living
-#define JOB_CHURCH_ROLES	/datum/timelock/church
-#define JOB_GARRISON_ROLES	/datum/timelock/garrison
-#define JOB_INQUISITION_ROLES	/datum/timelock/inquisition
-#define JOB_NOBLE_ROLES	/datum/timelock/noble
-#define JOB_MERCHANT_COMPANY_ROLES	/datum/timelock/merchant_company
-#define JOB_ADVENTURER_ROLES	/datum/timelock/adventurer
-#define JOB_LEADERSHIP_ROLES	/datum/timelock/leadership
-#define JOB_MEDICAL_ROLES	/datum/timelock/medical
-#define JOB_MAGICK_ROLES	/datum/timelock/magick
-#define JOB_ARTIFICER_ROLES	/datum/timelock/artificer
-#define JOB_THIEF_ROLES	/datum/timelock/thief
-#define JOB_BARD_ROLES	/datum/timelock/bard
-#define JOB_RANGER_ROLES	/datum/timelock/ranger
-#define JOB_MERCENARY_ROLES	/datum/timelock/mercenary
-
-/// The only reason some jobs with advclasses also have their job datum is because in the past advclass were not jobs and it didn't saved in the DB, for the NEW jobs that got advclasses, ONLY put the advclasses datums.
-
-#define JOB_CHURCH_ROLES_LIST	list(/datum/job/priest, /datum/job/monk, /datum/job/templar, /datum/job/undertaker)
-#define JOB_GARRISON_ROLES_LIST	list(/datum/job/dungeoneer, /datum/job/forestguard, /datum/job/advclass/forestguard/infantry, /datum/job/advclass/forestguard/ranger, /datum/job/advclass/forestguard/reaver, /datum/job/advclass/forestguard/brawler, /datum/job/advclass/forestguard/ruffian, /datum/job/forestwarden, /datum/job/guardsman, /datum/job/advclass/garrison/footman, /datum/job/advclass/garrison/archer, /datum/job/advclass/garrison/pikeman, /datum/job/gatemaster, /datum/job/advclass/gatemaster/gatemaster_whip, /datum/job/advclass/gatemaster/gatemaster_mace, /datum/job/advclass/gatemaster/gatemaster_bow, /datum/job/jailor, /datum/job/men_at_arms, /datum/job/advclass/menatarms/watchman_pikeman, /datum/job/advclass/menatarms/watchman_swordsmen, /datum/job/advclass/menatarms/watchman_ranger, /datum/job/royalknight, /datum/job/lieutenant, /datum/job/advclass/royalknight/knight, /datum/job/advclass/royalknight/steam, /datum/job/captain)
-#define JOB_INQUISITION_ROLES_LIST	list(/datum/job/inquisitor,/datum/job/advclass/puritan/inspector, /datum/job/advclass/puritan/ordinator, /datum/job/adept, /datum/job/advclass/adept/bzealot, /datum/job/advclass/adept/rthief, /datum/job/advclass/adept/highwayman, /datum/job/absolver, /datum/job/advclass/confessor, /datum/job/advclass/disciple, /datum/job/advclass/psyaltrist, /datum/job/advclass/psydoniantemplar)
-#define JOB_NOBLE_ROLES_LIST	list(/datum/job/archivist, /datum/job/captain, /datum/job/consort, /datum/job/advclass/consort/highborn, /datum/job/advclass/consort/courtesan, /datum/job/advclass/consort/lowborn, /datum/job/advclass/consort/courtesan/night_spy, /datum/job/courtphys, /datum/job/consort, /datum/job/advclass/hand/hand, /datum/job/advclass/hand/spymaster, /datum/job/advclass/hand/advisor, /datum/job/lord, /datum/job/magician, /datum/job/minor_noble, /datum/job/steward)
-#define JOB_MERCHANT_COMPANY_ROLES_LIST	list(/datum/job/merchant, /datum/job/grabber, /datum/job/shophand)
-#define JOB_LEADERSHIP_ROLES_LIST	list(/datum/job/priest, /datum/job/captain, /datum/job/lord, /datum/job/inquisitor,/datum/job/advclass/puritan/inspector, /datum/job/advclass/puritan/ordinator, /datum/job/forestwarden, /datum/job/town_elder,  /datum/job/advclass/town_elder/mayor, /datum/job/advclass/town_elder/master_of_crafts_and_labor, /datum/job/advclass/town_elder/hearth_acolyte, /datum/job/advclass/town_elder/lorekeeper, /datum/job/advclass/town_elder/dreamwatcher, /datum/job/lieutenant)
-#define JOB_MEDICAL_ROLES_LIST	list(/datum/job/advclass/pilgrim/physicker, /datum/job/clinicapprentice, /datum/job/courtphys, /datum/job/feldsher, /datum/job/advclass/mercenary/ironmaiden, /datum/job/advclass/sawbones)
-#define JOB_MAGICK_ROLES_LIST	list(/datum/job/advclass/mercenary/sellmage, /datum/job/advclass/mercenary/spellsword, /datum/job/magician, /datum/job/mageapprentice, /datum/job/advclass/combat/mage, /datum/job/advclass/wretch/hedgemage, /datum/job/migrant/heartfelt_magos, /datum/job/advclass/roguemage)
-#define JOB_ARTIFICER_ROLES_LIST	list(/datum/job/artificer, /datum/job/migrant/heartfelt_artificer)
-#define JOB_ADVENTURER_ROLES_LIST	list(/datum/job/adventurer, /datum/job/advclass/combat/amazon, /datum/job/advclass/combat/barbarian, /datum/job/advclass/combat/cleric, /datum/job/advclass/combat/inhumencleric, /datum/job/advclass/combat/dbomb, /datum/job/advclass/combat/dredge, /datum/job/advclass/combat/dranger, /datum/job/advclass/combat/hollowranger, /datum/job/advclass/combat/mage, /datum/job/advclass/combat/monk, /datum/job/advclass/combat/ranger, /datum/job/advclass/combat/rogue, /datum/job/advclass/combat/vikingr, /datum/job/advclass/combat/sfighter, /datum/job/advclass/combat/bladesinger, /datum/job/advclass/combat/hoplite, /datum/job/advclass/combat/longbeard, /datum/job/advclass/combat/paladin, /datum/job/advclass/combat/profanepaladin, /datum/job/advclass/combat/swordmaster, /datum/job/advclass/combat/vaquero, /datum/job/advclass/combat/lancer, /datum/job/advclass/combat/lakkariancleric, /datum/job/advclass/adventurer/qatil, /datum/job/advclass/combat/rare/sentinel, /datum/job/advclass/combat/swashbuckler, /datum/job/advclass/combat/gravedigger, /datum/job/advclass/combat/puritan)
-#define JOB_THIEF_ROLES_LIST	list(/datum/job/advclass/combat/rogue, /datum/job/advclass/knave, /datum/job/matron)
-#define JOB_BARD_ROLES_LIST	list(/datum/job/advclass/pilgrim/bard, /datum/job/bard, /datum/job/town_elder, /datum/job/advclass/town_elder/mayor, /datum/job/advclass/town_elder/master_of_crafts_and_labor, /datum/job/advclass/town_elder/hearth_acolyte, /datum/job/advclass/town_elder/lorekeeper, /datum/job/advclass/town_elder/dreamwatcher)
-#define JOB_RANGER_ROLES_LIST	list(/datum/job/advclass/combat/ranger, /datum/job/advclass/combat/hollowranger, /datum/job/advclass/combat/dranger, /datum/job/gaffer)
-#define JOB_MERCENARY_ROLES_LIST	list(/datum/job/gaffer, /datum/job/mercenary, /datum/job/advclass/mercenary/abyssal, /datum/job/advclass/mercenary/anthrax, /datum/job/advclass/mercenary/blackoak, /datum/job/advclass/mercenary/bogwalker, /datum/job/advclass/mercenary/boltslinger, /datum/job/advclass/mercenary/corsair, /datum/job/advclass/mercenary/duelist, /datum/job/advclass/mercenary/exiled, /datum/job/advclass/mercenary/expegasusknight, /datum/job/advclass/mercenary/gallowglass, /datum/job/advclass/mercenary/grenzelhoft, /datum/job/advclass/mercenary/hollowdragoon, /datum/job/advclass/mercenary/ironmaiden, /datum/job/advclass/mercenary/kern, /datum/job/advclass/mercenary/sellmage, /datum/job/advclass/mercenary/desert_pirate, /datum/job/advclass/mercenary/porter, /datum/job/advclass/mercenary/spellsword, /datum/job/advclass/mercenary/steppesman, /datum/job/advclass/mercenary/sworddancer, /datum/job/advclass/mercenary/underdweller, /datum/job/advclass/mercenary/valkyrie, /datum/job/advclass/mercenary/zalad, /datum/job/advclass/mercenary/verderer)
-
-
-#define TIMELOCK_JOB(role_id, hours) new/datum/timelock(role_id, hours, role_id)
-
-// Used to add a timelock to a job. Will be passed onto derivatives
-#define AddTimelock(Path, timelockList) \
-##Path/setup_requirements(list/L){\
-	L += timelockList;\
-	. = ..(L);\
-}
-
-// Used to add a timelock to a job. Will be passed onto derivates. Will not include the parent's timelocks.
-#define OverrideTimelock(Path, timelockList) \
-##Path/setup_requirements(list/L){\
-	L = timelockList;\
-	. = ..(L);\
-}

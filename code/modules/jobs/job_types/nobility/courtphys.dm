@@ -22,11 +22,11 @@
 
 	job_bitflag = BITFLAG_ROYALTY
 
-AddTimelock(/datum/job/courtphys, list(
-	JOB_LIVING_ROLES = 10 HOURS,
-	JOB_MEDICAL_ROLES = 10 HOURS,
-))
-
+	exp_type = list(EXP_TYPE_MEDICAL)
+	exp_types_granted  = list(EXP_TYPE_NOBLE, EXP_TYPE_MEDICAL)
+	exp_requirements = list(
+		EXP_TYPE_MEDICAL = 900
+	)
 
 /datum/outfit/courtphys/pre_equip(mob/living/carbon/human/H)
 	. = ..()

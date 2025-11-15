@@ -24,9 +24,12 @@
 	is_foreigner = TRUE
 	is_recognized = TRUE
 
-AddTimelock(/datum/job/mercenary, list(
-	JOB_LIVING_ROLES = 10 HOURS,
-))
+	exp_type = list(EXP_TYPE_LIVING)
+	exp_types_granted  = list(EXP_TYPE_MERCENARY, EXP_TYPE_COMBAT)
+	exp_requirements = list(
+		EXP_TYPE_LIVING = 600
+	)
+
 
 /datum/job/mercenary/after_spawn(mob/living/carbon/human/spawned, client/player_client)
 	. = ..()
@@ -36,3 +39,4 @@ AddTimelock(/datum/job/mercenary, list(
 	abstract_type = /datum/job/advclass/mercenary
 	blacklisted_species = list(SPEC_ID_HALFLING)
 	category_tags = list(CTAG_MERCENARY)
+	exp_types_granted  = list(EXP_TYPE_MERCENARY, EXP_TYPE_COMBAT)

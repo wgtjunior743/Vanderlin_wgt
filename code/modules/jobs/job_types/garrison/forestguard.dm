@@ -29,10 +29,11 @@
 
 	job_bitflag = BITFLAG_GARRISON
 
-AddTimelock(/datum/job/forestguard, list(
-	JOB_LIVING_ROLES = 5 HOURS,
-	JOB_GARRISON_ROLES = 10 HOURS,
-))
+	exp_type = list(EXP_TYPE_GARRISON)
+	exp_types_granted  = list(EXP_TYPE_GARRISON, EXP_TYPE_COMBAT)
+	exp_requirements = list(
+		EXP_TYPE_GARRISON = 600
+	)
 
 /datum/outfit/forestguard/pre_equip(mob/living/carbon/human/H)
 	..()
@@ -50,6 +51,10 @@ AddTimelock(/datum/job/forestguard, list(
 
 /datum/job/forestguard/after_spawn(mob/living/carbon/spawned, client/player_client)
 	..()
+
+
+/datum/job/advclass/forestguard
+	exp_types_granted  = list(EXP_TYPE_GARRISON, EXP_TYPE_COMBAT)
 
 // Ravager, whips, flails, axes and swords and shields.
 /datum/job/advclass/forestguard/infantry

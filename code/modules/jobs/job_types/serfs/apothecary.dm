@@ -49,9 +49,11 @@
 
 	job_bitflag = BITFLAG_CONSTRUCTOR
 
-AddTimelock(/datum/job/apothecary, list(
-	JOB_LIVING_ROLES = 10 HOURS,
-))
+	exp_type = list(EXP_TYPE_LIVING)
+	exp_requirements = list(
+		EXP_TYPE_LIVING = 600
+	)
+
 
 /datum/job/apothecary/after_spawn(mob/living/carbon/human/spawned, client/player_client)
 	. = ..()

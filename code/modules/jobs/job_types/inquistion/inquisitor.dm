@@ -24,12 +24,12 @@
 	antag_role = /datum/antagonist/purishep
 
 	languages = list(/datum/language/oldpsydonic)
-AddTimelock(/datum/job/inquisitor, list(
-	JOB_LIVING_ROLES = 15 HOURS,
-	JOB_INQUISITION_ROLES = 15 HOURS,
-))
 
-
+	exp_type = list(EXP_TYPE_INQUISITION)
+	exp_types_granted  = list(EXP_TYPE_INQUISITION, EXP_TYPE_COMBAT, EXP_TYPE_LEADERSHIP)
+	exp_requirements = list(
+		EXP_TYPE_INQUISITION = 900
+	)
 
 /datum/outfit/inquisitor
 	abstract_type = /datum/outfit/inquisitor
@@ -399,3 +399,6 @@ AddTimelock(/datum/job/inquisitor, list(
 	to_chat(src, span_good("I resist the torture!"))
 	say(pick(innocent_lines), spans = list("torture"), forced = TRUE)
 	return
+
+/datum/job/advclass/puritan
+	exp_types_granted  = list(EXP_TYPE_INQUISITION, EXP_TYPE_COMBAT, EXP_TYPE_LEADERSHIP)

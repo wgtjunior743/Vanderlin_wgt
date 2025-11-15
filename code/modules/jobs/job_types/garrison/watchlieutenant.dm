@@ -25,10 +25,11 @@
 	give_bank_account = 50
 	cmode_music = 'sound/music/cmode/garrison/CombatGarrison.ogg'
 
-AddTimelock(/datum/job/lieutenant, list(
-	JOB_LIVING_ROLES = 10 HOURS,
-	JOB_GARRISON_ROLES = 10 HOURS,
-))
+	exp_type = list(EXP_TYPE_GARRISON)
+	exp_types_granted  = list(EXP_TYPE_LEADERSHIP, EXP_TYPE_GARRISON, EXP_TYPE_LEADERSHIP)
+	exp_requirements = list(
+		EXP_TYPE_GARRISON = 900
+	)
 
 
 //................. Base Gear .............. //

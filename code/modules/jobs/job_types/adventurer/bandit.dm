@@ -25,6 +25,11 @@
 
 	antag_role = /datum/antagonist/bandit
 
-AddTimelock(/datum/job/bandit, list(
-	JOB_LIVING_ROLES = 5 HOURS,
-))
+	exp_type = list(EXP_TYPE_LIVING)
+	exp_types_granted  = list(EXP_TYPE_COMBAT)
+	exp_requirements = list(
+		EXP_TYPE_LIVING = 900
+	)
+/datum/job/advclass/bandit
+	exp_types_granted  = list(EXP_TYPE_COMBAT)
+

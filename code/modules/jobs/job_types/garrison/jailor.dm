@@ -22,11 +22,11 @@
 
 	job_bitflag = BITFLAG_GARRISON
 
-AddTimelock(/datum/job/jailor, list(
-	JOB_LIVING_ROLES = 5 HOURS,
-))
-
-
+	exp_type = list(EXP_TYPE_GARRISON)
+	exp_types_granted  = list(EXP_TYPE_GARRISON, EXP_TYPE_COMBAT)
+	exp_requirements = list(
+		EXP_TYPE_GARRISON = 300
+	)
 
 /datum/outfit/jailor/pre_equip(mob/living/carbon/human/H)
 	..()

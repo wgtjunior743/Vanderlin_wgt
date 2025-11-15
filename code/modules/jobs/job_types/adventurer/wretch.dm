@@ -20,9 +20,12 @@
 	antag_role = /datum/antagonist/wretch
 	cmode_music = 'sound/music/cmode/antag/combat_bandit2.ogg'
 
-AddTimelock(/datum/job/wretch, list(
-	JOB_LIVING_ROLES = 20 HOURS,
-))
+	exp_type = list(EXP_TYPE_LIVING)
+	exp_types_granted  = list(EXP_TYPE_COMBAT)
+	exp_requirements = list(
+		EXP_TYPE_LIVING = 1200
+	)
+
 
 /datum/job/wretch/after_spawn(mob/living/carbon/human/spawned, client/player_client)
 	..()

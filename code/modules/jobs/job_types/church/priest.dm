@@ -14,7 +14,6 @@
 	bypass_lastclass = TRUE
 	selection_color = "#c2a45d"
 	cmode_music = 'sound/music/cmode/church/CombatAstrata.ogg'
-
 	allowed_races = RACES_PLAYER_NONDISCRIMINATED
 	blacklisted_species = list(SPEC_ID_HALFLING)
 
@@ -26,11 +25,13 @@
 		/datum/action/cooldown/spell/undirected/call_bird/priest,
 	)
 
+	exp_type = list(EXP_TYPE_CHURCH)
+	exp_types_granted  = list(EXP_TYPE_CHURCH, EXP_TYPE_CLERIC, EXP_TYPE_LEADERSHIP)
+	exp_requirements = list(
+		EXP_TYPE_CHURCH = 900,
+	)
 
-AddTimelock(/datum/job/priest, list(
-	JOB_LIVING_ROLES = 15 HOURS,
-	JOB_CHURCH_ROLES = 15 HOURS,
-))
+
 
 /datum/outfit/priest/pre_equip(mob/living/carbon/human/H)
 	..()

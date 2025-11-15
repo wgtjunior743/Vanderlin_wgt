@@ -47,8 +47,3 @@
 	if(total_positions > -1)
 		if(current_positions >= total_positions)
 			return FALSE
-
-
-	var/pq_prob = roll_chance + min(get_playerquality(to_check.client.ckey), 100) / 4
-	if(prob(pq_prob))
-		return TRUE

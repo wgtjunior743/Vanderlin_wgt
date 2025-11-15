@@ -18,9 +18,7 @@
 	can_have_apprentices = FALSE
 	scales = FALSE
 
-AddTimelock(/datum/job/adventurer/courtagent, list(
-	JOB_LIVING_ROLES = 5 HOURS,
-))
+	exp_types_granted  = list(EXP_TYPE_COMBAT)
 
 //Hooking in here does not mess with their equipment procs
 /datum/job/adventurer/courtagent/after_spawn(mob/living/spawned, client/player_client)

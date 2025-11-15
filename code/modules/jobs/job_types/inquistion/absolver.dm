@@ -56,11 +56,12 @@
 
 	languages = list(/datum/language/oldpsydonic)
 
+	exp_type = list(EXP_TYPE_INQUISITION)
+	exp_types_granted  = list(EXP_TYPE_INQUISITION)
+	exp_requirements = list(
+		EXP_TYPE_INQUISITION = 600
+	)
 
-AddTimelock(/datum/job/absolver, list(
-	JOB_LIVING_ROLES = 10 HOURS,
-	JOB_INQUISITION_ROLES = 10 HOURS,
-))
 
 // REMEMBER FLAGELLANT? REMEMBER LASZLO? THIS IS HIM NOW. FEEL OLD YET?
 

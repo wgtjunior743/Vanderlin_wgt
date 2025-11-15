@@ -21,12 +21,12 @@
 	give_bank_account = 50
 	can_have_apprentices = FALSE
 
-AddTimelock(/datum/job/town_elder, list(
-	JOB_LIVING_ROLES = 20 HOURS,
-	JOB_ADVENTURER_ROLES = 5 HOURS,
-	JOB_BARD_ROLES = 5 HOURS,
-))
-
+	exp_type = list(EXP_TYPE_BARD, EXP_TYPE_LIVING)
+	exp_types_granted  = list(EXP_TYPE_LEADERSHIP, EXP_TYPE_BARD)
+	exp_requirements = list(
+		EXP_TYPE_LIVING = 1200,
+		EXP_TYPE_BARD = 300
+	)
 
 
 /mob/living/carbon/human/proc/townannouncement()
@@ -75,6 +75,9 @@ AddTimelock(/datum/job/town_elder, list(
 		spawn_instrument = /obj/item/instrument/lute
 	H.equip_to_slot_or_del(new spawn_instrument(H),ITEM_SLOT_BACK_R, TRUE)
 
+/datum/job/advclass/town_elder
+	exp_types_granted  = list(EXP_TYPE_LEADERSHIP, EXP_TYPE_BARD)
+
 /datum/job/advclass/town_elder/mayor
 	title = "Mayor"
 	allowed_races = RACES_PLAYER_NONDISCRIMINATED // Due to the inherent nobility coming from being a mayor, non-humen species are barred.
@@ -84,8 +87,6 @@ AddTimelock(/datum/job/town_elder, list(
 	category_tags = list(CTAG_TOWN_ELDER)
 
 // Mayor start with slight changes, they were turned noble and got more money, also highly skilled in merchant skills.
-
-
 
 /datum/outfit/town_elder/mayor/pre_equip(mob/living/carbon/human/H)
 

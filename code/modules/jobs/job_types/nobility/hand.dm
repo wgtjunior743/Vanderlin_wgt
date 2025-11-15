@@ -25,10 +25,12 @@
 	noble_income = 22
 	job_bitflag = BITFLAG_ROYALTY
 
-AddTimelock(/datum/job/hand, list(
-	JOB_LIVING_ROLES = 10 HOURS,
-	JOB_NOBLE_ROLES = 5 HOURS,
-))
+	exp_type = list(EXP_TYPE_NOBLE, EXP_TYPE_LIVING)
+	exp_types_granted  = list(EXP_TYPE_NOBLE)
+	exp_requirements = list(
+		EXP_TYPE_LIVING = 600,
+		EXP_TYPE_NOBLE = 300,
+	)
 
 /datum/outfit/hand
 	shoes = /obj/item/clothing/shoes/nobleboot/thighboots
@@ -52,6 +54,9 @@ AddTimelock(/datum/job/hand, list(
 		for(var/name in GLOB.roundstart_court_agents)
 			to_chat(H, span_notice(name))
 		H.mind.cached_frumentarii |= GLOB.roundstart_court_agents
+
+/datum/job/advclass/hand
+	exp_types_granted  = list(EXP_TYPE_NOBLE)
 
 /datum/job/advclass/hand/hand
 	title = "Hand"

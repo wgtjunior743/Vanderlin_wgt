@@ -12,19 +12,24 @@ GLOBAL_PROTECT(exp_to_update)
 		return 0
 	if(!exp_requirements || !exp_type)
 		return 0
-	if(!job_is_xp_locked(src.title))
-		return 0
-	if(CONFIG_GET(flag/use_exp_restrictions_admin_bypass) && check_rights_for(C,R_ADMIN))
+	if(check_rights_for(C,R_ADMIN))
 		return 0
 	var/isexempt = C.prefs.db_flags & DB_FLAG_EXEMPT
 	if(isexempt)
 		return 0
-	var/my_exp = C.calc_exp_type(get_exp_req_type())
-	var/job_requirement = get_exp_req_amount()
-	if(my_exp >= job_requirement)
-		return 0
-	else
-		return (job_requirement - my_exp)
+	var/list/results = list()
+	for(var/req_type in exp_type)
+		var/my_exp = C.calc_exp_type(req_type)
+		var/needed = exp_requirements[req_type]
+		var/rem = max(needed - my_exp, 0)
+		results[req_type] = rem
+	var/max_remaining = 0
+	for(var/t in results)
+		if(results[t] > max_remaining)
+			max_remaining = results[t]
+	return max_remaining
+
+
 
 /datum/job/proc/get_exp_req_amount()
 	return exp_requirements
@@ -32,19 +37,19 @@ GLOBAL_PROTECT(exp_to_update)
 /datum/job/proc/get_exp_req_type()
 	return exp_type
 
-/proc/job_is_xp_locked(jobtitle)
-	return FALSE
 
 /client/proc/calc_exp_type(exptype)
-	var/list/explist = prefs.exp.Copy()
-	var/amount = 0
-	var/list/typelist = GLOB.exp_jobsmap[exptype]
-	if(!typelist)
+	var/list/exp_map = prefs.exp.Copy()
+	if(exptype == EXP_TYPE_LIVING)
+		return text2num(exp_map[EXP_TYPE_LIVING])
+
+	var/list/job_list = SSjob.experience_jobs_map[exptype]
+
+	if(!job_list)
 		return -1
-	for(var/job in typelist["titles"])
-		if(job in explist)
-			amount += explist[job]
-	return amount
+	. = 0
+	for(var/datum/job/job as anything in job_list)
+		. += exp_map[job.title]
 
 /client/proc/get_exp_report()
 	if(!CONFIG_GET(flag/use_exp_tracking))
@@ -103,21 +108,22 @@ GLOBAL_PROTECT(exp_to_update)
 	var/exp_living = text2num(prefs.exp[EXP_TYPE_LIVING])
 	return get_exp_format(exp_living)
 
-//This one is used for the timelock
-/client/proc/get_time_living()
-	if(!prefs.exp || !prefs.exp[EXP_TYPE_LIVING])
-		return 0
-	var/exp_living = text2num(prefs.exp[EXP_TYPE_LIVING]) MINUTES_TO_DECISECOND
-	return exp_living
-
-
 /proc/get_exp_format(expnum)
-	if(expnum > 60)
-		return num2text(round(expnum / 60)) + "h"
-	else if(expnum > 0)
-		return num2text(expnum) + "m"
-	else
+	if(expnum <= 0)
 		return "0h"
+
+	var/hours = round(expnum / 60)
+	if(hours > expnum / 60)
+		hours--
+
+	var/minutes = expnum - (hours * 60)
+
+	if(hours > 0 && minutes > 0)
+		return "[hours]h [minutes]m"
+	else if(hours > 0)
+		return "[hours]h"
+	else
+		return "[minutes]m"
 
 /datum/controller/subsystem/blackbox/proc/update_exp(mins, ann = FALSE)
 	if(!SSdbcore.Connect())

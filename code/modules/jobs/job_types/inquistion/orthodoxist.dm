@@ -27,9 +27,11 @@
 
 	languages = list(/datum/language/oldpsydonic)
 
-AddTimelock(/datum/job/orthodoxist, list(
-	JOB_LIVING_ROLES = 5 HOURS,
-))
+	exp_type = list(EXP_TYPE_INQUISITION)
+	exp_types_granted  = list(EXP_TYPE_INQUISITION, EXP_TYPE_COMBAT)
+	exp_requirements = list(
+		EXP_TYPE_INQUISITION = 300
+	)
 
 /datum/job/orthodoxist/after_spawn(mob/living/carbon/human/spawned, client/player_client)
 	. = ..()
@@ -49,3 +51,6 @@ AddTimelock(/datum/job/orthodoxist, list(
 	if(species)
 		species.native_language = "Old Psydonic"
 		species.accent_language = species.get_accent(species.native_language)
+
+/datum/job/advclass/sacrestant
+	exp_types_granted  = list(EXP_TYPE_INQUISITION, EXP_TYPE_COMBAT)
