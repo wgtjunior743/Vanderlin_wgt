@@ -74,7 +74,6 @@ SUBSYSTEM_DEF(job)
 		return FALSE
 	if(job.required_playtime_remaining(player.client))
 		return FALSE
-		continue
 	var/position_limit = job.total_positions
 	if(!latejoin)
 		position_limit = job.spawn_positions
