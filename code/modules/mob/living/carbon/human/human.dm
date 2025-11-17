@@ -119,6 +119,8 @@
 
 /mob/living/carbon/human/show_inv(mob/user)
 	user.set_machine(src)
+	if(cmode != FALSE)
+		return
 	var/obscured = check_obscured_slots()
 	var/list/dat = list()
 
